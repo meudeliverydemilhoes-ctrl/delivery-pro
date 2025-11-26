@@ -21,8 +21,10 @@ import {
   ExternalLink,
   CheckCircle2,
   Circle,
-  Trash2
+  Trash2,
+  BookOpen
 } from "lucide-react";
+import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,6 +81,12 @@ export default function MentoradoDetalhe() {
   const { data: evolucoes = [] } = useQuery({
     queryKey: ["evolucoes", mentoradoId],
     queryFn: () => base44.entities.Evolucao.filter({ mentorado_id: mentoradoId }, "-data"),
+    enabled: !!mentoradoId
+  });
+
+  const { data: pilarProgressos = [] } = useQuery({
+    queryKey: ["pilarProgressos", mentoradoId],
+    queryFn: () => base44.entities.PilarProgresso.filter({ mentorado_id: mentoradoId }),
     enabled: !!mentoradoId
   });
 
@@ -184,6 +192,32 @@ export default function MentoradoDetalhe() {
     }
   });
 
+  const toggleProgressoMutation = useMutation({
+    mutationFn: async ({ pilar, tipo, texto }) => {
+      const existing = pilarProgressos.find(
+        (p) => p.pilar === pilar && p.tipo === tipo && p.texto === texto
+      );
+      if (existing) {
+        return base44.entities.PilarProgresso.update(existing.id, {
+          concluido: !existing.concluido,
+          data_conclusao: !existing.concluido ? new Date().toISOString().split("T")[0] : null
+        });
+      } else {
+        return base44.entities.PilarProgresso.create({
+          mentorado_id: mentoradoId,
+          pilar,
+          tipo,
+          texto,
+          concluido: true,
+          data_conclusao: new Date().toISOString().split("T")[0]
+        });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pilarProgressos", mentoradoId] });
+    }
+  });
+
   const handleSaveBriefing = () => {
     if (briefing?.id) {
       updateBriefingMutation.mutate({ id: briefing.id, data: briefingForm });
@@ -201,12 +235,22 @@ export default function MentoradoDetalhe() {
   };
 
   const pilaresConfig = [
-    { key: "processos", label: "Pilar 1 - Processos", color: "bg-blue-500" },
-    { key: "desempenho", label: "Pilar 2 - Desempenho", color: "bg-emerald-500" },
-    { key: "tempo_potencia", label: "Pilar 3 - Tempo de Potência", color: "bg-violet-500" },
-    { key: "norte_estrategico", label: "Pilar 4 - Norte Estratégico", color: "bg-amber-500" },
-    { key: "presenca_magnetica", label: "Pilar 5 - Presença Magnética", color: "bg-pink-500" },
+    { key: "processos", label: "Pilar 1 - Processos", color: "bg-blue-500", icon: "🏆" },
+    { key: "desempenho", label: "Pilar 2 - Desempenho", color: "bg-emerald-500", icon: "📈" },
+    { key: "tempo_potencia", label: "Pilar 3 - Tempo de Potência", color: "bg-violet-500", icon: "⚡" },
+    { key: "norte_estrategico", label: "Pilar 4 - Norte Estratégico", color: "bg-amber-500", icon: "🎯" },
+    { key: "presenca_magnetica", label: "Pilar 5 - Presença Magnética", color: "bg-pink-500", icon: "✨" },
   ];
+
+  const [selectedPilarConteudo, setSelectedPilarConteudo] = useState(null);
+
+  const getProgressosForPilar = (pilarKey) => {
+    return pilarProgressos.filter((p) => p.pilar === pilarKey);
+  };
+
+  const handleToggleProgresso = (pilarKey, tipo, texto) => {
+    toggleProgressoMutation.mutate({ pilar: pilarKey, tipo, texto });
+  };
 
   const tipoColors = {
     aula: "bg-blue-500/20 text-blue-400",
@@ -536,64 +580,96 @@ export default function MentoradoDetalhe() {
 
             {pilaresConfig.map((pilar) => {
               const pilarItems = pilares.filter((p) => p.pilar === pilar.key);
-              return (
-                <div key={pilar.key} className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-3 h-3 rounded-full ${pilar.color}`} />
-                    <h3 className="text-lg font-semibold text-white">{pilar.label}</h3>
-                    <span className="text-sm text-white/40">({pilarItems.length})</span>
-                  </div>
+              const pilarProgressosFiltered = getProgressosForPilar(pilar.key);
+              const isConteudoOpen = selectedPilarConteudo === pilar.key;
 
-                  {pilarItems.length === 0 ? (
-                    <p className="text-white/40 text-sm">Nenhum conteúdo cadastrado</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {pilarItems.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center gap-3 p-3 bg-white/5 rounded-xl group"
-                        >
-                          <button
-                            onClick={() => updatePilarMutation.mutate({ id: item.id, data: { concluido: !item.concluido } })}
-                            className="flex-shrink-0"
-                          >
-                            {item.concluido ? (
-                              <CheckCircle2 size={20} className="text-emerald-400" />
-                            ) : (
-                              <Circle size={20} className="text-white/30" />
-                            )}
-                          </button>
-                          <div className="flex-1 min-w-0">
-                            <p className={`font-medium ${item.concluido ? "text-white/40 line-through" : "text-white"}`}>
-                              {item.titulo}
-                            </p>
-                            {item.descricao && (
-                              <p className="text-xs text-white/40 truncate">{item.descricao}</p>
-                            )}
-                          </div>
-                          <span className={`text-xs px-2 py-1 rounded-full ${tipoColors[item.tipo]}`}>
-                            {item.tipo}
-                          </span>
-                          {item.link_externo && (
-                            <a
-                              href={item.link_externo}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[#FF4D00] hover:text-[#FF4D00]/80"
-                            >
-                              <ExternalLink size={16} />
-                            </a>
-                          )}
-                          <button
-                            onClick={() => deletePilarMutation.mutate(item.id)}
-                            className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+              return (
+                <div key={pilar.key} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{pilar.icon}</span>
+                        <div>
+                          <h3 className="text-lg font-semibold text-white">{pilar.label}</h3>
+                          <span className="text-sm text-white/40">({pilarItems.length} materiais)</span>
                         </div>
-                      ))}
+                      </div>
+                      <button
+                        onClick={() => setSelectedPilarConteudo(isConteudoOpen ? null : pilar.key)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-colors ${
+                          isConteudoOpen
+                            ? "bg-[#FF4D00] text-white"
+                            : "bg-white/10 text-white/70 hover:bg-white/20"
+                        }`}
+                      >
+                        <BookOpen size={16} />
+                        <span className="text-sm font-medium">Conteúdo Incluído</span>
+                      </button>
                     </div>
-                  )}
+
+                    {/* Conteúdo Incluído expandido */}
+                    {isConteudoOpen && (
+                      <div className="mb-6 p-4 bg-black/20 rounded-xl border border-white/10">
+                        <PilarConteudoIncluido
+                          pilarKey={pilar.key}
+                          progressoItems={pilarProgressosFiltered}
+                          onToggleItem={(tipo, texto) => handleToggleProgresso(pilar.key, tipo, texto)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Materiais do mentorado */}
+                    {pilarItems.length === 0 ? (
+                      <p className="text-white/40 text-sm">Nenhum material específico cadastrado</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {pilarItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-3 p-3 bg-white/5 rounded-xl group"
+                          >
+                            <button
+                              onClick={() => updatePilarMutation.mutate({ id: item.id, data: { concluido: !item.concluido } })}
+                              className="flex-shrink-0"
+                            >
+                              {item.concluido ? (
+                                <CheckCircle2 size={20} className="text-emerald-400" />
+                              ) : (
+                                <Circle size={20} className="text-white/30" />
+                              )}
+                            </button>
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-medium ${item.concluido ? "text-white/40 line-through" : "text-white"}`}>
+                                {item.titulo}
+                              </p>
+                              {item.descricao && (
+                                <p className="text-xs text-white/40 truncate">{item.descricao}</p>
+                              )}
+                            </div>
+                            <span className={`text-xs px-2 py-1 rounded-full ${tipoColors[item.tipo]}`}>
+                              {item.tipo}
+                            </span>
+                            {item.link_externo && (
+                              <a
+                                href={item.link_externo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#FF4D00] hover:text-[#FF4D00]/80"
+                              >
+                                <ExternalLink size={16} />
+                              </a>
+                            )}
+                            <button
+                              onClick={() => deletePilarMutation.mutate(item.id)}
+                              className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
