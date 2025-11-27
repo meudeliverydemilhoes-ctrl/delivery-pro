@@ -91,6 +91,12 @@ export default function MentoradoDetalhe() {
     enabled: !!mentoradoId
   });
 
+  const { data: pilarCustomDataList = [] } = useQuery({
+    queryKey: ["pilarCustomData", mentoradoId],
+    queryFn: () => base44.entities.PilarCustomData.filter({ mentorado_id: mentoradoId }),
+    enabled: !!mentoradoId
+  });
+
   const [briefingForm, setBriefingForm] = useState({});
   const [pilarForm, setPilarForm] = useState({
     pilar: "processos",
@@ -219,6 +225,24 @@ export default function MentoradoDetalhe() {
     }
   });
 
+  const updatePilarCustomDataMutation = useMutation({
+    mutationFn: async ({ pilarKey, data }) => {
+      const existing = pilarCustomDataList.find((p) => p.pilar === pilarKey);
+      if (existing) {
+        return base44.entities.PilarCustomData.update(existing.id, { data });
+      } else {
+        return base44.entities.PilarCustomData.create({
+          mentorado_id: mentoradoId,
+          pilar: pilarKey,
+          data
+        });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pilarCustomData", mentoradoId] });
+    }
+  });
+
   const handleSaveBriefing = () => {
     if (briefing?.id) {
       updateBriefingMutation.mutate({ id: briefing.id, data: briefingForm });
@@ -251,6 +275,15 @@ export default function MentoradoDetalhe() {
 
   const handleToggleProgresso = (pilarKey, tipo, texto) => {
     toggleProgressoMutation.mutate({ pilar: pilarKey, tipo, texto });
+  };
+
+  const getCustomDataForPilar = (pilarKey) => {
+    const custom = pilarCustomDataList.find((p) => p.pilar === pilarKey);
+    return custom?.data || null;
+  };
+
+  const handleUpdatePilarCustomData = (pilarKey, data) => {
+    updatePilarCustomDataMutation.mutate({ pilarKey, data });
   };
 
   const tipoColors = {
@@ -627,6 +660,8 @@ export default function MentoradoDetalhe() {
                           pilarKey={pilar.key}
                           progressoItems={pilarProgressosFiltered}
                           onToggleItem={(tipo, texto) => handleToggleProgresso(pilar.key, tipo, texto)}
+                          customData={getCustomDataForPilar(pilar.key)}
+                          onUpdateCustomData={(data) => handleUpdatePilarCustomData(pilar.key, data)}
                         />
                       </div>
                     )}
