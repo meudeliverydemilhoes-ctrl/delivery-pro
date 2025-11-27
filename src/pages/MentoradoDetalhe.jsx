@@ -23,9 +23,15 @@ import {
   Circle,
   Trash2,
   BookOpen,
-  FolderOpen
+  FolderOpen,
+  ListTodo,
+  StickyNote,
+  Files
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
+import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
+import MinhasNotas from "@/components/mentorado/MinhasNotas";
+import MeusArquivos from "@/components/mentorado/MeusArquivos";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -409,6 +415,15 @@ export default function MentoradoDetalhe() {
           <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <Target size={16} className="mr-2" /> Pilares
           </TabsTrigger>
+          <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <ListTodo size={16} className="mr-2" /> Tarefas
+          </TabsTrigger>
+          <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <StickyNote size={16} className="mr-2" /> Notas
+          </TabsTrigger>
+          <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <Files size={16} className="mr-2" /> Arquivos
+          </TabsTrigger>
           <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <TrendingUp size={16} className="mr-2" /> Evolução
           </TabsTrigger>
@@ -721,6 +736,30 @@ export default function MentoradoDetalhe() {
                 </div>
               );
             })}
+          </div>
+        </TabsContent>
+
+        {/* Tarefas Tab */}
+        <TabsContent value="tarefas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Minhas Tarefas</h2>
+            <MinhasTarefas mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+
+        {/* Notas Tab */}
+        <TabsContent value="notas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
+            <MinhasNotas mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+
+        {/* Arquivos Tab */}
+        <TabsContent value="arquivos">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Meus Arquivos</h2>
+            <MeusArquivos mentoradoId={mentoradoId} />
           </div>
         </TabsContent>
 
