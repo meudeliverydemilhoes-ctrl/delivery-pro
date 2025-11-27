@@ -22,7 +22,8 @@ import {
   CheckCircle2,
   Circle,
   Trash2,
-  BookOpen
+  BookOpen,
+  FolderOpen
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import { Button } from "@/components/ui/button";
@@ -349,6 +350,18 @@ export default function MentoradoDetalhe() {
                   </span>
                 )}
               </div>
+              {mentorado.link_drive && (
+                <a
+                  href={mentorado.link_drive}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
+                >
+                  <FolderOpen size={18} />
+                  Abrir Pasta do Drive
+                  <ExternalLink size={14} />
+                </a>
+              )}
             </div>
           </div>
         </div>

@@ -58,6 +58,7 @@ export default function Mentorados() {
     etapa: "diagnostico",
     data_entrada: format(new Date(), "yyyy-MM-dd"),
     observacoes: "",
+    link_drive: "",
   });
 
   const { data: mentorados = [], isLoading } = useQuery({
@@ -101,6 +102,7 @@ export default function Mentorados() {
       etapa: "diagnostico",
       data_entrada: format(new Date(), "yyyy-MM-dd"),
       observacoes: "",
+      link_drive: "",
     });
   };
 
@@ -116,6 +118,7 @@ export default function Mentorados() {
       etapa: mentorado.etapa || "diagnostico",
       data_entrada: mentorado.data_entrada || format(new Date(), "yyyy-MM-dd"),
       observacoes: mentorado.observacoes || "",
+      link_drive: mentorado.link_drive || "",
     });
     setIsDialogOpen(true);
   };
@@ -397,6 +400,15 @@ export default function Mentorados() {
                 type="date"
                 value={formData.data_entrada}
                 onChange={(e) => setFormData({ ...formData, data_entrada: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div>
+              <Label className="text-white/70">Link do Google Drive</Label>
+              <Input
+                value={formData.link_drive}
+                onChange={(e) => setFormData({ ...formData, link_drive: e.target.value })}
+                placeholder="https://drive.google.com/..."
                 className="bg-white/5 border-white/10 text-white mt-1"
               />
             </div>
