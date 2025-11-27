@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CheckCircle2,
   Circle,
@@ -7,11 +7,18 @@ import {
   BookOpen,
   Target,
   ListChecks,
-  Sparkles
+  Sparkles,
+  Plus,
+  Pencil,
+  Trash2,
+  X,
+  Check
 } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-const pilaresData = {
+const pilaresDataDefault = {
   processos: {
     titulo: "Pilar 1 – Processos",
     icon: "🏆",
@@ -28,43 +35,23 @@ const pilaresData = {
       },
       {
         nome: "Checklists Operacionais",
-        topicos: [
-          "Checklist diário",
-          "Checklist por turno",
-          "Checklist semanal"
-        ]
+        topicos: ["Checklist diário", "Checklist por turno", "Checklist semanal"]
       },
       {
         nome: "SOPs (Padrões de Procedimento)",
-        topicos: [
-          "Documentação de processos",
-          "Fluxogramas operacionais",
-          "Manual de operações"
-        ]
+        topicos: ["Documentação de processos", "Fluxogramas operacionais", "Manual de operações"]
       },
       {
         nome: "Regulamento Interno",
-        topicos: [
-          "Regras e normas da operação",
-          "Políticas de conduta",
-          "Penalidades e bonificações"
-        ]
+        topicos: ["Regras e normas da operação", "Políticas de conduta", "Penalidades e bonificações"]
       },
       {
         nome: "Cronograma de Execução",
-        topicos: [
-          "Planejamento semanal",
-          "Distribuição de tarefas",
-          "Acompanhamento de prazos"
-        ]
+        topicos: ["Planejamento semanal", "Distribuição de tarefas", "Acompanhamento de prazos"]
       },
       {
         nome: "Cultura Operacional",
-        topicos: [
-          "Disciplina de rotina",
-          "Engajamento da equipe",
-          "Padronização de comportamentos"
-        ]
+        topicos: ["Disciplina de rotina", "Engajamento da equipe", "Padronização de comportamentos"]
       }
     ],
     tarefas: [
@@ -106,20 +93,11 @@ const pilaresData = {
       },
       {
         nome: "Indicadores Operacionais",
-        topicos: [
-          "CMV (Custo de Mercadoria Vendida)",
-          "Ticket médio",
-          "Pedidos por dia",
-          "Taxa de conversão"
-        ]
+        topicos: ["CMV (Custo de Mercadoria Vendida)", "Ticket médio", "Pedidos por dia", "Taxa de conversão"]
       },
       {
         nome: "Painéis de Controle",
-        topicos: [
-          "Dashboard de métricas",
-          "Metas semanais",
-          "Relatórios de performance"
-        ]
+        topicos: ["Dashboard de métricas", "Metas semanais", "Relatórios de performance"]
       }
     ],
     tarefas: [
@@ -129,12 +107,7 @@ const pilaresData = {
       "Testar promoções e combos",
       "Monitorar desempenho e corrigir gaps"
     ],
-    resultados: [
-      "Aumento do faturamento",
-      "Margem de lucro otimizada",
-      "Cardápio rentável",
-      "Decisões baseadas em dados"
-    ]
+    resultados: ["Aumento do faturamento", "Margem de lucro otimizada", "Cardápio rentável", "Decisões baseadas em dados"]
   },
   tempo_potencia: {
     titulo: "Pilar 3 – Tempo de Potência",
@@ -143,35 +116,19 @@ const pilaresData = {
     modulos: [
       {
         nome: "Organização e Agendamento",
-        topicos: [
-          "Organização de encontros",
-          "Entendimento de disponibilidade da equipe",
-          "Alinhamento de horários e metas"
-        ]
+        topicos: ["Organização de encontros", "Entendimento de disponibilidade da equipe", "Alinhamento de horários e metas"]
       },
       {
         nome: "Cronogramas de Rotina",
-        topicos: [
-          "Cronograma por unidade",
-          "Definição de tarefas e responsáveis",
-          "Calendário de atividades"
-        ]
+        topicos: ["Cronograma por unidade", "Definição de tarefas e responsáveis", "Calendário de atividades"]
       },
       {
         nome: "Gestão do Tempo",
-        topicos: [
-          "Produtividade do time",
-          "Eliminação de desperdício de tempo",
-          "Foco nas prioridades"
-        ]
+        topicos: ["Produtividade do time", "Eliminação de desperdício de tempo", "Foco nas prioridades"]
       },
       {
         nome: "Priorização (Kanban)",
-        topicos: [
-          "A Fazer",
-          "Em Progresso",
-          "Concluído"
-        ]
+        topicos: ["A Fazer", "Em Progresso", "Concluído"]
       }
     ],
     tarefas: [
@@ -181,12 +138,7 @@ const pilaresData = {
       "Delegar funções e acompanhar prazos",
       "Medir produtividade individual e da equipe"
     ],
-    resultados: [
-      "Equipe mais produtiva",
-      "Menos retrabalho",
-      "Entregas no prazo",
-      "Gestão visual das tarefas"
-    ]
+    resultados: ["Equipe mais produtiva", "Menos retrabalho", "Entregas no prazo", "Gestão visual das tarefas"]
   },
   norte_estrategico: {
     titulo: "Pilar 4 – Norte Estratégico",
@@ -195,43 +147,23 @@ const pilaresData = {
     modulos: [
       {
         nome: "Intenção Estratégica",
-        topicos: [
-          "Missão → por que fazemos o que fazemos",
-          "Visão → onde queremos chegar",
-          "Valores → o que é inegociável"
-        ]
+        topicos: ["Missão → por que fazemos o que fazemos", "Visão → onde queremos chegar", "Valores → o que é inegociável"]
       },
       {
         nome: "Cultura Organizacional",
-        topicos: [
-          "Definição de cultura",
-          "Comportamentos esperados",
-          "Rituais e práticas"
-        ]
+        topicos: ["Definição de cultura", "Comportamentos esperados", "Rituais e práticas"]
       },
       {
         nome: "Governança",
-        topicos: [
-          "Alinhamento de propósito",
-          "Estrutura de decisão",
-          "Responsabilidades claras"
-        ]
+        topicos: ["Alinhamento de propósito", "Estrutura de decisão", "Responsabilidades claras"]
       },
       {
         nome: "Plano de Expansão",
-        topicos: [
-          "Objetivos da marca",
-          "Metas de crescimento",
-          "Estratégia de mercado"
-        ]
+        topicos: ["Objetivos da marca", "Metas de crescimento", "Estratégia de mercado"]
       },
       {
         nome: "Comunicação Interna",
-        topicos: [
-          "Comunicação baseada no propósito",
-          "Reuniões de alinhamento estratégico",
-          "Feedback e transparência"
-        ]
+        topicos: ["Comunicação baseada no propósito", "Reuniões de alinhamento estratégico", "Feedback e transparência"]
       }
     ],
     tarefas: [
@@ -240,12 +172,7 @@ const pilaresData = {
       "Criar documento de cultura e propósito",
       "Revisar se todas as decisões estão alinhadas ao norte estratégico"
     ],
-    resultados: [
-      "Equipe alinhada ao propósito",
-      "Decisões coerentes",
-      "Cultura forte e consistente",
-      "Direção clara para o negócio"
-    ]
+    resultados: ["Equipe alinhada ao propósito", "Decisões coerentes", "Cultura forte e consistente", "Direção clara para o negócio"]
   },
   presenca_magnetica: {
     titulo: "Pilar 5 – Presença Magnética",
@@ -254,51 +181,27 @@ const pilaresData = {
     modulos: [
       {
         nome: "Comunicação Visual e Marketing",
-        topicos: [
-          "Identidade visual da marca",
-          "Materiais gráficos",
-          "Padronização de comunicação"
-        ]
+        topicos: ["Identidade visual da marca", "Materiais gráficos", "Padronização de comunicação"]
       },
       {
         nome: "Estratégia no iFood",
-        topicos: [
-          "Descrições atrativas",
-          "Fotos profissionais",
-          "Destaque de diferenciais"
-        ]
+        topicos: ["Descrições atrativas", "Fotos profissionais", "Destaque de diferenciais"]
       },
       {
         nome: "Storytelling e Identidade",
-        topicos: [
-          "História da marca",
-          "Narrativa de valor",
-          "Conexão emocional"
-        ]
+        topicos: ["História da marca", "Narrativa de valor", "Conexão emocional"]
       },
       {
         nome: "Redes Sociais",
-        topicos: [
-          "Conteúdo e presença digital",
-          "Plano de postagens",
-          "Engajamento com seguidores"
-        ]
+        topicos: ["Conteúdo e presença digital", "Plano de postagens", "Engajamento com seguidores"]
       },
       {
         nome: "Imagem da Empresa",
-        topicos: [
-          "Fortalecimento da marca",
-          "Posicionamento dos líderes",
-          "Reputação online"
-        ]
+        topicos: ["Fortalecimento da marca", "Posicionamento dos líderes", "Reputação online"]
       },
       {
         nome: "Experiência de Marca",
-        topicos: [
-          "Padronização de atendimento",
-          "Embalagem e apresentação",
-          "Linguagem e tom de voz"
-        ]
+        topicos: ["Padronização de atendimento", "Embalagem e apresentação", "Linguagem e tom de voz"]
       }
     ],
     tarefas: [
@@ -309,18 +212,27 @@ const pilaresData = {
       "Garantir consistência da marca em todos os pontos de contato",
       "Solicitar fotos e vídeos da operação"
     ],
-    resultados: [
-      "Marca reconhecida e desejada",
-      "Maior conversão de clientes",
-      "Presença digital forte",
-      "Experiência memorável"
-    ]
+    resultados: ["Marca reconhecida e desejada", "Maior conversão de clientes", "Presença digital forte", "Experiência memorável"]
   }
 };
 
-export default function PilarConteudoIncluido({ pilarKey, progressoItems = [], onToggleItem }) {
-  const pilar = pilaresData[pilarKey];
+export default function PilarConteudoIncluido({ 
+  pilarKey, 
+  progressoItems = [], 
+  onToggleItem,
+  customData,
+  onUpdateCustomData
+}) {
+  const defaultPilar = pilaresDataDefault[pilarKey];
   const [expandedModulos, setExpandedModulos] = useState({});
+  const [editingTarefa, setEditingTarefa] = useState(null);
+  const [editingTopico, setEditingTopico] = useState(null);
+  const [novaTarefa, setNovaTarefa] = useState("");
+  const [novoTopico, setNovoTopico] = useState({});
+  const [editText, setEditText] = useState("");
+
+  // Usa customData se existir, senão usa o padrão
+  const pilar = customData || defaultPilar;
 
   if (!pilar) return null;
 
@@ -341,7 +253,7 @@ export default function PilarConteudoIncluido({ pilarKey, progressoItems = [], o
     return {
       completed: completedTopicos,
       total: modulo.topicos.length,
-      percentage: Math.round((completedTopicos / modulo.topicos.length) * 100)
+      percentage: modulo.topicos.length > 0 ? Math.round((completedTopicos / modulo.topicos.length) * 100) : 0
     };
   };
 
@@ -352,8 +264,58 @@ export default function PilarConteudoIncluido({ pilarKey, progressoItems = [], o
     return {
       completed,
       total: pilar.tarefas.length,
-      percentage: Math.round((completed / pilar.tarefas.length) * 100)
+      percentage: pilar.tarefas.length > 0 ? Math.round((completed / pilar.tarefas.length) * 100) : 0
     };
+  };
+
+  // Funções de edição
+  const handleAddTarefa = () => {
+    if (!novaTarefa.trim()) return;
+    const newTarefas = [...pilar.tarefas, novaTarefa.trim()];
+    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
+    setNovaTarefa("");
+  };
+
+  const handleEditTarefa = (idx) => {
+    const newTarefas = [...pilar.tarefas];
+    newTarefas[idx] = editText;
+    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
+    setEditingTarefa(null);
+    setEditText("");
+  };
+
+  const handleDeleteTarefa = (idx) => {
+    const newTarefas = pilar.tarefas.filter((_, i) => i !== idx);
+    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
+  };
+
+  const handleAddTopico = (moduloIdx) => {
+    const texto = novoTopico[moduloIdx];
+    if (!texto?.trim()) return;
+    const newModulos = [...pilar.modulos];
+    newModulos[moduloIdx] = {
+      ...newModulos[moduloIdx],
+      topicos: [...newModulos[moduloIdx].topicos, texto.trim()]
+    };
+    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
+    setNovoTopico({ ...novoTopico, [moduloIdx]: "" });
+  };
+
+  const handleEditTopico = (moduloIdx, topicoIdx) => {
+    const newModulos = [...pilar.modulos];
+    newModulos[moduloIdx].topicos[topicoIdx] = editText;
+    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
+    setEditingTopico(null);
+    setEditText("");
+  };
+
+  const handleDeleteTopico = (moduloIdx, topicoIdx) => {
+    const newModulos = [...pilar.modulos];
+    newModulos[moduloIdx] = {
+      ...newModulos[moduloIdx],
+      topicos: newModulos[moduloIdx].topicos.filter((_, i) => i !== topicoIdx)
+    };
+    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
   };
 
   const tarefasProgress = getTarefasProgress();
@@ -409,23 +371,82 @@ export default function PilarConteudoIncluido({ pilarKey, progressoItems = [], o
                   <div className="px-4 pb-4 space-y-2">
                     {modulo.topicos.map((topico, tIdx) => {
                       const isCompleted = isItemCompleted("topico", topico);
+                      const isEditing = editingTopico === `${idx}-${tIdx}`;
+                      
+                      if (isEditing) {
+                        return (
+                          <div key={tIdx} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
+                            <Input
+                              value={editText}
+                              onChange={(e) => setEditText(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleEditTopico(idx, tIdx);
+                                if (e.key === "Escape") { setEditingTopico(null); setEditText(""); }
+                              }}
+                              className="flex-1 bg-white/10 border-white/20 text-white text-sm h-8"
+                              autoFocus
+                            />
+                            <button onClick={() => handleEditTopico(idx, tIdx)} className="text-emerald-400 p-1">
+                              <Check size={16} />
+                            </button>
+                            <button onClick={() => { setEditingTopico(null); setEditText(""); }} className="text-white/50 p-1">
+                              <X size={16} />
+                            </button>
+                          </div>
+                        );
+                      }
+
                       return (
-                        <button
+                        <div
                           key={tIdx}
-                          onClick={() => onToggleItem?.("topico", topico)}
-                          className="w-full flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors text-left group"
+                          className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
                         >
-                          {isCompleted ? (
-                            <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0" />
-                          ) : (
-                            <Circle size={18} className="text-white/30 flex-shrink-0 group-hover:text-white/50" />
-                          )}
-                          <span className={`text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
+                          <button onClick={() => onToggleItem?.("topico", topico)} className="flex-shrink-0">
+                            {isCompleted ? (
+                              <CheckCircle2 size={18} className="text-emerald-400" />
+                            ) : (
+                              <Circle size={18} className="text-white/30 group-hover:text-white/50" />
+                            )}
+                          </button>
+                          <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
                             {topico}
                           </span>
-                        </button>
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => { setEditingTopico(`${idx}-${tIdx}`); setEditText(topico); }}
+                              className="text-white/40 hover:text-white p-1"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteTopico(idx, tIdx)}
+                              className="text-red-400/60 hover:text-red-400 p-1"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </div>
                       );
                     })}
+
+                    {/* Adicionar novo item */}
+                    <div className="flex items-center gap-2 pt-2">
+                      <Input
+                        value={novoTopico[idx] || ""}
+                        onChange={(e) => setNovoTopico({ ...novoTopico, [idx]: e.target.value })}
+                        onKeyDown={(e) => e.key === "Enter" && handleAddTopico(idx)}
+                        placeholder="Adicionar item..."
+                        className="flex-1 bg-white/5 border-white/10 text-white text-sm h-8 placeholder:text-white/30"
+                      />
+                      <Button
+                        size="sm"
+                        onClick={() => handleAddTopico(idx)}
+                        disabled={!novoTopico[idx]?.trim()}
+                        className="h-8 px-2 bg-[#FF4D00] hover:bg-[#E64500]"
+                      >
+                        <Plus size={14} />
+                      </Button>
+                    </div>
                   </div>
                 </CollapsibleContent>
               </div>
@@ -457,23 +478,82 @@ export default function PilarConteudoIncluido({ pilarKey, progressoItems = [], o
         <div className="space-y-2">
           {pilar.tarefas.map((tarefa, idx) => {
             const isCompleted = isItemCompleted("tarefa", tarefa);
+            const isEditing = editingTarefa === idx;
+
+            if (isEditing) {
+              return (
+                <div key={idx} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
+                  <Input
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleEditTarefa(idx);
+                      if (e.key === "Escape") { setEditingTarefa(null); setEditText(""); }
+                    }}
+                    className="flex-1 bg-white/10 border-white/20 text-white text-sm h-8"
+                    autoFocus
+                  />
+                  <button onClick={() => handleEditTarefa(idx)} className="text-emerald-400 p-1">
+                    <Check size={16} />
+                  </button>
+                  <button onClick={() => { setEditingTarefa(null); setEditText(""); }} className="text-white/50 p-1">
+                    <X size={16} />
+                  </button>
+                </div>
+              );
+            }
+
             return (
-              <button
+              <div
                 key={idx}
-                onClick={() => onToggleItem?.("tarefa", tarefa)}
-                className="w-full flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors text-left group"
+                className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
               >
-                {isCompleted ? (
-                  <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0" />
-                ) : (
-                  <Circle size={18} className="text-white/30 flex-shrink-0 group-hover:text-white/50" />
-                )}
-                <span className={`text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
+                <button onClick={() => onToggleItem?.("tarefa", tarefa)} className="flex-shrink-0">
+                  {isCompleted ? (
+                    <CheckCircle2 size={18} className="text-emerald-400" />
+                  ) : (
+                    <Circle size={18} className="text-white/30 group-hover:text-white/50" />
+                  )}
+                </button>
+                <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
                   {tarefa}
                 </span>
-              </button>
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => { setEditingTarefa(idx); setEditText(tarefa); }}
+                    className="text-white/40 hover:text-white p-1"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteTarefa(idx)}
+                    className="text-red-400/60 hover:text-red-400 p-1"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
             );
           })}
+
+          {/* Adicionar nova tarefa */}
+          <div className="flex items-center gap-2 pt-2">
+            <Input
+              value={novaTarefa}
+              onChange={(e) => setNovaTarefa(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAddTarefa()}
+              placeholder="Adicionar nova tarefa..."
+              className="flex-1 bg-white/5 border-white/10 text-white text-sm h-9 placeholder:text-white/30"
+            />
+            <Button
+              size="sm"
+              onClick={handleAddTarefa}
+              disabled={!novaTarefa.trim()}
+              className="h-9 px-3 bg-[#FF4D00] hover:bg-[#E64500]"
+            >
+              <Plus size={16} className="mr-1" /> Nova Tarefa
+            </Button>
+          </div>
         </div>
       </div>
 
