@@ -10,7 +10,8 @@ import {
   LayoutDashboard,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  ClipboardList
 } from "lucide-react";
 
 export default function Layout({ children, currentPageName }) {
@@ -19,6 +20,7 @@ export default function Layout({ children, currentPageName }) {
   const navigation = [
     { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
     { name: "Mentorados", page: "Mentorados", icon: Users },
+    { name: "Execução", page: "Execucao", icon: ClipboardList },
     { name: "Cursos", page: "Cursos", icon: BookOpen },
     { name: "Biblioteca", page: "Biblioteca", icon: Library },
     { name: "Agenda", page: "Agenda", icon: Calendar },
