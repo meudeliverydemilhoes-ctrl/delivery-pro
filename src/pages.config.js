@@ -6,6 +6,7 @@ import Biblioteca from './pages/Biblioteca';
 import Agenda from './pages/Agenda';
 import Notas from './pages/Notas';
 import Execucao from './pages/Execucao';
+import ExecucaoInteligente from './pages/ExecucaoInteligente';
 import __Layout from './Layout.jsx';
 
 
@@ -18,6 +19,7 @@ export const PAGES = {
     "Agenda": Agenda,
     "Notas": Notas,
     "Execucao": Execucao,
+    "ExecucaoInteligente": ExecucaoInteligente,
 }
 
 export const pagesConfig = {
