@@ -398,34 +398,50 @@ export default function PilarConteudoIncluido({
         </div>
       </div>
 
-      {/* Materiais Exclusivos */}
-      <Collapsible open={expandedSections.materiais} onOpenChange={() => toggleSection("materiais")}>
+      {/* Módulos e Tópicos */}
+      <Collapsible open={expandedSections.modulos} onOpenChange={() => toggleSection("modulos")}>
         <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
           <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
             <div className="flex items-center gap-3">
-              {expandedSections.materiais ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+              {expandedSections.modulos ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
               <BookOpen size={18} className="text-[#FF4D00]" />
-              <span className="font-medium text-white">📚 Materiais Exclusivos</span>
+              <span className="font-medium text-white">📚 Conteúdo e Módulos</span>
             </div>
-            <span className="text-xs text-white/40">{pilar.materiais.length} itens</span>
+            <span className="text-xs text-white/40">{pilar.modulos?.length || 0} módulos</span>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className="px-4 pb-4 space-y-2">
-              {pilar.materiais.map((mat, idx) => {
-                const Icon = tipoIcons[mat.tipo] || FileText;
-                return (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
-                    <span className={`p-2 rounded-lg ${tipoColors[mat.tipo]}`}>
-                      <Icon size={16} />
-                    </span>
-                    <div className="flex-1">
-                      <p className="text-sm text-white font-medium">{mat.nome}</p>
-                      <p className="text-xs text-white/50">{mat.descricao}</p>
-                    </div>
-                    <ExternalLink size={14} className="text-[#FF4D00]" />
+            <div className="px-4 pb-4 space-y-4">
+              {pilar.modulos?.map((modulo, idx) => (
+                <div key={idx} className="bg-white/5 rounded-xl p-4">
+                  <h4 className="font-medium text-white mb-3">{modulo.nome}</h4>
+                  <div className="space-y-2">
+                    {modulo.topicos.map((topico, tIdx) => {
+                      const topicoTexto = typeof topico === 'string' ? topico : topico.texto;
+                      const isCompleted = progressoItems.some(p => p.texto === topicoTexto && p.concluido);
+                      return (
+                        <div
+                          key={tIdx}
+                          className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
+                        >
+                          <button
+                            onClick={() => onToggleItem?.("topico", topicoTexto)}
+                            className="flex-shrink-0"
+                          >
+                            {isCompleted ? (
+                              <CheckCircle2 size={18} className="text-emerald-400" />
+                            ) : (
+                              <Circle size={18} className="text-white/30 group-hover:text-white/50" />
+                            )}
+                          </button>
+                          <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
+                            {topicoTexto}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </CollapsibleContent>
         </div>
