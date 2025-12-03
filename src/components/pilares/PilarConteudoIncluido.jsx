@@ -12,11 +12,18 @@ import {
   Pencil,
   Trash2,
   X,
-  Check
+  Check,
+  Play,
+  FileText,
+  Table2,
+  ClipboardList,
+  FormInput,
+  ExternalLink
 } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ConteudoInterativo from "./ConteudoInterativo";
 
 const pilaresDataDefault = {
   processos: {
@@ -251,6 +258,26 @@ const pilaresDataDefault = {
   }
 };
 
+const tipoIcons = {
+  checklist: ClipboardList,
+  video: Play,
+  planilha: Table2,
+  formulario: FormInput,
+  documento: FileText,
+  dashboard: Target,
+  tarefa: Check
+};
+
+const tipoColors = {
+  checklist: "text-emerald-400 bg-emerald-500/20",
+  video: "text-blue-400 bg-blue-500/20",
+  planilha: "text-amber-400 bg-amber-500/20",
+  formulario: "text-violet-400 bg-violet-500/20",
+  documento: "text-pink-400 bg-pink-500/20",
+  dashboard: "text-cyan-400 bg-cyan-500/20",
+  tarefa: "text-white/60 bg-white/10"
+};
+
 export default function PilarConteudoIncluido({ 
   pilarKey, 
   progressoItems = [], 
@@ -265,6 +292,8 @@ export default function PilarConteudoIncluido({
   const [novaTarefa, setNovaTarefa] = useState("");
   const [novoTopico, setNovoTopico] = useState({});
   const [editText, setEditText] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [savedInterativos, setSavedInterativos] = useState({});
 
   // Usa customData se existir, senão usa o padrão
   const pilar = customData || defaultPilar;
@@ -281,15 +310,29 @@ export default function PilarConteudoIncluido({
     );
   };
 
+  const getTopicoTexto = (topico) => {
+    return typeof topico === "string" ? topico : topico.texto;
+  };
+
   const getModuloProgress = (modulo) => {
     const completedTopicos = modulo.topicos.filter((t) =>
-      isItemCompleted("topico", t)
+      isItemCompleted("topico", getTopicoTexto(t))
     ).length;
     return {
       completed: completedTopicos,
       total: modulo.topicos.length,
       percentage: modulo.topicos.length > 0 ? Math.round((completedTopicos / modulo.topicos.length) * 100) : 0
     };
+  };
+
+  const handleOpenInterativo = (topico) => {
+    if (typeof topico === "object" && topico.interativo) {
+      setSelectedItem(topico);
+    }
+  };
+
+  const handleSaveInterativo = (data) => {
+    setSavedInterativos({ ...savedInterativos, [selectedItem.texto]: data });
   };
 
   const getTarefasProgress = () => {
@@ -405,9 +448,12 @@ export default function PilarConteudoIncluido({
                 <CollapsibleContent>
                   <div className="px-4 pb-4 space-y-2">
                     {modulo.topicos.map((topico, tIdx) => {
-                      const isCompleted = isItemCompleted("topico", topico);
+                      const topicoTexto = getTopicoTexto(topico);
+                      const isCompleted = isItemCompleted("topico", topicoTexto);
                       const isEditing = editingTopico === `${idx}-${tIdx}`;
-                      
+                      const isInterativo = typeof topico === "object" && topico.interativo;
+                      const TipoIcon = isInterativo ? tipoIcons[topico.tipo] : null;
+
                       if (isEditing) {
                         return (
                           <div key={tIdx} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
@@ -434,9 +480,13 @@ export default function PilarConteudoIncluido({
                       return (
                         <div
                           key={tIdx}
-                          className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
+                          onClick={() => isInterativo && handleOpenInterativo(topico)}
+                          className={`flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group ${isInterativo ? "cursor-pointer border border-transparent hover:border-[#FF4D00]/30" : ""}`}
                         >
-                          <button onClick={() => onToggleItem?.("topico", topico)} className="flex-shrink-0">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); onToggleItem?.("topico", topicoTexto); }} 
+                            className="flex-shrink-0"
+                          >
                             {isCompleted ? (
                               <CheckCircle2 size={18} className="text-emerald-400" />
                             ) : (
@@ -444,17 +494,24 @@ export default function PilarConteudoIncluido({
                             )}
                           </button>
                           <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
-                            {topico}
+                            {topicoTexto}
                           </span>
+                          {isInterativo && TipoIcon && (
+                            <span className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs ${tipoColors[topico.tipo]}`}>
+                              <TipoIcon size={12} />
+                              <span className="hidden sm:inline">Abrir</span>
+                              <ExternalLink size={10} />
+                            </span>
+                          )}
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
-                              onClick={() => { setEditingTopico(`${idx}-${tIdx}`); setEditText(topico); }}
+                              onClick={(e) => { e.stopPropagation(); setEditingTopico(`${idx}-${tIdx}`); setEditText(topicoTexto); }}
                               className="text-white/40 hover:text-white p-1"
                             >
                               <Pencil size={14} />
                             </button>
                             <button
-                              onClick={() => handleDeleteTopico(idx, tIdx)}
+                              onClick={(e) => { e.stopPropagation(); handleDeleteTopico(idx, tIdx); }}
                               className="text-red-400/60 hover:text-red-400 p-1"
                             >
                               <Trash2 size={14} />
@@ -609,8 +666,19 @@ export default function PilarConteudoIncluido({
               <span className="text-sm text-white/80">{resultado}</span>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+          </div>
+          </div>
+          </div>
+
+          {/* Modal Interativo */}
+          {selectedItem && (
+          <ConteudoInterativo
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+          onSave={handleSaveInterativo}
+          savedData={savedInterativos[selectedItem.texto]}
+          />
+          )}
+          </div>
+          );
+          }
