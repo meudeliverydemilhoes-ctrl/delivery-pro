@@ -4,7 +4,7 @@ import {
   ListChecks, Sparkles, Plus, Pencil, Trash2, X, Check, Play, FileText,
   Table2, ClipboardList, FormInput, ExternalLink, Flag
 } from "lucide-react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
