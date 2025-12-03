@@ -387,6 +387,14 @@ export default function PilarConteudoIncluido({
     }
   };
 
+  const totalTopicos = pilar.modulos?.reduce((acc, m) => acc + m.topicos.length, 0) || 0;
+  const completedTopicos = pilar.modulos?.reduce((acc, m) => {
+    return acc + m.topicos.filter(t => {
+      const texto = typeof t === 'string' ? t : t.texto;
+      return progressoItems.some(p => p.texto === texto && p.concluido);
+    }).length;
+  }, 0) || 0;
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -398,93 +406,110 @@ export default function PilarConteudoIncluido({
         </div>
       </div>
 
-      {/* Módulos e Tópicos */}
-      <Collapsible open={expandedSections.modulos} onOpenChange={() => toggleSection("modulos")}>
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-            <div className="flex items-center gap-3">
-              {expandedSections.modulos ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
-              <BookOpen size={18} className="text-[#FF4D00]" />
-              <span className="font-medium text-white">📚 Conteúdo e Módulos</span>
+      {/* Tabs para separar Conteúdo e Módulos */}
+      <Tabs defaultValue="conteudo" className="w-full">
+        <TabsList className="bg-white/5 border border-white/10 p-1 mb-4">
+          <TabsTrigger value="conteudo" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <BookOpen size={16} className="mr-2" />
+            Conteúdo
+          </TabsTrigger>
+          <TabsTrigger value="modulos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <ListChecks size={16} className="mr-2" />
+            Módulos
+          </TabsTrigger>
+          <TabsTrigger value="exercicios" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <Target size={16} className="mr-2" />
+            Exercícios
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Aba Conteúdo - Tópicos de estudo */}
+        <TabsContent value="conteudo" className="space-y-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-white/60">Progresso: {completedTopicos}/{totalTopicos} tópicos</span>
+            <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-emerald-500 transition-all" 
+                style={{ width: `${totalTopicos > 0 ? (completedTopicos / totalTopicos) * 100 : 0}%` }} 
+              />
             </div>
-            <span className="text-xs text-white/40">{pilar.modulos?.length || 0} módulos</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="px-4 pb-4 space-y-4">
-              {pilar.modulos?.map((modulo, idx) => (
-                <div key={idx} className="bg-white/5 rounded-xl p-4">
-                  <h4 className="font-medium text-white mb-3">{modulo.nome}</h4>
-                  <div className="space-y-2">
-                    {modulo.topicos.map((topico, tIdx) => {
-                      const topicoTexto = typeof topico === 'string' ? topico : topico.texto;
-                      const isCompleted = progressoItems.some(p => p.texto === topicoTexto && p.concluido);
-                      return (
-                        <div
-                          key={tIdx}
-                          className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
-                        >
-                          <button
-                            onClick={() => onToggleItem?.("topico", topicoTexto)}
-                            className="flex-shrink-0"
-                          >
-                            {isCompleted ? (
-                              <CheckCircle2 size={18} className="text-emerald-400" />
-                            ) : (
-                              <Circle size={18} className="text-white/30 group-hover:text-white/50" />
-                            )}
-                          </button>
-                          <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
-                            {topicoTexto}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
+          </div>
+          {pilar.modulos?.map((modulo, idx) => (
+            <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4">
+              <h4 className="font-medium text-white mb-3">{modulo.nome}</h4>
+              <div className="space-y-2">
+                {modulo.topicos.map((topico, tIdx) => {
+                  const topicoTexto = typeof topico === 'string' ? topico : topico.texto;
+                  const isCompleted = progressoItems.some(p => p.texto === topicoTexto && p.concluido);
+                  return (
+                    <div
+                      key={tIdx}
+                      className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
+                    >
+                      <button
+                        onClick={() => onToggleItem?.("topico", topicoTexto)}
+                        className="flex-shrink-0"
+                      >
+                        {isCompleted ? (
+                          <CheckCircle2 size={18} className="text-emerald-400" />
+                        ) : (
+                          <Circle size={18} className="text-white/30 group-hover:text-white/50" />
+                        )}
+                      </button>
+                      <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
+                        {topicoTexto}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </TabsContent>
+
+        {/* Aba Módulos - Tarefas práticas */}
+        <TabsContent value="modulos" className="space-y-4">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <ListChecks size={18} className="text-[#FF4D00]" />
+              <span className="font-medium text-white">📋 Tarefas & Checklists</span>
+              <span className="text-xs text-white/40 ml-auto">{tarefasData.length} tarefas</span>
+            </div>
+            <TabelaInterativa
+              colunas={pilar.colunasTarefas}
+              dados={tarefasData}
+              onUpdate={handleUpdateTarefa}
+              onAdd={handleAddTarefa}
+              onDelete={handleDeleteTarefa}
+            />
+          </div>
+
+          {/* Resultados Esperados */}
+          <div className="bg-gradient-to-br from-[#FF4D00]/10 to-transparent border border-[#FF4D00]/20 rounded-xl p-5">
+            <div className="flex items-center gap-2 text-[#FF4D00] mb-4">
+              <Sparkles size={18} />
+              <span className="font-medium">Resultados Esperados</span>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {pilar.resultados.map((resultado, idx) => (
+                <div key={idx} className="flex items-center gap-2 p-3 bg-white/5 rounded-lg">
+                  <Sparkles size={14} className="text-[#FF4D00]" />
+                  <span className="text-sm text-white/80">{resultado}</span>
                 </div>
               ))}
             </div>
-          </CollapsibleContent>
-        </div>
-      </Collapsible>
+          </div>
+        </TabsContent>
 
-      {/* Tarefas e Checklists - Tabela Interativa */}
-      <Collapsible open={expandedSections.tarefas} onOpenChange={() => toggleSection("tarefas")}>
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-            <div className="flex items-center gap-3">
-              {expandedSections.tarefas ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
-              <ListChecks size={18} className="text-[#FF4D00]" />
-              <span className="font-medium text-white">📋 Tarefas & Checklists</span>
-            </div>
-            <span className="text-xs text-white/40">{tarefasData.length} tarefas</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="px-4 pb-4">
-              <TabelaInterativa
-                colunas={pilar.colunasTarefas}
-                dados={tarefasData}
-                onUpdate={handleUpdateTarefa}
-                onAdd={handleAddTarefa}
-                onDelete={handleDeleteTarefa}
-              />
-            </div>
-          </CollapsibleContent>
-        </div>
-      </Collapsible>
-
-      {/* Exercícios Práticos */}
-      <Collapsible open={expandedSections.exercicios} onOpenChange={() => toggleSection("exercicios")}>
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
-            <div className="flex items-center gap-3">
-              {expandedSections.exercicios ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+        {/* Aba Exercícios */}
+        <TabsContent value="exercicios" className="space-y-4">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-4">
               <Target size={18} className="text-[#FF4D00]" />
               <span className="font-medium text-white">🎯 Exercícios Práticos</span>
+              <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length} exercícios</span>
             </div>
-            <span className="text-xs text-white/40">{pilar.exercicios.length} exercícios</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="px-4 pb-4 space-y-2">
+            <div className="space-y-2">
               {pilar.exercicios.map((ex, idx) => {
                 const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
                 return (
@@ -513,33 +538,17 @@ export default function PilarConteudoIncluido({
                 );
               })}
             </div>
-          </CollapsibleContent>
-        </div>
-      </Collapsible>
+          </div>
 
-      {/* Resultados Esperados */}
-      <div className="bg-gradient-to-br from-[#FF4D00]/10 to-transparent border border-[#FF4D00]/20 rounded-xl p-5">
-        <div className="flex items-center gap-2 text-[#FF4D00] mb-4">
-          <Sparkles size={18} />
-          <span className="font-medium">Resultados Esperados</span>
-        </div>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {pilar.resultados.map((resultado, idx) => (
-            <div key={idx} className="flex items-center gap-2 p-3 bg-white/5 rounded-lg">
-              <Sparkles size={14} className="text-[#FF4D00]" />
-              <span className="text-sm text-white/80">{resultado}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Checkpoint Semanal */}
-      <CheckpointSemanal
-        pilarKey={pilarKey}
-        pilarTitulo={pilar.titulo}
-        tarefasData={tarefasData}
-        exerciciosData={exerciciosData}
-      />
+          {/* Checkpoint Semanal */}
+          <CheckpointSemanal
+            pilarKey={pilarKey}
+            pilarTitulo={pilar.titulo}
+            tarefasData={tarefasData}
+            exerciciosData={exerciciosData}
+          />
+        </TabsContent>
+      </Tabs>
 
       {/* Modal de Exercício */}
       <Dialog open={!!selectedExercicio} onOpenChange={() => setSelectedExercicio(null)}>
