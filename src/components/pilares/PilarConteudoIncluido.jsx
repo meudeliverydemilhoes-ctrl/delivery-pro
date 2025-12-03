@@ -25,30 +25,35 @@ const pilaresDataDefault = {
     cor: "bg-blue-500",
     modulos: [
       {
+        nome: "📚 Materiais Exclusivos",
+        topicos: [
+          { texto: "Checklist de Abertura, Fechamento e Auditoria", tipo: "checklist", interativo: true },
+          { texto: "Tutorial: Preenchendo a Ficha Técnica", tipo: "video", interativo: true },
+          { texto: "Planilha Automática de Simulação de CMV", tipo: "planilha", interativo: true }
+        ]
+      },
+      {
         nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Mapear processo atual (modelo de diagnóstico pronto para preencher gargalos)",
-          "Criar cronograma de melhorias (prazos semanais/mensais já listados)",
-          "Implementar a primeira otimização (começar pelo controle de CMV)",
-          "Checklist pronto para abertura da operação",
-          "Checklist pronto para fechamento da operação",
-          "Checklist de auditorias periódicas"
+          { texto: "Mapear processo atual (modelo de diagnóstico com gargalos)", tipo: "formulario", interativo: true },
+          { texto: "Criar cronograma de melhorias (prazos semanais/mensais)", tipo: "formulario", interativo: true },
+          { texto: "Implementar primeira otimização (começar pelo CMV)", tipo: "tarefa", interativo: false }
         ]
       },
       {
         nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Análise SWOT do processo (modelo em branco para preenchimento)",
-          "Preencher ficha técnica padrão de 1 produto (modelo entregue)",
-          "Simulação de CMV (planilha automática)"
+          { texto: "Análise SWOT do processo", tipo: "formulario", interativo: true },
+          { texto: "Preencher ficha técnica de 1 produto", tipo: "formulario", interativo: true },
+          { texto: "Simulação de CMV com dados reais", tipo: "planilha", interativo: true }
         ]
       }
     ],
     tarefas: [
       "Preencher diagnóstico de gargalos no modelo fornecido",
       "Definir cronograma semanal de melhorias",
-      "Aplicar checklist de abertura por 7 dias consecutivos",
-      "Aplicar checklist de fechamento por 7 dias consecutivos",
+      "Aplicar checklist de abertura por 7 dias",
+      "Aplicar checklist de fechamento por 7 dias",
       "Completar análise SWOT do processo",
       "Criar ficha técnica de 1 produto principal",
       "Executar simulação de CMV na planilha"
@@ -61,34 +66,42 @@ const pilaresDataDefault = {
     ]
   },
   desempenho: {
-    titulo: "Pilar 2 – Desempenho",
+    titulo: "Pilar 2 – Performance",
     icon: "📈",
     cor: "bg-emerald-500",
     modulos: [
       {
+        nome: "📚 Materiais Exclusivos",
+        topicos: [
+          { texto: "Modelo de Metas de 90 Dias", tipo: "formulario", interativo: true },
+          { texto: "Como Acompanhar seu Dashboard", tipo: "video", interativo: true },
+          { texto: "Checklist Premium de Evolução Semanal", tipo: "checklist", interativo: true }
+        ]
+      },
+      {
         nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Preencher diagnóstico inicial (ticket médio, CMV, pedidos/dia)",
-          "Acompanhar dashboard de indicadores (gráficos prontos)",
-          "Montar rotina de execução semanal (agenda já estruturada)",
-          "Revisar indicadores toda segunda-feira",
-          "Atualizar planilha de faturamento semanalmente"
+          { texto: "Preencher diagnóstico inicial (ticket médio, CMV, pedidos/dia)", tipo: "formulario", interativo: true },
+          { texto: "Acompanhar dashboard de indicadores", tipo: "dashboard", interativo: true },
+          { texto: "Montar rotina de execução semanal", tipo: "formulario", interativo: true }
         ]
       },
       {
         nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Preencher metas de 90 dias no modelo sugerido",
-          "Avaliar evolução semanal no checklist premium",
-          "Inserir Missão no campo institucional: Transformar negócios de entrega em operações lucrativas, organizadas e escaláveis",
-          "Inserir Visão: Ser a maior referência de mentoria em delivery no Brasil",
-          "Inserir Valores: Resultado, transparência, liderança, evolução contínua, trabalho em equipe"
+          { texto: "Definir metas para 90 dias", tipo: "formulario", interativo: true },
+          { texto: "Avaliar evolução semanal (checklist premium)", tipo: "checklist", interativo: true },
+          { texto: "Inserir Missão, Visão e Valores", tipo: "formulario", interativo: true, dados: {
+            missao: "Transformar negócios de entrega em operações lucrativas e organizadas",
+            visao: "Ser a maior referência de mentoria em delivery no Brasil",
+            valores: "Resultado, transparência, liderança, evolução contínua, trabalho em equipe"
+          }}
         ]
       }
     ],
     tarefas: [
       "Completar diagnóstico inicial com dados reais",
-      "Definir metas de 90 dias usando modelo fornecido",
+      "Definir metas de 90 dias usando modelo",
       "Preencher Missão, Visão e Valores da operação",
       "Acompanhar dashboard por 4 semanas",
       "Fazer avaliação semanal no checklist premium",
@@ -107,22 +120,27 @@ const pilaresDataDefault = {
     cor: "bg-violet-500",
     modulos: [
       {
+        nome: "📚 Materiais Exclusivos",
+        topicos: [
+          { texto: "Organograma da Operação (modelo editável)", tipo: "formulario", interativo: true },
+          { texto: "Manual do Colaborador", tipo: "documento", interativo: true },
+          { texto: "Modelo de Escala de Trabalho", tipo: "planilha", interativo: true }
+        ]
+      },
+      {
         nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Montar organograma da operação (modelo pronto)",
-          "Delegar funções: atendimento, produção, entrega",
-          "Treinamento inicial com base no manual do colaborador (arquivo pronto)",
-          "Definir responsável por cada setor",
-          "Criar escala semanal de trabalho"
+          { texto: "Montar organograma (dono, gerente, produção, atendimento, entrega)", tipo: "formulario", interativo: true },
+          { texto: "Delegar funções por setor", tipo: "checklist", interativo: true },
+          { texto: "Realizar treinamento inicial (marcar como treinado ✅)", tipo: "checklist", interativo: true }
         ]
       },
       {
         nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Criar escala de trabalho (modelo já entregue)",
-          "Avaliar desempenho do time com checklist de treinamento",
-          "Rodada de feedback usando formulário pronto",
-          "Identificar colaborador destaque da semana"
+          { texto: "Criar escala de trabalho semanal", tipo: "planilha", interativo: true },
+          { texto: "Avaliar desempenho do time", tipo: "checklist", interativo: true },
+          { texto: "Conduzir rodada de feedback", tipo: "formulario", interativo: true }
         ]
       }
     ],
@@ -131,7 +149,7 @@ const pilaresDataDefault = {
       "Distribuir manual do colaborador para equipe",
       "Criar primeira escala de trabalho no modelo",
       "Aplicar checklist de avaliação de desempenho",
-      "Realizar primeira rodada de feedback com formulário",
+      "Realizar primeira rodada de feedback",
       "Definir metas individuais para cada colaborador"
     ],
     resultados: [
@@ -147,22 +165,27 @@ const pilaresDataDefault = {
     cor: "bg-amber-500",
     modulos: [
       {
+        nome: "📚 Materiais Exclusivos",
+        topicos: [
+          { texto: "Modelo de Metas (faturamento e ticket médio)", tipo: "formulario", interativo: true },
+          { texto: "Planilha de Projeção de Vendas", tipo: "planilha", interativo: true },
+          { texto: "Roadmap de 3 Meses (modelo pronto)", tipo: "formulario", interativo: true }
+        ]
+      },
+      {
         nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Definir meta de faturamento mensal (modelo pronto)",
-          "Definir meta de ticket médio ideal",
-          "Escolher 3 KPIs prioritários: CMV, pedidos/dia, satisfação",
-          "Preencher plano de expansão (roteiro em etapas sugeridas)",
-          "Revisar metas quinzenalmente"
+          { texto: "Definir meta de faturamento e ticket médio", tipo: "formulario", interativo: true },
+          { texto: "Escolher 3 KPIs prioritários", tipo: "checklist", interativo: true, exemplo: "CMV, pedidos/dia, satisfação no iFood" },
+          { texto: "Preencher plano de expansão", tipo: "formulario", interativo: true, roteiro: "estruturar → padronizar → expandir → replicar" }
         ]
       },
       {
         nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Analisar lacuna entre meta e resultado atual",
-          "Criar roadmap de 3 meses (modelo pronto)",
-          "Simulação de projeção de vendas (planilha automática)",
-          "Definir ações corretivas para gaps identificados"
+          { texto: "Analisar lacuna entre meta e resultado atual", tipo: "planilha", interativo: true },
+          { texto: "Criar roadmap de 3 meses", tipo: "formulario", interativo: true },
+          { texto: "Projeção simulada de vendas", tipo: "planilha", interativo: true }
         ]
       }
     ],
@@ -187,22 +210,27 @@ const pilaresDataDefault = {
     cor: "bg-pink-500",
     modulos: [
       {
+        nome: "📚 Materiais Exclusivos",
+        topicos: [
+          { texto: "Checklist de Revisão do Cardápio iFood", tipo: "checklist", interativo: true },
+          { texto: "Respostas Padrão para Avaliações", tipo: "documento", interativo: true },
+          { texto: "Planilha de Precificação iFood", tipo: "planilha", interativo: true }
+        ]
+      },
+      {
         nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Revisar cardápio no iFood (checklist: fotos, normas, preços)",
-          "Criar 1 combo estratégico (sugestão: 2 pizzas + refrigerante)",
-          "Responder 5 avaliações de clientes (respostas padrão fornecidas)",
-          "Atualizar fotos dos 5 produtos mais vendidos",
-          "Verificar descrições de todos os itens do cardápio"
+          { texto: "Revisar cardápio no iFood (fotos, normas, preços)", tipo: "checklist", interativo: true },
+          { texto: "Criar combo estratégico", tipo: "formulario", interativo: true, exemplo: "2 pizzas + refrigerante" },
+          { texto: "Responder avaliações de clientes", tipo: "documento", interativo: true }
         ]
       },
       {
         nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Preencher calendário de campanhas semanais (modelo pronto)",
-          "Criar um post de alta conversão (modelo com título + CTA sugerido)",
-          "Simulação de precificação no iFood (planilha automática)",
-          "Montar promoção relâmpago usando template"
+          { texto: "Preencher calendário de campanhas semanais", tipo: "formulario", interativo: true },
+          { texto: "Criar post de alta conversão", tipo: "formulario", interativo: true, exemplo: "Modelo com título + CTA" },
+          { texto: "Precificação simulada no iFood", tipo: "planilha", interativo: true }
         ]
       }
     ],
