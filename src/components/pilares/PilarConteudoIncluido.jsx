@@ -326,17 +326,12 @@ export default function PilarConteudoIncluido({
   onUpdateCustomData
 }) {
   const defaultPilar = pilaresDataDefault[pilarKey];
-  const [expandedSections, setExpandedSections] = useState({ modulos: true, tarefas: true, exercicios: false });
   const [tarefasData, setTarefasData] = useState(customData?.tarefas || defaultPilar?.tarefasExemplo || []);
   const [exerciciosData, setExerciciosData] = useState(customData?.exercicios || {});
   const [selectedExercicio, setSelectedExercicio] = useState(null);
 
   const pilar = defaultPilar;
   if (!pilar) return null;
-
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
 
   const handleUpdateTarefa = (idx, data) => {
     const newTarefas = [...tarefasData];
