@@ -666,19 +666,18 @@ export default function PilarConteudoIncluido({
               <span className="text-sm text-white/80">{resultado}</span>
             </div>
           ))}
-          </div>
-          </div>
-          </div>
+        </div>
+      </div>
 
-          {/* Modal Interativo */}
-          {selectedItem && (
-          <ConteudoInterativo
+      {/* Modal Interativo */}
+      {selectedItem && (
+        <ConteudoInterativo
           item={selectedItem}
           onClose={() => setSelectedItem(null)}
           onSave={handleSaveInterativo}
           savedData={savedInterativos[selectedItem.texto]}
-          />
-          )}
-          </div>
-          );
-          }
+        />
+      )}
+    </div>
+  );
+}
