@@ -1,260 +1,160 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  CheckCircle2,
-  Circle,
-  ChevronDown,
-  ChevronRight,
-  BookOpen,
-  Target,
-  ListChecks,
-  Sparkles,
-  Plus,
-  Pencil,
-  Trash2,
-  X,
-  Check,
-  Play,
-  FileText,
-  Table2,
-  ClipboardList,
-  FormInput,
-  ExternalLink
+  CheckCircle2, Circle, ChevronDown, ChevronRight, BookOpen, Target,
+  ListChecks, Sparkles, Plus, Pencil, Trash2, X, Check, Play, FileText,
+  Table2, ClipboardList, FormInput, ExternalLink, Flag
 } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import ConteudoInterativo from "./ConteudoInterativo";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import TabelaInterativa from "./TabelaInterativa";
+import { AnaliseSwot, FichaTecnica, SimuladorCMV, EscalaTrabalho, AvaliacaoDesempenho } from "./ExercicioInterativo";
+import CheckpointSemanal from "./CheckpointSemanal";
 
 const pilaresDataDefault = {
   processos: {
     titulo: "Pilar 1 – Processos",
     icon: "🏆",
     cor: "bg-blue-500",
-    modulos: [
-      {
-        nome: "📚 Materiais Exclusivos",
-        topicos: [
-          { texto: "Checklist de Abertura, Fechamento e Auditoria", tipo: "checklist", interativo: true },
-          { texto: "Tutorial: Preenchendo a Ficha Técnica", tipo: "video", interativo: true },
-          { texto: "Planilha Automática de Simulação de CMV", tipo: "planilha", interativo: true }
-        ]
-      },
-      {
-        nome: "📋 Tarefas & Checklists",
-        topicos: [
-          { texto: "Mapear processo atual (modelo de diagnóstico com gargalos)", tipo: "formulario", interativo: true },
-          { texto: "Criar cronograma de melhorias (prazos semanais/mensais)", tipo: "formulario", interativo: true },
-          { texto: "Implementar primeira otimização (começar pelo CMV)", tipo: "tarefa", interativo: false }
-        ]
-      },
-      {
-        nome: "🎯 Exercícios Práticos",
-        topicos: [
-          { texto: "Análise SWOT do processo", tipo: "formulario", interativo: true },
-          { texto: "Preencher ficha técnica de 1 produto", tipo: "formulario", interativo: true },
-          { texto: "Simulação de CMV com dados reais", tipo: "planilha", interativo: true }
-        ]
-      }
+    materiais: [
+      { nome: "Checklist de Abertura, Fechamento e Auditoria", tipo: "checklist", descricao: "Lista interativa completa" },
+      { nome: "Tutorial: Preenchendo a Ficha Técnica", tipo: "video", descricao: "Vídeo + modelo editável" },
+      { nome: "Planilha Automática de Simulação de CMV", tipo: "planilha", descricao: "Cálculos automáticos" }
     ],
-    tarefas: [
-      "Preencher diagnóstico de gargalos no modelo fornecido",
-      "Definir cronograma semanal de melhorias",
-      "Aplicar checklist de abertura por 7 dias",
-      "Aplicar checklist de fechamento por 7 dias",
-      "Completar análise SWOT do processo",
-      "Criar ficha técnica de 1 produto principal",
-      "Executar simulação de CMV na planilha"
+    colunasTarefas: [
+      { key: "atividade", label: "Atividade", editable: true },
+      { key: "responsavel", label: "Responsável", editable: true },
+      { key: "prazo", label: "Prazo", editable: true },
+      { key: "status", label: "Status", editable: true },
+      { key: "percentual", label: "% Concluído", editable: false }
     ],
-    resultados: [
-      "Operação padronizada e replicável",
-      "Redução de desperdício comprovada",
-      "Equipe alinhada aos processos",
-      "Maior controle e previsibilidade"
-    ]
+    tarefasExemplo: [
+      { atividade: "Mapear processo atual", responsavel: "Dono", prazo: "7 dias", status: "pendente" },
+      { atividade: "Criar cronograma de melhorias", responsavel: "Gerente", prazo: "14 dias", status: "em_andamento" },
+      { atividade: "Implementar primeira otimização (CMV)", responsavel: "Operação", prazo: "21 dias", status: "pendente" }
+    ],
+    exercicios: [
+      { nome: "Análise SWOT do processo", tipo: "swot", descricao: "Tabela: Forças | Fraquezas | Oportunidades | Ameaças" },
+      { nome: "Ficha técnica de 1 produto", tipo: "ficha_tecnica", descricao: "Modelo interativo com cálculo de custo" },
+      { nome: "Simulação de CMV com dados reais", tipo: "cmv", descricao: "Planilha automática" }
+    ],
+    resultados: ["Operação padronizada e replicável", "Redução de desperdício comprovada", "Equipe alinhada aos processos", "Maior controle e previsibilidade"]
   },
   desempenho: {
     titulo: "Pilar 2 – Performance",
     icon: "📈",
     cor: "bg-emerald-500",
-    modulos: [
-      {
-        nome: "📚 Materiais Exclusivos",
-        topicos: [
-          { texto: "Modelo de Metas de 90 Dias", tipo: "formulario", interativo: true },
-          { texto: "Como Acompanhar seu Dashboard", tipo: "video", interativo: true },
-          { texto: "Checklist Premium de Evolução Semanal", tipo: "checklist", interativo: true }
-        ]
-      },
-      {
-        nome: "📋 Tarefas & Checklists",
-        topicos: [
-          { texto: "Preencher diagnóstico inicial (ticket médio, CMV, pedidos/dia)", tipo: "formulario", interativo: true },
-          { texto: "Acompanhar dashboard de indicadores", tipo: "dashboard", interativo: true },
-          { texto: "Montar rotina de execução semanal", tipo: "formulario", interativo: true }
-        ]
-      },
-      {
-        nome: "🎯 Exercícios Práticos",
-        topicos: [
-          { texto: "Definir metas para 90 dias", tipo: "formulario", interativo: true },
-          { texto: "Avaliar evolução semanal (checklist premium)", tipo: "checklist", interativo: true },
-          { texto: "Inserir Missão, Visão e Valores", tipo: "formulario", interativo: true, dados: {
-            missao: "Transformar negócios de entrega em operações lucrativas e organizadas",
-            visao: "Ser a maior referência de mentoria em delivery no Brasil",
-            valores: "Resultado, transparência, liderança, evolução contínua, trabalho em equipe"
-          }}
-        ]
-      }
+    materiais: [
+      { nome: "Modelo de Metas 90 Dias", tipo: "documento", descricao: "Documento clicável" },
+      { nome: "Tutorial: Como acompanhar o Dashboard", tipo: "video", descricao: "Vídeo explicativo" },
+      { nome: "Checklist Premium de Evolução Semanal", tipo: "checklist", descricao: "Acompanhamento semanal" }
     ],
-    tarefas: [
-      "Completar diagnóstico inicial com dados reais",
-      "Definir metas de 90 dias usando modelo",
-      "Preencher Missão, Visão e Valores da operação",
-      "Acompanhar dashboard por 4 semanas",
-      "Fazer avaliação semanal no checklist premium",
-      "Criar rotina de execução na agenda estruturada"
+    colunasTarefas: [
+      { key: "meta", label: "Meta", editable: true },
+      { key: "indicador", label: "Indicador", editable: true },
+      { key: "responsavel", label: "Responsável", editable: true },
+      { key: "prazo", label: "Prazo", editable: true },
+      { key: "status", label: "Status", editable: true },
+      { key: "percentual", label: "% Concluído", editable: false }
     ],
-    resultados: [
-      "Aumento do faturamento",
-      "Margem de lucro otimizada",
-      "Cardápio rentável",
-      "Decisões 100% baseadas em dados"
-    ]
+    tarefasExemplo: [
+      { meta: "Aumentar ticket médio", indicador: "Ticket médio", responsavel: "Gerente", prazo: "30d", status: "em_andamento" },
+      { meta: "Reduzir CMV", indicador: "CMV %", responsavel: "Financeiro", prazo: "45d", status: "pendente" },
+      { meta: "Aumentar pedidos/dia", indicador: "Pedidos", responsavel: "Marketing", prazo: "30d", status: "pendente" }
+    ],
+    exercicios: [
+      { nome: "Preencher metas de 90 dias", tipo: "formulario", descricao: "Modelo estruturado" },
+      { nome: "Avaliar evolução semanal", tipo: "checklist", descricao: "Checklist automático" },
+      { nome: "Inserir Missão, Visão e Valores", tipo: "mvv", descricao: "Texto pronto já incluído" }
+    ],
+    resultados: ["Aumento do faturamento", "Margem de lucro otimizada", "Cardápio rentável", "Decisões 100% baseadas em dados"]
   },
   tempo_potencia: {
     titulo: "Pilar 3 – Time de Potência",
     icon: "⚡",
     cor: "bg-violet-500",
-    modulos: [
-      {
-        nome: "📚 Materiais Exclusivos",
-        topicos: [
-          { texto: "Organograma da Operação (modelo editável)", tipo: "formulario", interativo: true },
-          { texto: "Manual do Colaborador", tipo: "documento", interativo: true },
-          { texto: "Modelo de Escala de Trabalho", tipo: "planilha", interativo: true }
-        ]
-      },
-      {
-        nome: "📋 Tarefas & Checklists",
-        topicos: [
-          { texto: "Montar organograma (dono, gerente, produção, atendimento, entrega)", tipo: "formulario", interativo: true },
-          { texto: "Delegar funções por setor", tipo: "checklist", interativo: true },
-          { texto: "Realizar treinamento inicial (marcar como treinado ✅)", tipo: "checklist", interativo: true }
-        ]
-      },
-      {
-        nome: "🎯 Exercícios Práticos",
-        topicos: [
-          { texto: "Criar escala de trabalho semanal", tipo: "planilha", interativo: true },
-          { texto: "Avaliar desempenho do time", tipo: "checklist", interativo: true },
-          { texto: "Conduzir rodada de feedback", tipo: "formulario", interativo: true }
-        ]
-      }
+    materiais: [
+      { nome: "Modelo de Organograma", tipo: "formulario", descricao: "Clicável, arrastar nomes" },
+      { nome: "Manual do Colaborador", tipo: "documento", descricao: "PDF interativo" },
+      { nome: "Checklist de Treinamento", tipo: "checklist", descricao: "Lista de verificação" }
     ],
-    tarefas: [
-      "Preencher organograma com nomes e funções",
-      "Distribuir manual do colaborador para equipe",
-      "Criar primeira escala de trabalho no modelo",
-      "Aplicar checklist de avaliação de desempenho",
-      "Realizar primeira rodada de feedback",
-      "Definir metas individuais para cada colaborador"
+    colunasTarefas: [
+      { key: "funcao", label: "Função", editable: true },
+      { key: "nome", label: "Nome", editable: true },
+      { key: "responsavel", label: "Responsável", editable: true },
+      { key: "status", label: "Status", editable: true },
+      { key: "observacoes", label: "Observações", editable: true }
     ],
-    resultados: [
-      "Equipe mais produtiva e engajada",
-      "Menos retrabalho",
-      "Entregas sempre no prazo",
-      "Gestão visual das tarefas do time"
-    ]
+    tarefasExemplo: [
+      { funcao: "Produção", nome: "João", responsavel: "Gerente", status: "concluido", observacoes: "Treinado completo" },
+      { funcao: "Atendimento", nome: "Maria", responsavel: "Supervisor", status: "em_andamento", observacoes: "Em fase de testes" },
+      { funcao: "Entrega", nome: "Carlos", responsavel: "Gerente", status: "pendente", observacoes: "Aguardando início" }
+    ],
+    exercicios: [
+      { nome: "Escala de Trabalho Semanal", tipo: "escala", descricao: "Tabela semanal editável" },
+      { nome: "Avaliação de desempenho", tipo: "avaliacao", descricao: "Checklist com notas 1-5" },
+      { nome: "Rodada de feedback", tipo: "formulario", descricao: "Formulário com perguntas abertas" }
+    ],
+    resultados: ["Equipe mais produtiva e engajada", "Menos retrabalho", "Entregas sempre no prazo", "Gestão visual das tarefas do time"]
   },
   norte_estrategico: {
     titulo: "Pilar 4 – Norte Estratégico",
     icon: "🎯",
     cor: "bg-amber-500",
-    modulos: [
-      {
-        nome: "📚 Materiais Exclusivos",
-        topicos: [
-          { texto: "Modelo de Metas (faturamento e ticket médio)", tipo: "formulario", interativo: true },
-          { texto: "Planilha de Projeção de Vendas", tipo: "planilha", interativo: true },
-          { texto: "Roadmap de 3 Meses (modelo pronto)", tipo: "formulario", interativo: true }
-        ]
-      },
-      {
-        nome: "📋 Tarefas & Checklists",
-        topicos: [
-          { texto: "Definir meta de faturamento e ticket médio", tipo: "formulario", interativo: true },
-          { texto: "Escolher 3 KPIs prioritários", tipo: "checklist", interativo: true, exemplo: "CMV, pedidos/dia, satisfação no iFood" },
-          { texto: "Preencher plano de expansão", tipo: "formulario", interativo: true, roteiro: "estruturar → padronizar → expandir → replicar" }
-        ]
-      },
-      {
-        nome: "🎯 Exercícios Práticos",
-        topicos: [
-          { texto: "Analisar lacuna entre meta e resultado atual", tipo: "planilha", interativo: true },
-          { texto: "Criar roadmap de 3 meses", tipo: "formulario", interativo: true },
-          { texto: "Projeção simulada de vendas", tipo: "planilha", interativo: true }
-        ]
-      }
+    materiais: [
+      { nome: "Modelo de Plano Estratégico 90 dias", tipo: "documento", descricao: "Template completo" },
+      { nome: "Matriz de KPIs", tipo: "planilha", descricao: "Clicável e editável" },
+      { nome: "Checklist de Expansão", tipo: "checklist", descricao: "Passos para crescer" }
     ],
-    tarefas: [
-      "Definir meta de faturamento dos próximos 90 dias",
-      "Estabelecer ticket médio ideal da operação",
-      "Selecionar e configurar 3 KPIs prioritários",
-      "Completar plano de expansão no roteiro",
-      "Criar roadmap trimestral no modelo",
-      "Executar simulação de projeção de vendas"
+    colunasTarefas: [
+      { key: "objetivo", label: "Objetivo", editable: true },
+      { key: "kpi", label: "KPI", editable: true },
+      { key: "prazo", label: "Prazo", editable: true },
+      { key: "responsavel", label: "Resp.", editable: true },
+      { key: "status", label: "Status", editable: true },
+      { key: "percentual", label: "% Concluído", editable: false }
     ],
-    resultados: [
-      "Direção clara para o negócio",
-      "Decisões estratégicas coerentes",
-      "Metas mensuráveis e alcançáveis",
-      "Planejamento de crescimento estruturado"
-    ]
+    tarefasExemplo: [
+      { objetivo: "Aumentar pedidos/dia", kpi: "+20%", prazo: "30d", responsavel: "Dono", status: "em_andamento" },
+      { objetivo: "Expandir para nova região", kpi: "Loja piloto", prazo: "90d", responsavel: "Mentor", status: "pendente" },
+      { objetivo: "Reduzir tempo de entrega", kpi: "-10min", prazo: "45d", responsavel: "Operação", status: "pendente" }
+    ],
+    exercicios: [
+      { nome: "Gap de metas x resultados", tipo: "planilha", descricao: "Planilha automática" },
+      { nome: "Roteiro de 3 meses", tipo: "formulario", descricao: "Modelo editável" },
+      { nome: "Projeção de vendas", tipo: "cmv", descricao: "Cálculo automático" }
+    ],
+    resultados: ["Direção clara para o negócio", "Decisões estratégicas coerentes", "Metas mensuráveis e alcançáveis", "Planejamento de crescimento estruturado"]
   },
   presenca_magnetica: {
     titulo: "Pilar 5 – Presença Magnética",
     icon: "✨",
     cor: "bg-pink-500",
-    modulos: [
-      {
-        nome: "📚 Materiais Exclusivos",
-        topicos: [
-          { texto: "Checklist de Revisão do Cardápio iFood", tipo: "checklist", interativo: true },
-          { texto: "Respostas Padrão para Avaliações", tipo: "documento", interativo: true },
-          { texto: "Planilha de Precificação iFood", tipo: "planilha", interativo: true }
-        ]
-      },
-      {
-        nome: "📋 Tarefas & Checklists",
-        topicos: [
-          { texto: "Revisar cardápio no iFood (fotos, normas, preços)", tipo: "checklist", interativo: true },
-          { texto: "Criar combo estratégico", tipo: "formulario", interativo: true, exemplo: "2 pizzas + refrigerante" },
-          { texto: "Responder avaliações de clientes", tipo: "documento", interativo: true }
-        ]
-      },
-      {
-        nome: "🎯 Exercícios Práticos",
-        topicos: [
-          { texto: "Preencher calendário de campanhas semanais", tipo: "formulario", interativo: true },
-          { texto: "Criar post de alta conversão", tipo: "formulario", interativo: true, exemplo: "Modelo com título + CTA" },
-          { texto: "Precificação simulada no iFood", tipo: "planilha", interativo: true }
-        ]
-      }
+    materiais: [
+      { nome: "Plano de Marketing 30 dias", tipo: "documento", descricao: "Modelo pronto" },
+      { nome: "Guia de otimização do cardápio iFood", tipo: "documento", descricao: "Passo a passo" },
+      { nome: "Modelos de respostas para avaliações", tipo: "documento", descricao: "Copiar e colar" }
     ],
-    tarefas: [
-      "Aplicar checklist completo de revisão do cardápio",
-      "Criar e publicar 1 combo estratégico",
-      "Responder 5 avaliações usando respostas padrão",
-      "Preencher calendário de campanhas do mês",
-      "Criar 1 post de alta conversão com template",
-      "Executar simulação de precificação na planilha"
+    colunasTarefas: [
+      { key: "acao", label: "Ação", editable: true },
+      { key: "canal", label: "Canal", editable: true },
+      { key: "prazo", label: "Prazo", editable: true },
+      { key: "responsavel", label: "Resp.", editable: true },
+      { key: "status", label: "Status", editable: true },
+      { key: "percentual", label: "% Concluído", editable: false }
     ],
-    resultados: [
-      "Marca reconhecida e desejada",
-      "Maior conversão de clientes",
-      "Presença digital forte e consistente",
-      "Experiência memorável para o cliente"
-    ]
+    tarefasExemplo: [
+      { acao: "Atualizar fotos cardápio", canal: "iFood", prazo: "5d", responsavel: "MKT", status: "concluido" },
+      { acao: "Criar combo estratégico", canal: "iFood", prazo: "7d", responsavel: "Dono", status: "em_andamento" },
+      { acao: "Responder avaliações", canal: "iFood", prazo: "Diária", responsavel: "Atend.", status: "pendente" }
+    ],
+    exercicios: [
+      { nome: "Calendário de campanhas", tipo: "formulario", descricao: "Modelo clicável" },
+      { nome: "Criar post de alta conversão", tipo: "formulario", descricao: "Modelo pronto com gancho + CTA" },
+      { nome: "Precificação simulada no iFood", tipo: "cmv", descricao: "Planilha automática" }
+    ],
+    resultados: ["Marca reconhecida e desejada", "Maior conversão de clientes", "Presença digital forte e consistente", "Experiência memorável para o cliente"]
   }
 };
 
@@ -264,8 +164,7 @@ const tipoIcons = {
   planilha: Table2,
   formulario: FormInput,
   documento: FileText,
-  dashboard: Target,
-  tarefa: Check
+  dashboard: Target
 };
 
 const tipoColors = {
@@ -274,8 +173,7 @@ const tipoColors = {
   planilha: "text-amber-400 bg-amber-500/20",
   formulario: "text-violet-400 bg-violet-500/20",
   documento: "text-pink-400 bg-pink-500/20",
-  dashboard: "text-cyan-400 bg-cyan-500/20",
-  tarefa: "text-white/60 bg-white/10"
+  dashboard: "text-cyan-400 bg-cyan-500/20"
 };
 
 export default function PilarConteudoIncluido({ 
@@ -286,117 +184,66 @@ export default function PilarConteudoIncluido({
   onUpdateCustomData
 }) {
   const defaultPilar = pilaresDataDefault[pilarKey];
-  const [expandedModulos, setExpandedModulos] = useState({});
-  const [editingTarefa, setEditingTarefa] = useState(null);
-  const [editingTopico, setEditingTopico] = useState(null);
-  const [novaTarefa, setNovaTarefa] = useState("");
-  const [novoTopico, setNovoTopico] = useState({});
-  const [editText, setEditText] = useState("");
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [savedInterativos, setSavedInterativos] = useState({});
+  const [expandedSections, setExpandedSections] = useState({ materiais: true, tarefas: true, exercicios: false });
+  const [tarefasData, setTarefasData] = useState(customData?.tarefas || defaultPilar?.tarefasExemplo || []);
+  const [exerciciosData, setExerciciosData] = useState(customData?.exercicios || {});
+  const [selectedExercicio, setSelectedExercicio] = useState(null);
 
-  // Usa customData se existir, senão usa o padrão
-  const pilar = customData || defaultPilar;
-
+  const pilar = defaultPilar;
   if (!pilar) return null;
 
-  const toggleModulo = (idx) => {
-    setExpandedModulos((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const isItemCompleted = (tipo, texto) => {
-    return progressoItems.some(
-      (item) => item.tipo === tipo && item.texto === texto && item.concluido
-    );
+  const handleUpdateTarefa = (idx, data) => {
+    const newTarefas = [...tarefasData];
+    newTarefas[idx] = data;
+    setTarefasData(newTarefas);
+    onUpdateCustomData?.({ ...customData, tarefas: newTarefas });
   };
 
-  const getTopicoTexto = (topico) => {
-    return typeof topico === "string" ? topico : topico.texto;
-  };
-
-  const getModuloProgress = (modulo) => {
-    const completedTopicos = modulo.topicos.filter((t) =>
-      isItemCompleted("topico", getTopicoTexto(t))
-    ).length;
-    return {
-      completed: completedTopicos,
-      total: modulo.topicos.length,
-      percentage: modulo.topicos.length > 0 ? Math.round((completedTopicos / modulo.topicos.length) * 100) : 0
-    };
-  };
-
-  const handleOpenInterativo = (topico) => {
-    if (typeof topico === "object" && topico.interativo) {
-      setSelectedItem(topico);
-    }
-  };
-
-  const handleSaveInterativo = (data) => {
-    setSavedInterativos({ ...savedInterativos, [selectedItem.texto]: data });
-  };
-
-  const getTarefasProgress = () => {
-    const completed = pilar.tarefas.filter((t) =>
-      isItemCompleted("tarefa", t)
-    ).length;
-    return {
-      completed,
-      total: pilar.tarefas.length,
-      percentage: pilar.tarefas.length > 0 ? Math.round((completed / pilar.tarefas.length) * 100) : 0
-    };
-  };
-
-  // Funções de edição
-  const handleAddTarefa = () => {
-    if (!novaTarefa.trim()) return;
-    const newTarefas = [...pilar.tarefas, novaTarefa.trim()];
-    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
-    setNovaTarefa("");
-  };
-
-  const handleEditTarefa = (idx) => {
-    const newTarefas = [...pilar.tarefas];
-    newTarefas[idx] = editText;
-    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
-    setEditingTarefa(null);
-    setEditText("");
+  const handleAddTarefa = (data) => {
+    const newTarefas = [...tarefasData, { ...data, status: data.status || "pendente" }];
+    setTarefasData(newTarefas);
+    onUpdateCustomData?.({ ...customData, tarefas: newTarefas });
   };
 
   const handleDeleteTarefa = (idx) => {
-    const newTarefas = pilar.tarefas.filter((_, i) => i !== idx);
-    onUpdateCustomData?.({ ...pilar, tarefas: newTarefas });
+    const newTarefas = tarefasData.filter((_, i) => i !== idx);
+    setTarefasData(newTarefas);
+    onUpdateCustomData?.({ ...customData, tarefas: newTarefas });
   };
 
-  const handleAddTopico = (moduloIdx) => {
-    const texto = novoTopico[moduloIdx];
-    if (!texto?.trim()) return;
-    const newModulos = [...pilar.modulos];
-    newModulos[moduloIdx] = {
-      ...newModulos[moduloIdx],
-      topicos: [...newModulos[moduloIdx].topicos, texto.trim()]
-    };
-    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
-    setNovoTopico({ ...novoTopico, [moduloIdx]: "" });
+  const handleSaveExercicio = (tipo, data) => {
+    const newExercicios = { ...exerciciosData, [tipo]: data };
+    setExerciciosData(newExercicios);
+    onUpdateCustomData?.({ ...customData, exercicios: newExercicios });
+    setSelectedExercicio(null);
   };
 
-  const handleEditTopico = (moduloIdx, topicoIdx) => {
-    const newModulos = [...pilar.modulos];
-    newModulos[moduloIdx].topicos[topicoIdx] = editText;
-    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
-    setEditingTopico(null);
-    setEditText("");
-  };
+  const renderExercicioContent = () => {
+    if (!selectedExercicio) return null;
 
-  const handleDeleteTopico = (moduloIdx, topicoIdx) => {
-    const newModulos = [...pilar.modulos];
-    newModulos[moduloIdx] = {
-      ...newModulos[moduloIdx],
-      topicos: newModulos[moduloIdx].topicos.filter((_, i) => i !== topicoIdx)
-    };
-    onUpdateCustomData?.({ ...pilar, modulos: newModulos });
+    switch (selectedExercicio.tipo) {
+      case "swot":
+        return <AnaliseSwot data={exerciciosData.swot} onSave={(d) => handleSaveExercicio("swot", d)} />;
+      case "ficha_tecnica":
+        return <FichaTecnica data={exerciciosData.ficha_tecnica} onSave={(d) => handleSaveExercicio("ficha_tecnica", d)} />;
+      case "cmv":
+        return <SimuladorCMV data={exerciciosData.cmv} onSave={(d) => handleSaveExercicio("cmv", d)} />;
+      case "escala":
+        return <EscalaTrabalho data={exerciciosData.escala} onSave={(d) => handleSaveExercicio("escala", d)} />;
+      case "avaliacao":
+        return <AvaliacaoDesempenho data={exerciciosData.avaliacao} onSave={(d) => handleSaveExercicio("avaliacao", d)} />;
+      default:
+        return (
+          <div className="text-center py-8">
+            <p className="text-white/60">Exercício em desenvolvimento</p>
+          </div>
+        );
+    }
   };
-
-  const tarefasProgress = getTarefasProgress();
 
   return (
     <div className="space-y-6">
@@ -405,263 +252,122 @@ export default function PilarConteudoIncluido({
         <span className="text-3xl">{pilar.icon}</span>
         <div>
           <h3 className="text-xl font-bold text-white">{pilar.titulo}</h3>
-          <p className="text-sm text-white/50">Roteiro de aprendizagem interativo</p>
+          <p className="text-sm text-white/50">Conteúdo interativo com tabelas e exercícios</p>
         </div>
       </div>
 
-      {/* Módulos */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-2 text-white/70 mb-2">
-          <BookOpen size={18} />
-          <span className="font-medium">Módulos e Tópicos</span>
-        </div>
-
-        {pilar.modulos.map((modulo, idx) => {
-          const progress = getModuloProgress(modulo);
-          const isExpanded = expandedModulos[idx];
-
-          return (
-            <Collapsible key={idx} open={isExpanded} onOpenChange={() => toggleModulo(idx)}>
-              <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-                <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition-colors">
-                  <div className="flex items-center gap-3">
-                    {isExpanded ? (
-                      <ChevronDown size={18} className="text-white/50" />
-                    ) : (
-                      <ChevronRight size={18} className="text-white/50" />
-                    )}
-                    <span className="font-medium text-white">{modulo.nome}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${pilar.cor} transition-all duration-300`}
-                        style={{ width: `${progress.percentage}%` }}
-                      />
-                    </div>
-                    <span className="text-xs text-white/50 min-w-[40px]">
-                      {progress.completed}/{progress.total}
+      {/* Materiais Exclusivos */}
+      <Collapsible open={expandedSections.materiais} onOpenChange={() => toggleSection("materiais")}>
+        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+            <div className="flex items-center gap-3">
+              {expandedSections.materiais ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+              <BookOpen size={18} className="text-[#FF4D00]" />
+              <span className="font-medium text-white">📚 Materiais Exclusivos</span>
+            </div>
+            <span className="text-xs text-white/40">{pilar.materiais.length} itens</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="px-4 pb-4 space-y-2">
+              {pilar.materiais.map((mat, idx) => {
+                const Icon = tipoIcons[mat.tipo] || FileText;
+                return (
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
+                    <span className={`p-2 rounded-lg ${tipoColors[mat.tipo]}`}>
+                      <Icon size={16} />
                     </span>
-                  </div>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent>
-                  <div className="px-4 pb-4 space-y-2">
-                    {modulo.topicos.map((topico, tIdx) => {
-                      const topicoTexto = getTopicoTexto(topico);
-                      const isCompleted = isItemCompleted("topico", topicoTexto);
-                      const isEditing = editingTopico === `${idx}-${tIdx}`;
-                      const isInterativo = typeof topico === "object" && topico.interativo;
-                      const TipoIcon = isInterativo ? tipoIcons[topico.tipo] : null;
-
-                      if (isEditing) {
-                        return (
-                          <div key={tIdx} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
-                            <Input
-                              value={editText}
-                              onChange={(e) => setEditText(e.target.value)}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter") handleEditTopico(idx, tIdx);
-                                if (e.key === "Escape") { setEditingTopico(null); setEditText(""); }
-                              }}
-                              className="flex-1 bg-white/10 border-white/20 text-white text-sm h-8"
-                              autoFocus
-                            />
-                            <button onClick={() => handleEditTopico(idx, tIdx)} className="text-emerald-400 p-1">
-                              <Check size={16} />
-                            </button>
-                            <button onClick={() => { setEditingTopico(null); setEditText(""); }} className="text-white/50 p-1">
-                              <X size={16} />
-                            </button>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div
-                          key={tIdx}
-                          onClick={() => isInterativo && handleOpenInterativo(topico)}
-                          className={`flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group ${isInterativo ? "cursor-pointer border border-transparent hover:border-[#FF4D00]/30" : ""}`}
-                        >
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); onToggleItem?.("topico", topicoTexto); }} 
-                            className="flex-shrink-0"
-                          >
-                            {isCompleted ? (
-                              <CheckCircle2 size={18} className="text-emerald-400" />
-                            ) : (
-                              <Circle size={18} className="text-white/30 group-hover:text-white/50" />
-                            )}
-                          </button>
-                          <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
-                            {topicoTexto}
-                          </span>
-                          {isInterativo && TipoIcon && (
-                            <span className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs ${tipoColors[topico.tipo]}`}>
-                              <TipoIcon size={12} />
-                              <span className="hidden sm:inline">Abrir</span>
-                              <ExternalLink size={10} />
-                            </span>
-                          )}
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              onClick={(e) => { e.stopPropagation(); setEditingTopico(`${idx}-${tIdx}`); setEditText(topicoTexto); }}
-                              className="text-white/40 hover:text-white p-1"
-                            >
-                              <Pencil size={14} />
-                            </button>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); handleDeleteTopico(idx, tIdx); }}
-                              className="text-red-400/60 hover:text-red-400 p-1"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-
-                    {/* Adicionar novo item */}
-                    <div className="flex items-center gap-2 pt-2">
-                      <Input
-                        value={novoTopico[idx] || ""}
-                        onChange={(e) => setNovoTopico({ ...novoTopico, [idx]: e.target.value })}
-                        onKeyDown={(e) => e.key === "Enter" && handleAddTopico(idx)}
-                        placeholder="Adicionar item..."
-                        className="flex-1 bg-white/5 border-white/10 text-white text-sm h-8 placeholder:text-white/30"
-                      />
-                      <Button
-                        size="sm"
-                        onClick={() => handleAddTopico(idx)}
-                        disabled={!novoTopico[idx]?.trim()}
-                        className="h-8 px-2 bg-[#FF4D00] hover:bg-[#E64500]"
-                      >
-                        <Plus size={14} />
-                      </Button>
+                    <div className="flex-1">
+                      <p className="text-sm text-white font-medium">{mat.nome}</p>
+                      <p className="text-xs text-white/50">{mat.descricao}</p>
                     </div>
+                    <ExternalLink size={14} className="text-[#FF4D00]" />
                   </div>
-                </CollapsibleContent>
-              </div>
-            </Collapsible>
-          );
-        })}
-      </div>
+                );
+              })}
+            </div>
+          </CollapsibleContent>
+        </div>
+      </Collapsible>
 
-      {/* Tarefas Principais */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-white/70">
-            <ListChecks size={18} />
-            <span className="font-medium">Tarefas Principais</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-20 h-2 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#FF4D00] transition-all duration-300"
-                style={{ width: `${tarefasProgress.percentage}%` }}
+      {/* Tarefas e Checklists - Tabela Interativa */}
+      <Collapsible open={expandedSections.tarefas} onOpenChange={() => toggleSection("tarefas")}>
+        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+            <div className="flex items-center gap-3">
+              {expandedSections.tarefas ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+              <ListChecks size={18} className="text-[#FF4D00]" />
+              <span className="font-medium text-white">📋 Tarefas & Checklists</span>
+            </div>
+            <span className="text-xs text-white/40">{tarefasData.length} tarefas</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="px-4 pb-4">
+              <TabelaInterativa
+                colunas={pilar.colunasTarefas}
+                dados={tarefasData}
+                onUpdate={handleUpdateTarefa}
+                onAdd={handleAddTarefa}
+                onDelete={handleDeleteTarefa}
               />
             </div>
-            <span className="text-xs text-white/50">
-              {tarefasProgress.completed}/{tarefasProgress.total}
-            </span>
-          </div>
+          </CollapsibleContent>
         </div>
+      </Collapsible>
 
-        <div className="space-y-2">
-          {pilar.tarefas.map((tarefa, idx) => {
-            const isCompleted = isItemCompleted("tarefa", tarefa);
-            const isEditing = editingTarefa === idx;
-
-            if (isEditing) {
-              return (
-                <div key={idx} className="flex items-center gap-2 p-2 bg-white/10 rounded-lg">
-                  <Input
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleEditTarefa(idx);
-                      if (e.key === "Escape") { setEditingTarefa(null); setEditText(""); }
-                    }}
-                    className="flex-1 bg-white/10 border-white/20 text-white text-sm h-8"
-                    autoFocus
-                  />
-                  <button onClick={() => handleEditTarefa(idx)} className="text-emerald-400 p-1">
-                    <Check size={16} />
-                  </button>
-                  <button onClick={() => { setEditingTarefa(null); setEditText(""); }} className="text-white/50 p-1">
-                    <X size={16} />
-                  </button>
-                </div>
-              );
-            }
-
-            return (
-              <div
-                key={idx}
-                className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group"
-              >
-                <button onClick={() => onToggleItem?.("tarefa", tarefa)} className="flex-shrink-0">
-                  {isCompleted ? (
-                    <CheckCircle2 size={18} className="text-emerald-400" />
-                  ) : (
-                    <Circle size={18} className="text-white/30 group-hover:text-white/50" />
-                  )}
-                </button>
-                <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
-                  {tarefa}
-                </span>
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    onClick={() => { setEditingTarefa(idx); setEditText(tarefa); }}
-                    className="text-white/40 hover:text-white p-1"
+      {/* Exercícios Práticos */}
+      <Collapsible open={expandedSections.exercicios} onOpenChange={() => toggleSection("exercicios")}>
+        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+          <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+            <div className="flex items-center gap-3">
+              {expandedSections.exercicios ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+              <Target size={18} className="text-[#FF4D00]" />
+              <span className="font-medium text-white">🎯 Exercícios Práticos</span>
+            </div>
+            <span className="text-xs text-white/40">{pilar.exercicios.length} exercícios</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="px-4 pb-4 space-y-2">
+              {pilar.exercicios.map((ex, idx) => {
+                const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => setSelectedExercicio(ex)}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
+                      hasData 
+                        ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
+                        : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
+                    }`}
                   >
-                    <Pencil size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteTarefa(idx)}
-                    className="text-red-400/60 hover:text-red-400 p-1"
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Adicionar nova tarefa */}
-          <div className="flex items-center gap-2 pt-2">
-            <Input
-              value={novaTarefa}
-              onChange={(e) => setNovaTarefa(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddTarefa()}
-              placeholder="Adicionar nova tarefa..."
-              className="flex-1 bg-white/5 border-white/10 text-white text-sm h-9 placeholder:text-white/30"
-            />
-            <Button
-              size="sm"
-              onClick={handleAddTarefa}
-              disabled={!novaTarefa.trim()}
-              className="h-9 px-3 bg-[#FF4D00] hover:bg-[#E64500]"
-            >
-              <Plus size={16} className="mr-1" /> Nova Tarefa
-            </Button>
-          </div>
+                    {hasData ? (
+                      <CheckCircle2 size={18} className="text-emerald-400" />
+                    ) : (
+                      <Circle size={18} className="text-white/30" />
+                    )}
+                    <div className="flex-1">
+                      <p className="text-sm text-white font-medium">{ex.nome}</p>
+                      <p className="text-xs text-white/50">{ex.descricao}</p>
+                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
+                      {hasData ? "✅ Preenchido" : "Abrir"}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </CollapsibleContent>
         </div>
-      </div>
+      </Collapsible>
 
       {/* Resultados Esperados */}
       <div className="bg-gradient-to-br from-[#FF4D00]/10 to-transparent border border-[#FF4D00]/20 rounded-xl p-5">
         <div className="flex items-center gap-2 text-[#FF4D00] mb-4">
-          <Target size={18} />
+          <Sparkles size={18} />
           <span className="font-medium">Resultados Esperados</span>
         </div>
-
         <div className="grid sm:grid-cols-2 gap-3">
           {pilar.resultados.map((resultado, idx) => (
-            <div
-              key={idx}
-              className="flex items-center gap-2 p-3 bg-white/5 rounded-lg"
-            >
+            <div key={idx} className="flex items-center gap-2 p-3 bg-white/5 rounded-lg">
               <Sparkles size={14} className="text-[#FF4D00]" />
               <span className="text-sm text-white/80">{resultado}</span>
             </div>
@@ -669,15 +375,28 @@ export default function PilarConteudoIncluido({
         </div>
       </div>
 
-      {/* Modal Interativo */}
-      {selectedItem && (
-        <ConteudoInterativo
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
-          onSave={handleSaveInterativo}
-          savedData={savedInterativos[selectedItem.texto]}
-        />
-      )}
+      {/* Checkpoint Semanal */}
+      <CheckpointSemanal
+        pilarKey={pilarKey}
+        pilarTitulo={pilar.titulo}
+        tarefasData={tarefasData}
+        exerciciosData={exerciciosData}
+      />
+
+      {/* Modal de Exercício */}
+      <Dialog open={!!selectedExercicio} onOpenChange={() => setSelectedExercicio(null)}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Target className="text-[#FF4D00]" size={20} />
+              {selectedExercicio?.nome}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            {renderExercicioContent()}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
