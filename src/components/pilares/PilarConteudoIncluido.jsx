@@ -25,45 +25,37 @@ const pilaresDataDefault = {
     cor: "bg-blue-500",
     modulos: [
       {
-        nome: "Padronização e Setorização",
+        nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Atendimento (balcão, despacho, call center)",
-          "Produção (massa, montagem, uso da balança, fichas técnicas)",
-          "Finalização (cozinha, molhos, pré-preparo, produção mínima)",
-          "Fichas técnicas"
+          "Mapear processo atual (modelo de diagnóstico pronto para preencher gargalos)",
+          "Criar cronograma de melhorias (prazos semanais/mensais já listados)",
+          "Implementar a primeira otimização (começar pelo controle de CMV)",
+          "Checklist pronto para abertura da operação",
+          "Checklist pronto para fechamento da operação",
+          "Checklist de auditorias periódicas"
         ]
       },
       {
-        nome: "Checklists Operacionais",
-        topicos: ["Checklist diário", "Checklist por turno", "Checklist semanal"]
-      },
-      {
-        nome: "SOPs (Padrões de Procedimento)",
-        topicos: ["Documentação de processos", "Fluxogramas operacionais", "Manual de operações"]
-      },
-      {
-        nome: "Regulamento Interno",
-        topicos: ["Regras e normas da operação", "Políticas de conduta", "Penalidades e bonificações"]
-      },
-      {
-        nome: "Cronograma de Execução",
-        topicos: ["Planejamento semanal", "Distribuição de tarefas", "Acompanhamento de prazos"]
-      },
-      {
-        nome: "Cultura Operacional",
-        topicos: ["Disciplina de rotina", "Engajamento da equipe", "Padronização de comportamentos"]
+        nome: "🎯 Exercícios Práticos",
+        topicos: [
+          "Análise SWOT do processo (modelo em branco para preenchimento)",
+          "Preencher ficha técnica padrão de 1 produto (modelo entregue)",
+          "Simulação de CMV (planilha automática)"
+        ]
       }
     ],
     tarefas: [
-      "Implantar uso de fichas técnicas",
-      "Habilitar controle por balança",
-      "Publicar e aplicar checklists",
-      "Revisar fluxos de atendimento e despacho",
-      "Validar regulamento interno com o time"
+      "Preencher diagnóstico de gargalos no modelo fornecido",
+      "Definir cronograma semanal de melhorias",
+      "Aplicar checklist de abertura por 7 dias consecutivos",
+      "Aplicar checklist de fechamento por 7 dias consecutivos",
+      "Completar análise SWOT do processo",
+      "Criar ficha técnica de 1 produto principal",
+      "Executar simulação de CMV na planilha"
     ],
     resultados: [
       "Operação padronizada e replicável",
-      "Redução de desperdício",
+      "Redução de desperdício comprovada",
       "Equipe alinhada aos processos",
       "Maior controle e previsibilidade"
     ]
@@ -74,71 +66,80 @@ const pilaresDataDefault = {
     cor: "bg-emerald-500",
     modulos: [
       {
-        nome: "Financeiro",
+        nome: "📋 Tarefas & Checklists",
         topicos: [
-          "Avaliar histórico de faturamento",
-          "Identificar gaps percentuais",
-          "Criar indicadores de desempenho",
-          "Calcular markup e precificação por ficha técnica"
+          "Preencher diagnóstico inicial (ticket médio, CMV, pedidos/dia)",
+          "Acompanhar dashboard de indicadores (gráficos prontos)",
+          "Montar rotina de execução semanal (agenda já estruturada)",
+          "Revisar indicadores toda segunda-feira",
+          "Atualizar planilha de faturamento semanalmente"
         ]
       },
       {
-        nome: "iFood",
+        nome: "🎯 Exercícios Práticos",
         topicos: [
-          "Cardápio, fotos, legendas e descrições",
-          "Montagem de combos e promoções",
-          "Remoção de produtos de baixo desempenho",
-          "Ativação de cupons e tele grátis"
+          "Preencher metas de 90 dias no modelo sugerido",
+          "Avaliar evolução semanal no checklist premium",
+          "Inserir Missão no campo institucional: Transformar negócios de entrega em operações lucrativas, organizadas e escaláveis",
+          "Inserir Visão: Ser a maior referência de mentoria em delivery no Brasil",
+          "Inserir Valores: Resultado, transparência, liderança, evolução contínua, trabalho em equipe"
         ]
-      },
-      {
-        nome: "Indicadores Operacionais",
-        topicos: ["CMV (Custo de Mercadoria Vendida)", "Ticket médio", "Pedidos por dia", "Taxa de conversão"]
-      },
-      {
-        nome: "Painéis de Controle",
-        topicos: ["Dashboard de métricas", "Metas semanais", "Relatórios de performance"]
       }
     ],
     tarefas: [
-      "Criar planilha de indicadores",
-      "Atualizar dados financeiros",
-      "Revisar preços no iFood com base no markup",
-      "Testar promoções e combos",
-      "Monitorar desempenho e corrigir gaps"
+      "Completar diagnóstico inicial com dados reais",
+      "Definir metas de 90 dias usando modelo fornecido",
+      "Preencher Missão, Visão e Valores da operação",
+      "Acompanhar dashboard por 4 semanas",
+      "Fazer avaliação semanal no checklist premium",
+      "Criar rotina de execução na agenda estruturada"
     ],
-    resultados: ["Aumento do faturamento", "Margem de lucro otimizada", "Cardápio rentável", "Decisões baseadas em dados"]
+    resultados: [
+      "Aumento do faturamento",
+      "Margem de lucro otimizada",
+      "Cardápio rentável",
+      "Decisões 100% baseadas em dados"
+    ]
   },
   tempo_potencia: {
-    titulo: "Pilar 3 – Tempo de Potência",
+    titulo: "Pilar 3 – Time de Potência",
     icon: "⚡",
     cor: "bg-violet-500",
     modulos: [
       {
-        nome: "Organização e Agendamento",
-        topicos: ["Organização de encontros", "Entendimento de disponibilidade da equipe", "Alinhamento de horários e metas"]
+        nome: "📋 Tarefas & Checklists",
+        topicos: [
+          "Montar organograma da operação (modelo pronto)",
+          "Delegar funções: atendimento, produção, entrega",
+          "Treinamento inicial com base no manual do colaborador (arquivo pronto)",
+          "Definir responsável por cada setor",
+          "Criar escala semanal de trabalho"
+        ]
       },
       {
-        nome: "Cronogramas de Rotina",
-        topicos: ["Cronograma por unidade", "Definição de tarefas e responsáveis", "Calendário de atividades"]
-      },
-      {
-        nome: "Gestão do Tempo",
-        topicos: ["Produtividade do time", "Eliminação de desperdício de tempo", "Foco nas prioridades"]
-      },
-      {
-        nome: "Priorização (Kanban)",
-        topicos: ["A Fazer", "Em Progresso", "Concluído"]
+        nome: "🎯 Exercícios Práticos",
+        topicos: [
+          "Criar escala de trabalho (modelo já entregue)",
+          "Avaliar desempenho do time com checklist de treinamento",
+          "Rodada de feedback usando formulário pronto",
+          "Identificar colaborador destaque da semana"
+        ]
       }
     ],
     tarefas: [
-      "Mapear gargalos de tempo",
-      "Criar cronograma de execução",
-      "Implantar quadro de tarefas",
-      "Delegar funções e acompanhar prazos",
-      "Medir produtividade individual e da equipe"
+      "Preencher organograma com nomes e funções",
+      "Distribuir manual do colaborador para equipe",
+      "Criar primeira escala de trabalho no modelo",
+      "Aplicar checklist de avaliação de desempenho",
+      "Realizar primeira rodada de feedback com formulário",
+      "Definir metas individuais para cada colaborador"
     ],
-    resultados: ["Equipe mais produtiva", "Menos retrabalho", "Entregas no prazo", "Gestão visual das tarefas"]
+    resultados: [
+      "Equipe mais produtiva e engajada",
+      "Menos retrabalho",
+      "Entregas sempre no prazo",
+      "Gestão visual das tarefas do time"
+    ]
   },
   norte_estrategico: {
     titulo: "Pilar 4 – Norte Estratégico",
@@ -146,33 +147,39 @@ const pilaresDataDefault = {
     cor: "bg-amber-500",
     modulos: [
       {
-        nome: "Intenção Estratégica",
-        topicos: ["Missão → por que fazemos o que fazemos", "Visão → onde queremos chegar", "Valores → o que é inegociável"]
+        nome: "📋 Tarefas & Checklists",
+        topicos: [
+          "Definir meta de faturamento mensal (modelo pronto)",
+          "Definir meta de ticket médio ideal",
+          "Escolher 3 KPIs prioritários: CMV, pedidos/dia, satisfação",
+          "Preencher plano de expansão (roteiro em etapas sugeridas)",
+          "Revisar metas quinzenalmente"
+        ]
       },
       {
-        nome: "Cultura Organizacional",
-        topicos: ["Definição de cultura", "Comportamentos esperados", "Rituais e práticas"]
-      },
-      {
-        nome: "Governança",
-        topicos: ["Alinhamento de propósito", "Estrutura de decisão", "Responsabilidades claras"]
-      },
-      {
-        nome: "Plano de Expansão",
-        topicos: ["Objetivos da marca", "Metas de crescimento", "Estratégia de mercado"]
-      },
-      {
-        nome: "Comunicação Interna",
-        topicos: ["Comunicação baseada no propósito", "Reuniões de alinhamento estratégico", "Feedback e transparência"]
+        nome: "🎯 Exercícios Práticos",
+        topicos: [
+          "Analisar lacuna entre meta e resultado atual",
+          "Criar roadmap de 3 meses (modelo pronto)",
+          "Simulação de projeção de vendas (planilha automática)",
+          "Definir ações corretivas para gaps identificados"
+        ]
       }
     ],
     tarefas: [
-      "Definir missão, visão e valores",
-      "Comunicar e aplicar os princípios no time",
-      "Criar documento de cultura e propósito",
-      "Revisar se todas as decisões estão alinhadas ao norte estratégico"
+      "Definir meta de faturamento dos próximos 90 dias",
+      "Estabelecer ticket médio ideal da operação",
+      "Selecionar e configurar 3 KPIs prioritários",
+      "Completar plano de expansão no roteiro",
+      "Criar roadmap trimestral no modelo",
+      "Executar simulação de projeção de vendas"
     ],
-    resultados: ["Equipe alinhada ao propósito", "Decisões coerentes", "Cultura forte e consistente", "Direção clara para o negócio"]
+    resultados: [
+      "Direção clara para o negócio",
+      "Decisões estratégicas coerentes",
+      "Metas mensuráveis e alcançáveis",
+      "Planejamento de crescimento estruturado"
+    ]
   },
   presenca_magnetica: {
     titulo: "Pilar 5 – Presença Magnética",
@@ -180,39 +187,39 @@ const pilaresDataDefault = {
     cor: "bg-pink-500",
     modulos: [
       {
-        nome: "Comunicação Visual e Marketing",
-        topicos: ["Identidade visual da marca", "Materiais gráficos", "Padronização de comunicação"]
+        nome: "📋 Tarefas & Checklists",
+        topicos: [
+          "Revisar cardápio no iFood (checklist: fotos, normas, preços)",
+          "Criar 1 combo estratégico (sugestão: 2 pizzas + refrigerante)",
+          "Responder 5 avaliações de clientes (respostas padrão fornecidas)",
+          "Atualizar fotos dos 5 produtos mais vendidos",
+          "Verificar descrições de todos os itens do cardápio"
+        ]
       },
       {
-        nome: "Estratégia no iFood",
-        topicos: ["Descrições atrativas", "Fotos profissionais", "Destaque de diferenciais"]
-      },
-      {
-        nome: "Storytelling e Identidade",
-        topicos: ["História da marca", "Narrativa de valor", "Conexão emocional"]
-      },
-      {
-        nome: "Redes Sociais",
-        topicos: ["Conteúdo e presença digital", "Plano de postagens", "Engajamento com seguidores"]
-      },
-      {
-        nome: "Imagem da Empresa",
-        topicos: ["Fortalecimento da marca", "Posicionamento dos líderes", "Reputação online"]
-      },
-      {
-        nome: "Experiência de Marca",
-        topicos: ["Padronização de atendimento", "Embalagem e apresentação", "Linguagem e tom de voz"]
+        nome: "🎯 Exercícios Práticos",
+        topicos: [
+          "Preencher calendário de campanhas semanais (modelo pronto)",
+          "Criar um post de alta conversão (modelo com título + CTA sugerido)",
+          "Simulação de precificação no iFood (planilha automática)",
+          "Montar promoção relâmpago usando template"
+        ]
       }
     ],
     tarefas: [
-      "Atualizar descrição e imagens no iFood",
-      "Padronizar comunicação visual das lojas",
-      "Criar plano de postagens e campanhas",
-      "Produzir materiais visuais com storytelling",
-      "Garantir consistência da marca em todos os pontos de contato",
-      "Solicitar fotos e vídeos da operação"
+      "Aplicar checklist completo de revisão do cardápio",
+      "Criar e publicar 1 combo estratégico",
+      "Responder 5 avaliações usando respostas padrão",
+      "Preencher calendário de campanhas do mês",
+      "Criar 1 post de alta conversão com template",
+      "Executar simulação de precificação na planilha"
     ],
-    resultados: ["Marca reconhecida e desejada", "Maior conversão de clientes", "Presença digital forte", "Experiência memorável"]
+    resultados: [
+      "Marca reconhecida e desejada",
+      "Maior conversão de clientes",
+      "Presença digital forte e consistente",
+      "Experiência memorável para o cliente"
+    ]
   }
 };
 
