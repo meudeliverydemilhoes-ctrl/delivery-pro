@@ -17,10 +17,32 @@ const pilaresDataDefault = {
     titulo: "Pilar 1 – Processos",
     icon: "🏆",
     cor: "bg-blue-500",
-    materiais: [
-      { nome: "Checklist de Abertura, Fechamento e Auditoria", tipo: "checklist", descricao: "Lista interativa completa" },
-      { nome: "Tutorial: Preenchendo a Ficha Técnica", tipo: "video", descricao: "Vídeo + modelo editável" },
-      { nome: "Planilha Automática de Simulação de CMV", tipo: "planilha", descricao: "Cálculos automáticos" }
+    modulos: [
+      {
+        nome: "📦 Padronização e Setorização",
+        topicos: [
+          "Atendimento (balcão, despacho, call center)",
+          "Produção (massa, montagem, uso da balança, fichas técnicas)",
+          "Finalização (cozinha, molhos, pré-preparo, produção mínima)"
+        ]
+      },
+      {
+        nome: "📋 Documentação Operacional",
+        topicos: [
+          "Fichas técnicas de todos os produtos",
+          "Checklists operacionais (diário, turno, semanal)",
+          "SOPs (Padrões de Procedimento Operacional)",
+          "Regulamento interno da operação"
+        ]
+      },
+      {
+        nome: "⚙️ Cultura e Rotina",
+        topicos: [
+          "Criação de cronograma de execução",
+          "Cultura operacional e disciplina de rotina",
+          "Definição de responsáveis por setor"
+        ]
+      }
     ],
     colunasTarefas: [
       { key: "atividade", label: "Atividade", editable: true },
@@ -30,25 +52,55 @@ const pilaresDataDefault = {
       { key: "percentual", label: "% Concluído", editable: false }
     ],
     tarefasExemplo: [
-      { atividade: "Mapear processo atual", responsavel: "Dono", prazo: "7 dias", status: "pendente" },
-      { atividade: "Criar cronograma de melhorias", responsavel: "Gerente", prazo: "14 dias", status: "em_andamento" },
-      { atividade: "Implementar primeira otimização (CMV)", responsavel: "Operação", prazo: "21 dias", status: "pendente" }
+      { atividade: "Implantar uso de fichas técnicas", responsavel: "Gerente", prazo: "7 dias", status: "pendente" },
+      { atividade: "Habilitar controle por balança", responsavel: "Produção", prazo: "14 dias", status: "pendente" },
+      { atividade: "Publicar e aplicar checklists", responsavel: "Dono", prazo: "7 dias", status: "em_andamento" },
+      { atividade: "Revisar fluxos de atendimento e despacho", responsavel: "Supervisor", prazo: "10 dias", status: "pendente" },
+      { atividade: "Validar regulamento interno com o time", responsavel: "RH", prazo: "14 dias", status: "pendente" }
     ],
     exercicios: [
-      { nome: "Análise SWOT do processo", tipo: "swot", descricao: "Tabela: Forças | Fraquezas | Oportunidades | Ameaças" },
-      { nome: "Ficha técnica de 1 produto", tipo: "ficha_tecnica", descricao: "Modelo interativo com cálculo de custo" },
-      { nome: "Simulação de CMV com dados reais", tipo: "cmv", descricao: "Planilha automática" }
+      { nome: "Criar ficha técnica de produto", tipo: "ficha_tecnica", descricao: "Modelo interativo com cálculo de custo" },
+      { nome: "Montar checklist de abertura/fechamento", tipo: "checklist", descricao: "Lista personalizada para sua operação" },
+      { nome: "Simulação de CMV com dados reais", tipo: "cmv", descricao: "Planilha automática de controle" }
     ],
-    resultados: ["Operação padronizada e replicável", "Redução de desperdício comprovada", "Equipe alinhada aos processos", "Maior controle e previsibilidade"]
+    resultados: [
+      "Operação padronizada e replicável",
+      "Redução de desperdício comprovada",
+      "Equipe alinhada aos processos",
+      "Maior controle e previsibilidade"
+    ]
   },
   desempenho: {
-    titulo: "Pilar 2 – Performance",
+    titulo: "Pilar 2 – Desempenho",
     icon: "📈",
     cor: "bg-emerald-500",
-    materiais: [
-      { nome: "Modelo de Metas 90 Dias", tipo: "documento", descricao: "Documento clicável" },
-      { nome: "Tutorial: Como acompanhar o Dashboard", tipo: "video", descricao: "Vídeo explicativo" },
-      { nome: "Checklist Premium de Evolução Semanal", tipo: "checklist", descricao: "Acompanhamento semanal" }
+    modulos: [
+      {
+        nome: "💰 Financeiro",
+        topicos: [
+          "Avaliar histórico de faturamento",
+          "Identificar gaps percentuais",
+          "Criar indicadores de desempenho",
+          "Calcular markup e precificação por ficha técnica"
+        ]
+      },
+      {
+        nome: "📱 iFood e Delivery",
+        topicos: [
+          "Cardápio, fotos, legendas e descrições",
+          "Montagem de combos e promoções",
+          "Remoção de produtos de baixo desempenho",
+          "Ativação de cupons e tele grátis"
+        ]
+      },
+      {
+        nome: "📊 Indicadores e Metas",
+        topicos: [
+          "Indicadores operacionais (CMV, ticket médio, pedidos/dia)",
+          "Painéis de controle e metas semanais",
+          "Análise de performance por período"
+        ]
+      }
     ],
     colunasTarefas: [
       { key: "meta", label: "Meta", editable: true },
@@ -59,53 +111,109 @@ const pilaresDataDefault = {
       { key: "percentual", label: "% Concluído", editable: false }
     ],
     tarefasExemplo: [
-      { meta: "Aumentar ticket médio", indicador: "Ticket médio", responsavel: "Gerente", prazo: "30d", status: "em_andamento" },
-      { meta: "Reduzir CMV", indicador: "CMV %", responsavel: "Financeiro", prazo: "45d", status: "pendente" },
-      { meta: "Aumentar pedidos/dia", indicador: "Pedidos", responsavel: "Marketing", prazo: "30d", status: "pendente" }
+      { meta: "Criar planilha de indicadores", indicador: "Dashboard", responsavel: "Financeiro", prazo: "7d", status: "pendente" },
+      { meta: "Atualizar dados financeiros", indicador: "Faturamento", responsavel: "Dono", prazo: "3d", status: "em_andamento" },
+      { meta: "Revisar preços no iFood com base no markup", indicador: "Markup %", responsavel: "Gerente", prazo: "14d", status: "pendente" },
+      { meta: "Testar promoções e combos", indicador: "Conversão", responsavel: "Marketing", prazo: "7d", status: "pendente" },
+      { meta: "Monitorar desempenho e corrigir gaps", indicador: "CMV", responsavel: "Operação", prazo: "Contínuo", status: "em_andamento" }
     ],
     exercicios: [
-      { nome: "Preencher metas de 90 dias", tipo: "formulario", descricao: "Modelo estruturado" },
-      { nome: "Avaliar evolução semanal", tipo: "checklist", descricao: "Checklist automático" },
-      { nome: "Inserir Missão, Visão e Valores", tipo: "mvv", descricao: "Texto pronto já incluído" }
+      { nome: "Preencher planilha de indicadores", tipo: "planilha", descricao: "Modelo com fórmulas automáticas" },
+      { nome: "Calcular markup ideal", tipo: "cmv", descricao: "Simulador de precificação" },
+      { nome: "Avaliar evolução semanal", tipo: "checklist", descricao: "Checklist de performance" }
     ],
-    resultados: ["Aumento do faturamento", "Margem de lucro otimizada", "Cardápio rentável", "Decisões 100% baseadas em dados"]
+    resultados: [
+      "Aumento do faturamento",
+      "Margem de lucro otimizada",
+      "Cardápio rentável",
+      "Decisões 100% baseadas em dados"
+    ]
   },
   tempo_potencia: {
-    titulo: "Pilar 3 – Time de Potência",
+    titulo: "Pilar 3 – Tempo de Potência",
     icon: "⚡",
     cor: "bg-violet-500",
-    materiais: [
-      { nome: "Modelo de Organograma", tipo: "formulario", descricao: "Clicável, arrastar nomes" },
-      { nome: "Manual do Colaborador", tipo: "documento", descricao: "PDF interativo" },
-      { nome: "Checklist de Treinamento", tipo: "checklist", descricao: "Lista de verificação" }
+    modulos: [
+      {
+        nome: "📅 Organização e Agendamento",
+        topicos: [
+          "Organização e agendamento de encontros",
+          "Entendimento de disponibilidade da equipe",
+          "Alinhamento de horários e metas"
+        ]
+      },
+      {
+        nome: "📋 Cronogramas e Responsabilidades",
+        topicos: [
+          "Cronogramas de rotina por unidade",
+          "Definição de tarefas e responsáveis",
+          "Delegação efetiva de funções"
+        ]
+      },
+      {
+        nome: "🎯 Gestão de Produtividade",
+        topicos: [
+          "Gestão do tempo e produtividade do time",
+          "Priorização (Kanban: A Fazer / Em Progresso / Concluído)",
+          "Medição de produtividade individual e coletiva"
+        ]
+      }
     ],
     colunasTarefas: [
-      { key: "funcao", label: "Função", editable: true },
-      { key: "nome", label: "Nome", editable: true },
+      { key: "atividade", label: "Atividade", editable: true },
       { key: "responsavel", label: "Responsável", editable: true },
+      { key: "prazo", label: "Prazo", editable: true },
       { key: "status", label: "Status", editable: true },
       { key: "observacoes", label: "Observações", editable: true }
     ],
     tarefasExemplo: [
-      { funcao: "Produção", nome: "João", responsavel: "Gerente", status: "concluido", observacoes: "Treinado completo" },
-      { funcao: "Atendimento", nome: "Maria", responsavel: "Supervisor", status: "em_andamento", observacoes: "Em fase de testes" },
-      { funcao: "Entrega", nome: "Carlos", responsavel: "Gerente", status: "pendente", observacoes: "Aguardando início" }
+      { atividade: "Mapear gargalos de tempo", responsavel: "Gerente", prazo: "7d", status: "pendente", observacoes: "" },
+      { atividade: "Criar cronograma de execução", responsavel: "Dono", prazo: "7d", status: "em_andamento", observacoes: "" },
+      { atividade: "Implantar quadro de tarefas (Kanban)", responsavel: "Supervisor", prazo: "14d", status: "pendente", observacoes: "" },
+      { atividade: "Delegar funções e acompanhar prazos", responsavel: "Gerente", prazo: "Contínuo", status: "pendente", observacoes: "" },
+      { atividade: "Medir produtividade individual e da equipe", responsavel: "RH", prazo: "30d", status: "pendente", observacoes: "" }
     ],
     exercicios: [
       { nome: "Escala de Trabalho Semanal", tipo: "escala", descricao: "Tabela semanal editável" },
-      { nome: "Avaliação de desempenho", tipo: "avaliacao", descricao: "Checklist com notas 1-5" },
+      { nome: "Avaliação de desempenho do time", tipo: "avaliacao", descricao: "Checklist com notas 1-5" },
       { nome: "Rodada de feedback", tipo: "formulario", descricao: "Formulário com perguntas abertas" }
     ],
-    resultados: ["Equipe mais produtiva e engajada", "Menos retrabalho", "Entregas sempre no prazo", "Gestão visual das tarefas do time"]
+    resultados: [
+      "Equipe mais produtiva e engajada",
+      "Menos retrabalho e desperdício de tempo",
+      "Entregas sempre no prazo",
+      "Gestão visual das tarefas do time"
+    ]
   },
   norte_estrategico: {
     titulo: "Pilar 4 – Norte Estratégico",
     icon: "🎯",
     cor: "bg-amber-500",
-    materiais: [
-      { nome: "Modelo de Plano Estratégico 90 dias", tipo: "documento", descricao: "Template completo" },
-      { nome: "Matriz de KPIs", tipo: "planilha", descricao: "Clicável e editável" },
-      { nome: "Checklist de Expansão", tipo: "checklist", descricao: "Passos para crescer" }
+    modulos: [
+      {
+        nome: "🧭 Intenção Estratégica",
+        topicos: [
+          "Missão → por que fazemos o que fazemos",
+          "Visão → onde queremos chegar",
+          "Valores → o que é inegociável"
+        ]
+      },
+      {
+        nome: "🏛️ Cultura e Governança",
+        topicos: [
+          "Cultura organizacional",
+          "Governança e alinhamento de propósito",
+          "Comunicação interna com base no propósito"
+        ]
+      },
+      {
+        nome: "🚀 Expansão e Crescimento",
+        topicos: [
+          "Plano de expansão e objetivos da marca",
+          "Reuniões de alinhamento estratégico",
+          "Revisão de decisões alinhadas ao norte"
+        ]
+      }
     ],
     colunasTarefas: [
       { key: "objetivo", label: "Objetivo", editable: true },
@@ -116,25 +224,52 @@ const pilaresDataDefault = {
       { key: "percentual", label: "% Concluído", editable: false }
     ],
     tarefasExemplo: [
-      { objetivo: "Aumentar pedidos/dia", kpi: "+20%", prazo: "30d", responsavel: "Dono", status: "em_andamento" },
-      { objetivo: "Expandir para nova região", kpi: "Loja piloto", prazo: "90d", responsavel: "Mentor", status: "pendente" },
-      { objetivo: "Reduzir tempo de entrega", kpi: "-10min", prazo: "45d", responsavel: "Operação", status: "pendente" }
+      { objetivo: "Definir missão, visão e valores", kpi: "Documento", responsavel: "Dono", prazo: "7d", status: "pendente" },
+      { objetivo: "Comunicar e aplicar os princípios no time", kpi: "Reunião", responsavel: "Gerente", prazo: "14d", status: "pendente" },
+      { objetivo: "Criar documento de cultura e propósito", kpi: "PDF", responsavel: "RH", prazo: "21d", status: "pendente" },
+      { objetivo: "Revisar decisões alinhadas ao norte estratégico", kpi: "Checklist", responsavel: "Dono", prazo: "Mensal", status: "em_andamento" }
     ],
     exercicios: [
-      { nome: "Gap de metas x resultados", tipo: "planilha", descricao: "Planilha automática" },
-      { nome: "Roteiro de 3 meses", tipo: "formulario", descricao: "Modelo editável" },
-      { nome: "Projeção de vendas", tipo: "cmv", descricao: "Cálculo automático" }
+      { nome: "Preencher Missão, Visão e Valores", tipo: "formulario", descricao: "Modelo com exemplos" },
+      { nome: "Plano de expansão 90 dias", tipo: "formulario", descricao: "Roteiro estratégico" },
+      { nome: "Análise de alinhamento estratégico", tipo: "checklist", descricao: "Verificar coerência das decisões" }
     ],
-    resultados: ["Direção clara para o negócio", "Decisões estratégicas coerentes", "Metas mensuráveis e alcançáveis", "Planejamento de crescimento estruturado"]
+    resultados: [
+      "Direção clara para o negócio",
+      "Decisões estratégicas coerentes",
+      "Metas mensuráveis e alcançáveis",
+      "Planejamento de crescimento estruturado"
+    ]
   },
   presenca_magnetica: {
     titulo: "Pilar 5 – Presença Magnética",
     icon: "✨",
     cor: "bg-pink-500",
-    materiais: [
-      { nome: "Plano de Marketing 30 dias", tipo: "documento", descricao: "Modelo pronto" },
-      { nome: "Guia de otimização do cardápio iFood", tipo: "documento", descricao: "Passo a passo" },
-      { nome: "Modelos de respostas para avaliações", tipo: "documento", descricao: "Copiar e colar" }
+    modulos: [
+      {
+        nome: "🎨 Comunicação Visual e Marketing",
+        topicos: [
+          "Comunicação visual e identidade da marca",
+          "Estratégia no iFood (descrições e fotos atrativas)",
+          "Storytelling e narrativa da marca"
+        ]
+      },
+      {
+        nome: "📱 Presença Digital",
+        topicos: [
+          "Conteúdo e presença nas redes sociais",
+          "Fortalecimento da imagem da empresa e dos líderes",
+          "Solicitar fotos e vídeos da operação"
+        ]
+      },
+      {
+        nome: "🎁 Experiência do Cliente",
+        topicos: [
+          "Padronização de experiência de marca",
+          "Atendimento, embalagem e linguagem",
+          "Consistência em todos os pontos de contato"
+        ]
+      }
     ],
     colunasTarefas: [
       { key: "acao", label: "Ação", editable: true },
@@ -145,16 +280,23 @@ const pilaresDataDefault = {
       { key: "percentual", label: "% Concluído", editable: false }
     ],
     tarefasExemplo: [
-      { acao: "Atualizar fotos cardápio", canal: "iFood", prazo: "5d", responsavel: "MKT", status: "concluido" },
-      { acao: "Criar combo estratégico", canal: "iFood", prazo: "7d", responsavel: "Dono", status: "em_andamento" },
-      { acao: "Responder avaliações", canal: "iFood", prazo: "Diária", responsavel: "Atend.", status: "pendente" }
+      { acao: "Atualizar descrição e imagens no iFood", canal: "iFood", prazo: "5d", responsavel: "MKT", status: "pendente" },
+      { acao: "Padronizar comunicação visual das lojas", canal: "Loja", prazo: "14d", responsavel: "Design", status: "pendente" },
+      { acao: "Criar plano de postagens e campanhas", canal: "Redes", prazo: "7d", responsavel: "MKT", status: "em_andamento" },
+      { acao: "Produzir materiais visuais com storytelling", canal: "Todos", prazo: "21d", responsavel: "MKT", status: "pendente" },
+      { acao: "Garantir consistência da marca em todos os pontos", canal: "Todos", prazo: "Contínuo", responsavel: "Gerente", status: "pendente" }
     ],
     exercicios: [
-      { nome: "Calendário de campanhas", tipo: "formulario", descricao: "Modelo clicável" },
-      { nome: "Criar post de alta conversão", tipo: "formulario", descricao: "Modelo pronto com gancho + CTA" },
-      { nome: "Precificação simulada no iFood", tipo: "cmv", descricao: "Planilha automática" }
+      { nome: "Calendário de campanhas", tipo: "formulario", descricao: "Planejamento mensal de conteúdo" },
+      { nome: "Criar post de alta conversão", tipo: "formulario", descricao: "Modelo com gancho + CTA" },
+      { nome: "Checklist de presença no iFood", tipo: "checklist", descricao: "Verificação completa do perfil" }
     ],
-    resultados: ["Marca reconhecida e desejada", "Maior conversão de clientes", "Presença digital forte e consistente", "Experiência memorável para o cliente"]
+    resultados: [
+      "Marca reconhecida e desejada",
+      "Maior conversão de clientes",
+      "Presença digital forte e consistente",
+      "Experiência memorável para o cliente"
+    ]
   }
 };
 
