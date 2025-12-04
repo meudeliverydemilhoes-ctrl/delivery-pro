@@ -461,6 +461,28 @@ export default function MentoradoDetalhe() {
           </div>
         </TabsContent>
 
+        {/* Análise de Cardápio Tab */}
+        <TabsContent value="cardapio">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <AnaliseCardapio 
+              analiseData={briefing?.analise_cardapio || {}}
+              onUpdateAnalise={(analiseData) => {
+                if (briefing?.id) {
+                  updateBriefingMutation.mutate({ 
+                    id: briefing.id, 
+                    data: { ...briefing, analise_cardapio: analiseData }
+                  });
+                } else {
+                  createBriefingMutation.mutate({ 
+                    mentorado_id: mentoradoId, 
+                    analise_cardapio: analiseData 
+                  });
+                }
+              }}
+            />
+          </div>
+        </TabsContent>
+
         {/* Briefing Tab */}
         <TabsContent value="briefing">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
