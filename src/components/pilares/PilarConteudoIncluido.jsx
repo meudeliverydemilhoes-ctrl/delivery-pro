@@ -509,6 +509,7 @@ export default function PilarConteudoIncluido({
                 {modulo.topicos.map((topico, tIdx) => {
                   const topicoTexto = typeof topico === 'string' ? topico : topico.texto;
                   const isCompleted = progressoItems.some(p => p.texto === topicoTexto && p.concluido);
+                  const hasNota = !!getNotaForItem("topico", `${idx}_${tIdx}`);
                   return (
                     <div
                       key={tIdx}
@@ -527,6 +528,17 @@ export default function PilarConteudoIncluido({
                       <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
                         {topicoTexto}
                       </span>
+                      <button
+                        onClick={() => openNotaDialog("topico", `${idx}_${tIdx}`, topicoTexto)}
+                        className={`p-1.5 rounded-lg transition-all ${
+                          hasNota 
+                            ? "bg-amber-500/20 text-amber-400" 
+                            : "opacity-0 group-hover:opacity-100 hover:bg-white/10 text-white/40 hover:text-white"
+                        }`}
+                        title={hasNota ? "Ver anotação" : "Adicionar anotação"}
+                      >
+                        <StickyNote size={14} />
+                      </button>
                     </div>
                   );
                 })}
