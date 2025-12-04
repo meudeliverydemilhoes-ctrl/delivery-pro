@@ -301,6 +301,49 @@ const pilaresDataDefault = {
   }
 };
 
+const materiaisExclusivos = {
+  processos: [
+    { nome: "🎬 Aula: Como criar fichas técnicas perfeitas", tipo: "video", url: "", descricao: "Passo a passo completo" },
+    { nome: "📄 Modelo: Ficha Técnica Padrão", tipo: "download", url: "", descricao: "Template editável" },
+    { nome: "📋 Checklist de Abertura e Fechamento", tipo: "download", url: "", descricao: "PDF pronto para imprimir" },
+    { nome: "🎬 Aula: Organizando sua operação", tipo: "video", url: "", descricao: "Método completo de organização" },
+    { nome: "📄 Modelo: SOP - Procedimento Padrão", tipo: "download", url: "", descricao: "Template de procedimentos" },
+    { nome: "📊 Planilha: Controle de Estoque", tipo: "download", url: "", descricao: "Excel automatizado" }
+  ],
+  desempenho: [
+    { nome: "🎬 Aula: Dominando o iFood", tipo: "video", url: "", descricao: "Estratégias avançadas" },
+    { nome: "📊 Planilha: Indicadores de Performance", tipo: "download", url: "", descricao: "Dashboard completo" },
+    { nome: "📄 Modelo: Precificação por Markup", tipo: "download", url: "", descricao: "Calculadora de preços" },
+    { nome: "🎬 Aula: Como criar combos irresistíveis", tipo: "video", url: "", descricao: "Técnicas de vendas" },
+    { nome: "📋 Checklist: Otimização de Cardápio", tipo: "download", url: "", descricao: "Guia passo a passo" },
+    { nome: "📊 Planilha: Simulador de CMV", tipo: "download", url: "", descricao: "Controle de custos" }
+  ],
+  tempo_potencia: [
+    { nome: "🎬 Aula: Gestão de Tempo para Donos", tipo: "video", url: "", descricao: "Produtividade máxima" },
+    { nome: "📄 Modelo: Escala de Trabalho Semanal", tipo: "download", url: "", descricao: "Template editável" },
+    { nome: "📋 Checklist: Avaliação de Desempenho", tipo: "download", url: "", descricao: "Formulário completo" },
+    { nome: "🎬 Aula: Delegação Efetiva", tipo: "video", url: "", descricao: "Como delegar sem medo" },
+    { nome: "📄 Modelo: Quadro Kanban", tipo: "download", url: "", descricao: "Template visual" },
+    { nome: "📊 Planilha: Controle de Produtividade", tipo: "download", url: "", descricao: "Métricas do time" }
+  ],
+  norte_estrategico: [
+    { nome: "🎬 Aula: Definindo seu Norte", tipo: "video", url: "", descricao: "Missão, Visão e Valores" },
+    { nome: "📄 Modelo: Planejamento Estratégico", tipo: "download", url: "", descricao: "Template 90 dias" },
+    { nome: "📋 Canvas: Modelo de Negócio", tipo: "download", url: "", descricao: "Business Model Canvas" },
+    { nome: "🎬 Aula: Cultura Organizacional", tipo: "video", url: "", descricao: "Construindo cultura forte" },
+    { nome: "📄 Modelo: Plano de Expansão", tipo: "download", url: "", descricao: "Roteiro de crescimento" },
+    { nome: "📊 Planilha: OKRs e Metas", tipo: "download", url: "", descricao: "Gestão de objetivos" }
+  ],
+  presenca_magnetica: [
+    { nome: "🎬 Aula: Marketing para Delivery", tipo: "video", url: "", descricao: "Estratégias comprovadas" },
+    { nome: "📄 Modelo: Calendário de Postagens", tipo: "download", url: "", descricao: "Planejamento mensal" },
+    { nome: "📋 Guia: Fotos que Vendem", tipo: "download", url: "", descricao: "Dicas de fotografia" },
+    { nome: "🎬 Aula: Storytelling de Marca", tipo: "video", url: "", descricao: "Conte sua história" },
+    { nome: "📄 Modelo: Scripts de Atendimento", tipo: "download", url: "", descricao: "Respostas padrão" },
+    { nome: "📊 Planilha: ROI de Marketing", tipo: "download", url: "", descricao: "Controle de investimentos" }
+  ]
+};
+
 const tipoIcons = {
   checklist: ClipboardList,
   video: Play,
