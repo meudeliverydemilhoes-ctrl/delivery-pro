@@ -410,6 +410,24 @@ export default function PilarConteudoIncluido({
     setSelectedExercicio(null);
   };
 
+  const openNotaDialog = (tipo, id, titulo) => {
+    setNotaContext({ tipo, id, titulo });
+    setNotaTexto(anotacoes[`${tipo}_${id}`] || "");
+    setNotaDialogOpen(true);
+  };
+
+  const handleSaveNota = () => {
+    const key = `${notaContext.tipo}_${notaContext.id}`;
+    const newAnotacoes = { ...anotacoes, [key]: notaTexto };
+    setAnotacoes(newAnotacoes);
+    onUpdateCustomData?.({ ...customData, anotacoes: newAnotacoes });
+    setNotaDialogOpen(false);
+  };
+
+  const getNotaForItem = (tipo, id) => {
+    return anotacoes[`${tipo}_${id}`] || "";
+  };
+
   const renderExercicioContent = () => {
     if (!selectedExercicio) return null;
 
