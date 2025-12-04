@@ -753,6 +753,46 @@ export default function PilarConteudoIncluido({
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Modal de Anotação */}
+      <Dialog open={notaDialogOpen} onOpenChange={setNotaDialogOpen}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <StickyNote className="text-amber-400" size={20} />
+              Anotação Pessoal
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="bg-white/5 rounded-lg p-3">
+              <p className="text-xs text-white/40 mb-1">Referente a:</p>
+              <p className="text-sm text-white">{notaContext.titulo}</p>
+            </div>
+            <Textarea
+              value={notaTexto}
+              onChange={(e) => setNotaTexto(e.target.value)}
+              placeholder="Escreva suas anotações, aprendizados, insights ou ações a tomar..."
+              className="bg-white/5 border-white/10 text-white min-h-[150px] resize-none"
+            />
+            <div className="flex gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => setNotaDialogOpen(false)} 
+                className="flex-1 border-white/10 text-white"
+              >
+                Cancelar
+              </Button>
+              <Button 
+                onClick={handleSaveNota} 
+                className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+              >
+                <Save size={16} className="mr-2" />
+                Salvar Anotação
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
