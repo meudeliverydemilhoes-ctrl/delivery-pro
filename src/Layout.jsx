@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   ChevronRight,
-  ClipboardList
+  ClipboardList,
+  GitBranch
 } from "lucide-react";
 
 export default function Layout({ children, currentPageName }) {
