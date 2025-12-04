@@ -28,7 +28,8 @@ import {
   StickyNote,
   Files,
   ClipboardCheck,
-  UtensilsCrossed
+  UtensilsCrossed,
+  GitBranch
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -36,6 +37,7 @@ import MinhasNotas from "@/components/mentorado/MinhasNotas";
 import MeusArquivos from "@/components/mentorado/MeusArquivos";
 import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
 import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
+import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -420,9 +422,12 @@ export default function MentoradoDetalhe() {
             <ClipboardCheck size={16} className="mr-2" /> Diagnóstico
           </TabsTrigger>
           <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <UtensilsCrossed size={16} className="mr-2" /> Análise Cardápio
-          </TabsTrigger>
-          <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+                        <UtensilsCrossed size={16} className="mr-2" /> Análise Cardápio
+                      </TabsTrigger>
+                      <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+                        <GitBranch size={16} className="mr-2" /> Fluxogramas
+                      </TabsTrigger>
+                      <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <Target size={16} className="mr-2" /> Pilares
           </TabsTrigger>
           <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
@@ -462,28 +467,33 @@ export default function MentoradoDetalhe() {
         </TabsContent>
 
         {/* Análise de Cardápio Tab */}
-        <TabsContent value="cardapio">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <AnaliseCardapio 
-              analiseData={briefing?.analise_cardapio || {}}
-              onUpdateAnalise={(analiseData) => {
-                if (briefing?.id) {
-                  updateBriefingMutation.mutate({ 
-                    id: briefing.id, 
-                    data: { ...briefing, analise_cardapio: analiseData }
-                  });
-                } else {
-                  createBriefingMutation.mutate({ 
-                    mentorado_id: mentoradoId, 
-                    analise_cardapio: analiseData 
-                  });
-                }
-              }}
-            />
-          </div>
-        </TabsContent>
+                  <TabsContent value="cardapio">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                      <AnaliseCardapio 
+                        analiseData={briefing?.analise_cardapio || {}}
+                        onUpdateAnalise={(analiseData) => {
+                          if (briefing?.id) {
+                            updateBriefingMutation.mutate({ 
+                              id: briefing.id, 
+                              data: { ...briefing, analise_cardapio: analiseData }
+                            });
+                          } else {
+                            createBriefingMutation.mutate({ 
+                              mentorado_id: mentoradoId, 
+                              analise_cardapio: analiseData 
+                            });
+                          }
+                        }}
+                      />
+                    </div>
+                  </TabsContent>
 
-        {/* Briefing Tab */}
+                  {/* Fluxogramas Tab */}
+                  <TabsContent value="fluxogramas">
+                    <FluxogramasMentorado mentoradoId={mentoradoId} />
+                  </TabsContent>
+
+                  {/* Briefing Tab */}
         <TabsContent value="briefing">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
