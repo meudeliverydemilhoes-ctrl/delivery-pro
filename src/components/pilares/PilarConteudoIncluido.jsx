@@ -548,75 +548,40 @@ export default function PilarConteudoIncluido({
 
         {/* Aba Exercícios */}
         <TabsContent value="exercicios" className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Exercícios Práticos */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <Target size={18} className="text-[#FF4D00]" />
-                <span className="font-medium text-white">🎯 Exercícios Práticos</span>
-                <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length}</span>
-              </div>
-              <div className="space-y-2">
-                {pilar.exercicios.map((ex, idx) => {
-                  const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => setSelectedExercicio(ex)}
-                      className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
-                        hasData 
-                          ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
-                          : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
-                      }`}
-                    >
-                      {hasData ? (
-                        <CheckCircle2 size={18} className="text-emerald-400" />
-                      ) : (
-                        <Circle size={18} className="text-white/30" />
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white font-medium truncate">{ex.nome}</p>
-                        <p className="text-xs text-white/50 truncate">{ex.descricao}</p>
-                      </div>
-                      <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
-                        {hasData ? "✅" : "Abrir"}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Target size={18} className="text-[#FF4D00]" />
+              <span className="font-medium text-white">🎯 Exercícios Práticos</span>
+              <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length} exercícios</span>
             </div>
-
-            {/* Material Exclusivo */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <Gift size={18} className="text-amber-400" />
-                <span className="font-medium text-white">🎁 Material Exclusivo</span>
-                <span className="text-xs text-white/40 ml-auto">{materiais.length}</span>
-              </div>
-              <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                {materiais.map((material, idx) => (
+            <div className="space-y-2">
+              {pilar.exercicios.map((ex, idx) => {
+                const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
+                return (
                   <div
                     key={idx}
-                    onClick={() => setSelectedMaterial(material)}
-                    className="flex items-center gap-3 p-3 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all border border-transparent group"
+                    onClick={() => setSelectedExercicio(ex)}
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
+                      hasData 
+                        ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
+                        : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
+                    }`}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
-                    }`}>
-                      {material.tipo === "video" ? (
-                        <Play size={16} className="text-blue-400" />
-                      ) : (
-                        <Download size={16} className="text-emerald-400" />
-                      )}
+                    {hasData ? (
+                      <CheckCircle2 size={18} className="text-emerald-400" />
+                    ) : (
+                      <Circle size={18} className="text-white/30" />
+                    )}
+                    <div className="flex-1">
+                      <p className="text-sm text-white font-medium">{ex.nome}</p>
+                      <p className="text-xs text-white/50">{ex.descricao}</p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white font-medium truncate group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
-                      <p className="text-xs text-white/50 truncate">{material.descricao}</p>
-                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
+                      {hasData ? "✅ Preenchido" : "Abrir"}
+                    </span>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
 
@@ -627,6 +592,48 @@ export default function PilarConteudoIncluido({
             tarefasData={tarefasData}
             exerciciosData={exerciciosData}
           />
+        </TabsContent>
+
+        {/* Aba Material Exclusivo */}
+        <TabsContent value="materiais" className="space-y-4">
+          <div className="bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 rounded-xl p-4 mb-4">
+            <div className="flex items-center gap-2 text-amber-400">
+              <Gift size={18} />
+              <span className="font-medium">Material Exclusivo da Mentoria</span>
+            </div>
+            <p className="text-sm text-white/60 mt-1">Acesse aulas, planilhas e modelos exclusivos para acelerar seus resultados</p>
+          </div>
+
+          <div className="grid gap-3">
+            {materiais.map((material, idx) => (
+              <div
+                key={idx}
+                onClick={() => setSelectedMaterial(material)}
+                className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all group"
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                  material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
+                }`}>
+                  {material.tipo === "video" ? (
+                    <Play size={24} className="text-blue-400" />
+                  ) : (
+                    <Download size={24} className="text-emerald-400" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-white group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
+                  <p className="text-sm text-white/50">{material.descricao}</p>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs ${
+                  material.tipo === "video" 
+                    ? "bg-blue-500/20 text-blue-400" 
+                    : "bg-emerald-500/20 text-emerald-400"
+                }`}>
+                  {material.tipo === "video" ? "Assistir" : "Download"}
+                </div>
+              </div>
+            ))}
+          </div>
         </TabsContent>
 
 
