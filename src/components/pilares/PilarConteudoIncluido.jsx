@@ -373,8 +373,12 @@ export default function PilarConteudoIncluido({
   const defaultPilar = pilaresDataDefault[pilarKey];
   const [tarefasData, setTarefasData] = useState(customData?.tarefas || defaultPilar?.tarefasExemplo || []);
   const [exerciciosData, setExerciciosData] = useState(customData?.exercicios || {});
+  const [anotacoes, setAnotacoes] = useState(customData?.anotacoes || {});
   const [selectedExercicio, setSelectedExercicio] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [notaDialogOpen, setNotaDialogOpen] = useState(false);
+  const [notaContext, setNotaContext] = useState({ tipo: "", id: "", titulo: "" });
+  const [notaTexto, setNotaTexto] = useState("");
 
   const pilar = defaultPilar;
   const materiais = materiaisExclusivos[pilarKey] || [];
