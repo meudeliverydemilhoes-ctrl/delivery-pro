@@ -462,10 +462,7 @@ export default function PilarConteudoIncluido({
             <Target size={16} className="mr-2" />
             Exercícios
           </TabsTrigger>
-          <TabsTrigger value="materiais" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
-            <Gift size={16} className="mr-2" />
-            Material Exclusivo
-          </TabsTrigger>
+
         </TabsList>
 
         {/* Aba Conteúdo - Tópicos de estudo */}
