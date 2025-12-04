@@ -4,10 +4,12 @@ import { base44 } from "@/api/base44Client";
 import {
   Headphones, ChefHat, Pizza, Package, Truck, Warehouse,
   ShoppingCart, DollarSign, Settings, Save, RotateCcw, 
-  ChevronDown, ChevronRight, Download, Printer
+  ChevronDown, ChevronRight, Download, Printer, Plus, Eye, Pencil
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FluxogramaSetor from "@/components/fluxogramas/FluxogramaSetor";
+import FluxogramaVisual from "@/components/fluxogramas/FluxogramaVisual";
 
 const setoresConfig = [
   {
@@ -465,7 +467,10 @@ export default function FluxogramasOperacionais() {
   const queryClient = useQueryClient();
   const [expandedSetores, setExpandedSetores] = useState({ atendimento: true });
   const [fluxogramasData, setFluxogramasData] = useState({});
+  const [fluxogramasVisuais, setFluxogramasVisuais] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [activeTab, setActiveTab] = useState("lista");
+  const [selectedSetorVisual, setSelectedSetorVisual] = useState(null);
 
   // Buscar dados salvos
   const { data: savedData } = useQuery({
@@ -476,6 +481,28 @@ export default function FluxogramasOperacionais() {
       });
       return result[0]?.conteudo ? JSON.parse(result[0].conteudo) : null;
     }
+  });
+
+  // Buscar fluxogramas visuais
+  const { data: savedVisuais } = useQuery({
+    queryKey: ["fluxogramas_visuais"],
+    queryFn: async () => {
+      const result = await base44.entities.SOPPlaybook.filter({ 
+        titulo: "FLUXOGRAMAS_VISUAIS_DATA" 
+      });
+      return result[0]?.conteudo ? JSON.parse(result[0].conteudo) : null;
+    }
+  });
+
+  // Buscar SOPs e Checklists para vincular
+  const { data: sops = [] } = useQuery({
+    queryKey: ["sops-for-fluxogramas"],
+    queryFn: () => base44.entities.SOPPlaybook.filter({ ativo: true })
+  });
+
+  const { data: checklists = [] } = useQuery({
+    queryKey: ["checklists-for-fluxogramas"],
+    queryFn: () => base44.entities.ChecklistInteligente.filter({ ativo: true })
   });
 
   useEffect(() => {
@@ -490,6 +517,12 @@ export default function FluxogramasOperacionais() {
       setFluxogramasData(defaultData);
     }
   }, [savedData]);
+
+  useEffect(() => {
+    if (savedVisuais) {
+      setFluxogramasVisuais(savedVisuais);
+    }
+  }, [savedVisuais]);
 
   const saveMutation = useMutation({
     mutationFn: async (data) => {
@@ -514,6 +547,28 @@ export default function FluxogramasOperacionais() {
     }
   });
 
+  const saveVisualMutation = useMutation({
+    mutationFn: async (data) => {
+      const existing = await base44.entities.SOPPlaybook.filter({ 
+        titulo: "FLUXOGRAMAS_VISUAIS_DATA" 
+      });
+      if (existing[0]) {
+        return base44.entities.SOPPlaybook.update(existing[0].id, {
+          conteudo: JSON.stringify(data)
+        });
+      } else {
+        return base44.entities.SOPPlaybook.create({
+          titulo: "FLUXOGRAMAS_VISUAIS_DATA",
+          pilar: "processos",
+          conteudo: JSON.stringify(data)
+        });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fluxogramas_visuais"] });
+    }
+  });
+
   const toggleSetor = (setorId) => {
     setExpandedSetores(prev => ({ ...prev, [setorId]: !prev[setorId] }));
   };
@@ -535,10 +590,21 @@ export default function FluxogramasOperacionais() {
     }
   };
 
+  const handleSaveVisual = (setorId, data) => {
+    const newVisuais = { ...fluxogramasVisuais, [setorId]: data };
+    setFluxogramasVisuais(newVisuais);
+    saveVisualMutation.mutate(newVisuais);
+  };
+
+  const openVisualEditor = (setorId) => {
+    setSelectedSetorVisual(setorId);
+    setActiveTab("visual");
+  };
+
   return (
     <div className="max-w-full mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">📊 Fluxogramas Operacionais</h1>
           <p className="text-white/50">Processos padronizados de todos os setores do delivery</p>
@@ -557,75 +623,170 @@ export default function FluxogramasOperacionais() {
         </div>
       </div>
 
-      {/* Setores */}
-      <div className="space-y-4">
-        {setoresConfig.map((setor) => {
-          const Icon = setor.icon;
-          const isExpanded = expandedSetores[setor.id];
-          const colunas = fluxogramasData[setor.id] || setor.colunasDefault;
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
+        <TabsList className="bg-white/5 border border-white/10 p-1">
+          <TabsTrigger value="lista" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <Eye size={16} className="mr-2" /> Lista de Etapas
+          </TabsTrigger>
+          <TabsTrigger value="visual" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <Pencil size={16} className="mr-2" /> Editor Visual
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
-          return (
-            <div 
-              key={setor.id} 
-              className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden"
-            >
-              {/* Header do Setor */}
-              <button
-                onClick={() => toggleSetor(setor.id)}
-                className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+      {/* Lista de Etapas */}
+      {activeTab === "lista" && (
+        <div className="space-y-4">
+          {setoresConfig.map((setor) => {
+            const Icon = setor.icon;
+            const isExpanded = expandedSetores[setor.id];
+            const colunas = fluxogramasData[setor.id] || setor.colunasDefault;
+            const hasVisual = fluxogramasVisuais[setor.id]?.nodes?.length > 0;
+
+            return (
+              <div 
+                key={setor.id} 
+                className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden"
               >
-                <div className="flex items-center gap-3">
-                  <div 
-                    className="w-12 h-12 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${setor.cor}20` }}
-                  >
-                    <Icon size={24} style={{ color: setor.cor }} />
+                {/* Header do Setor */}
+                <button
+                  onClick={() => toggleSetor(setor.id)}
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: `${setor.cor}20` }}
+                    >
+                      <Icon size={24} style={{ color: setor.cor }} />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-bold text-white">{setor.titulo}</h3>
+                      <p className="text-xs text-white/50">
+                        {colunas.length} colunas • {colunas.reduce((acc, c) => acc + c.itens.length, 0)} etapas
+                        {hasVisual && " • ✓ Diagrama visual"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <h3 className="font-bold text-white">{setor.titulo}</h3>
-                    <p className="text-xs text-white/50">{colunas.length} colunas • {colunas.reduce((acc, c) => acc + c.itens.length, 0)} etapas</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {isExpanded && (
+                  <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleReset(setor.id);
+                        openVisualEditor(setor.id);
                       }}
-                      className="border-white/10 text-white/60 hover:text-white text-xs"
+                      className="border-white/10 text-[#FF4D00] hover:bg-[#FF4D00]/10 text-xs"
                     >
-                      <RotateCcw size={12} className="mr-1" />
-                      Resetar
+                      <Pencil size={12} className="mr-1" />
+                      Editor Visual
                     </Button>
-                  )}
-                  {isExpanded ? (
-                    <ChevronDown className="text-white/50" />
-                  ) : (
-                    <ChevronRight className="text-white/50" />
-                  )}
-                </div>
-              </button>
-
-              {/* Conteúdo do Fluxograma */}
-              {isExpanded && (
-                <div className="p-4 pt-0 border-t border-white/10">
-                  <div className="bg-black/20 rounded-xl p-4 mt-4">
-                    <FluxogramaSetor
-                      setor={setor}
-                      colunas={colunas}
-                      onUpdateColunas={(newColunas) => handleUpdateColunas(setor.id, newColunas)}
-                      corPrimaria={setor.cor}
-                    />
+                    {isExpanded && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleReset(setor.id);
+                        }}
+                        className="border-white/10 text-white/60 hover:text-white text-xs"
+                      >
+                        <RotateCcw size={12} className="mr-1" />
+                        Resetar
+                      </Button>
+                    )}
+                    {isExpanded ? (
+                      <ChevronDown className="text-white/50" />
+                    ) : (
+                      <ChevronRight className="text-white/50" />
+                    )}
                   </div>
-                </div>
-              )}
+                </button>
+
+                {/* Conteúdo do Fluxograma */}
+                {isExpanded && (
+                  <div className="p-4 pt-0 border-t border-white/10">
+                    <div className="bg-black/20 rounded-xl p-4 mt-4">
+                      <FluxogramaSetor
+                        setor={setor}
+                        colunas={colunas}
+                        onUpdateColunas={(newColunas) => handleUpdateColunas(setor.id, newColunas)}
+                        corPrimaria={setor.cor}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Editor Visual */}
+      {activeTab === "visual" && (
+        <div className="space-y-4">
+          {/* Seletor de Setor */}
+          <div className="flex flex-wrap gap-2 p-4 bg-white/5 border border-white/10 rounded-xl">
+            <span className="text-sm text-white/50 mr-2 self-center">Setor:</span>
+            {setoresConfig.map((setor) => {
+              const Icon = setor.icon;
+              const isSelected = selectedSetorVisual === setor.id;
+              return (
+                <button
+                  key={setor.id}
+                  onClick={() => setSelectedSetorVisual(setor.id)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+                    isSelected 
+                      ? "bg-[#FF4D00]/20 border-[#FF4D00] text-white" 
+                      : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
+                  }`}
+                >
+                  <Icon size={16} style={{ color: isSelected ? "#FF4D00" : setor.cor }} />
+                  <span className="text-xs">{setor.titulo.split("–")[1]?.trim() || setor.titulo}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Editor Visual do Setor Selecionado */}
+          {selectedSetorVisual ? (
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+              <div className="flex items-center gap-3 mb-4">
+                {(() => {
+                  const setor = setoresConfig.find(s => s.id === selectedSetorVisual);
+                  const Icon = setor?.icon || Settings;
+                  return (
+                    <>
+                      <div 
+                        className="w-10 h-10 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${setor?.cor}20` }}
+                      >
+                        <Icon size={20} style={{ color: setor?.cor }} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-white">{setor?.titulo}</h3>
+                        <p className="text-xs text-white/50">Arraste e solte para criar o diagrama de fluxo</p>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+              <FluxogramaVisual
+                fluxogramaData={fluxogramasVisuais[selectedSetorVisual]}
+                onSave={(data) => handleSaveVisual(selectedSetorVisual, data)}
+                sops={sops.filter(s => s.titulo !== "FLUXOGRAMAS_OPERACIONAIS_DATA" && s.titulo !== "FLUXOGRAMAS_VISUAIS_DATA")}
+                checklists={checklists}
+              />
             </div>
-          );
-        })}
-      </div>
+          ) : (
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+              <Settings size={40} className="mx-auto mb-3 text-white/20" />
+              <p className="text-white/40">Selecione um setor acima para editar o diagrama visual</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Botão Salvar Fixo */}
       {hasChanges && (
