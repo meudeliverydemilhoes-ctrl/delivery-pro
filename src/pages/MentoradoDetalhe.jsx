@@ -26,7 +26,8 @@ import {
   FolderOpen,
   ListTodo,
   StickyNote,
-  Files
+  Files,
+  ClipboardCheck
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
