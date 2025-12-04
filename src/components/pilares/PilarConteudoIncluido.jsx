@@ -548,40 +548,75 @@ export default function PilarConteudoIncluido({
 
         {/* Aba Exercícios */}
         <TabsContent value="exercicios" className="space-y-4">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Target size={18} className="text-[#FF4D00]" />
-              <span className="font-medium text-white">🎯 Exercícios Práticos</span>
-              <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length} exercícios</span>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Exercícios Práticos */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <Target size={18} className="text-[#FF4D00]" />
+                <span className="font-medium text-white">🎯 Exercícios Práticos</span>
+                <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length}</span>
+              </div>
+              <div className="space-y-2">
+                {pilar.exercicios.map((ex, idx) => {
+                  const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => setSelectedExercicio(ex)}
+                      className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
+                        hasData 
+                          ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
+                          : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
+                      }`}
+                    >
+                      {hasData ? (
+                        <CheckCircle2 size={18} className="text-emerald-400" />
+                      ) : (
+                        <Circle size={18} className="text-white/30" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white font-medium truncate">{ex.nome}</p>
+                        <p className="text-xs text-white/50 truncate">{ex.descricao}</p>
+                      </div>
+                      <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
+                        {hasData ? "✅" : "Abrir"}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="space-y-2">
-              {pilar.exercicios.map((ex, idx) => {
-                const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
-                return (
+
+            {/* Material Exclusivo */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <Gift size={18} className="text-amber-400" />
+                <span className="font-medium text-white">🎁 Material Exclusivo</span>
+                <span className="text-xs text-white/40 ml-auto">{materiais.length}</span>
+              </div>
+              <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                {materiais.map((material, idx) => (
                   <div
                     key={idx}
-                    onClick={() => setSelectedExercicio(ex)}
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
-                      hasData 
-                        ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
-                        : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
-                    }`}
+                    onClick={() => setSelectedMaterial(material)}
+                    className="flex items-center gap-3 p-3 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all border border-transparent group"
                   >
-                    {hasData ? (
-                      <CheckCircle2 size={18} className="text-emerald-400" />
-                    ) : (
-                      <Circle size={18} className="text-white/30" />
-                    )}
-                    <div className="flex-1">
-                      <p className="text-sm text-white font-medium">{ex.nome}</p>
-                      <p className="text-xs text-white/50">{ex.descricao}</p>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
+                    }`}>
+                      {material.tipo === "video" ? (
+                        <Play size={16} className="text-blue-400" />
+                      ) : (
+                        <Download size={16} className="text-emerald-400" />
+                      )}
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
-                      {hasData ? "✅ Preenchido" : "Abrir"}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white font-medium truncate group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
+                      <p className="text-xs text-white/50 truncate">{material.descricao}</p>
+                    </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
 
