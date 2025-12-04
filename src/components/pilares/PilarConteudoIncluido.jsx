@@ -593,7 +593,92 @@ export default function PilarConteudoIncluido({
             exerciciosData={exerciciosData}
           />
         </TabsContent>
+
+        {/* Aba Material Exclusivo */}
+        <TabsContent value="materiais" className="space-y-4">
+          <div className="bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 rounded-xl p-4 mb-4">
+            <div className="flex items-center gap-2 text-amber-400">
+              <Gift size={18} />
+              <span className="font-medium">Material Exclusivo da Mentoria</span>
+            </div>
+            <p className="text-sm text-white/60 mt-1">Acesse aulas, planilhas e modelos exclusivos para acelerar seus resultados</p>
+          </div>
+
+          <div className="grid gap-3">
+            {materiais.map((material, idx) => (
+              <div
+                key={idx}
+                onClick={() => setSelectedMaterial(material)}
+                className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all group"
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                  material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
+                }`}>
+                  {material.tipo === "video" ? (
+                    <Play size={24} className="text-blue-400" />
+                  ) : (
+                    <Download size={24} className="text-emerald-400" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-white group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
+                  <p className="text-sm text-white/50">{material.descricao}</p>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs ${
+                  material.tipo === "video" 
+                    ? "bg-blue-500/20 text-blue-400" 
+                    : "bg-emerald-500/20 text-emerald-400"
+                }`}>
+                  {material.tipo === "video" ? "Assistir" : "Download"}
+                </div>
+              </div>
+            ))}
+          </div>
+        </TabsContent>
       </Tabs>
+
+      {/* Modal de Material */}
+      <Dialog open={!!selectedMaterial} onOpenChange={() => setSelectedMaterial(null)}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {selectedMaterial?.tipo === "video" ? (
+                <Play className="text-blue-400" size={20} />
+              ) : (
+                <Download className="text-emerald-400" size={20} />
+              )}
+              {selectedMaterial?.nome}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            {selectedMaterial?.tipo === "video" ? (
+              <div className="space-y-4">
+                <div className="aspect-video bg-black/50 rounded-lg flex items-center justify-center">
+                  <div className="text-center">
+                    <Play size={48} className="mx-auto mb-3 text-[#FF4D00]" />
+                    <p className="text-white/60">Vídeo em breve</p>
+                    <p className="text-white/40 text-sm mt-1">O conteúdo será disponibilizado aqui</p>
+                  </div>
+                </div>
+                <p className="text-white/70">{selectedMaterial?.descricao}</p>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-20 h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Download size={40} className="text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-medium text-white mb-2">{selectedMaterial?.nome}</h3>
+                <p className="text-white/60 mb-6">{selectedMaterial?.descricao}</p>
+                <Button className="bg-[#FF4D00] hover:bg-[#E64500]">
+                  <Download size={16} className="mr-2" />
+                  Fazer Download
+                </Button>
+                <p className="text-xs text-white/40 mt-4">O arquivo será disponibilizado em breve</p>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Modal de Exercício */}
       <Dialog open={!!selectedExercicio} onOpenChange={() => setSelectedExercicio(null)}>
