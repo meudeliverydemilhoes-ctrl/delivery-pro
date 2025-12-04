@@ -18,14 +18,15 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigation = [
-    { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-    { name: "Mentorados", page: "Mentorados", icon: Users },
-    { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-    { name: "Cursos", page: "Cursos", icon: BookOpen },
-    { name: "Biblioteca", page: "Biblioteca", icon: Library },
-    { name: "Agenda", page: "Agenda", icon: Calendar },
-    { name: "Notas", page: "Notas", icon: Lightbulb },
-  ];
+            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
+            { name: "Mentorados", page: "Mentorados", icon: Users },
+            { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
+            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: ClipboardList },
+            { name: "Cursos", page: "Cursos", icon: BookOpen },
+            { name: "Biblioteca", page: "Biblioteca", icon: Library },
+            { name: "Agenda", page: "Agenda", icon: Calendar },
+            { name: "Notas", page: "Notas", icon: Lightbulb },
+          ];
 
   return (
     <div className="min-h-screen bg-black text-white">
