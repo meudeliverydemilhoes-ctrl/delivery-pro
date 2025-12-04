@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import TabelaInterativa from "./TabelaInterativa";
 import { AnaliseSwot, FichaTecnica, SimuladorCMV, EscalaTrabalho, AvaliacaoDesempenho } from "./ExercicioInterativo";
 import CheckpointSemanal from "./CheckpointSemanal";
