@@ -22,7 +22,7 @@ export default function Layout({ children, currentPageName }) {
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: ClipboardList },
+            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
             { name: "Cursos", page: "Cursos", icon: BookOpen },
             { name: "Biblioteca", page: "Biblioteca", icon: Library },
             { name: "Agenda", page: "Agenda", icon: Calendar },
