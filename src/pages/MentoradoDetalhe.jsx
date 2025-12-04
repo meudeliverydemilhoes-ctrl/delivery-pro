@@ -37,7 +37,7 @@ import MinhasNotas from "@/components/mentorado/MinhasNotas";
 import MeusArquivos from "@/components/mentorado/MeusArquivos";
 import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
 import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
-import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado";
+import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.jsx";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
