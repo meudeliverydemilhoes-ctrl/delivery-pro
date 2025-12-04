@@ -449,20 +449,20 @@ export default function PilarConteudoIncluido({
 
       {/* Tabs para separar Conteúdo e Módulos */}
       <Tabs defaultValue="conteudo" className="w-full">
-        <TabsList className="bg-white/5 border border-white/10 p-1 mb-4">
-          <TabsTrigger value="conteudo" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+        <TabsList className="bg-white/5 border border-white/10 p-1 mb-4 flex flex-wrap h-auto gap-1">
+          <TabsTrigger value="conteudo" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <BookOpen size={16} className="mr-2" />
             Conteúdo
           </TabsTrigger>
-          <TabsTrigger value="modulos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+          <TabsTrigger value="modulos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <ListChecks size={16} className="mr-2" />
             Módulos
           </TabsTrigger>
-          <TabsTrigger value="exercicios" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+          <TabsTrigger value="exercicios" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <Target size={16} className="mr-2" />
             Exercícios
           </TabsTrigger>
-          <TabsTrigger value="materiais" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+          <TabsTrigger value="materiais" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <Gift size={16} className="mr-2" />
             Material Exclusivo
           </TabsTrigger>
