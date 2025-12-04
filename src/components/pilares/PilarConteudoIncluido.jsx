@@ -373,8 +373,10 @@ export default function PilarConteudoIncluido({
   const [tarefasData, setTarefasData] = useState(customData?.tarefas || defaultPilar?.tarefasExemplo || []);
   const [exerciciosData, setExerciciosData] = useState(customData?.exercicios || {});
   const [selectedExercicio, setSelectedExercicio] = useState(null);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
 
   const pilar = defaultPilar;
+  const materiais = materiaisExclusivos[pilarKey] || [];
   if (!pilar) return null;
 
   const handleUpdateTarefa = (idx, data) => {
