@@ -592,26 +592,48 @@ export default function PilarConteudoIncluido({
             <div className="space-y-2">
               {pilar.exercicios.map((ex, idx) => {
                 const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
+                const hasNota = !!getNotaForItem("exercicio", ex.tipo);
                 return (
                   <div
                     key={idx}
-                    onClick={() => setSelectedExercicio(ex)}
-                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
+                    className={`flex items-center gap-3 p-3 rounded-lg transition-colors border group ${
                       hasData 
                         ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
                         : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
                     }`}
                   >
-                    {hasData ? (
-                      <CheckCircle2 size={18} className="text-emerald-400" />
-                    ) : (
-                      <Circle size={18} className="text-white/30" />
-                    )}
-                    <div className="flex-1">
-                      <p className="text-sm text-white font-medium">{ex.nome}</p>
-                      <p className="text-xs text-white/50">{ex.descricao}</p>
+                    <div 
+                      className="flex items-center gap-3 flex-1 cursor-pointer"
+                      onClick={() => setSelectedExercicio(ex)}
+                    >
+                      {hasData ? (
+                        <CheckCircle2 size={18} className="text-emerald-400" />
+                      ) : (
+                        <Circle size={18} className="text-white/30" />
+                      )}
+                      <div className="flex-1">
+                        <p className="text-sm text-white font-medium">{ex.nome}</p>
+                        <p className="text-xs text-white/50">{ex.descricao}</p>
+                      </div>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openNotaDialog("exercicio", ex.tipo, ex.nome);
+                      }}
+                      className={`p-1.5 rounded-lg transition-all ${
+                        hasNota 
+                          ? "bg-amber-500/20 text-amber-400" 
+                          : "opacity-0 group-hover:opacity-100 hover:bg-white/10 text-white/40 hover:text-white"
+                      }`}
+                      title={hasNota ? "Ver anotação" : "Adicionar anotação"}
+                    >
+                      <StickyNote size={14} />
+                    </button>
+                    <span 
+                      className={`text-xs px-2 py-1 rounded-full cursor-pointer ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}
+                      onClick={() => setSelectedExercicio(ex)}
+                    >
                       {hasData ? "✅ Preenchido" : "Abrir"}
                     </span>
                   </div>
