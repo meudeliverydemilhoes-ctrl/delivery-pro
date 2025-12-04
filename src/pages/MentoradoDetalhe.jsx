@@ -27,13 +27,15 @@ import {
   ListTodo,
   StickyNote,
   Files,
-  ClipboardCheck
+  ClipboardCheck,
+  UtensilsCrossed
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
 import MinhasNotas from "@/components/mentorado/MinhasNotas";
 import MeusArquivos from "@/components/mentorado/MeusArquivos";
 import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
+import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
