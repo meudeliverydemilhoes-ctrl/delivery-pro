@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {
   CheckCircle2, Circle, ChevronDown, ChevronRight, BookOpen, Target,
   ListChecks, Sparkles, Plus, Pencil, Trash2, X, Check, Play, FileText,
-  Table2, ClipboardList, FormInput, ExternalLink, Flag
+  Table2, ClipboardList, FormInput, ExternalLink, Flag, Gift, Video,
+  Download, Lock, Unlock
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
