@@ -414,6 +414,9 @@ export default function MentoradoDetalhe() {
           <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <FileText size={16} className="mr-2" /> Briefing
           </TabsTrigger>
+          <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <ClipboardCheck size={16} className="mr-2" /> Diagnóstico
+          </TabsTrigger>
           <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <Target size={16} className="mr-2" /> Pilares
           </TabsTrigger>
