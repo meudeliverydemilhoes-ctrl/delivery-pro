@@ -30,7 +30,8 @@ import {
   ClipboardCheck,
   UtensilsCrossed,
   GitBranch,
-  LayoutDashboard
+  LayoutDashboard,
+  GraduationCap
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -40,6 +41,7 @@ import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
 import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
 import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.jsx";
 import PainelOrganizacao from "@/components/mentorado/PainelOrganizacao";
+import AulasMentoria from "@/components/mentorado/AulasMentoria";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -432,6 +434,9 @@ export default function MentoradoDetalhe() {
           <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <LayoutDashboard size={16} className="mr-2" /> Painel Organização
           </TabsTrigger>
+          <TabsTrigger value="aulas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <GraduationCap size={16} className="mr-2" /> Aulas
+          </TabsTrigger>
           <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <Target size={16} className="mr-2" /> Pilares
           </TabsTrigger>
@@ -501,6 +506,11 @@ export default function MentoradoDetalhe() {
         {/* Painel de Organização Tab */}
         <TabsContent value="painel">
           <PainelOrganizacao mentoradoId={mentoradoId} />
+        </TabsContent>
+
+        {/* Aulas da Mentoria Tab */}
+        <TabsContent value="aulas">
+          <AulasMentoria mentoradoId={mentoradoId} />
         </TabsContent>
 
         {/* Briefing Tab */}
