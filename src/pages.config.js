@@ -7,6 +7,7 @@ import Agenda from './pages/Agenda';
 import Notas from './pages/Notas';
 import Execucao from './pages/Execucao';
 import ExecucaoInteligente from './pages/ExecucaoInteligente';
+import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import __Layout from './Layout.jsx';
 
 
@@ -20,6 +21,7 @@ export const PAGES = {
     "Notas": Notas,
     "Execucao": Execucao,
     "ExecucaoInteligente": ExecucaoInteligente,
+    "FluxogramasOperacionais": FluxogramasOperacionais,
 }
 
 export const pagesConfig = {
