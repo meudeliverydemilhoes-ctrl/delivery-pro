@@ -21,6 +21,7 @@ export default function Layout({ children, currentPageName }) {
   const navigation = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
+            { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
             { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
             { name: "Cursos", page: "Cursos", icon: BookOpen },
