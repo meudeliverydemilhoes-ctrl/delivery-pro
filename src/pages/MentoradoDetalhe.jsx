@@ -31,7 +31,7 @@ import {
   UtensilsCrossed,
   GitBranch,
   LayoutDashboard,
-
+  ChefHat
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -41,6 +41,7 @@ import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
 import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
 import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.jsx";
 import PainelOrganizacao from "@/components/mentorado/PainelOrganizacao";
+import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOperacionais";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -448,6 +449,9 @@ export default function MentoradoDetalhe() {
           </TabsTrigger>
           <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <TrendingUp size={16} className="mr-2" /> Evolução
+          </TabsTrigger>
+          <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
+            <ChefHat size={16} className="mr-2" /> Fichas Técnicas
           </TabsTrigger>
         </TabsList>
 
@@ -900,6 +904,13 @@ export default function MentoradoDetalhe() {
                 ))}
               </div>
             )}
+          </div>
+        </TabsContent>
+
+        {/* Fichas Técnicas Tab */}
+        <TabsContent value="fichas_tecnicas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
           </div>
         </TabsContent>
       </Tabs>
