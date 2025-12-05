@@ -239,12 +239,12 @@ export default function Mentorados() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 bg-white/5 rounded-2xl border border-white/10">
-          <Users size={48} className="mx-auto mb-4 text-white/20" />
-          <p className="text-white/50">Nenhum mentorado encontrado</p>
-        </div>
-      ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="text-center py-16 bg-white/5 rounded-2xl border border-white/10">
+                      <Users size={48} className="mx-auto mb-4 text-white/20" />
+                      <p className="text-white/50">Nenhum mentorado encontrado</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-4">
           {filtered.map((m) => (
             <div
               key={m.id}
