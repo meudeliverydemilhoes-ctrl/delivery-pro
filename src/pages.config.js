@@ -11,6 +11,7 @@ import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import AulasMentoria from './pages/AulasMentoria';
 import GestaoFinanceira from './pages/GestaoFinanceira';
 import Automacoes from './pages/Automacoes';
+import Relatorios from './pages/Relatorios';
 import __Layout from './Layout.jsx';
 
 
@@ -28,6 +29,7 @@ export const PAGES = {
     "AulasMentoria": AulasMentoria,
     "GestaoFinanceira": GestaoFinanceira,
     "Automacoes": Automacoes,
+    "Relatorios": Relatorios,
 }
 
 export const pagesConfig = {
