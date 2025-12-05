@@ -9,6 +9,7 @@ import Execucao from './pages/Execucao';
 import ExecucaoInteligente from './pages/ExecucaoInteligente';
 import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import AulasMentoria from './pages/AulasMentoria';
+import GestaoFinanceira from './pages/GestaoFinanceira';
 import __Layout from './Layout.jsx';
 
 
@@ -24,6 +25,7 @@ export const PAGES = {
     "ExecucaoInteligente": ExecucaoInteligente,
     "FluxogramasOperacionais": FluxogramasOperacionais,
     "AulasMentoria": AulasMentoria,
+    "GestaoFinanceira": GestaoFinanceira,
 }
 
 export const pagesConfig = {
