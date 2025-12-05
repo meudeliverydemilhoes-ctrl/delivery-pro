@@ -39,22 +39,30 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-black text-white">
       <style>{`
-        :root {
-          --orange: #FF4D00;
-          --orange-hover: #E64500;
-        }
-        .text-orange { color: var(--orange); }
-        .bg-orange { background-color: var(--orange); }
-        .border-orange { border-color: var(--orange); }
-        .hover\\:bg-orange:hover { background-color: var(--orange); }
-        .hover\\:text-orange:hover { color: var(--orange); }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1a1a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
-      `}</style>
+                    :root {
+                      --orange: #FF4D00;
+                      --orange-hover: #E64500;
+                    }
+                    .text-orange { color: var(--orange); }
+                    .bg-orange { background-color: var(--orange); }
+                    .border-orange { border-color: var(--orange); }
+                    .hover\\:bg-orange:hover { background-color: var(--orange); }
+                    .hover\\:text-orange:hover { color: var(--orange); }
+
+                    /* Fix button text visibility */
+                    button, [role="button"] {
+                      color: inherit;
+                    }
+                    .text-white {
+                      color: white !important;
+                    }
+
+                    /* Custom scrollbar */
+                    ::-webkit-scrollbar { width: 6px; height: 6px; }
+                    ::-webkit-scrollbar-track { background: #1a1a1a; }
+                    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+                    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+                  `}</style>
 
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-white/10">
