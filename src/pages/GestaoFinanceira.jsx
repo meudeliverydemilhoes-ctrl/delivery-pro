@@ -10,7 +10,9 @@ import {
   Users, UserPlus, GraduationCap, Target, BadgeCheck, DollarSign,
   UserMinus, Heart, Compass, Flag, Rocket, LayoutGrid, BookOpen,
   FileSpreadsheet, Utensils, ChefHat, Sparkles, CalendarDays,
-  MessageSquare, ListChecks, Clock
+  MessageSquare, ListChecks, Clock, Store, UtensilsCrossed,
+  ClipboardCheck, Send, HandPlatter, ShieldAlert, MessageCircle,
+  Globe, Smartphone, Bike
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
