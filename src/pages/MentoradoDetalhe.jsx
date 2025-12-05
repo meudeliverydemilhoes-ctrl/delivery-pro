@@ -419,41 +419,41 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10 p-1 h-auto flex flex-col w-full gap-1">
-          <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <FileText size={16} className="mr-2" /> Briefing
-          </TabsTrigger>
-          <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <ClipboardCheck size={16} className="mr-2" /> Diagnóstico
-          </TabsTrigger>
-          <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-                        <UtensilsCrossed size={16} className="mr-2" /> Análise Cardápio
-                      </TabsTrigger>
-                      <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <GitBranch size={16} className="mr-2" /> Fluxogramas
-          </TabsTrigger>
-          <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <LayoutDashboard size={16} className="mr-2" /> Painel Organização
-          </TabsTrigger>
-          <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <Target size={16} className="mr-2" /> Pilares
-          </TabsTrigger>
-          <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <ListTodo size={16} className="mr-2" /> Tarefas
-          </TabsTrigger>
-          <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <StickyNote size={16} className="mr-2" /> Notas
-          </TabsTrigger>
-          <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <Files size={16} className="mr-2" /> Arquivos
-          </TabsTrigger>
-          <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <TrendingUp size={16} className="mr-2" /> Evolução
-          </TabsTrigger>
-          <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
-            <ChefHat size={16} className="mr-2" /> Fichas Técnicas
-          </TabsTrigger>
-        </TabsList>
+        <TabsList className="bg-white/5 border border-white/10 p-2 h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                        <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <FileText size={18} className="mr-3" /> Briefing
+                        </TabsTrigger>
+                        <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ClipboardCheck size={18} className="mr-3" /> Diagnóstico
+                        </TabsTrigger>
+                        <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <UtensilsCrossed size={18} className="mr-3" /> Análise Cardápio
+                        </TabsTrigger>
+                        <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <GitBranch size={18} className="mr-3" /> Fluxogramas
+                        </TabsTrigger>
+                        <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <LayoutDashboard size={18} className="mr-3" /> Painel Organização
+                        </TabsTrigger>
+                        <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <Target size={18} className="mr-3" /> Pilares
+                        </TabsTrigger>
+                        <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ListTodo size={18} className="mr-3" /> Tarefas
+                        </TabsTrigger>
+                        <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <StickyNote size={18} className="mr-3" /> Notas
+                        </TabsTrigger>
+                        <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <Files size={18} className="mr-3" /> Arquivos
+                        </TabsTrigger>
+                        <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <TrendingUp size={18} className="mr-3" /> Evolução
+                        </TabsTrigger>
+                        <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ChefHat size={18} className="mr-3" /> Fichas Técnicas
+                        </TabsTrigger>
+                      </TabsList>
 
         {/* Diagnóstico Tab */}
         <TabsContent value="diagnostico">
