@@ -1645,6 +1645,1035 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  // GRUPO 2 - CMV E CONTROLE DE ESTOQUE
+  {
+    id: "2.1",
+    titulo: "ESPECIFICAÇÃO DE PRODUTOS",
+    icon: Package,
+    cor: "bg-orange-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DEFINIÇÃO E PADRONIZAÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Listar todos os produtos que compõem o cardápio",
+            itens: [
+              "Sabores, massas, toppings, bebidas, embalagens"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar insumos necessários para cada produto",
+            itens: [
+              "Ingredientes",
+              "Quantidades",
+              "Embalagens"
+            ]
+          },
+          {
+            numero: 3,
+            titulo: "Definir padrão de apresentação e composição",
+            itens: [
+              "Gramaturas",
+              "Tamanho final",
+              "Aspecto visual"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DOCUMENTAÇÃO DA ESPECIFICAÇÃO",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Criar ficha de especificação por produto",
+            itens: [
+              "Nome do produto",
+              "Categoria",
+              "Insumos utilizados",
+              "Quantidade de cada insumo",
+              "Características obrigatórias"
+            ]
+          },
+          {
+            numero: 5,
+            titulo: "Registrar fornecedores principais do insumo",
+            itens: [
+              "Fornecedores aprovados",
+              "Embalagem padrão do insumo",
+              "Unidade de medida utilizada"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — VALIDAÇÃO DE PADRÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Conferir se o produto está padronizado",
+            checklist: [
+              "Gramatura definida?",
+              "Insumos definidos?",
+              "Padrão visual claro?",
+              "Fornecedor adequado?"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "O produto está 100% padronizado?",
+            decisao: {
+              seNao: [
+                "Ajustar gramaturas",
+                "Revisar insumos",
+                "Confirmar fornecedores"
+              ],
+              seSim: [
+                "Avançar para implementação"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — IMPLEMENTAÇÃO NA OPERAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Enviar ficha de especificação para Cozinha e Estoque",
+            itens: [
+              "Garantir que todos saibam o padrão aprovado"
+            ]
+          },
+          {
+            numero: 9,
+            titulo: "Treinar equipe operacional nos padrões",
+            itens: [
+              "Demonstrar modelo correto",
+              "Validar compreensão dos colaboradores"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Arquivar documento de especificação",
+            itens: [
+              "Pasta: CMV > Especificações > Produto"
+            ]
+          },
+          {
+            numero: 11,
+            titulo: "Programar revisão a cada 90 dias",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.2",
+    titulo: "CONSTRUÇÃO DAS FICHAS TÉCNICAS",
+    icon: ClipboardList,
+    cor: "bg-teal-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar todos os produtos ativos no cardápio",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Separar insumos que fazem parte do produto",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Definir unidade de medida correta (g / ml / un)",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ESTRUTURAÇÃO DA FICHA TÉCNICA",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Criar estrutura da ficha",
+            itens: [
+              "Nome do produto",
+              "Categoria",
+              "Peso final desejado",
+              "Gramatura de cada item",
+              "Etapas de montagem",
+              "Ponto de atenção"
+            ]
+          },
+          {
+            numero: 5,
+            titulo: "Registrar gramatura exata de cada insumo",
+            itens: [
+              "Definir quantidade fixa",
+              "Evitar faixas variáveis"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — TESTE E VALIDAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Produzir o produto exatamente como descrito",
+            itens: [
+              "Usar balança",
+              "Registrar fotos do processo"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "O peso final está adequado?",
+            decisao: {
+              seNao: [
+                "Ajustar gramaturas",
+                "Repetir teste"
+              ],
+              seSim: [
+                "Confirmar padrão oficial"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — IMPLEMENTAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Treinar equipe de cozinha",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Disponibilizar ficha impressa na área de produção",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Arquivar a ficha técnica",
+            itens: [
+              "Pasta: CMV > Fichas Técnicas"
+            ]
+          },
+          {
+            numero: 11,
+            titulo: "Agendar revisão trimestral",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.3",
+    titulo: "ORGANIZAÇÃO DO ESTOQUE",
+    icon: Warehouse,
+    cor: "bg-lime-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO E ESTRUTURAÇÃO FÍSICA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Definir áreas do estoque",
+            itens: [
+              "Secos",
+              "Resfriados",
+              "Congelados",
+              "Produtos químicos",
+              "Embalagens"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar prateleiras e caixas",
+            itens: [
+              "Etiquetas claras",
+              "Setorização por tipo"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ORGANIZAÇÃO DOS ITENS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Aplicar método FIFO (Primeiro que Entra, Primeiro que Sai)",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Separar produtos por categoria",
+            itens: [
+              "Laticínios",
+              "Carnes",
+              "Hortifruti",
+              "Insumos secos"
+            ]
+          },
+          {
+            numero: 5,
+            titulo: "Conferir validade de todos os produtos",
+            itens: [
+              "Itens vencidos → descarte imediato"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — REGISTRO E CONTROLE",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Registrar todos os produtos no sistema / planilha",
+            itens: [
+              "Nome",
+              "Unidade",
+              "Quantidade",
+              "Localização"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Conferir se todos os itens foram cadastrados",
+            checklist: [
+              "Todos os insumos estão registrados?",
+              "Localização correta?",
+              "Validades atualizadas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — RESPONSABILIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Definir responsável pelo estoque",
+            itens: [
+              "Manutenção",
+              "Validação diária",
+              "Limpeza e organização"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Arquivar relatório de organização",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Programar revisão semanal do estoque",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.4",
+    titulo: "CONTAGEM DE ESTOQUE",
+    icon: Calculator,
+    cor: "bg-sky-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Imprimir ou abrir planilha de contagem",
+            itens: [
+              "Estoque seco",
+              "Resfriado",
+              "Congelado"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Separar equipe responsável",
+            itens: [
+              "Dupla para conferência cruzada"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — EXECUÇÃO DA CONTAGEM",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Contar item por item, sem estimativas",
+            itens: [
+              "Usar balança para itens abertos",
+              "Conferir unidade correta"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Registrar quantidade real no momento da contagem",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFERÊNCIA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Comparar contagem física com sistema",
+            itens: [
+              "Identificar variações",
+              "Sinalizar diferenças relevantes"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Existem diferenças significativas?",
+            decisao: {
+              seSim: [
+                "Recontar item",
+                "Verificar validade",
+                "Investigar perdas"
+              ],
+              seNao: [
+                "Avançar para fechamento"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AJUSTES",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Ajustar estoque no sistema",
+            itens: [
+              "Inserir justificativa",
+              "Atualizar quantidade padrão"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Salvar relatório da contagem",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Enviar para gestor revisar",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Atualizar painel semanal de CMV",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.5",
+    titulo: "ROTINAS DE COMPRAS",
+    icon: ShoppingCart,
+    cor: "bg-rose-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO PARA COMPRA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Abrir planilha de compras atualizada",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Levantar estoque mínimo de cada insumo",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Verificar frequência de compra por fornecedor",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ANÁLISE DE NECESSIDADE",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Conferir consumo médio diário/semana",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "O estoque atual atende até a próxima compra?",
+            decisao: {
+              seNao: [
+                "Incluir item na lista de compras"
+              ],
+              seSim: [
+                "Não incluir o item"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — GERAÇÃO DA LISTA DE COMPRAS",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Preencher lista oficial",
+            itens: [
+              "Nome do item",
+              "Unidade",
+              "Quantidade a comprar",
+              "Fornecedor correspondente"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Revisar lista antes de enviar",
+            checklist: [
+              "Insumos essenciais incluídos?",
+              "Quantidades corretas?",
+              "Fornecedores certos?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — APROVAÇÃO E ENVIO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Enviar lista para aprovação do gestor",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "A lista foi aprovada?",
+            decisao: {
+              seNao: [
+                "Ajustar conforme orientação",
+                "Reenviar"
+              ],
+              seSim: [
+                "Enviar para fornecedores"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Arquivar lista aprovada",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Registrar data da próxima compra",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.6",
+    titulo: "PROCESSO DE RECEBIMENTO",
+    icon: Truck,
+    cor: "bg-slate-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO PARA O RECEBIMENTO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir lista de compras e pedidos realizados",
+            itens: [
+              "Itens, quantidades e fornecedores",
+              "Previsão de entrega",
+              "Responsável pelo recebimento"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Preparar área de recebimento",
+            itens: [
+              "Balança calibrada",
+              "Termômetro",
+              "Planilha/sistema aberto"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — RECEBIMENTO DO FORNECEDOR",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Conferir nota fiscal antes de descarregar",
+            itens: [
+              "CNPJ",
+              "Produtos",
+              "Quantidades",
+              "Datas"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Avaliar condições do transporte",
+            itens: [
+              "Temperatura adequada",
+              "Integridade da embalagem",
+              "Veículo limpo"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFERÊNCIA FÍSICA E TÉCNICA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Conferir item por item com a NF",
+            itens: [
+              "Quantidade",
+              "Peso",
+              "Unidade correta"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Conferir validade e integridade dos produtos",
+            checklist: [
+              "Validade dentro do padrão?",
+              "Embalagem sem danos?",
+              "Sem sinais de contaminação?"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Há divergências entre pedido e NF?",
+            decisao: {
+              seSim: [
+                "Anotar divergência",
+                "Fotografar evidência",
+                "Contatar fornecedor imediatamente"
+              ],
+              seNao: [
+                "Avançar para o registro"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — REGISTRO DO RECEBIMENTO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Registrar dados no sistema",
+            itens: [
+              "Produto",
+              "Quantidade",
+              "Lote",
+              "Validade"
+            ]
+          },
+          {
+            numero: 9,
+            titulo: "Anexar NF ao sistema financeiro",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Encaminhar produto para estocagem correta",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Registrar conclusão do recebimento",
+            itens: []
+          },
+          {
+            numero: 12,
+            titulo: "Atualizar estoque disponível",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.7",
+    titulo: "ESTOCAGEM",
+    icon: BoxSelect,
+    cor: "bg-fuchsia-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DO ESTOQUE",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Verificar se o estoque está limpo e organizado",
+            itens: [
+              "Prateleiras desobstruídas",
+              "Containers adequados",
+              "Freezers e geladeiras funcionando"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Conferir espaço disponível para novos itens",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CLASSIFICAÇÃO DOS ITENS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Separar produtos por categoria",
+            itens: [
+              "Secos / Refrigerados / Congelados / Químicos"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Aplicar método FIFO",
+            itens: [
+              "Produtos mais antigos ficam na frente",
+              "Novos sempre atrás"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ARMAZENAMENTO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Armazenar conforme tipo de insumo",
+            itens: [
+              "Refrigerados entre 2° e 5°C",
+              "Congelados entre -10° e -18°C",
+              "Secos longe de umidade"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Registrar localização do produto",
+            itens: [
+              "Prateleira",
+              "Setor",
+              "Container"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — VERIFICAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Conferir se os produtos foram armazenados corretamente",
+            checklist: [
+              "Itens no local correto?",
+              "FIFO aplicado?",
+              "Validades visíveis?",
+              "Nenhum item obstruindo circulação?"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Há itens mal armazenados?",
+            decisao: {
+              seSim: [
+                "Reorganizar imediatamente"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Atualizar sistema com localização e quantidade",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Registrar estocagem concluída",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.8",
+    titulo: "COMPUTAÇÃO DO CMV",
+    icon: Calculator,
+    cor: "bg-yellow-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — COLETA DE INFORMAÇÕES",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Reunir dados de estoque inicial",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Reunir estoque final do período",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Reunir total de compras do período",
+            itens: [
+              "Apenas insumos que impactam produção"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CÁLCULO DO CMV",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Aplicar fórmula padrão",
+            itens: [
+              "CMV = (Estoque inicial + Compras) – Estoque final"
+            ]
+          },
+          {
+            numero: 5,
+            titulo: "Registrar CMV total e CMV por categoria",
+            itens: [
+              "Laticínios",
+              "Carnes",
+              "Hortifruti",
+              "Embalagens"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANÁLISE DO CMV",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Calcular CMV percentual",
+            itens: [
+              "CMV% = (CMV / Faturamento) * 100",
+              "Padrão Pizzaria: 28% a 33%",
+              "Padrão Hamburgueria: 30% a 35%"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "O CMV está dentro do padrão esperado?",
+            decisao: {
+              seNao: [
+                "Identificar variações do estoque",
+                "Verificar perdas e quebra",
+                "Analisar compras fora de padrão"
+              ],
+              seSim: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — INVESTIGAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Avaliar categorias com maior impacto",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Verificar diferença entre produção prevista e real",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Registrar CMV no painel mensal",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Enviar relatório para gestor",
+            itens: []
+          },
+          {
+            numero: 12,
+            titulo: "Agendar revisão do CMV semanal/mensal",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "2.9",
+    titulo: "GESTÃO DO GAP",
+    icon: TrendingDown,
+    cor: "bg-red-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — IDENTIFICAÇÃO DO GAP",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Comparar CMV ideal x CMV real",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Levantar diferenças por categoria",
+            itens: [
+              "Laticínios",
+              "Carnes",
+              "Embalagens"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ANÁLISE DA CAUSA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Investigar possíveis origens do GAP",
+            itens: [
+              "Erros de ficha técnica",
+              "Erros de gramatura",
+              "Perdas e desperdícios",
+              "Compras fora de padrão",
+              "Quebras no estoque"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Localizar área com maior impacto",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — AÇÕES CORRETIVAS",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Definir ações para reduzir GAP",
+            itens: [
+              "Treinamento",
+              "Reforço de gramatura",
+              "Revisão de fichas técnicas",
+              "Ajuste de fornecedores"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Estabelecer metas de redução",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ACOMPANHAMENTO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Monitorar diariamente indicadores do GAP",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Reavaliar semanalmente impacto das ações",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar redução do GAP",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Comunicar equipe e liderança",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
