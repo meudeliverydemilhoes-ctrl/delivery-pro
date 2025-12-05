@@ -417,120 +417,53 @@ export default function MentoradoDetalhe() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        {/* Links para páginas dedicadas */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-          <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <FileText size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Briefing</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoDiagnostico?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <ClipboardCheck size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Diagnóstico</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoCardapio?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <UtensilsCrossed size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Cardápio</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoFluxogramas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <GitBranch size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Fluxogramas</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoPainel?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <LayoutDashboard size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Painel</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoPilares?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <Target size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Pilares</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoTarefas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <ListTodo size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Tarefas</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoNotas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <StickyNote size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Notas</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoArquivos?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <Files size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoFichasTecnicas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <ChefHat size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Fichas Técnicas</span>
-          </Link>
-          <Link to={createPageUrl(`MentoradoEvolucao?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <TrendingUp size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Evolução</span>
-          </Link>
-        </div>
-
-        {/* Evolução Tab */}
-        <TabsContent value="evolucao">
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
-              <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
-                <Plus size={16} className="mr-2" /> Adicionar Registro
-              </Button>
-            </div>
-
-            {evolucoes.length === 0 ? (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
-                <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/40">Nenhum registro de evolução</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {evolucoes.map((evo) => (
-                  <div
-                    key={evo.id}
-                    className="bg-white/5 border border-white/10 rounded-xl p-4 group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <button
-                        onClick={() => updateEvolucaoMutation.mutate({ id: evo.id, data: { concluido: !evo.concluido } })}
-                        className="flex-shrink-0 mt-1"
-                      >
-                        {evo.concluido ? (
-                          <CheckCircle2 size={20} className="text-emerald-400" />
-                        ) : (
-                          <Circle size={20} className="text-white/30" />
-                        )}
-                      </button>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className={`font-medium ${evo.concluido ? "text-white/40 line-through" : "text-white"}`}>
-                            {evo.titulo}
-                          </p>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${evolucaoColors[evo.tipo]}`}>
-                            {evo.tipo?.replace("_", " ")}
-                          </span>
-                        </div>
-                        {evo.descricao && (
-                          <p className="text-sm text-white/60">{evo.descricao}</p>
-                        )}
-                        <p className="text-xs text-white/40 mt-2">
-                          {evo.data && format(new Date(evo.data), "dd/MM/yyyy")}
-                          {evo.pilar && evo.pilar !== "geral" && ` • ${evo.pilar.replace("_", " ")}`}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => deleteEvolucaoMutation.mutate(evo.id)}
-                        className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </TabsContent>
-        </Tabs>
+      {/* Links para páginas dedicadas */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <FileText size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Briefing</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoDiagnostico?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <ClipboardCheck size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Diagnóstico</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoCardapio?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <UtensilsCrossed size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Cardápio</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoFluxogramas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <GitBranch size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Fluxogramas</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoPainel?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <LayoutDashboard size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Painel</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoPilares?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <Target size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Pilares</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoTarefas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <ListTodo size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Tarefas</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoNotas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <StickyNote size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Notas</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoArquivos?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <Files size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoFichasTecnicas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <ChefHat size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Fichas Técnicas</span>
+        </Link>
+        <Link to={createPageUrl(`MentoradoEvolucao?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <TrendingUp size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Evolução</span>
+        </Link>
+      </div>
 
       {/* Dialog Pilar */}
       <Dialog open={pilarDialogOpen} onOpenChange={setPilarDialogOpen}>
