@@ -3,7 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   CheckCircle2, Circle, Clock, AlertTriangle, Camera, Video,
-  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X
+  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X,
+  Edit2, Plus, Trash2, Save
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,10 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
   const [uploading, setUploading] = useState(null);
   const [reprovarDialog, setReprovarDialog] = useState(null);
   const [motivoReprovacao, setMotivoReprovacao] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedItens, setEditedItens] = useState([]);
+  const [editedTitulo, setEditedTitulo] = useState("");
+  const [newItemText, setNewItemText] = useState("");
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.ExecucaoChecklist.update(id, data),
@@ -126,6 +131,56 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
     setMotivoReprovacao("");
   };
 
+  // Funções de edição
+  const startEditing = (e) => {
+    e.stopPropagation();
+    setEditedItens(execucao.itens?.map(item => ({ ...item })) || []);
+    setEditedTitulo(execucao.titulo || "");
+    setIsEditing(true);
+    setExpanded(true);
+  };
+
+  const cancelEditing = () => {
+    setIsEditing(false);
+    setEditedItens([]);
+    setEditedTitulo("");
+    setNewItemText("");
+  };
+
+  const saveEditing = () => {
+    const concluidos = editedItens.filter(i => i.concluido && !i.reprovado).length;
+    const progresso = editedItens.length > 0 ? Math.round((concluidos / editedItens.length) * 100) : 0;
+    const allConcluidos = editedItens.every(i => i.concluido && !i.reprovado);
+
+    updateMutation.mutate({
+      id: execucao.id,
+      data: {
+        titulo: editedTitulo,
+        itens: editedItens,
+        progresso,
+        status: allConcluidos ? "concluido" : progresso > 0 ? "em_andamento" : "pendente"
+      }
+    });
+    setIsEditing(false);
+    setNewItemText("");
+  };
+
+  const updateEditedItem = (idx, field, value) => {
+    const newItens = [...editedItens];
+    newItens[idx] = { ...newItens[idx], [field]: value };
+    setEditedItens(newItens);
+  };
+
+  const deleteEditedItem = (idx) => {
+    setEditedItens(editedItens.filter((_, i) => i !== idx));
+  };
+
+  const addNewItem = () => {
+    if (!newItemText.trim()) return;
+    setEditedItens([...editedItens, { texto: newItemText.trim(), concluido: false }]);
+    setNewItemText("");
+  };
+
   const progresso = calcularProgresso();
   const status = statusConfig[execucao.status] || statusConfig.pendente;
   const isAtrasado = execucao.data_limite && new Date(execucao.data_limite) < new Date() && execucao.status !== "concluido";
@@ -160,82 +215,171 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
             }`}>
               {progresso}%
             </span>
+            {!isEditing && (
+              <button
+                onClick={startEditing}
+                className="p-1.5 hover:bg-white/10 rounded-lg text-white/40 hover:text-white transition-colors"
+                title="Editar checklist"
+              >
+                <Edit2 size={14} />
+              </button>
+            )}
           </div>
         </CollapsibleTrigger>
 
         <CollapsibleContent>
           <div className="px-4 pb-4 space-y-3">
-            {execucao.itens?.map((item, idx) => (
-              <div
-                key={idx}
-                className={`p-3 rounded-lg border transition-colors ${
-                  item.reprovado 
-                    ? "bg-red-500/10 border-red-500/30" 
-                    : item.concluido 
-                      ? "bg-emerald-500/10 border-emerald-500/30" 
-                      : "bg-white/5 border-white/10"
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <button
-                    onClick={() => !item.reprovado && handleToggleItem(idx)}
-                    disabled={item.reprovado}
-                    className="mt-0.5"
-                  >
-                    {item.reprovado ? (
-                      <X size={18} className="text-red-400" />
-                    ) : item.concluido ? (
-                      <CheckCircle2 size={18} className="text-emerald-400" />
-                    ) : (
-                      <Circle size={18} className="text-white/30 hover:text-white/50" />
-                    )}
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm ${item.concluido ? "text-white/50 line-through" : item.reprovado ? "text-red-300" : "text-white/80"}`}>
-                      {item.texto}
-                    </p>
-                    {item.reprovado && item.motivo_reprovacao && (
-                      <p className="text-xs text-red-400 mt-1">❌ {item.motivo_reprovacao}</p>
-                    )}
-                    {item.comentario && (
-                      <p className="text-xs text-white/40 mt-1">💬 {item.comentario}</p>
-                    )}
-                    {item.evidencia_url && (
-                      <a href={item.evidencia_url} target="_blank" rel="noopener noreferrer" className="text-xs text-[#FF4D00] mt-1 inline-flex items-center gap-1">
-                        {item.evidencia_tipo === "video" ? <Video size={12} /> : <Camera size={12} />}
-                        Ver evidência
-                      </a>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {/* Upload de evidência */}
-                    <label className="p-1.5 hover:bg-white/10 rounded cursor-pointer text-white/40 hover:text-white">
-                      <input
-                        type="file"
-                        accept="image/*,video/*"
-                        className="hidden"
-                        onChange={(e) => e.target.files[0] && handleUploadEvidencia(idx, e.target.files[0])}
-                      />
-                      {uploading === idx ? (
-                        <div className="w-4 h-4 border-2 border-[#FF4D00] border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <Upload size={14} />
-                      )}
-                    </label>
-                    {/* Reprovar */}
-                    {!item.concluido && !item.reprovado && (
-                      <button
-                        onClick={() => setReprovarDialog(idx)}
-                        className="p-1.5 hover:bg-red-500/20 rounded text-red-400/50 hover:text-red-400"
-                        title="Reprovar item"
-                      >
-                        <Flag size={14} />
-                      </button>
-                    )}
-                  </div>
+            {isEditing ? (
+              <>
+                {/* Modo Edição */}
+                <div className="mb-4">
+                  <label className="text-xs text-white/50 mb-1 block">Título do Checklist</label>
+                  <Input
+                    value={editedTitulo}
+                    onChange={(e) => setEditedTitulo(e.target.value)}
+                    className="bg-white/10 border-white/10 text-white"
+                    placeholder="Título do checklist"
+                  />
                 </div>
-              </div>
-            ))}
+
+                {editedItens.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10"
+                  >
+                    <button
+                      onClick={() => updateEditedItem(idx, "concluido", !item.concluido)}
+                      className="flex-shrink-0"
+                    >
+                      {item.concluido ? (
+                        <CheckCircle2 size={18} className="text-emerald-400" />
+                      ) : (
+                        <Circle size={18} className="text-white/30" />
+                      )}
+                    </button>
+                    <Input
+                      value={item.texto}
+                      onChange={(e) => updateEditedItem(idx, "texto", e.target.value)}
+                      className="bg-white/10 border-white/10 text-white flex-1"
+                    />
+                    <button
+                      onClick={() => deleteEditedItem(idx)}
+                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                ))}
+
+                {/* Adicionar novo item */}
+                <div className="flex gap-2 mt-4">
+                  <Input
+                    value={newItemText}
+                    onChange={(e) => setNewItemText(e.target.value)}
+                    placeholder="Novo item..."
+                    className="bg-white/10 border-white/10 text-white flex-1"
+                    onKeyDown={(e) => e.key === "Enter" && addNewItem()}
+                  />
+                  <Button onClick={addNewItem} className="bg-white/10 hover:bg-white/20 text-white">
+                    <Plus size={14} />
+                  </Button>
+                </div>
+
+                {/* Botões de ação */}
+                <div className="flex gap-2 mt-4 pt-4 border-t border-white/10">
+                  <Button
+                    onClick={cancelEditing}
+                    variant="outline"
+                    className="flex-1 border-white/10 text-white hover:bg-white/10"
+                  >
+                    <X size={14} className="mr-2" />
+                    Cancelar
+                  </Button>
+                  <Button
+                    onClick={saveEditing}
+                    className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+                  >
+                    <Save size={14} className="mr-2" />
+                    Salvar
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Modo visualização normal */}
+                {execucao.itens?.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border transition-colors ${
+                      item.reprovado 
+                        ? "bg-red-500/10 border-red-500/30" 
+                        : item.concluido 
+                          ? "bg-emerald-500/10 border-emerald-500/30" 
+                          : "bg-white/5 border-white/10"
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <button
+                        onClick={() => !item.reprovado && handleToggleItem(idx)}
+                        disabled={item.reprovado}
+                        className="mt-0.5"
+                      >
+                        {item.reprovado ? (
+                          <X size={18} className="text-red-400" />
+                        ) : item.concluido ? (
+                          <CheckCircle2 size={18} className="text-emerald-400" />
+                        ) : (
+                          <Circle size={18} className="text-white/30 hover:text-white/50" />
+                        )}
+                      </button>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-sm ${item.concluido ? "text-white/50 line-through" : item.reprovado ? "text-red-300" : "text-white/80"}`}>
+                          {item.texto}
+                        </p>
+                        {item.reprovado && item.motivo_reprovacao && (
+                          <p className="text-xs text-red-400 mt-1">❌ {item.motivo_reprovacao}</p>
+                        )}
+                        {item.comentario && (
+                          <p className="text-xs text-white/40 mt-1">💬 {item.comentario}</p>
+                        )}
+                        {item.evidencia_url && (
+                          <a href={item.evidencia_url} target="_blank" rel="noopener noreferrer" className="text-xs text-[#FF4D00] mt-1 inline-flex items-center gap-1">
+                            {item.evidencia_tipo === "video" ? <Video size={12} /> : <Camera size={12} />}
+                            Ver evidência
+                          </a>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        {/* Upload de evidência */}
+                        <label className="p-1.5 hover:bg-white/10 rounded cursor-pointer text-white/40 hover:text-white">
+                          <input
+                            type="file"
+                            accept="image/*,video/*"
+                            className="hidden"
+                            onChange={(e) => e.target.files[0] && handleUploadEvidencia(idx, e.target.files[0])}
+                          />
+                          {uploading === idx ? (
+                            <div className="w-4 h-4 border-2 border-[#FF4D00] border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <Upload size={14} />
+                          )}
+                        </label>
+                        {/* Reprovar */}
+                        {!item.concluido && !item.reprovado && (
+                          <button
+                            onClick={() => setReprovarDialog(idx)}
+                            className="p-1.5 hover:bg-red-500/20 rounded text-red-400/50 hover:text-red-400"
+                            title="Reprovar item"
+                          >
+                            <Flag size={14} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </CollapsibleContent>
       </Collapsible>
