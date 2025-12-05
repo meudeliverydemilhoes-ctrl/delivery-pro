@@ -920,7 +920,7 @@ export default function ExecucaoInteligente() {
 
         {/* Modelos de Checklist */}
         <TabsContent value="modelos">
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Checklists Criados */}
             {checklists.length > 0 && (
               <div>
@@ -953,38 +953,49 @@ export default function ExecucaoInteligente() {
               </div>
             )}
 
-            {/* Checklists Prontos */}
-            <div>
-              <h3 className="text-lg font-medium text-white mb-2">Modelos Prontos</h3>
-              <p className="text-sm text-white/50 mb-4">Checklists prontos para usar. Clique para adicionar à sua biblioteca.</p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {checklistsProntos.map((checklist, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
-                      <h4 className="font-medium text-white">{checklist.titulo}</h4>
+            {/* Checklists Prontos por Categoria */}
+            {[
+              { key: "operacional", label: "🏭 Operacional", desc: "Abertura, fechamento, estoque e rotinas" },
+              { key: "marketing", label: "📱 Marketing", desc: "Campanhas, redes sociais e iFood" },
+              { key: "financeiro", label: "💰 Financeiro", desc: "DRE, fluxo de caixa e indicadores" },
+              { key: "equipe", label: "👥 Gestão de Equipe", desc: "Treinamento, avaliação e escalas" }
+            ].map(cat => (
+              <div key={cat.key}>
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-lg font-medium text-white">{cat.label}</h3>
+                  <span className="text-xs text-white/40">{checklistsProntos[cat.key]?.length || 0} modelos</span>
+                </div>
+                <p className="text-sm text-white/50 mb-4">{cat.desc}</p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {(checklistsProntos[cat.key] || []).map((checklist, idx) => (
+                    <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
+                        <h4 className="font-medium text-white text-sm">{checklist.titulo}</h4>
+                      </div>
+                      <p className="text-xs text-white/50 mb-3">{checklist.descricao}</p>
+                      <div className="flex items-center justify-between text-xs text-white/40 mb-3">
+                        <span>{checklist.itens?.length || 0} itens</span>
+                        <span className={`px-2 py-0.5 rounded-full ${
+                          checklist.categoria === "diario" ? "bg-blue-500/20 text-blue-400" :
+                          checklist.categoria === "semanal" ? "bg-amber-500/20 text-amber-400" :
+                          checklist.categoria === "mensal" ? "bg-violet-500/20 text-violet-400" :
+                          "bg-pink-500/20 text-pink-400"
+                        }`}>{checklist.categoria}</span>
+                      </div>
+                      <Button
+                        onClick={() => createChecklistMutation.mutate(checklist)}
+                        variant="outline"
+                        className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                        size="sm"
+                      >
+                        <Plus size={14} className="mr-1" /> Adicionar
+                      </Button>
                     </div>
-                    <p className="text-sm text-white/50 mb-3">{checklist.descricao}</p>
-                    <div className="flex items-center justify-between text-xs text-white/40 mb-3">
-                      <span>{checklist.itens?.length || 0} itens</span>
-                      <span className={`px-2 py-0.5 rounded-full ${
-                        checklist.categoria === "diario" ? "bg-blue-500/20 text-blue-400" :
-                        checklist.categoria === "semanal" ? "bg-amber-500/20 text-amber-400" :
-                        "bg-violet-500/20 text-violet-400"
-                      }`}>{checklist.categoria}</span>
-                    </div>
-                    <Button
-                      onClick={() => createChecklistMutation.mutate(checklist)}
-                      variant="outline"
-                      className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
-                      size="sm"
-                    >
-                      <Plus size={14} className="mr-1" /> Adicionar à Biblioteca
-                    </Button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </TabsContent>
 
@@ -1067,7 +1078,7 @@ export default function ExecucaoInteligente() {
 
         {/* SOPs */}
         <TabsContent value="sops">
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* SOPs Criados */}
             {sops.length > 0 && (
               <div>
@@ -1080,47 +1091,58 @@ export default function ExecucaoInteligente() {
               </div>
             )}
 
-            {/* SOPs Prontos */}
-            <div>
-              <h3 className="text-lg font-medium text-white mb-2">SOPs Prontos</h3>
-              <p className="text-sm text-white/50 mb-4">Procedimentos padrão prontos para usar. Clique para adicionar à sua biblioteca.</p>
-              <div className="grid md:grid-cols-2 gap-4">
-                {sopsProntos.map((sop, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">{pilarOptions.find(p => p.value === sop.pilar)?.label?.charAt(0) || "📋"}</span>
-                      <h4 className="font-medium text-white">{sop.titulo}</h4>
+            {/* SOPs Prontos por Categoria */}
+            {[
+              { key: "operacional", label: "🏭 Operacional", desc: "Fichas técnicas, recebimento e processos" },
+              { key: "marketing", label: "📱 Marketing", desc: "iFood, redes sociais e campanhas" },
+              { key: "financeiro", label: "💰 Financeiro", desc: "DRE, fluxo de caixa e precificação" },
+              { key: "equipe", label: "👥 Gestão de Equipe", desc: "Treinamento, avaliação e conflitos" }
+            ].map(cat => (
+              <div key={cat.key}>
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-lg font-medium text-white">{cat.label}</h3>
+                  <span className="text-xs text-white/40">{sopsProntos[cat.key]?.length || 0} SOPs</span>
+                </div>
+                <p className="text-sm text-white/50 mb-4">{cat.desc}</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {(sopsProntos[cat.key] || []).map((sop, idx) => (
+                    <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">{pilarOptions.find(p => p.value === sop.pilar)?.label?.charAt(0) || "📋"}</span>
+                        <h4 className="font-medium text-white">{sop.titulo}</h4>
+                      </div>
+                      <p className="text-sm text-white/50 mb-3">{sop.descricao}</p>
+                      <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
+                        <span className={`px-2 py-0.5 rounded-full ${
+                          sop.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
+                          sop.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
+                          sop.pilar === "presenca_magnetica" ? "bg-pink-500/20 text-pink-400" :
+                          "bg-violet-500/20 text-violet-400"
+                        }`}>{pilarOptions.find(p => p.value === sop.pilar)?.label}</span>
+                        <span>{sop.passos?.length || 0} passos</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => createSOPMutation.mutate({ ...sop, ativo: true })}
+                          variant="outline"
+                          className="flex-1 border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                          size="sm"
+                        >
+                          <Plus size={14} className="mr-1" /> Adicionar
+                        </Button>
+                        <Button
+                          onClick={() => handleAplicarSOP(sop)}
+                          className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+                          size="sm"
+                        >
+                          <ClipboardList size={14} className="mr-1" /> Checklist
+                        </Button>
+                      </div>
                     </div>
-                    <p className="text-sm text-white/50 mb-3">{sop.descricao}</p>
-                    <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
-                      <span className={`px-2 py-0.5 rounded-full ${
-                        sop.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
-                        sop.pilar === "presenca_magnetica" ? "bg-pink-500/20 text-pink-400" :
-                        "bg-violet-500/20 text-violet-400"
-                      }`}>{pilarOptions.find(p => p.value === sop.pilar)?.label}</span>
-                      <span>{sop.passos?.length || 0} passos</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => createSOPMutation.mutate({ ...sop, ativo: true })}
-                        variant="outline"
-                        className="flex-1 border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
-                        size="sm"
-                      >
-                        <Plus size={14} className="mr-1" /> Adicionar
-                      </Button>
-                      <Button
-                        onClick={() => handleAplicarSOP(sop)}
-                        className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
-                        size="sm"
-                      >
-                        <ClipboardList size={14} className="mr-1" /> Gerar Checklist
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </TabsContent>
 
