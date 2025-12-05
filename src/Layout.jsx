@@ -53,7 +53,12 @@ export default function Layout({ children, currentPageName }) {
                                   button[class*="variant-outline"], 
                                   [data-variant="outline"],
                                   .border-white\/10.bg-transparent,
-                                  button.border-white\/10 {
+                                  button.border-white\/10,
+                                  button.text-black {
+                                    color: black !important;
+                                  }
+
+                                  button.text-black:hover {
                                     color: black !important;
                                   }
 
