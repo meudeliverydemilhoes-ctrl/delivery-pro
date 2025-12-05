@@ -50,15 +50,11 @@ export default function Layout({ children, currentPageName }) {
                     .hover\\:text-orange:hover { color: var(--orange); }
 
                     /* Fix outline button text - black text on white/light buttons */
-                                  button[class*="variant-outline"], 
-                                  [data-variant="outline"],
-                                  .border-white\/10.bg-transparent,
-                                  button.border-white\/10,
-                                  button.text-black {
-                                    color: black !important;
-                                  }
-
-                                  button.text-black:hover {
+                                  button.text-black,
+                                  button.text-black:hover,
+                                  button.text-black:focus,
+                                  button.text-black:active,
+                                  button.text-black * {
                                     color: black !important;
                                   }
 
