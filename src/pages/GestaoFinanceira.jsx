@@ -5815,6 +5815,450 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  {
+    id: "8.5",
+    titulo: "ENTREGA DO PEDIDO – MOTOBOY",
+    icon: Navigation,
+    cor: "bg-violet-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — RETIRADA DO PEDIDO NA LOJA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Motoboy confirma dados do pedido",
+            itens: [
+              "Nome do cliente",
+              "Endereço",
+              "Número do pedido"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Conferir integridade da embalagem",
+            itens: [
+              "Caixa fechada",
+              "Bebidas separadas",
+              "Sem vazamentos"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ORGANIZAÇÃO DA ENTREGA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Posicionar pedido corretamente na bag",
+            itens: [
+              "Evitar tombar",
+              "Manter quente",
+              "Organizar bebidas na lateral"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Confirmar rota mais rápida no GPS",
+            itens: [
+              "Conferir bairro",
+              "Conferir referência"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ENTREGA AO CLIENTE",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Confirmar nome do cliente ao chegar",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Entregar pedido com cordialidade",
+            itens: [
+              "Boa noite! Seu pedido chegou!"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — PAGAMENTO (quando necessário)",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Conferir pagamento:",
+            itens: [
+              "PIX",
+              "Troco",
+              "Cartão"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Pagamento não realizado?",
+            decisao: {
+              seSim: [
+                "Acionar loja imediatamente",
+                "Resolver antes de sair do local"
+              ],
+              seNao: [
+                "Continuar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar entrega no sistema (iFood, site, WhatsApp)",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Retornar para a loja ou próximo pedido",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.6",
+    titulo: "FINALIZAÇÃO DO PEDIDO",
+    icon: ClipboardCheck,
+    cor: "bg-sky-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — CONFIRMAÇÃO DA ENTREGA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Verificar no sistema se o motoboy marcou como entregue",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Caso não marcado, entrar em contato com o entregador",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CHECAGEM DE PROBLEMAS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Perguntar ao motoboy se houve algum imprevisto",
+            itens: [
+              "Endereço incorreto",
+              "Ausência do cliente",
+              "Recusa do pedido"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Houve algum problema na entrega?",
+            decisao: {
+              seSim: [
+                "Registrar ocorrido",
+                "Acionar pós-venda"
+              ],
+              seNao: [
+                "Finalizar pedido"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — FINALIZAÇÃO NO SISTEMA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Marcar pedido como finalizado no painel",
+            itens: [
+              "iFood",
+              "Site",
+              "Sistema interno"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — INDICADORES",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Atualizar painel de entregas:",
+            itens: [
+              "Tempo total",
+              "Entregador responsável",
+              "Ocorrências"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Enviar pedido para etapa de pós-venda",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.7",
+    titulo: "PÓS-VENDA",
+    icon: PhoneCall,
+    cor: "bg-emerald-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — CONTATO APÓS ENTREGA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Contatar cliente 15–25 minutos após recebimento",
+            itens: [
+              "Olá! Aqui é da [Nome da Pizzaria]. Gostaria de saber se seu pedido chegou certinho e se estava tudo do seu gosto!"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ANÁLISE DA RESPOSTA DO CLIENTE",
+        etapas: [
+          {
+            numero: 2,
+            titulo: "Cliente respondeu bem?",
+            decisao: {
+              seSim: [
+                "Agradecer",
+                "Convidar para avaliar no Google",
+                "Oferecer cupom para próxima compra"
+              ],
+              seNao: [
+                "Acionar imediatamente o processo de Gestão de Crises",
+                "Registrar problema",
+                "Resolver no mesmo momento"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — REGISTRO DE SATISFAÇÃO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Registrar feedback do cliente",
+            itens: [
+              "Ótimo",
+              "Bom",
+              "Regular",
+              "Ruim"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Atualizar indicador semanal de satisfação",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AÇÕES DE FIDELIZAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Oferecer benefício quando apropriado",
+            itens: [
+              "Cupom",
+              "Brinde",
+              "Desconto especial"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Encerrar pós-venda no sistema",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.8",
+    titulo: "FIDELIZAÇÃO",
+    icon: Award,
+    cor: "bg-amber-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — IDENTIFICAÇÃO DE CLIENTES RECORRENTES",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Consultar relatórios de clientes mais ativos",
+            itens: [
+              "Últimos 30 dias",
+              "Compras recorrentes",
+              "Ticket acima da média"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CRIAÇÃO DE BENEFÍCIOS",
+        etapas: [
+          {
+            numero: 2,
+            titulo: "Criar campanhas de fidelização:",
+            itens: [
+              "Desconto progressivo",
+              "Programa de pontos",
+              "Promoções exclusivas"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — APLICAÇÃO DE BENEFÍCIOS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Oferecer benefício personalizado",
+            itens: [
+              "Cliente VIP",
+              "Obrigado por pedir conosco novamente!"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ACOMPANHAMENTO",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Analisar impacto da fidelização",
+            checklist: [
+              "Clientes voltando mais?",
+              "Ticket maior?",
+              "Melhor avaliação?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Registrar clientes fidelizados no painel",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Revisar campanhas mensalmente",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.9",
+    titulo: "PESQUISA DE SATISFAÇÃO",
+    icon: Star,
+    cor: "bg-pink-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DEFINIÇÃO DA PESQUISA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Criar formulário simples",
+            itens: [
+              "Nota de 1 a 5",
+              "Comentário opcional",
+              "Pergunta rápida sobre experiência"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ENVIO AO CLIENTE",
+        etapas: [
+          {
+            numero: 2,
+            titulo: "Enviar pesquisa após pós-venda",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Incentivar cliente a responder",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — COLETA DE RESPOSTAS",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Monitorar taxa de resposta",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "Registrar todas avaliações recebidas",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ANÁLISE DOS RESULTADOS",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Calcular média de satisfação",
+            checklist: [
+              "Nota geral acima de 4?",
+              "Muitos comentários negativos?",
+              "Algum colaborador citado?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Criar plano de ação para problemas recorrentes",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Apresentar resultado na Reunião Nota 10",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
