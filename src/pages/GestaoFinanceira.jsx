@@ -6,7 +6,9 @@ import {
   FileText, CreditCard, Calendar, Wallet, ArrowDownCircle,
   ArrowUpCircle, BarChart3, Building2, PiggyBank, Receipt,
   AlertTriangle, CheckSquare, Package, ClipboardList, Warehouse,
-  Calculator, ShoppingCart, Truck, BoxSelect, TrendingDown
+  Calculator, ShoppingCart, Truck, BoxSelect, TrendingDown,
+  Users, UserPlus, GraduationCap, Target, BadgeCheck, DollarSign,
+  UserMinus, Heart, Compass, Flag, Rocket
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
