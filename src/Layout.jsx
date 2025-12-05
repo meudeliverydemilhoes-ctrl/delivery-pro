@@ -25,6 +25,7 @@ export default function Layout({ children, currentPageName }) {
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
             { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
+            { name: "Gestão Financeira", page: "GestaoFinanceira", icon: ClipboardList },
             { name: "Cursos", page: "Cursos", icon: BookOpen },
             { name: "Biblioteca", page: "Biblioteca", icon: Library },
             { name: "Agenda", page: "Agenda", icon: Calendar },
