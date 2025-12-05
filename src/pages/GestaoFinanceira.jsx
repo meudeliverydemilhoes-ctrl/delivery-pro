@@ -6893,7 +6893,7 @@ export default function GestaoFinanceira() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">💰 Gestão Financeira</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">📋 Detalhamento de Processos</h1>
           <p className="text-white/50">59 processos operacionais completos</p>
         </div>
         <Link to={createPageUrl("Dashboard")}>
