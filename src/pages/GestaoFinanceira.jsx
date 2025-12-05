@@ -6260,6 +6260,540 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  // GRUPO 9 - GESTÃO E INDICADORES
+  {
+    id: "9.1",
+    titulo: "INDICADORES SEMANAIS",
+    icon: BarChart2,
+    cor: "bg-blue-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — COLETA DE DADOS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Reunir dados da semana:",
+            itens: [
+              "Faturamento",
+              "Ticket médio",
+              "CMV semanal",
+              "Reclamações",
+              "Tempo médio de entrega",
+              "Quebras de estoque",
+              "Absenteísmo da equipe"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Validar se todos os dados estão completos",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ATUALIZAÇÃO DO PAINEL",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Inserir dados no painel semanal",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Conferir se números estão coerentes com relatórios",
+            checklist: [
+              "Dados inseridos?",
+              "Nenhum campo vazio?",
+              "Relatórios conferidos?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANÁLISE",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Comparar semana atual com semana anterior",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Identificar crescimento ou queda",
+            itens: []
+          },
+          {
+            numero: 7,
+            titulo: "Algum indicador está fora do padrão?",
+            decisao: {
+              seSim: [
+                "Analisar causa",
+                "Criar ação corretiva"
+              ],
+              seNao: [
+                "Prosseguir"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — RELATÓRIO PARA GESTÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Gerar resumo semanal:",
+            itens: [
+              "Pontos positivos",
+              "Pontos críticos",
+              "Ações necessárias"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Enviar relatório para diretoria/gestor",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Salvar na pasta: Indicadores > Semana",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "9.2",
+    titulo: "INDICADORES MENSAIS",
+    icon: CalendarRange,
+    cor: "bg-purple-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — COLETA DO MÊS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Consolidar dados das 4 semanas:",
+            itens: [
+              "Faturamento total",
+              "CMV geral",
+              "Custo fixo",
+              "Lucro",
+              "NPS (satisfação)",
+              "Reclamações",
+              "Desempenho do time"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ATUALIZAÇÃO DO PAINEL",
+        etapas: [
+          {
+            numero: 2,
+            titulo: "Atualizar painel mensal completo",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Validar cálculos automáticos",
+            checklist: [
+              "CMV calculado?",
+              "Faturamento consolidado?",
+              "Dados de pessoas completos?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANÁLISE MENSAL",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Comparar mês atual com meses anteriores",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "Identificar tendências:",
+            itens: [
+              "Crescimento",
+              "Queda",
+              "Estabilidade"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Indicador fora do ideal?",
+            decisao: {
+              seSim: [
+                "Registrar alerta",
+                "Criar plano de ação"
+              ],
+              seNao: [
+                "Confirmar estabilidade"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — RELATÓRIO EXECUTIVO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Criar resumo mensal:",
+            itens: [
+              "Melhor semana",
+              "Pior semana",
+              "Maior gasto",
+              "Melhor indicador",
+              "Ponto mais crítico"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Enviar relatório mensal para diretoria",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Arquivar no histórico anual",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "9.3",
+    titulo: "ANÁLISE DE RECLAMAÇÕES",
+    icon: MessageSquareWarning,
+    cor: "bg-red-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — COLETA DAS RECLAMAÇÕES",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Reunir todas as reclamações da semana/mês:",
+            itens: [
+              "WhatsApp",
+              "Google",
+              "iFood",
+              "Pós-venda"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Classificar tipo de problema:",
+            itens: [
+              "Atraso",
+              "Produto errado",
+              "Produto frio",
+              "Produto mal preparado",
+              "Atendimento"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — AGRUPAMENTO E FREQUÊNCIA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Contar quantidade de ocorrências por tipo",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Identificar categoria mais recorrente",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANÁLISE DA CAUSA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Pergunta principal: Por que isso está acontecendo?",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Identificar falha em:",
+            itens: [
+              "Cozinha",
+              "Atendimento",
+              "Motoboy",
+              "Estoque",
+              "Sistematização"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "É possível provar causa exata?",
+            decisao: {
+              seNao: [
+                "Investigar mais dados",
+                "Conversar com equipe"
+              ],
+              seSim: [
+                "Criar ação para eliminar problema"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AÇÃO CORRETIVA",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Definir ação clara:",
+            itens: [
+              "Treinamento",
+              "Ajuste de rota",
+              "Refazer ficha técnica",
+              "Reorganizar escala"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar análise em relatório mensal",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Monitorar se reclamações diminuem",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "9.4",
+    titulo: "MELHORIA CONTÍNUA",
+    icon: RefreshCw,
+    cor: "bg-emerald-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — IDENTIFICAÇÃO DO PONTO DE MELHORIA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar pontos fracos da semana",
+            itens: [
+              "Reclamações",
+              "Atrasos",
+              "Problemas internos",
+              "Erros de operação"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Priorizar pontos mais urgentes",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DEFINIÇÃO DA AÇÃO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Criar ação de melhoria:",
+            itens: [
+              "O que será feito?",
+              "Quem fará?",
+              "Prazo?"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Registrar ação no plano semanal",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — EXECUÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Implementar ação definida",
+            itens: [
+              "Treinar",
+              "Ajustar processo",
+              "Reorganizar fluxo"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AVALIAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "A ação melhorou o indicador?",
+            decisao: {
+              seNao: [
+                "Criar nova ação",
+                "Revisar estratégia"
+              ],
+              seSim: [
+                "Padronizar nova prática"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Registrar melhoria concluída",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Atualizar manual operacional (se aplicável)",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "9.5",
+    titulo: "AUDITORIA INTERNA",
+    icon: Search,
+    cor: "bg-amber-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DA AUDITORIA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Definir escopo da auditoria:",
+            itens: [
+              "Cozinha",
+              "Estoque",
+              "Atendimento",
+              "Delivery",
+              "Higiene",
+              "Financeiro"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Preparar checklist de auditoria",
+            itens: [
+              "Itens críticos",
+              "Itens obrigatórios",
+              "Itens de qualidade"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — EXECUÇÃO DA AUDITORIA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Auditor percorre setores verificando padrões",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Registrar evidências com fotos",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "Atribuir notas por item",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CLASSIFICAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Calcular nota final da auditoria",
+            itens: [
+              "Abaixo de 70 = Crítico",
+              "70 a 85 = Atenção",
+              "85 a 100 = Excelente"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AÇÕES DE CORREÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Itens não conformes precisam de ação imediata",
+            checklist: [
+              "Falta de padrão de limpeza?",
+              "Estoque bagunçado?",
+              "Ficha não seguida?",
+              "Atendimento falho?"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Alguma não conformidade grave?",
+            decisao: {
+              seSim: [
+                "Ação corretiva urgente",
+                "Reauditoria em 7 dias"
+              ],
+              seNao: [
+                "Corrigir dentro de 30 dias"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar relatório final da auditoria",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Apresentar para a gestão",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
