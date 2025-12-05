@@ -5,7 +5,8 @@ import {
   Home, ChevronDown, ChevronRight, CheckCircle2, Circle,
   FileText, CreditCard, Calendar, Wallet, ArrowDownCircle,
   ArrowUpCircle, BarChart3, Building2, PiggyBank, Receipt,
-  AlertTriangle, CheckSquare
+  AlertTriangle, CheckSquare, Package, ClipboardList, Warehouse,
+  Calculator, ShoppingCart, Truck, BoxSelect, TrendingDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
