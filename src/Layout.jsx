@@ -49,13 +49,29 @@ export default function Layout({ children, currentPageName }) {
                     .hover\\:bg-orange:hover { background-color: var(--orange); }
                     .hover\\:text-orange:hover { color: var(--orange); }
 
-                    /* Fix outline button text - black text on white/light buttons */
-                                  button.text-black,
-                                  button.text-black:hover,
-                                  button.text-black:focus,
-                                  button.text-black:active,
-                                  button.text-black * {
+                    /* Fix ALL outline/secondary buttons - force black text */
+                                  button[data-variant="outline"],
+                                  button[data-variant="secondary"],
+                                  button[data-variant="ghost"],
+                                  [data-slot="trigger"],
+                                  .bg-white button,
+                                  .bg-gray-100 button,
+                                  button:not(.bg-\\[\\#FF4D00\\]):not(.bg-emerald-500):not(.bg-red-500):not(.bg-blue-500):not(.bg-violet-500):not(.bg-amber-500):not(.bg-pink-500) {
                                     color: black !important;
+                                  }
+
+                                  /* Keep text white only on colored buttons */
+                                  button.bg-\\[\\#FF4D00\\],
+                                  button.bg-emerald-500,
+                                  button.bg-red-500,
+                                  button.bg-blue-500,
+                                  button.bg-violet-500,
+                                  button.bg-amber-500,
+                                  button.bg-pink-500,
+                                  .bg-\\[\\#FF4D00\\],
+                                  .bg-emerald-500,
+                                  .bg-red-500 {
+                                    color: white !important;
                                   }
 
                     /* Custom scrollbar */
