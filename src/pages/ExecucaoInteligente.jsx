@@ -42,6 +42,299 @@ const categoriaOptions = [
   { value: "pontual", label: "Pontual" }
 ];
 
+// Checklists prontos para usar
+const checklistsProntos = [
+  {
+    titulo: "Checklist de Abertura - Cozinha",
+    descricao: "Rotina diária para abertura da cozinha",
+    pilar: "processos",
+    categoria: "diario",
+    pontos_conclusao: 10,
+    itens: [
+      { texto: "Verificar temperatura das geladeiras e freezers", obrigatorio: true, requer_evidencia: true },
+      { texto: "Higienizar bancadas e superfícies de trabalho", obrigatorio: true, requer_evidencia: false },
+      { texto: "Verificar estoque de insumos do dia", obrigatorio: true, requer_evidencia: false },
+      { texto: "Separar mise en place das praças", obrigatorio: true, requer_evidencia: false },
+      { texto: "Verificar validade dos produtos", obrigatorio: true, requer_evidencia: true },
+      { texto: "Conferir funcionamento dos equipamentos", obrigatorio: true, requer_evidencia: false },
+      { texto: "Registrar temperaturas no controle", obrigatorio: true, requer_evidencia: true }
+    ]
+  },
+  {
+    titulo: "Checklist de Fechamento - Cozinha",
+    descricao: "Rotina diária para fechamento da cozinha",
+    pilar: "processos",
+    categoria: "diario",
+    pontos_conclusao: 10,
+    itens: [
+      { texto: "Guardar todos os alimentos corretamente", obrigatorio: true, requer_evidencia: false },
+      { texto: "Datar e identificar produtos manipulados", obrigatorio: true, requer_evidencia: true },
+      { texto: "Limpar e higienizar fogões e chapas", obrigatorio: true, requer_evidencia: false },
+      { texto: "Descartar resíduos corretamente", obrigatorio: true, requer_evidencia: false },
+      { texto: "Verificar se equipamentos estão desligados", obrigatorio: true, requer_evidencia: false },
+      { texto: "Registrar temperatura final das geladeiras", obrigatorio: true, requer_evidencia: true }
+    ]
+  },
+  {
+    titulo: "Auditoria Semanal de Estoque",
+    descricao: "Controle semanal de estoque e CMV",
+    pilar: "desempenho",
+    categoria: "semanal",
+    pontos_conclusao: 20,
+    itens: [
+      { texto: "Realizar contagem física do estoque", obrigatorio: true, requer_evidencia: true },
+      { texto: "Comparar estoque físico x sistema", obrigatorio: true, requer_evidencia: false },
+      { texto: "Identificar produtos com baixo giro", obrigatorio: true, requer_evidencia: false },
+      { texto: "Verificar produtos próximos do vencimento", obrigatorio: true, requer_evidencia: true },
+      { texto: "Calcular CMV da semana", obrigatorio: true, requer_evidencia: true },
+      { texto: "Analisar desperdícios e perdas", obrigatorio: true, requer_evidencia: false },
+      { texto: "Registrar divergências encontradas", obrigatorio: true, requer_evidencia: false },
+      { texto: "Planejar compras da próxima semana", obrigatorio: true, requer_evidencia: false }
+    ]
+  },
+  {
+    titulo: "Checklist de Atendimento - iFood",
+    descricao: "Verificação diária da presença no iFood",
+    pilar: "presenca_magnetica",
+    categoria: "diario",
+    pontos_conclusao: 10,
+    itens: [
+      { texto: "Verificar se a loja está online", obrigatorio: true, requer_evidencia: false },
+      { texto: "Conferir horário de funcionamento", obrigatorio: true, requer_evidencia: false },
+      { texto: "Verificar disponibilidade de todos os produtos", obrigatorio: true, requer_evidencia: false },
+      { texto: "Responder avaliações pendentes", obrigatorio: true, requer_evidencia: true },
+      { texto: "Verificar promoções ativas", obrigatorio: true, requer_evidencia: false },
+      { texto: "Analisar tempo médio de entrega", obrigatorio: true, requer_evidencia: false }
+    ]
+  },
+  {
+    titulo: "Reunião de Alinhamento Semanal",
+    descricao: "Checklist para condução da reunião semanal",
+    pilar: "tempo_potencia",
+    categoria: "semanal",
+    pontos_conclusao: 15,
+    itens: [
+      { texto: "Apresentar resultados da semana anterior", obrigatorio: true, requer_evidencia: false },
+      { texto: "Revisar metas e indicadores", obrigatorio: true, requer_evidencia: false },
+      { texto: "Identificar problemas e gargalos", obrigatorio: true, requer_evidencia: false },
+      { texto: "Definir prioridades da semana", obrigatorio: true, requer_evidencia: false },
+      { texto: "Distribuir tarefas e responsáveis", obrigatorio: true, requer_evidencia: false },
+      { texto: "Reconhecer destaques da equipe", obrigatorio: true, requer_evidencia: false },
+      { texto: "Agendar próxima reunião", obrigatorio: true, requer_evidencia: false }
+    ]
+  },
+  {
+    titulo: "Avaliação Mensal de Indicadores",
+    descricao: "Análise mensal de performance do negócio",
+    pilar: "desempenho",
+    categoria: "mensal",
+    pontos_conclusao: 30,
+    itens: [
+      { texto: "Calcular faturamento do mês", obrigatorio: true, requer_evidencia: true },
+      { texto: "Analisar CMV médio mensal", obrigatorio: true, requer_evidencia: true },
+      { texto: "Verificar ticket médio", obrigatorio: true, requer_evidencia: false },
+      { texto: "Analisar quantidade de pedidos", obrigatorio: true, requer_evidencia: false },
+      { texto: "Comparar com mês anterior", obrigatorio: true, requer_evidencia: true },
+      { texto: "Identificar produtos mais vendidos", obrigatorio: true, requer_evidencia: false },
+      { texto: "Analisar avaliações dos clientes", obrigatorio: true, requer_evidencia: false },
+      { texto: "Definir metas para próximo mês", obrigatorio: true, requer_evidencia: true }
+    ]
+  }
+];
+
+// SOPs prontos para usar
+const sopsProntos = [
+  {
+    titulo: "Como Fazer a Ficha Técnica de um Produto",
+    descricao: "Passo a passo para criar fichas técnicas padronizadas",
+    pilar: "processos",
+    categoria: "producao",
+    conteudo: `## Objetivo
+Padronizar a produção e garantir consistência nos produtos.
+
+## Materiais Necessários
+- Balança de precisão
+- Receita original do produto
+- Planilha de ficha técnica
+
+## Passo a Passo
+
+### 1. Listar todos os ingredientes
+Anote cada ingrediente que compõe o produto, sem esquecer de nenhum.
+
+### 2. Pesar cada ingrediente
+Use a balança para pesar cada ingrediente na quantidade exata da receita.
+
+### 3. Calcular o custo unitário
+Multiplique o peso de cada ingrediente pelo custo por kg/unidade.
+
+### 4. Somar o custo total
+Some todos os custos para obter o custo da receita.
+
+### 5. Definir rendimento
+Determine quantas porções a receita rende.
+
+### 6. Calcular custo por porção
+Divida o custo total pelo número de porções.
+
+## Dicas Importantes
+- Revise as fichas técnicas a cada alteração de preço dos insumos
+- Treine a equipe para seguir as fichas à risca
+- Use a balança SEMPRE`,
+    passos: [
+      { ordem: 1, titulo: "Listar todos os ingredientes", descricao: "Anote cada ingrediente que compõe o produto" },
+      { ordem: 2, titulo: "Pesar cada ingrediente", descricao: "Use balança de precisão para pesar" },
+      { ordem: 3, titulo: "Calcular custo unitário", descricao: "Multiplique peso pelo custo por kg" },
+      { ordem: 4, titulo: "Somar custo total", descricao: "Some todos os custos dos ingredientes" },
+      { ordem: 5, titulo: "Definir rendimento", descricao: "Quantas porções a receita rende" },
+      { ordem: 6, titulo: "Calcular custo por porção", descricao: "Divida custo total pelas porções" }
+    ]
+  },
+  {
+    titulo: "Processo de Recebimento de Mercadorias",
+    descricao: "Procedimento padrão para receber entregas de fornecedores",
+    pilar: "processos",
+    categoria: "estoque",
+    conteudo: `## Objetivo
+Garantir que todos os produtos recebidos estejam em conformidade.
+
+## Responsável
+Gerente ou responsável pelo estoque.
+
+## Passo a Passo
+
+### 1. Conferir nota fiscal
+Verifique se os dados estão corretos e se o pedido confere.
+
+### 2. Verificar integridade das embalagens
+Recuse produtos com embalagens danificadas.
+
+### 3. Verificar data de validade
+Não aceite produtos próximos do vencimento.
+
+### 4. Verificar temperatura (se aplicável)
+Produtos refrigerados devem estar na temperatura correta.
+
+### 5. Pesar/contar mercadorias
+Confira se a quantidade está correta.
+
+### 6. Armazenar corretamente
+Siga o sistema FEFO (primeiro a vencer, primeiro a sair).
+
+### 7. Registrar no sistema
+Atualize o estoque no sistema.
+
+## Critérios de Recusa
+- Embalagem violada ou danificada
+- Produto fora da temperatura
+- Prazo de validade curto
+- Quantidade divergente`,
+    passos: [
+      { ordem: 1, titulo: "Conferir nota fiscal", descricao: "Verificar dados e pedido" },
+      { ordem: 2, titulo: "Verificar integridade", descricao: "Checar embalagens" },
+      { ordem: 3, titulo: "Verificar validade", descricao: "Conferir datas de validade" },
+      { ordem: 4, titulo: "Verificar temperatura", descricao: "Medir temperatura de refrigerados" },
+      { ordem: 5, titulo: "Pesar/contar", descricao: "Conferir quantidades" },
+      { ordem: 6, titulo: "Armazenar", descricao: "Guardar seguindo FEFO" },
+      { ordem: 7, titulo: "Registrar", descricao: "Atualizar sistema" }
+    ]
+  },
+  {
+    titulo: "Como Otimizar o Cardápio no iFood",
+    descricao: "Guia para melhorar a performance do cardápio no iFood",
+    pilar: "presenca_magnetica",
+    categoria: "marketing",
+    conteudo: `## Objetivo
+Aumentar conversão e ticket médio no iFood.
+
+## Checklist de Otimização
+
+### Fotos
+- Use fotos profissionais ou bem iluminadas
+- Mostre o produto de forma atrativa
+- Padronize o estilo das fotos
+
+### Descrições
+- Seja objetivo e claro
+- Destaque ingredientes principais
+- Use palavras que despertam desejo
+
+### Categorias
+- Organize de forma lógica
+- Coloque os mais vendidos no topo
+- Crie categorias para combos e promoções
+
+### Preços
+- Analise a concorrência
+- Use preços terminados em ,90
+- Crie combos com valor percebido
+
+### Combos e Promoções
+- Monte combos estratégicos
+- Use cupons para fidelizar
+- Ative promoções em horários estratégicos
+
+## Métricas para Acompanhar
+- Taxa de conversão
+- Ticket médio
+- Avaliação média
+- Tempo de entrega`,
+    passos: [
+      { ordem: 1, titulo: "Atualizar fotos", descricao: "Usar fotos profissionais e atrativas" },
+      { ordem: 2, titulo: "Revisar descrições", descricao: "Textos claros e vendedores" },
+      { ordem: 3, titulo: "Organizar categorias", descricao: "Ordem lógica e estratégica" },
+      { ordem: 4, titulo: "Ajustar preços", descricao: "Preços competitivos" },
+      { ordem: 5, titulo: "Criar combos", descricao: "Montar combos atrativos" },
+      { ordem: 6, titulo: "Ativar promoções", descricao: "Configurar cupons e ofertas" }
+    ]
+  },
+  {
+    titulo: "Treinamento de Novos Colaboradores",
+    descricao: "Processo padrão para integração de novos funcionários",
+    pilar: "tempo_potencia",
+    categoria: "equipe",
+    conteudo: `## Objetivo
+Garantir que novos colaboradores estejam aptos para a função em até 7 dias.
+
+## Dia 1 - Integração
+- Apresentar a empresa e valores
+- Tour pela operação
+- Apresentar a equipe
+- Entregar uniforme e EPIs
+- Explicar regras e regulamento
+
+## Dias 2-3 - Observação
+- Acompanhar colaborador experiente
+- Conhecer todos os processos
+- Estudar fichas técnicas
+- Aprender sistema/PDV
+
+## Dias 4-5 - Prática Supervisionada
+- Executar tarefas com supervisão
+- Tirar dúvidas
+- Receber feedback constante
+
+## Dias 6-7 - Autonomia
+- Executar tarefas sozinho
+- Supervisor apenas monitora
+- Avaliação de desempenho inicial
+
+## Checklist de Conclusão
+- [ ] Conhece todos os produtos
+- [ ] Sabe operar equipamentos
+- [ ] Entende os processos
+- [ ] Usa EPI corretamente
+- [ ] Conhece padrão de atendimento`,
+    passos: [
+      { ordem: 1, titulo: "Dia 1 - Integração", descricao: "Apresentar empresa e regras" },
+      { ordem: 2, titulo: "Dias 2-3 - Observação", descricao: "Acompanhar colaborador experiente" },
+      { ordem: 3, titulo: "Dias 4-5 - Prática", descricao: "Executar com supervisão" },
+      { ordem: 4, titulo: "Dias 6-7 - Autonomia", descricao: "Trabalhar de forma independente" },
+      { ordem: 5, titulo: "Avaliação", descricao: "Avaliar desempenho inicial" }
+    ]
+  }
+];
+
 export default function ExecucaoInteligente() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("execucoes");
@@ -362,36 +655,71 @@ export default function ExecucaoInteligente() {
 
         {/* Modelos de Checklist */}
         <TabsContent value="modelos">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {checklists.map(checklist => (
-              <div key={checklist.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
-                  <h4 className="font-medium text-white">{checklist.titulo}</h4>
+          <div className="space-y-6">
+            {/* Checklists Criados */}
+            {checklists.length > 0 && (
+              <div>
+                <h3 className="text-lg font-medium text-white mb-4">Seus Modelos</h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {checklists.map(checklist => (
+                    <div key={checklist.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
+                        <h4 className="font-medium text-white">{checklist.titulo}</h4>
+                      </div>
+                      <p className="text-sm text-white/50 mb-3">{checklist.descricao}</p>
+                      <div className="flex items-center justify-between text-xs text-white/40 mb-3">
+                        <span>{checklist.itens?.length || 0} itens</span>
+                        <span>{checklist.categoria}</span>
+                      </div>
+                      <Button
+                        onClick={() => {
+                          setSelectedChecklist(checklist);
+                          setAtribuirDialogOpen(true);
+                        }}
+                        className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
+                        size="sm"
+                      >
+                        Atribuir a Mentorado
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-sm text-white/50 mb-3">{checklist.descricao}</p>
-                <div className="flex items-center justify-between text-xs text-white/40 mb-3">
-                  <span>{checklist.itens?.length || 0} itens</span>
-                  <span>{checklist.categoria}</span>
-                </div>
-                <Button
-                  onClick={() => {
-                    setSelectedChecklist(checklist);
-                    setAtribuirDialogOpen(true);
-                  }}
-                  className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
-                  size="sm"
-                >
-                  Atribuir a Mentorado
-                </Button>
-              </div>
-            ))}
-            {checklists.length === 0 && (
-              <div className="col-span-full text-center py-12 bg-white/5 rounded-xl">
-                <FileText size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/50">Nenhum modelo criado</p>
               </div>
             )}
+
+            {/* Checklists Prontos */}
+            <div>
+              <h3 className="text-lg font-medium text-white mb-2">Modelos Prontos</h3>
+              <p className="text-sm text-white/50 mb-4">Checklists prontos para usar. Clique para adicionar à sua biblioteca.</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {checklistsProntos.map((checklist, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
+                      <h4 className="font-medium text-white">{checklist.titulo}</h4>
+                    </div>
+                    <p className="text-sm text-white/50 mb-3">{checklist.descricao}</p>
+                    <div className="flex items-center justify-between text-xs text-white/40 mb-3">
+                      <span>{checklist.itens?.length || 0} itens</span>
+                      <span className={`px-2 py-0.5 rounded-full ${
+                        checklist.categoria === "diario" ? "bg-blue-500/20 text-blue-400" :
+                        checklist.categoria === "semanal" ? "bg-amber-500/20 text-amber-400" :
+                        "bg-violet-500/20 text-violet-400"
+                      }`}>{checklist.categoria}</span>
+                    </div>
+                    <Button
+                      onClick={() => createChecklistMutation.mutate(checklist)}
+                      variant="outline"
+                      className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                      size="sm"
+                    >
+                      <Plus size={14} className="mr-1" /> Adicionar à Biblioteca
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </TabsContent>
 
@@ -412,16 +740,60 @@ export default function ExecucaoInteligente() {
 
         {/* SOPs */}
         <TabsContent value="sops">
-          <div className="space-y-4">
-            {sops.map(sop => (
-              <SOPCard key={sop.id} sop={sop} onAplicarChecklist={handleAplicarSOP} />
-            ))}
-            {sops.length === 0 && (
-              <div className="text-center py-12 bg-white/5 rounded-xl">
-                <BookOpen size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/50">Nenhum SOP cadastrado</p>
+          <div className="space-y-6">
+            {/* SOPs Criados */}
+            {sops.length > 0 && (
+              <div>
+                <h3 className="text-lg font-medium text-white mb-4">Seus SOPs</h3>
+                <div className="space-y-4">
+                  {sops.map(sop => (
+                    <SOPCard key={sop.id} sop={sop} onAplicarChecklist={handleAplicarSOP} />
+                  ))}
+                </div>
               </div>
             )}
+
+            {/* SOPs Prontos */}
+            <div>
+              <h3 className="text-lg font-medium text-white mb-2">SOPs Prontos</h3>
+              <p className="text-sm text-white/50 mb-4">Procedimentos padrão prontos para usar. Clique para adicionar à sua biblioteca.</p>
+              <div className="grid md:grid-cols-2 gap-4">
+                {sopsProntos.map((sop, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xl">{pilarOptions.find(p => p.value === sop.pilar)?.label?.charAt(0) || "📋"}</span>
+                      <h4 className="font-medium text-white">{sop.titulo}</h4>
+                    </div>
+                    <p className="text-sm text-white/50 mb-3">{sop.descricao}</p>
+                    <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
+                      <span className={`px-2 py-0.5 rounded-full ${
+                        sop.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
+                        sop.pilar === "presenca_magnetica" ? "bg-pink-500/20 text-pink-400" :
+                        "bg-violet-500/20 text-violet-400"
+                      }`}>{pilarOptions.find(p => p.value === sop.pilar)?.label}</span>
+                      <span>{sop.passos?.length || 0} passos</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => createSOPMutation.mutate({ ...sop, ativo: true })}
+                        variant="outline"
+                        className="flex-1 border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                        size="sm"
+                      >
+                        <Plus size={14} className="mr-1" /> Adicionar
+                      </Button>
+                      <Button
+                        onClick={() => handleAplicarSOP(sop)}
+                        className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+                        size="sm"
+                      >
+                        <ClipboardList size={14} className="mr-1" /> Gerar Checklist
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </TabsContent>
 
