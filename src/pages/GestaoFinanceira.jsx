@@ -8,7 +8,9 @@ import {
   AlertTriangle, CheckSquare, Package, ClipboardList, Warehouse,
   Calculator, ShoppingCart, Truck, BoxSelect, TrendingDown,
   Users, UserPlus, GraduationCap, Target, BadgeCheck, DollarSign,
-  UserMinus, Heart, Compass, Flag, Rocket
+  UserMinus, Heart, Compass, Flag, Rocket, LayoutGrid, BookOpen,
+  FileSpreadsheet, Utensils, ChefHat, Sparkles, CalendarDays,
+  MessageSquare, ListChecks, Clock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
