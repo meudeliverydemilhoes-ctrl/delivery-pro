@@ -3,8 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   ClipboardList, Target, AlertTriangle, Trophy, BookOpen, Bell,
-  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText
+  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText, Home
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -812,6 +814,11 @@ export default function ExecucaoInteligente() {
           <p className="text-white/50">Checklists, planos de ação e acompanhamento de performance</p>
         </div>
         <div className="flex gap-2">
+          <Link to={createPageUrl("Dashboard")}>
+            <Button variant="outline" className="border-white/10 text-white">
+              <Home size={18} className="mr-2" /> Voltar ao Início
+            </Button>
+          </Link>
           <Button variant="outline" onClick={() => setComunicadoDialogOpen(true)} className="border-white/10 text-white">
             <Bell size={18} className="mr-2" /> Comunicado
           </Button>
