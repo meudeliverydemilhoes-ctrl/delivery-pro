@@ -4,8 +4,10 @@ import { base44 } from "@/api/base44Client";
 import {
   Headphones, ChefHat, Pizza, Package, Truck, Warehouse,
   ShoppingCart, DollarSign, Settings, Save, RotateCcw, 
-  ChevronDown, ChevronRight, Download, Printer, Plus, Eye, Pencil
+  ChevronDown, ChevronRight, Download, Printer, Plus, Eye, Pencil, Home
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FluxogramaSetor from "@/components/fluxogramas/FluxogramaSetor";
@@ -610,6 +612,11 @@ export default function FluxogramasOperacionais() {
           <p className="text-white/50">Processos padronizados de todos os setores do delivery</p>
         </div>
         <div className="flex gap-3">
+          <Link to={createPageUrl("Dashboard")}>
+            <Button variant="outline" className="border-white/10 text-white">
+              <Home size={18} className="mr-2" /> Início
+            </Button>
+          </Link>
           {hasChanges && (
             <Button 
               onClick={handleSave} 

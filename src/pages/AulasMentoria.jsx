@@ -9,6 +9,8 @@ import {
   LayoutGrid, Timer, Crown, Navigation, Sparkles, Rocket,
   Plus, Trash2, Edit2, X, Check, GripVertical
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -375,16 +377,23 @@ export default function AulasMentoriaPage() {
           </h1>
           <p className="text-white/50 text-sm mt-1">12 aulas completas - Clique em uma aula para editar</p>
         </div>
-        {hasChanges && (
-          <Button
-            onClick={handleSave}
-            disabled={saveMutation.isPending}
-            className="bg-[#FF4D00] hover:bg-[#E64500]"
-          >
-            <Save size={16} className="mr-2" />
-            Salvar Alterações
-          </Button>
-        )}
+        <div className="flex gap-2">
+          <Link to={createPageUrl("Dashboard")}>
+            <Button variant="outline" className="border-white/10 text-white">
+              <Home size={18} className="mr-2" /> Início
+            </Button>
+          </Link>
+          {hasChanges && (
+            <Button
+              onClick={handleSave}
+              disabled={saveMutation.isPending}
+              className="bg-[#FF4D00] hover:bg-[#E64500]"
+            >
+              <Save size={16} className="mr-2" />
+              Salvar Alterações
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Lista de Aulas */}

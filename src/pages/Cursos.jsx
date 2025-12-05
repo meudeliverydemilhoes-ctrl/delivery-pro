@@ -12,8 +12,11 @@ import {
   Layers,
   PlayCircle,
   FileText,
-  X
+  X,
+  Home
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -171,9 +174,16 @@ export default function Cursos() {
           <h1 className="text-3xl font-bold text-white mb-2">Meus Cursos</h1>
           <p className="text-white/50">{cursos.length} cursos cadastrados</p>
         </div>
-        <Button onClick={() => setCursoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
-          <Plus size={20} className="mr-2" /> Novo Curso
-        </Button>
+        <div className="flex gap-2">
+          <Link to={createPageUrl("Dashboard")}>
+            <Button variant="outline" className="border-white/10 text-white">
+              <Home size={18} className="mr-2" /> Início
+            </Button>
+          </Link>
+          <Button onClick={() => setCursoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+            <Plus size={20} className="mr-2" /> Novo Curso
+          </Button>
+        </div>
       </div>
 
       {/* Search */}
