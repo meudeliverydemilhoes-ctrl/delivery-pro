@@ -4820,6 +4820,1001 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  {
+    id: "7.2",
+    titulo: "ATENDIMENTO NO BALCÃO",
+    icon: Store,
+    cor: "bg-indigo-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DO BALCÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Garantir que o balcão esteja limpo e organizado",
+            itens: [
+              "Sem resíduos",
+              "Sem objetos pessoais",
+              "Área visualmente atrativa"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Conferir sistema de pedidos e equipamentos",
+            itens: [
+              "Caixa funcionando",
+              "Impressora ativa",
+              "Comandas disponíveis"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — RECEBIMENTO DO CLIENTE",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Receber o cliente com saudação padrão",
+            itens: [
+              "Boa noite, seja bem-vindo!"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Identificar necessidade do cliente",
+            itens: [
+              "Retirada?",
+              "Novo pedido?",
+              "Dúvidas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — REGISTRO DO PEDIDO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Registrar pedido no sistema corretamente",
+            itens: [
+              "Sabores",
+              "Observações",
+              "Quantidade",
+              "Borda / adicionais"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Repetir pedido para o cliente validar",
+            checklist: [
+              "Pedido correto?",
+              "Observações registradas?",
+              "Forma de pagamento informada?"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Algum ponto está incorreto?",
+            decisao: {
+              seSim: [
+                "Corrigir imediatamente"
+              ],
+              seNao: [
+                "Prosseguir"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — PAGAMENTO E ENTREGA",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Confirmar forma de pagamento",
+            itens: [
+              "PIX",
+              "Cartão",
+              "Dinheiro"
+            ]
+          },
+          {
+            numero: 9,
+            titulo: "Entregar comanda/recibo ao cliente",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Agradecer atendimento",
+            itens: [
+              "Obrigado, seu pedido está sendo preparado!"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "7.3",
+    titulo: "ATENDIMENTO NA MESA",
+    icon: UtensilsCrossed,
+    cor: "bg-amber-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DO SALÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir limpeza e organização das mesas",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Verificar talheres, guardanapos e cardápios",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — RECEPÇÃO DOS CLIENTES",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Cumprimentar e encaminhar à mesa",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Entregar cardápio e informar tempo médio de preparo",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANOTAÇÃO DO PEDIDO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Anotar pedido com clareza",
+            itens: [
+              "Sabores",
+              "Adicionais",
+              "Observações"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Repetir pedido para o cliente validar",
+            checklist: [
+              "Pedido completo?",
+              "Dúvidas esclarecidas?",
+              "Observações registradas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ACOMPANHAMENTO DO CLIENTE",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Conferir satisfação durante a refeição",
+            itens: [
+              "Perguntar se está tudo certo",
+              "Repor bebidas quando necessário"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Houve problema com o pedido?",
+            decisao: {
+              seSim: [
+                "Resolver imediatamente",
+                "Acionar gerente"
+              ],
+              seNao: [
+                "Continuar atendimento"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Levar nota fiscal à mesa (se aplicável)",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Agradecer e convidar para retornar",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "7.4",
+    titulo: "PREPARO E CONFERÊNCIA DO PEDIDO",
+    icon: ClipboardCheck,
+    cor: "bg-teal-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — RECEBIMENTO DO PEDIDO PELO SISTEMA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Acompanhar entrada de pedidos na tela da cozinha",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Conferir observações antes de iniciar preparo",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — EXECUÇÃO DO PREPARO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Seguir ficha técnica e gramaturas",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Garantir padrão visual e sabor",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFERÊNCIA FINAL",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Conferir o pedido com o comprovante do sistema",
+            checklist: [
+              "Sabores corretos?",
+              "Bordas e adicionais?",
+              "Embalagem correta?",
+              "Sem erros de produção?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Existe alguma divergência?",
+            decisao: {
+              seSim: [
+                "Refazer antes de enviar"
+              ],
+              seNao: [
+                "Avançar para despacho"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — EMBALAGEM",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Embalar produto conforme padrão",
+            itens: [
+              "Caixa limpa",
+              "Fechamento correto",
+              "Etiqueta quando necessário"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Enviar pedido para despacho (garçom ou motoboy)",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Registrar conclusão no sistema",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "7.5",
+    titulo: "DESPACHO DOS PEDIDOS PARA O GARÇOM",
+    icon: Send,
+    cor: "bg-blue-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DO DESPACHO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir status do pedido na tela",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Garantir que o pedido está completo antes de entregar ao garçom",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ENTREGA AO GARÇOM",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Chamar garçom responsável pela mesa",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Entregar pedido com instruções",
+            itens: [
+              "Mesa correta",
+              "Observações especiais"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CHECAGEM RÁPIDA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Conferir novamente a comanda da mesa",
+            checklist: [
+              "Produto correto?",
+              "Adicionais conferidos?",
+              "Bebidas incluídas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AJUSTES",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Pedido está incorreto?",
+            decisao: {
+              seSim: [
+                "Recolher e corrigir",
+                "Priorizar refação"
+              ],
+              seNao: [
+                "Liberar entrega"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Atualizar sistema com status 'Pedido Entregue ao Garçom'",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "7.6",
+    titulo: "ENTREGA DO PEDIDO NA MESA",
+    icon: HandPlatter,
+    cor: "bg-emerald-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DESLOCAMENTO ATÉ A MESA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir mesa correta pela comanda",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Transportar pedido com cuidado",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ENTREGA AO CLIENTE",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Entregar pedido de forma cordial",
+            itens: [
+              "Aqui está sua pizza, bom apetite!"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Conferir reação imediata do cliente",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — VALIDAÇÃO DE QUALIDADE",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Perguntar se precisam de algo mais",
+            itens: [
+              "Talheres",
+              "Guardanapos",
+              "Molhos"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AJUSTES",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Cliente encontrou algum problema?",
+            decisao: {
+              seSim: [
+                "Resolver imediatamente",
+                "Acionar cozinha ou gestor"
+              ],
+              seNao: [
+                "Prosseguir"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Atualizar sistema com status 'Pedido Entregue'",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Acompanhar satisfação ao longo da refeição",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "7.7",
+    titulo: "GESTÃO DE CRISES NO ATENDIMENTO",
+    icon: ShieldAlert,
+    cor: "bg-red-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — IDENTIFICAÇÃO DA CRISE",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Identificar o tipo de crise:",
+            itens: [
+              "Atraso no pedido",
+              "Pedido errado",
+              "Produto fora do padrão",
+              "Cliente irritado",
+              "Problema com pagamento"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Classificar urgência da crise:",
+            itens: [
+              "Baixa",
+              "Média",
+              "Alta"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ABORDAGEM INICIAL",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Ouvir o cliente sem interrupção",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Registrar exatamente o que aconteceu",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — TOMADA DE AÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "A crise envolve erro da empresa?",
+            decisao: {
+              seSim: [
+                "Pedir desculpas",
+                "Resolver imediatamente",
+                "Oferecer solução clara (refazer, devolver valor, bônus)"
+              ],
+              seNao: [
+                "Explicar situação com cordialidade",
+                "Orientar cliente com calma"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — EXECUÇÃO DA SOLUÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Tomar providência conforme tipo de crise:",
+            itens: [
+              "Pedido errado → refação imediata",
+              "Atraso → verificar posição real da entrega",
+              "Produto ruim → enviar novo produto",
+              "Confusão no pagamento → corrigir no sistema"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Informar cliente sobre o que será feito e prazo real",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Registrar o ocorrido para análise semanal",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Agradecer cliente pela compreensão",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Notificar gestor sobre crises graves",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  // GRUPO 8 - DELIVERY
+  {
+    id: "8.1",
+    titulo: "ATENDIMENTO DELIVERY – WHATSAPP",
+    icon: MessageCircle,
+    cor: "bg-green-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — ABERTURA DO ATENDIMENTO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Responder o cliente imediatamente",
+            itens: [
+              "Olá! Seja bem-vindo(a)! Como posso ajudar?"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Perguntar CEP e número para checar área de entrega",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — APRESENTAÇÃO DO CARDÁPIO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Enviar cardápio atualizado",
+            itens: [
+              "PDF",
+              "Link do menu",
+              "Lista de sabores"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Perguntar o que deseja pedir",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — REGISTRO DO PEDIDO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Anotar pedido corretamente:",
+            itens: [
+              "Sabores",
+              "Borda",
+              "Observações",
+              "Bebidas"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Repetir tudo para o cliente validar",
+            checklist: [
+              "Sabores certos?",
+              "Adicionais?",
+              "Endereço completo?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — PAGAMENTO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Perguntar forma de pagamento",
+            itens: [
+              "PIX",
+              "Cartão",
+              "Dinheiro"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Enviar chave PIX ou confirmar máquina",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Confirmar comprovante (no caso de PIX)",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Informar tempo de entrega real",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Agradecer e registrar pedido no sistema",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.2",
+    titulo: "ATENDIMENTO DELIVERY – SITE PRÓPRIO",
+    icon: Globe,
+    cor: "bg-blue-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — MONITORAMENTO DO SISTEMA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Manter tela do site aberta para acompanhar pedidos",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Conferir se notificações estão funcionando",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — RECEBIMENTO DO PEDIDO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Validar informações recebidas:",
+            itens: [
+              "Nome",
+              "Telefone",
+              "Endereço",
+              "Itens do pedido"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Conferir forma de pagamento selecionada",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFIRMAÇÃO COM O CLIENTE",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Entrar em contato se houver dúvidas ou incoerências",
+            checklist: [
+              "Endereço válido?",
+              "Bairro dentro da área de entrega?",
+              "Pedido legível?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Há inconsistência?",
+            decisao: {
+              seSim: [
+                "Corrigir com cliente antes de produzir"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — LIBERAÇÃO DO PEDIDO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Enviar pedido para cozinha",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Atualizar status no sistema ('Em preparo')",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Atualizar status 'Saiu para entrega'",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Finalizar pedido no sistema",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.3",
+    titulo: "ATENDIMENTO DELIVERY – IFOOD",
+    icon: Smartphone,
+    cor: "bg-red-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — MONITORAMENTO DO PAINEL",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Manter painel do iFood sempre aberto",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Ativar alertas sonoros ou notificações",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ACEITAÇÃO DO PEDIDO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Conferir informações antes de aceitar",
+            itens: [
+              "Endereço",
+              "Itens",
+              "Observações"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Pedido está dentro do padrão?",
+            decisao: {
+              seNao: [
+                "Cancelar com justificativa adequada"
+              ],
+              seSim: [
+                "Aceitar pedido"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — PREPARAÇÃO DO PEDIDO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Enviar automaticamente para a cozinha",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Conferir preparo conforme ficha técnica",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — DESPACHO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Acompanhar chegada do entregador",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Verificar dados do pedido antes de entregar",
+            checklist: [
+              "Correto para aquele entregador?",
+              "Embalagem fechada?",
+              "Bebidas incluídas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Atualizar status no iFood",
+            itens: [
+              "Pronto",
+              "Saiu para entrega"
+            ]
+          },
+          {
+            numero: 10,
+            titulo: "Registrar ocorrências no painel do iFood",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "8.4",
+    titulo: "PREPARO E CONFERÊNCIA – DELIVERY",
+    icon: Bike,
+    cor: "bg-orange-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — RECEBIMENTO DO PEDIDO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir pedido no sistema de delivery",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Validar observações (retirar ingredientes, borda etc.)",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — PREPARO CONFORME FICHA TÉCNICA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Executar pedido com gramaturas exatas",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Conferir padrão antes de embalar",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFERÊNCIA FINAL",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Revisar pedido antes de enviar",
+            checklist: [
+              "Sabores certos?",
+              "Endereço correto impresso?",
+              "Bebidas e adicionais incluídos?",
+              "Etiqueta OK?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Alguma divergência encontrada?",
+            decisao: {
+              seSim: [
+                "Corrigir imediatamente"
+              ],
+              seNao: [
+                "Embalar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — EMBALAGEM",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Embalar de forma segura",
+            itens: [
+              "Caixa alinhada",
+              "Sem vazamentos",
+              "Pacote reforçado"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Entregar pedido ao motoboy",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Registrar saída no sistema",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
