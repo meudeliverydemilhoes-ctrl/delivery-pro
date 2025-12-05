@@ -12,7 +12,7 @@ import {
   FileSpreadsheet, Utensils, ChefHat, Sparkles, CalendarDays,
   MessageSquare, ListChecks, Clock, Store, UtensilsCrossed,
   ClipboardCheck, Send, HandPlatter, ShieldAlert, MessageCircle,
-  Globe, Smartphone, Bike
+  Globe, Smartphone, Bike, Navigation, PhoneCall, Award, Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
