@@ -142,6 +142,94 @@ const checklistsProntos = [
   }
 ];
 
+// Planos de Ação prontos para usar
+const planosAcaoProntos = [
+  {
+    titulo: "🔥 Plano de Redução de CMV",
+    problema: "CMV acima do ideal (maior que 35%)",
+    descricao: "Ações para reduzir o custo de mercadoria vendida",
+    pilar: "desempenho",
+    acoes: [
+      { acao: "Revisar todas as fichas técnicas e atualizar custos", prazo: "3 dias", prioridade: "alta" },
+      { acao: "Implementar uso obrigatório de balança na produção", prazo: "7 dias", prioridade: "critica" },
+      { acao: "Fazer inventário semanal de estoque", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Identificar e eliminar desperdícios na cozinha", prazo: "14 dias", prioridade: "media" },
+      { acao: "Renegociar preços com fornecedores principais", prazo: "14 dias", prioridade: "media" },
+      { acao: "Revisar porcionamento dos produtos", prazo: "7 dias", prioridade: "alta" }
+    ]
+  },
+  {
+    titulo: "📈 Plano de Aumento de Faturamento",
+    problema: "Faturamento estagnado ou em queda",
+    descricao: "Estratégias para aumentar vendas e receita",
+    pilar: "desempenho",
+    acoes: [
+      { acao: "Criar 3 combos estratégicos no iFood", prazo: "3 dias", prioridade: "alta" },
+      { acao: "Ativar promoção de frete grátis em horários de baixo movimento", prazo: "7 dias", prioridade: "media" },
+      { acao: "Implementar programa de fidelidade simples", prazo: "14 dias", prioridade: "media" },
+      { acao: "Otimizar fotos e descrições do cardápio", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Criar campanha de recuperação de clientes inativos", prazo: "14 dias", prioridade: "media" },
+      { acao: "Testar novos produtos com base nos mais vendidos", prazo: "21 dias", prioridade: "baixa" }
+    ]
+  },
+  {
+    titulo: "⏱️ Plano de Redução de Tempo de Entrega",
+    problema: "Tempo de entrega acima de 45 minutos",
+    descricao: "Ações para acelerar a operação e entrega",
+    pilar: "processos",
+    acoes: [
+      { acao: "Mapear gargalos no fluxo de produção", prazo: "3 dias", prioridade: "critica" },
+      { acao: "Reorganizar layout da cozinha para eficiência", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Implementar pré-preparo em horários de pico", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Treinar equipe para trabalho em paralelo", prazo: "14 dias", prioridade: "media" },
+      { acao: "Otimizar rotas de entrega", prazo: "7 dias", prioridade: "media" },
+      { acao: "Definir tempo máximo por etapa do pedido", prazo: "3 dias", prioridade: "alta" }
+    ]
+  },
+  {
+    titulo: "⭐ Plano de Melhoria de Avaliações",
+    problema: "Nota abaixo de 4.5 no iFood",
+    descricao: "Ações para melhorar a experiência do cliente",
+    pilar: "presenca_magnetica",
+    acoes: [
+      { acao: "Analisar todas as avaliações negativas do último mês", prazo: "2 dias", prioridade: "critica" },
+      { acao: "Criar checklist de qualidade antes do despacho", prazo: "3 dias", prioridade: "alta" },
+      { acao: "Melhorar embalagem para evitar vazamentos", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Incluir bilhete personalizado nos pedidos", prazo: "3 dias", prioridade: "media" },
+      { acao: "Responder 100% das avaliações (positivas e negativas)", prazo: "Diário", prioridade: "alta" },
+      { acao: "Treinar equipe sobre padrão de montagem", prazo: "7 dias", prioridade: "alta" }
+    ]
+  },
+  {
+    titulo: "👥 Plano de Organização da Equipe",
+    problema: "Equipe desorganizada ou sem produtividade",
+    descricao: "Estruturar processos e responsabilidades da equipe",
+    pilar: "tempo_potencia",
+    acoes: [
+      { acao: "Definir organograma e funções de cada cargo", prazo: "3 dias", prioridade: "critica" },
+      { acao: "Criar escala de trabalho semanal", prazo: "3 dias", prioridade: "alta" },
+      { acao: "Implementar reunião diária de 10 minutos", prazo: "7 dias", prioridade: "media" },
+      { acao: "Criar checklist de tarefas por função", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Definir metas individuais e coletivas", prazo: "14 dias", prioridade: "media" },
+      { acao: "Implementar sistema de feedback semanal", prazo: "14 dias", prioridade: "baixa" }
+    ]
+  },
+  {
+    titulo: "📱 Plano de Fortalecimento no iFood",
+    problema: "Baixa visibilidade e conversão no iFood",
+    descricao: "Melhorar presença e performance na plataforma",
+    pilar: "presenca_magnetica",
+    acoes: [
+      { acao: "Atualizar todas as fotos do cardápio", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Reescrever descrições com gatilhos de venda", prazo: "5 dias", prioridade: "alta" },
+      { acao: "Ativar Super Restaurante (se elegível)", prazo: "3 dias", prioridade: "media" },
+      { acao: "Criar categoria de 'Mais Pedidos'", prazo: "2 dias", prioridade: "media" },
+      { acao: "Configurar promoções recorrentes", prazo: "7 dias", prioridade: "alta" },
+      { acao: "Analisar concorrentes e ajustar posicionamento", prazo: "7 dias", prioridade: "media" }
+    ]
+  }
+];
+
 // SOPs prontos para usar
 const sopsProntos = [
   {
@@ -725,16 +813,78 @@ export default function ExecucaoInteligente() {
 
         {/* Planos de Ação */}
         <TabsContent value="planos">
-          <div className="grid md:grid-cols-2 gap-4">
-            {filteredPlanos.map(plano => (
-              <PlanoAcaoCard key={plano.id} plano={plano} />
-            ))}
-            {filteredPlanos.length === 0 && (
-              <div className="col-span-full text-center py-12 bg-white/5 rounded-xl">
-                <AlertTriangle size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/50">Nenhum plano de ação</p>
+          <div className="space-y-6">
+            {/* Planos Ativos */}
+            {filteredPlanos.length > 0 && (
+              <div>
+                <h3 className="text-lg font-medium text-white mb-4">Planos Ativos</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {filteredPlanos.map(plano => (
+                    <PlanoAcaoCard key={plano.id} plano={plano} />
+                  ))}
+                </div>
               </div>
             )}
+
+            {/* Planos Prontos */}
+            <div>
+              <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos para Delivery</h3>
+              <p className="text-sm text-white/50 mb-4">Selecione um plano e atribua a um mentorado para começar.</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {planosAcaoProntos.map((plano, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
+                    <h4 className="font-medium text-white mb-2">{plano.titulo}</h4>
+                    <p className="text-sm text-red-400/80 mb-2">❗ {plano.problema}</p>
+                    <p className="text-xs text-white/50 mb-3">{plano.descricao}</p>
+                    <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
+                      <span className={`px-2 py-0.5 rounded-full ${
+                        plano.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
+                        plano.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
+                        plano.pilar === "tempo_potencia" ? "bg-violet-500/20 text-violet-400" :
+                        "bg-pink-500/20 text-pink-400"
+                      }`}>{pilarOptions.find(p => p.value === plano.pilar)?.label}</span>
+                      <span>{plano.acoes.length} ações</span>
+                    </div>
+                    <div className="space-y-1 mb-3 max-h-32 overflow-y-auto">
+                      {plano.acoes.slice(0, 4).map((acao, aIdx) => (
+                        <div key={aIdx} className="flex items-start gap-2 text-xs">
+                          <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                            acao.prioridade === "critica" ? "bg-red-500" :
+                            acao.prioridade === "alta" ? "bg-amber-500" :
+                            "bg-blue-500"
+                          }`} />
+                          <span className="text-white/60 line-clamp-1">{acao.acao}</span>
+                        </div>
+                      ))}
+                      {plano.acoes.length > 4 && (
+                        <p className="text-xs text-white/40 pl-3">+{plano.acoes.length - 4} mais...</p>
+                      )}
+                    </div>
+                    <Button
+                      onClick={() => {
+                        // Criar múltiplos planos de ação
+                        plano.acoes.forEach((acao, index) => {
+                          setTimeout(() => {
+                            createPlanoAcaoMutation.mutate({
+                              problema: plano.problema,
+                              acao_corretiva: acao.acao,
+                              pilar: plano.pilar,
+                              prioridade: acao.prioridade,
+                              prazo: new Date(Date.now() + (parseInt(acao.prazo) || 7) * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                              status: "pendente"
+                            });
+                          }, index * 100);
+                        });
+                      }}
+                      className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
+                      size="sm"
+                    >
+                      <Target size={14} className="mr-1" /> Aplicar Plano
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </TabsContent>
 
