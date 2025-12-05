@@ -113,7 +113,7 @@ export default function DashboardAutomacao({ automacoes, logs, dateRange }) {
   return (
     <div className="space-y-6">
       <div className="flex justify-end gap-2">
-        <Button onClick={exportCSV} variant="outline" className="border-white/10 text-white hover:bg-white/10">
+        <Button onClick={exportCSV} variant="outline" className="border-white/10 text-black hover:bg-white/10">
           <Table size={16} className="mr-2" /> Exportar CSV
         </Button>
         <Button onClick={exportPDF} className="bg-[#FF4D00] hover:bg-[#E64500]">

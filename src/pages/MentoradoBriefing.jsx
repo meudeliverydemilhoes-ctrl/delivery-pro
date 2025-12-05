@@ -78,7 +78,7 @@ export default function MentoradoBriefing() {
           </div>
           {isEditing ? (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setIsEditing(false)} className="border-white/10 text-white hover:bg-white/10">
+              <Button variant="outline" onClick={() => setIsEditing(false)} className="border-white/10 text-black hover:bg-white/10">
                 <X size={16} className="mr-2" /> Cancelar
               </Button>
               <Button onClick={handleSave} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
