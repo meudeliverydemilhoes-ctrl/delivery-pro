@@ -14,6 +14,7 @@ import {
   ClipboardList,
   GitBranch
 } from "lucide-react";
+import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -135,6 +136,9 @@ export default function Layout({ children, currentPageName }) {
           {children}
         </div>
       </main>
+
+      {/* Assistente IA Global */}
+      <AssistenteIAGlobal currentPage={currentPageName} />
     </div>
   );
 }
