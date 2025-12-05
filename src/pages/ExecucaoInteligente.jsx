@@ -24,6 +24,7 @@ import DashboardPerformance from "@/components/execucao/DashboardPerformance";
 import SOPCard from "@/components/execucao/SOPCard";
 import ComunicadosFeed from "@/components/execucao/ComunicadosFeed";
 import RankingMentorados from "@/components/execucao/RankingMentorados";
+import AssistenteIA from "@/components/execucao/AssistenteIA";
 
 const pilarOptions = [
   { value: "processos", label: "🏆 Processos" },
@@ -746,6 +747,15 @@ export default function ExecucaoInteligente() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Assistente IA */}
+      <AssistenteIA 
+        contexto={{
+          execucoes: pendentes.length,
+          planosAcao: filteredPlanos.filter(p => p.status === "pendente").length,
+          mentorados: mentorados.length
+        }}
+      />
     </div>
   );
 }
