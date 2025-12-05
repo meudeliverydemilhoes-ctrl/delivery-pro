@@ -6888,8 +6888,6 @@ function BlocoProcesso({ bloco }) {
 }
 
 export default function GestaoFinanceira() {
-  const [expandedProcess, setExpandedProcess] = useState(null);
-
   return (
     <div className="max-w-6xl mx-auto">
       {/* Header */}
