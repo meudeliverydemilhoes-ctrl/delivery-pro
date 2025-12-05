@@ -419,7 +419,7 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10 p-1 h-auto flex-wrap">
+        <TabsList className="bg-white/5 border border-white/10 p-1 h-auto flex flex-col w-full gap-1">
           <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white">
             <FileText size={16} className="mr-2" /> Briefing
           </TabsTrigger>
