@@ -2676,6 +2676,1108 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  // GRUPO 3 - GESTÃO DE PESSOAS
+  {
+    id: "3.1",
+    titulo: "RECRUTAMENTO E SELEÇÃO",
+    icon: UserPlus,
+    cor: "bg-cyan-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — IDENTIFICAÇÃO DA NECESSIDADE",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar necessidade de contratação",
+            itens: [
+              "Solicitação do gestor",
+              "Demanda de operação",
+              "Substituição ou nova vaga"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Definir perfil da vaga",
+            itens: [
+              "Função",
+              "Competências necessárias",
+              "Horário e escala",
+              "Requisitos obrigatórios"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DIVULGAÇÃO DA VAGA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Criar anúncio estruturado",
+            itens: [
+              "Função",
+              "Requisitos",
+              "Benefícios",
+              "Local",
+              "Forma de inscrição"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Publicar a vaga nos canais oficiais",
+            itens: [
+              "WhatsApp",
+              "Instagram",
+              "Facebook",
+              "Sites de emprego"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — TRIAGEM DOS CURRÍCULOS",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Separar currículos compatíveis com a vaga",
+            itens: [
+              "Experiência",
+              "Localidade",
+              "Disponibilidade"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Lista de candidatos pré-selecionados",
+            itens: []
+          },
+          {
+            numero: 7,
+            titulo: "O candidato atende o perfil básico?",
+            decisao: {
+              seNao: [
+                "Arquivar currículo"
+              ],
+              seSim: [
+                "Avançar para entrevista"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ENTREVISTA",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Agendar entrevista",
+            itens: [
+              "Informar horário",
+              "Endereço",
+              "Documentação necessária"
+            ]
+          },
+          {
+            numero: 9,
+            titulo: "Realizar entrevista presencial ou online",
+            itens: [
+              "Verificar postura",
+              "Comunicação",
+              "Experiência prática",
+              "Disponibilidade"
+            ]
+          },
+          {
+            numero: 10,
+            titulo: "Registrar avaliação do candidato",
+            checklist: [
+              "Compareceu?",
+              "Experiência comprovada?",
+              "Atitude compatível?",
+              "Motivação real pela vaga?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FECHAMENTO DA SELEÇÃO",
+        etapas: [
+          {
+            numero: 11,
+            titulo: "Escolher candidato aprovado",
+            itens: []
+          },
+          {
+            numero: 12,
+            titulo: "Solicitar documentação",
+            itens: [
+              "RG / CPF",
+              "Comprovante de endereço",
+              "Carteira de trabalho",
+              "Dados bancários"
+            ]
+          },
+          {
+            numero: 13,
+            titulo: "Enviar para processo de integração",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "3.2",
+    titulo: "PROCESSO DE INTEGRAÇÃO",
+    icon: Users,
+    cor: "bg-indigo-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO DA ADMISSÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir documentação completa do candidato",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Criar cadastro interno",
+            itens: [
+              "Dados pessoais",
+              "Função",
+              "Escala",
+              "Supervisor responsável"
+            ]
+          },
+          {
+            numero: 3,
+            titulo: "Enviar contrato de trabalho ou termo de prestação de serviço",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — PRIMEIRO CONTATO OFICIAL",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Dar boas-vindas ao novo colaborador",
+            itens: [
+              "Explicar cultura e valores",
+              "Apresentar regras básicas",
+              "Entregar manual interno"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — APRESENTAÇÃO DA OPERAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Fazer tour guiado pela unidade",
+            itens: [
+              "Cozinha",
+              "Estoque",
+              "Área de delivery",
+              "Salão (se houver)"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Apresentar equipe e liderança",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — CONFIGURAÇÕES E ACESSOS",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Criar acessos necessários",
+            itens: [
+              "Sistema",
+              "WhatsApp interno",
+              "Ponto digital"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Entregar uniformes e EPIs",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO DA INTEGRAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar integração concluída",
+            itens: [
+              "Checklist assinado"
+            ]
+          },
+          {
+            numero: 10,
+            titulo: "Encaminhar colaborador ao Treinamento Introdutório",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "3.3",
+    titulo: "TREINAMENTO INTRODUTÓRIO",
+    icon: GraduationCap,
+    cor: "bg-purple-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PLANEJAMENTO DO TREINAMENTO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Definir conteúdo do treinamento inicial",
+            itens: [
+              "Função do colaborador",
+              "Procedimentos padrões",
+              "Segurança alimentar",
+              "Postura profissional"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Selecionar colaborador-tutor",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — TREINAMENTO EM AÇÃO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Treinar nas atividades práticas da função",
+            itens: [
+              "Preparo",
+              "Montagem",
+              "Atendimento",
+              "Regras internas"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Observar desempenho e velocidade de aprendizado",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CHECKLIST DE AVALIAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Avaliar domínio dos processos",
+            checklist: [
+              "Entendeu a função?",
+              "Sabe executar com segurança?",
+              "Memorizou ficha técnica?",
+              "Cumpre regras de higiene?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "O colaborador apresentou dificuldades relevantes?",
+            decisao: {
+              seSim: [
+                "Reforçar treinamento",
+                "Agendar mais 1 ou 2 dias de prática"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — LIBERAÇÃO DO COLABORADOR PARA OPERAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Assinar termo de conclusão do treinamento",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Comunicar gestor para inclusão na escala oficial",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar treinamento no prontuário interno",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "3.4",
+    titulo: "GESTÃO DE DESEMPENHO",
+    icon: Target,
+    cor: "bg-orange-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — ACOMPANHAMENTO CONTÍNUO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Observar desempenho individual diariamente",
+            itens: [
+              "Velocidade",
+              "Qualidade",
+              "Comprometimento"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Registrar comportamentos positivos e negativos",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — FEEDBACKS PERIÓDICOS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Realizar feedback mensal",
+            itens: [
+              "Pontos fortes",
+              "Pontos de melhoria"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Registrar devolutiva no sistema interno",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — AVALIAÇÃO DE HABILIDADES",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Usar matriz de avaliação",
+            checklist: [
+              "Técnica",
+              "Agilidade",
+              "Postura",
+              "Trabalho em equipe",
+              "Presença e pontualidade"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — PLANO DE MELHORIA",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "O desempenho está abaixo do esperado?",
+            decisao: {
+              seSim: [
+                "Criar plano de ação",
+                "Reforçar treinamento",
+                "Reavaliar em 15 dias"
+              ],
+              seNao: [
+                "Manter acompanhamento normal"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Registrar status de desempenho",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Comunicar liderança sobre evolução do colaborador",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "3.5",
+    titulo: "GESTÃO DA FOLHA E BENEFÍCIOS",
+    icon: DollarSign,
+    cor: "bg-green-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — LEVANTAMENTO DOS DADOS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Reunir informações do mês",
+            itens: [
+              "Horas trabalhadas",
+              "Faltas",
+              "Atestados",
+              "Extras",
+              "Adicionais e benefícios"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Conferir se todos os registros foram inseridos corretamente",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CÁLCULO DA FOLHA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Enviar informações para o contador / DP",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Validar folha prévia enviada pelo DP",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONFERÊNCIA DA FOLHA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Verificar inconsistências",
+            checklist: [
+              "Horas corretas?",
+              "Faltas validadas?",
+              "Atestados inseridos?",
+              "Extras autorizadas?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Há divergências?",
+            decisao: {
+              seSim: [
+                "Solicitar correção ao DP"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — BENEFÍCIOS",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Conferir implantação de benefícios",
+            itens: [
+              "Vale transporte",
+              "Vale refeição",
+              "Alimentação",
+              "Bonificações"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Aprovar folha do mês",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Registrar pagamento aos colaboradores",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Arquivar documentos da folha",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "3.6",
+    titulo: "PROCESSO DEMISSIONAL",
+    icon: UserMinus,
+    cor: "bg-red-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — INÍCIO DO PROCESSO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Receber solicitação de desligamento",
+            itens: [
+              "Pedido do colaborador",
+              "Decisão da empresa"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Registrar data de comunicação",
+            itens: [
+              "Documento de aviso",
+              "Motivo do desligamento"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DOCUMENTAÇÃO NECESSÁRIA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Solicitar documentos obrigatórios",
+            itens: [
+              "Dados bancários",
+              "Assinaturas",
+              "Entrega de uniformes e EPIs"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Enviar informações ao Departamento Pessoal / Contabilidade",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — PROCESSO DE DESLIGAMENTO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Agendar acerto e entrega de documentos",
+            itens: [
+              "Extrato FGTS",
+              "Termo de rescisão",
+              "Guias obrigatórias"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Fazer entrevista de desligamento (opcional)",
+            itens: [
+              "Motivo real da saída",
+              "Sugestões",
+              "Percepções do colaborador"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — DEVOLUÇÕES E CONFERÊNCIAS",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Conferir devolução de itens da empresa",
+            checklist: [
+              "Uniforme entregue?",
+              "Chave do armário?",
+              "Acesso ao sistema bloqueado?",
+              "Equipamentos devolvidos?"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Houve algum dano ou item faltante?",
+            decisao: {
+              seSim: [
+                "Registrar ocorrência",
+                "Descontar conforme regra interna"
+              ],
+              seNao: [
+                "Prosseguir"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Realizar pagamento da rescisão",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Encerrar cadastro do colaborador",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Arquivar documentação",
+            itens: []
+          },
+          {
+            numero: 12,
+            titulo: "Comunicar equipe sobre o desligamento",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  // GRUPO 4 - GESTÃO ESTRATÉGICA (VTO)
+  {
+    id: "4.1",
+    titulo: "VTO: DEFINIÇÃO DE VALORES",
+    icon: Heart,
+    cor: "bg-pink-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO PARA DEFINIR VALORES",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Reunir lideranças ou gestores chave",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Levantar comportamentos esperados na cultura",
+            itens: []
+          },
+          {
+            numero: 3,
+            titulo: "Identificar valores já praticados na operação",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CRIAÇÃO DOS VALORES",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Listar comportamentos essenciais",
+            itens: [
+              "Pontualidade",
+              "Disciplina",
+              "Respeito",
+              "Entrega acima do combinado"
+            ]
+          },
+          {
+            numero: 5,
+            titulo: "Transformar comportamentos em valores escritos",
+            itens: [
+              "Objetivos",
+              "Claros",
+              "Curtos"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — VALIDAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Conferir se os valores representam a cultura real",
+            checklist: [
+              "Todos entendem o significado?",
+              "São aplicáveis no dia a dia?",
+              "São mensuráveis?"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "Algum valor está genérico ou irrelevante?",
+            decisao: {
+              seSim: [
+                "Ajustar texto",
+                "Tornar prático"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — IMPLEMENTAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Comunicar valores à equipe",
+            itens: [
+              "Reunião",
+              "Cartazes",
+              "Manuais"
+            ]
+          },
+          {
+            numero: 9,
+            titulo: "Treinar time para aplicação dos valores",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 10,
+            titulo: "Inserir valores no VTO oficial",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Revisar anualmente",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "4.2",
+    titulo: "VTO: CENÁRIO FUTURO / PROPÓSITO / DIFERENCIAL",
+    icon: Compass,
+    cor: "bg-violet-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DEFINIÇÃO DO PROPÓSITO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Alinhar propósito da empresa",
+            itens: [
+              "Missão",
+              "Razão da existência",
+              "Qual impacto entrega?"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Registrar propósito em frase clara e objetiva",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DEFINIÇÃO DO CENÁRIO FUTURO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Identificar como a empresa quer estar em 5 anos",
+            itens: [
+              "Quantas unidades?",
+              "Qual faturamento?",
+              "Quais produtos?",
+              "Qual presença de mercado?"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Descrever cenário futuro de forma visual",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — DEFINIÇÃO DO DIFERENCIAL",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Levantar pontos fortes da empresa",
+            itens: [
+              "Qualidade",
+              "Velocidade",
+              "Marca",
+              "Processo"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Validar o que realmente diferencia da concorrência",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — VALIDAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Os três blocos estão claros e coerentes?",
+            checklist: [
+              "Propósito prático?",
+              "Cenário futuro realista?",
+              "Diferencial verdadeiro?"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Há incoerência entre desejo e capacidade atual?",
+            decisao: {
+              seSim: [
+                "Ajustar metas",
+                "Reescrever texto"
+              ],
+              seNao: [
+                "Prosseguir"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Arquivar no VTO oficial",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Apresentar para toda equipe",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "4.3",
+    titulo: "VTO: METAS ANUAIS",
+    icon: Flag,
+    cor: "bg-amber-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DEFINIÇÃO DAS METAS PRINCIPAIS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Avaliar histórico do último ano",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Escolher metas prioritárias",
+            itens: [
+              "Faturamento",
+              "Lucro",
+              "Expansão",
+              "Redução de custos"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CRIAÇÃO DAS METAS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Transformar metas em formato SMART",
+            itens: [
+              "Específica",
+              "Mensurável",
+              "Alcançável",
+              "Relevante",
+              "Temporal"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Definir responsáveis por cada meta",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — VALIDAÇÃO DAS METAS",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "As metas são realistas?",
+            checklist: [
+              "Dados reais usados?",
+              "Recursos existem?",
+              "Prazo viável?"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "O time concorda com as metas?",
+            decisao: {
+              seNao: [
+                "Ajustar metas",
+                "Nova validação"
+              ],
+              seSim: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — IMPLEMENTAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Inserir metas no painel oficial",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Comunicar metas para toda equipe",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Revisão trimestral obrigatória",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "4.4",
+    titulo: "VTO: METAS TRIMESTRAIS (ROCKS)",
+    icon: Rocket,
+    cor: "bg-rose-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — DEFINIÇÃO DOS ROCKS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Selecionar 3 a 7 metas essenciais para os próximos 90 dias",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Definir impacto direto no anual",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DESDOBRAMENTO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Transformar cada Rock em ações práticas",
+            itens: [
+              "O que deve ser feito?",
+              "Por quem?",
+              "Até quando?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — RESPONSABILIZAÇÃO",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Atribuir responsáveis por cada ação",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "Registrar no painel oficial de metas",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ACOMPANHAMENTO SEMANAL",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Realizar reunião semanal de status",
+            itens: []
+          },
+          {
+            numero: 7,
+            titulo: "O Rock está evoluindo?",
+            decisao: {
+              seNao: [
+                "Ajustar ações",
+                "Reforçar responsáveis",
+                "Identificar bloqueios"
+              ],
+              seSim: [
+                "Continuar execução"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Revisão após 90 dias",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Classificar como:",
+            itens: [
+              "Concluído",
+              "Parcial",
+              "Não concluído"
+            ]
+          },
+          {
+            numero: 10,
+            titulo: "Atualizar painel anual do VTO",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
