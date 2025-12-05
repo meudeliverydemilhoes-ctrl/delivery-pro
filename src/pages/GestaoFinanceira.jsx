@@ -3780,6 +3780,1044 @@ const processosFinanceiros = [
         ]
       }
     ]
+  },
+  {
+    id: "4.5",
+    titulo: "QUADRO DE RESPONSABILIDADES",
+    icon: LayoutGrid,
+    cor: "bg-slate-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — MAPEAMENTO DAS FUNÇÕES",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar todas as funções da operação",
+            itens: [
+              "Cozinha",
+              "Estoque",
+              "Delivery",
+              "Financeiro",
+              "Atendimento",
+              "Gestão"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar responsabilidades essenciais para cada função",
+            itens: [
+              "Tarefas diárias",
+              "Tarefas semanais",
+              "Tarefas mensais"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DEFINIÇÃO DOS RESPONSÁVEIS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Atribuir um titular para cada responsabilidade",
+            itens: [
+              "Nome",
+              "Cargo",
+              "Turno"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Definir substitutos quando o responsável estiver ausente",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ORGANIZAÇÃO DO QUADRO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Criar tabela com colunas:",
+            itens: [
+              "Atividade",
+              "Responsável",
+              "Frequência",
+              "Horário",
+              "Indicador de conclusão"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Verificar se todas as atividades da operação foram mapeadas",
+            checklist: [
+              "Nenhuma tarefa ficou sem responsável?",
+              "Frequências definidas?",
+              "Turnos alinhados?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — VALIDAÇÃO E ALINHAMENTO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Reunir a equipe para explicar o quadro",
+            itens: [
+              "Quem faz o quê",
+              "Quando faz",
+              "Como reporta"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Existe conflito de responsabilidade?",
+            decisao: {
+              seSim: [
+                "Redistribuir tarefas",
+                "Ajustar carga de trabalho"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Fixar o quadro visível na área operacional",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Revisar mensalmente e atualizar mudanças",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  // GRUPO 5 - PRODUÇÃO E COZINHA
+  {
+    id: "5.1",
+    titulo: "RECEITUÁRIO",
+    icon: BookOpen,
+    cor: "bg-amber-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — LEVANTAMENTO DE RECEITAS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Listar todos os itens produzidos na cozinha",
+            itens: [
+              "Massas",
+              "Molhos",
+              "Recheios",
+              "Insumos preparados"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar receitas base e receitas derivadas",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — PADRONIZAÇÃO DAS RECEITAS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Registrar ingredientes exatos de cada receita",
+            itens: [
+              "Nome",
+              "Quantidade",
+              "Unidade de medida"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Definir tempo de preparo de cada receita",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — TESTE E VALIDAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Executar receita conforme descrita",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Validar resultado final",
+            checklist: [
+              "Textura correta?",
+              "Sabor padronizado?",
+              "Cor e aparência estável?"
+            ]
+          },
+          {
+            numero: 7,
+            titulo: "A receita está consistente e replicável?",
+            decisao: {
+              seNao: [
+                "Ajustar ingredientes",
+                "Ajustar proporções",
+                "Retestar até padronizar"
+              ],
+              seSim: [
+                "Aprovar receita"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — DOCUMENTAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Criar ficha de receita com:",
+            itens: [
+              "Ingredientes",
+              "Quantidades",
+              "Rendimento",
+              "Prazo de validade",
+              "Armazenamento"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Treinar equipe",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Arquivar receita no setor de cozinha",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "5.2",
+    titulo: "PLANILHA DE PRODUÇÃO",
+    icon: FileSpreadsheet,
+    cor: "bg-teal-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PLANEJAMENTO DA PRODUÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar previsões de venda do dia",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Identificar insumos que precisam ser produzidos",
+            itens: [
+              "Massas",
+              "Molhos",
+              "Recheios",
+              "Cortes"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — DEFINIÇÃO DAS QUANTIDADES",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Basear produção no giro histórico",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Definir quantidade ideal para o turno",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — REGISTRO NA PLANILHA",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Preencher planilha com colunas:",
+            itens: [
+              "Item",
+              "Quantidade a produzir",
+              "Quantidade produzida",
+              "Responsável",
+              "Horário"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Verificar coerência das quantidades",
+            checklist: [
+              "Quantidade suficiente?",
+              "Sem exagero?",
+              "Sem risco de faltar?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — EXECUÇÃO DA PRODUÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Orientar equipe a produzir conforme planilha",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Conferir produção finalizada",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Salvar planilha do dia",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Enviar relatório para o gestor",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "5.3",
+    titulo: "MISE EN PLACE DAS PRAÇAS",
+    icon: Utensils,
+    cor: "bg-orange-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir planilha de produção e fichas técnicas",
+            itens: []
+          },
+          {
+            numero: 2,
+            titulo: "Separar insumos necessários para turno",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ORGANIZAÇÃO DA PRAÇA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Montar estação conforme padrão:",
+            itens: [
+              "Ingredientes nas cubas",
+              "Gramaturas corretas",
+              "Utensílios limpos",
+              "Etiquetas de validade"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — VERIFICAÇÃO DE QUALIDADE",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Conferir qualidade dos insumos",
+            checklist: [
+              "Frescor?",
+              "Cor adequada?",
+              "Odor normal?",
+              "Temperatura correta?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AJUSTES",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Algum insumo está fora do padrão?",
+            decisao: {
+              seSim: [
+                "Descartar",
+                "Repor com insumo válido",
+                "Registrar ocorrência"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Registrar mise en place concluída",
+            itens: []
+          },
+          {
+            numero: 7,
+            titulo: "Comunicar líder da cozinha",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "5.4",
+    titulo: "FICHA DE FINALIZAÇÃO",
+    icon: ChefHat,
+    cor: "bg-red-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — MONTAGEM DO PADRÃO FINAL",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Definir padrão visual do produto pronto",
+            itens: [
+              "Cor",
+              "Textura",
+              "Altura",
+              "Quantidade de cobertura"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Registrar gramaturas de finalização",
+            itens: [
+              "Quantidade de queijo",
+              "Quantidade de molho",
+              "Quantidade de recheio adicional"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CRIAÇÃO DA FICHA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Criar ficha com:",
+            itens: [
+              "Foto do produto final",
+              "Gramaturas",
+              "Passo a passo da montagem final",
+              "Correções de padrão"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — TREINAMENTO",
+        etapas: [
+          {
+            numero: 4,
+            titulo: "Treinar equipe na finalização",
+            itens: []
+          },
+          {
+            numero: 5,
+            titulo: "Validar execução do padrão",
+            checklist: [
+              "Visual igual ao modelo?",
+              "Quantidade correta?",
+              "Produto aquecido corretamente?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — AJUSTES",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Há divergência na entrega final?",
+            decisao: {
+              seSim: [
+                "Ajustar gramatura",
+                "Reforçar padrão",
+                "Retreinar equipe"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Fixar ficha de finalização na praça",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Revisar mensalmente",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "5.5",
+    titulo: "ROTINAS DE LIMPEZA",
+    icon: Sparkles,
+    cor: "bg-cyan-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO E MATERIAIS",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Conferir materiais de limpeza disponíveis",
+            itens: [
+              "Detergente",
+              "Sanitizante",
+              "Panos",
+              "Esponjas",
+              "Escovas"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar áreas de limpeza obrigatória",
+            itens: [
+              "Cozinha",
+              "Praças",
+              "Estoque",
+              "Banheiros",
+              "Salão (se houver)"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — EXECUÇÃO DAS LIMPEZAS DIÁRIAS",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Executar limpeza imediata em áreas críticas",
+            itens: [
+              "Pias",
+              "Bancadas",
+              "Cubas",
+              "Fornos",
+              "Utensílios"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Registrar limpeza concluída no checklist diário",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — LIMPEZA PROFUNDA SEMANAL",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Realizar higienização completa de equipamentos",
+            itens: [
+              "Geladeiras",
+              "Freezers",
+              "Exaustores",
+              "Mesas de inox"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Conferir se limpeza profunda foi concluída",
+            checklist: [
+              "Equipamentos higienizados?",
+              "Sem resíduos acumulados?",
+              "Paredes limpas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — ACOMPANHAMENTO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Avaliar se padrão de limpeza está adequado",
+            decisao: {
+              seNao: [
+                "Refazer limpeza",
+                "Treinar equipe novamente"
+              ],
+              seSim: [
+                "Manter rotina"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Registrar limpeza semanal e diária",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Comunicar gestor sobre pendências",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  // GRUPO 6 - GESTÃO OPERACIONAL
+  {
+    id: "6.1",
+    titulo: "GESTÃO DA ESCALA DOS FUNCIONÁRIOS",
+    icon: CalendarDays,
+    cor: "bg-blue-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PLANEJAMENTO DA ESCALA",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Levantar necessidade operacional da semana",
+            itens: [
+              "Picos de movimento",
+              "Dias de maior demanda",
+              "Baixas previstas"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Identificar disponibilidade dos colaboradores",
+            itens: [
+              "Folgas",
+              "Turnos",
+              "Preferências"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — CRIAÇÃO DA ESCALA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Montar escala equilibrada",
+            itens: [
+              "Ninguém sobrecarregado",
+              "Cobertura total da operação"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Conferir conflitos ou horários descobertos",
+            checklist: [
+              "Turnos completos?",
+              "Folgas respeitadas?",
+              "Funções distribuídas?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — APROVAÇÃO",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Enviar escala para o gestor validar",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "A escala foi aprovada?",
+            decisao: {
+              seNao: [
+                "Ajustar",
+                "Reenviar"
+              ],
+              seSim: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — COMUNICAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Enviar escala para a equipe",
+            itens: [
+              "WhatsApp",
+              "Mural interno"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Solicitar confirmação dos colaboradores",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar escala oficial da semana",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Arquivar escala para controle mensal",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "6.2",
+    titulo: "REUNIÃO NOTA 10",
+    icon: MessageSquare,
+    cor: "bg-violet-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — PREPARAÇÃO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Definir pauta da reunião",
+            itens: [
+              "Indicadores",
+              "Problemas da semana",
+              "Melhorias",
+              "Ponto positivo"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Separar dados e relatórios para apresentação",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ABERTURA DA REUNIÃO",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Começar reunião com resumo do período",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Agradecer pontos positivos da equipe",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — DISCUSSÃO OPERACIONAL",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Apresentar indicadores principais",
+            itens: [
+              "CMV",
+              "Faturamento",
+              "Reclamações"
+            ]
+          },
+          {
+            numero: 6,
+            titulo: "Levantar problemas da semana",
+            itens: [
+              "Quebras",
+              "Erros de produção",
+              "Atrasos"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — DEFINIÇÃO DE AÇÕES",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Criar lista de ações para corrigir problemas",
+            itens: [
+              "Responsável por ação",
+              "Prazo",
+              "Critério de sucesso"
+            ]
+          },
+          {
+            numero: 8,
+            titulo: "Alguma ação ficou sem responsável?",
+            decisao: {
+              seSim: [
+                "Definir responsável imediatamente"
+              ],
+              seNao: [
+                "Continuar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 9,
+            titulo: "Registrar ata da reunião",
+            itens: []
+          },
+          {
+            numero: 10,
+            titulo: "Enviar resumo ao gestor",
+            itens: []
+          },
+          {
+            numero: 11,
+            titulo: "Verificar execução na reunião seguinte",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "6.3",
+    titulo: "CHECKLISTS OPERACIONAIS",
+    icon: ListChecks,
+    cor: "bg-emerald-500",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — ESTRUTURAÇÃO DO CHECKLIST",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Identificar rotinas críticas do turno",
+            itens: [
+              "Abertura",
+              "Operação",
+              "Fechamento"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Criar checklist com atividades essenciais",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — EXECUÇÃO DO CHECKLIST",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "O responsável deve preencher checklist diariamente",
+            itens: [
+              "Itens concluídos",
+              "Itens pendentes"
+            ]
+          },
+          {
+            numero: 4,
+            titulo: "Conferir se checklist foi preenchido corretamente",
+            checklist: [
+              "Horário preenchido?",
+              "Nome do responsável?",
+              "Todos itens marcados?"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — ANÁLISE DE PENDÊNCIAS",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Há itens pendentes?",
+            decisao: {
+              seSim: [
+                "Corrigir antes do final do turno",
+                "Registrar motivo da pendência"
+              ],
+              seNao: [
+                "Avançar"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — VALIDAÇÃO DO GESTOR",
+        etapas: [
+          {
+            numero: 6,
+            titulo: "Gestor valida checklist no final do dia",
+            itens: [
+              "Marcar como aprovado"
+            ]
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Arquivar checklist diário",
+            itens: []
+          },
+          {
+            numero: 8,
+            titulo: "Atualizar painel de rotina",
+            itens: []
+          }
+        ]
+      }
+    ]
+  },
+  // GRUPO 7 - ATENDIMENTO
+  {
+    id: "7.1",
+    titulo: "GESTÃO DA LISTA DE ESPERA",
+    icon: Clock,
+    cor: "bg-pink-600",
+    blocos: [
+      {
+        titulo: "BLOCO 1 — INÍCIO DO ATENDIMENTO",
+        etapas: [
+          {
+            numero: 1,
+            titulo: "Criar lista de espera oficial do dia",
+            itens: [
+              "Sistema",
+              "Caderno",
+              "Tablet"
+            ]
+          },
+          {
+            numero: 2,
+            titulo: "Registrar nome e quantidade de pessoas",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 2 — ORGANIZAÇÃO DA LISTA",
+        etapas: [
+          {
+            numero: 3,
+            titulo: "Informar tempo estimado de espera",
+            itens: []
+          },
+          {
+            numero: 4,
+            titulo: "Acompanhar tempo real x tempo informado",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 3 — CONTROLE DA ORDEM",
+        etapas: [
+          {
+            numero: 5,
+            titulo: "Chamar clientes na ordem correta",
+            itens: []
+          },
+          {
+            numero: 6,
+            titulo: "Registrar quando o cliente entrou no salão",
+            itens: []
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 4 — TRATAMENTO DE OCORRÊNCIAS",
+        etapas: [
+          {
+            numero: 7,
+            titulo: "Cliente reclamou da demora?",
+            decisao: {
+              seSim: [
+                "Checar tempo real",
+                "Atualizar previsão",
+                "Oferecer atenção e desculpa"
+              ],
+              seNao: [
+                "Continuar fluxo"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        titulo: "BLOCO 5 — FINALIZAÇÃO",
+        etapas: [
+          {
+            numero: 8,
+            titulo: "Fechar lista de espera ao final do turno",
+            itens: []
+          },
+          {
+            numero: 9,
+            titulo: "Registrar volume de espera para indicadores",
+            itens: []
+          }
+        ]
+      }
+    ]
   }
 ];
 
