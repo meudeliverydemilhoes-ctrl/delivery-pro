@@ -208,35 +208,91 @@ export default function FichasTecnicasOperacionais({ mentoradoId }) {
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
-            <div className="bg-black/20 rounded-xl p-4 space-y-4 text-white/80 text-sm">
-              <p>
-                A ficha técnica operacional serve para <strong className="text-white">padronizar o preparo</strong>, 
-                garantir qualidade, manter consistência de sabor e evitar erros.
-              </p>
-              
-              <div>
-                <p className="font-medium text-white mb-2">Toda ficha técnica deve conter:</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Título do produto</li>
-                  <li>Foto do produto (campo para upload)</li>
-                  <li>Tabela de ingredientes com quantidade e unidade</li>
-                  <li>Receita em formato de lista numerada</li>
-                  <li>Modo de preparo claro e objetivo</li>
-                  <li>Observações importantes e pontos críticos do processo</li>
-                </ul>
+            <div className="space-y-4">
+              {/* Bloco 1 - Introdução */}
+              <div className="bg-black/20 rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-medium mb-2 flex items-center gap-2">
+                  <span className="w-6 h-6 bg-[#FF4D00] rounded-full flex items-center justify-center text-xs">1</span>
+                  O que é uma Ficha Técnica?
+                </h4>
+                <p className="text-white/70 text-sm">
+                  A ficha técnica operacional serve para <strong className="text-white">padronizar o preparo</strong>, 
+                  garantir qualidade, manter consistência de sabor e evitar erros na produção.
+                </p>
               </div>
 
-              <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-amber-400 mb-2">
-                  <AlertCircle size={16} />
-                  <span className="font-medium">Regras Gerais:</span>
+              {/* Bloco 2 - Componentes */}
+              <div className="bg-black/20 rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-medium mb-3 flex items-center gap-2">
+                  <span className="w-6 h-6 bg-[#FF4D00] rounded-full flex items-center justify-center text-xs">2</span>
+                  Componentes Obrigatórios
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {[
+                    { icon: "📷", text: "Foto do produto" },
+                    { icon: "📝", text: "Título do produto" },
+                    { icon: "📊", text: "Tabela de ingredientes" },
+                    { icon: "📋", text: "Modo de preparo" },
+                    { icon: "⚖️", text: "Quantidades exatas" },
+                    { icon: "⚠️", text: "Observações críticas" }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2 bg-white/5 rounded-lg p-2">
+                      <span>{item.icon}</span>
+                      <span className="text-white/70 text-xs">{item.text}</span>
+                    </div>
+                  ))}
                 </div>
-                <ul className="list-disc pl-5 space-y-1 text-white/70">
-                  <li>A equipe deve seguir a ficha exatamente como está escrita.</li>
-                  <li>Não alterar ingredientes, métodos, quantidades ou ordem.</li>
-                  <li>Qualquer mudança deve ser aprovada pela gestão.</li>
-                  <li>A ficha deve ser revisada pelo operador antes do preparo.</li>
-                </ul>
+              </div>
+
+              {/* Bloco 3 - Estrutura do Modelo */}
+              <div className="bg-black/20 rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-medium mb-3 flex items-center gap-2">
+                  <span className="w-6 h-6 bg-[#FF4D00] rounded-full flex items-center justify-center text-xs">3</span>
+                  Estrutura do Modelo
+                </h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start gap-3 p-2 bg-white/5 rounded-lg">
+                    <span className="text-blue-400 font-bold">BLOCO 1</span>
+                    <span className="text-white/70">Foto do produto (20% esquerda)</span>
+                  </div>
+                  <div className="flex items-start gap-3 p-2 bg-white/5 rounded-lg">
+                    <span className="text-emerald-400 font-bold">BLOCO 2</span>
+                    <span className="text-white/70">Título centralizado - "FICHA TÉCNICA OPERACIONAL"</span>
+                  </div>
+                  <div className="flex items-start gap-3 p-2 bg-white/5 rounded-lg">
+                    <span className="text-violet-400 font-bold">BLOCO 3</span>
+                    <span className="text-white/70">Tabela: QUANT. | UNID. | PRODUTO</span>
+                  </div>
+                  <div className="flex items-start gap-3 p-2 bg-white/5 rounded-lg">
+                    <span className="text-amber-400 font-bold">BLOCO 4</span>
+                    <span className="text-white/70">Receita / Modo de Preparo numerado</span>
+                  </div>
+                  <div className="flex items-start gap-3 p-2 bg-white/5 rounded-lg">
+                    <span className="text-pink-400 font-bold">BLOCO 5</span>
+                    <span className="text-white/70">Observações e pontos críticos</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bloco 4 - Regras Gerais */}
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+                <h4 className="text-amber-400 font-medium mb-3 flex items-center gap-2">
+                  <AlertCircle size={16} />
+                  Regras Gerais
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {[
+                    "A equipe deve seguir a ficha exatamente como está escrita",
+                    "Não alterar ingredientes, métodos ou quantidades",
+                    "Qualquer mudança deve ser aprovada pela gestão",
+                    "A ficha deve ser revisada antes do preparo"
+                  ].map((regra, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-sm">
+                      <CheckCircle2 size={14} className="text-amber-400 flex-shrink-0" />
+                      <span className="text-white/70">{regra}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </AccordionContent>
