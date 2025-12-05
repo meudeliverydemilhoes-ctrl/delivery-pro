@@ -6361,7 +6361,7 @@ export default function GestaoFinanceira() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">💰 Gestão Financeira</h1>
-          <p className="text-white/50">49 processos operacionais completos</p>
+          <p className="text-white/50">54 processos operacionais completos</p>
         </div>
         <Link to={createPageUrl("Dashboard")}>
           <Button variant="outline" className="border-white/10 text-white">
