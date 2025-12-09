@@ -66,10 +66,9 @@ export default function MentoradoArquivos() {
           <h3 className="text-lg font-semibold text-white">Link da Pasta do Drive</h3>
           {!isEditingLink && (
             <Button
-              variant="outline"
               size="sm"
               onClick={() => setIsEditingLink(true)}
-              className="border-white/10 text-white"
+              className="bg-[#FF4D00] hover:bg-[#E64500] text-white"
             >
               <Edit2 size={14} className="mr-2" /> Editar
             </Button>
