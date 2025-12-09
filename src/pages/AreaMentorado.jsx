@@ -13,17 +13,50 @@ export default function AreaMentorado() {
   const urlParams = new URLSearchParams(window.location.search);
   const mentoradoIdFromUrl = urlParams.get("id");
 
-  const { data: mentorado, isLoading } = useQuery({
+  const { data: mentorado, isLoading, error } = useQuery({
     queryKey: ["mentorado", mentoradoIdFromUrl],
-    queryFn: () => base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl }),
-    select: (data) => data[0],
-    enabled: !!mentoradoIdFromUrl
+    queryFn: async () => {
+      console.log("Buscando mentorado com ID:", mentoradoIdFromUrl);
+      const result = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
+      console.log("Resultado da busca:", result);
+      return result;
+    },
+    select: (data) => data?.[0],
+    enabled: !!mentoradoIdFromUrl,
+    retry: false
   });
+
+  console.log("Estado atual:", { isLoading, mentorado, error, mentoradoIdFromUrl });
+
+  if (!mentoradoIdFromUrl) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white/50">Link inválido.</p>
+          <p className="text-white/30 mt-2">ID do mentorado não encontrado na URL.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <p className="text-white">Carregando...</p>
+        <div className="text-center">
+          <p className="text-white">Carregando perfil...</p>
+          <p className="text-white/30 text-xs mt-2">ID: {mentoradoIdFromUrl}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-400">Erro ao carregar perfil</p>
+          <p className="text-white/30 text-xs mt-2">{error.message}</p>
+        </div>
       </div>
     );
   }
@@ -33,7 +66,7 @@ export default function AreaMentorado() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <p className="text-white/50">Perfil não encontrado.</p>
-          <p className="text-white/30 mt-2">Verifique o link de acesso.</p>
+          <p className="text-white/30 mt-2">ID: {mentoradoIdFromUrl}</p>
         </div>
       </div>
     );
