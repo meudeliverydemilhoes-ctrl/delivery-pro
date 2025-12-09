@@ -147,7 +147,7 @@ export default function Relatorios() {
         </div>
         <div className="flex gap-2">
           <Link to={createPageUrl("Dashboard")}>
-            <Button variant="outline" className="border-white/10 text-black hover:bg-white/10">
+            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
               <Home size={18} className="mr-2" /> Início
             </Button>
           </Link>
