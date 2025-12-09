@@ -15,43 +15,35 @@ export default function AreaMentorado() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    let mounted = true;
+    const urlParams = new URLSearchParams(window.location.search);
+    const mentoradoIdFromUrl = urlParams.get("id");
     
-    const loadData = async () => {
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const mentoradoIdFromUrl = urlParams.get("id");
-        
-        const userData = await base44.auth.me();
-        if (!mounted) return;
-        
+    // Timeout de segurança
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    base44.auth.me()
+      .then(userData => {
         setUser(userData);
-        
         if (mentoradoIdFromUrl) {
-          const mentoradoEspecifico = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
-          if (mounted && mentoradoEspecifico.length > 0) {
-            setMentorado(mentoradoEspecifico[0]);
-          }
+          return base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
         } else {
-          const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-          if (mounted && mentorados.length > 0) {
-            setMentorado(mentorados[0]);
-          }
+          return base44.entities.Mentorado.filter({ email: userData.email });
         }
-      } catch (error) {
+      })
+      .then(mentorados => {
+        if (mentorados && mentorados.length > 0) {
+          setMentorado(mentorados[0]);
+        }
+        clearTimeout(timeout);
+        setLoading(false);
+      })
+      .catch(error => {
         console.error('Erro:', error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-    
-    loadData();
-    
-    return () => {
-      mounted = false;
-    };
+        clearTimeout(timeout);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
