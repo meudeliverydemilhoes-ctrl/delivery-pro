@@ -63,17 +63,20 @@ export default function Cursos() {
 
   const { data: cursos = [], isLoading } = useQuery({
     queryKey: ["cursos"],
-    queryFn: () => base44.entities.Curso.list()
+    queryFn: () => base44.entities.Curso.list(),
+    initialData: []
   });
 
   const { data: modulos = [] } = useQuery({
     queryKey: ["modulos"],
-    queryFn: () => base44.entities.Modulo.list()
+    queryFn: () => base44.entities.Modulo.list(),
+    initialData: []
   });
 
   const { data: aulas = [] } = useQuery({
     queryKey: ["aulas"],
-    queryFn: () => base44.entities.Aula.list()
+    queryFn: () => base44.entities.Aula.list(),
+    initialData: []
   });
 
   const createCursoMutation = useMutation({
@@ -156,7 +159,7 @@ export default function Cursos() {
     setExpandedCursos((prev) => ({ ...prev, [cursoId]: !prev[cursoId] }));
   };
 
-  const filtered = cursos.filter((c) =>
+  const filtered = (cursos || []).filter((c) =>
     c.nome?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -215,7 +218,7 @@ export default function Cursos() {
       ) : (
         <div className="space-y-4">
           {filtered.map((curso) => {
-            const cursoModulos = modulos.filter((m) => m.curso_id === curso.id).sort((a, b) => a.ordem - b.ordem);
+            const cursoModulos = (modulos || []).filter((m) => m.curso_id === curso.id).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
             const isExpanded = expandedCursos[curso.id];
 
             return (
@@ -271,7 +274,7 @@ export default function Cursos() {
                       ) : (
                         <div className="space-y-3">
                           {cursoModulos.map((modulo) => {
-                            const moduloAulas = aulas.filter((a) => a.modulo_id === modulo.id).sort((a, b) => a.ordem - b.ordem);
+                            const moduloAulas = (aulas || []).filter((a) => a.modulo_id === modulo.id).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
                             return (
                               <div key={modulo.id} className="bg-white/5 rounded-xl p-4">
                                 <div className="flex items-center justify-between mb-3">
