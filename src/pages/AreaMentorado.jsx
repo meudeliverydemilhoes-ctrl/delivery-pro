@@ -26,6 +26,8 @@ export default function AreaMentorado() {
     enabled: !!userData
   });
 
+  const hasRedirectedRef = React.useRef(false);
+  
   React.useEffect(() => {
     if (!userLoading && !mentoradosLoading) {
       setLoading(false);
@@ -39,13 +41,16 @@ export default function AreaMentorado() {
           mentorados: mentorados
         });
         
-        // Redirecionar mentorado automaticamente para sua página
-        const mentorado = mentorados.find(m => 
-          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-        );
-        
-        if (mentorado?.id) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
+        // Redirecionar mentorado automaticamente para sua página (uma vez apenas)
+        if (!hasRedirectedRef.current) {
+          const mentorado = mentorados.find(m => 
+            m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+          );
+          
+          if (mentorado?.id) {
+            hasRedirectedRef.current = true;
+            window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
+          }
         }
       }
     }
