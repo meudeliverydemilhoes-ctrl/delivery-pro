@@ -76,26 +76,29 @@ export default function Mentorados() {
       // Enviar email automaticamente ao criar
       if (data.email) {
         try {
-          await base44.integrations.Core.SendEmail({
+          const result = await base44.integrations.Core.SendEmail({
+            from_name: "Delivery Pro - Mentoria",
             to: data.email,
             subject: "Convite - Plataforma Delivery Pro",
             body: `Olá ${data.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${data.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
           });
+          console.log("Email enviado:", result);
         } catch (error) {
           console.error("Erro ao enviar email:", error);
+          throw new Error("Mentorado criado, mas erro ao enviar email: " + error.message);
         }
       }
       
       return mentorado;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["mentorados"] });
-      alert("Mentorado criado e convite enviado!");
+      alert(`Mentorado criado! Convite enviado para ${data.email}. Verifique a caixa de spam.`);
       handleCloseDialog();
     },
     onError: (error) => {
-      console.error("Erro ao criar mentorado:", error);
-      alert("Erro ao criar mentorado. Tente novamente.");
+      console.error("Erro:", error);
+      alert(error.message || "Erro ao criar mentorado. Tente novamente.");
     }
   });
 
@@ -124,14 +127,17 @@ export default function Mentorados() {
 
     setSendingEmail(true);
     try {
-      await base44.integrations.Core.SendEmail({
+      const result = await base44.integrations.Core.SendEmail({
+        from_name: "Delivery Pro - Mentoria",
         to: mentorado.email,
         subject: "Convite - Plataforma Delivery Pro",
         body: `Olá ${mentorado.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${mentorado.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
       });
-      alert("Email enviado com sucesso!");
+      console.log("Email enviado:", result);
+      alert(`Email enviado para ${mentorado.email}! Verifique a caixa de spam se não receber.`);
     } catch (error) {
-      alert("Erro ao enviar email. Tente novamente.");
+      console.error("Erro ao enviar email:", error);
+      alert(`Erro ao enviar email: ${error.message || "Tente novamente"}`);
     } finally {
       setSendingEmail(false);
     }
