@@ -23,8 +23,46 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
+  const hasRedirectedRef = React.useRef(false);
+  
   React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => setUser(null));
+    base44.auth.me().then(async (userData) => {
+      setUser(userData);
+      
+      // Se for mentorado (não admin), redirecionar para sua página
+      if (userData.role === 'user' && !hasRedirectedRef.current) {
+        const mentorados = await base44.entities.Mentorado.list();
+        const mentorado = mentorados.find(m => 
+          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+        );
+        
+        if (mentorado?.id) {
+          const currentUrl = window.location.href;
+          // Verificar se já está em alguma página válida do mentorado
+          const isOnValidMentoradoPage = 
+            currentUrl.includes(`id=${mentorado.id}`) &&
+            (currentUrl.includes('MentoradoDetalhe') ||
+             currentUrl.includes('MentoradoBriefing') ||
+             currentUrl.includes('MentoradoDiagnostico') ||
+             currentUrl.includes('MentoradoCardapio') ||
+             currentUrl.includes('MentoradoFluxogramas') ||
+             currentUrl.includes('MentoradoPainel') ||
+             currentUrl.includes('MentoradoPilares') ||
+             currentUrl.includes('MentoradoTarefas') ||
+             currentUrl.includes('MentoradoNotas') ||
+             currentUrl.includes('MentoradoArquivos') ||
+             currentUrl.includes('MentoradoFichasTecnicas') ||
+             currentUrl.includes('MentoradoEvolucao') ||
+             currentUrl.includes('Fornecedores') ||
+             currentUrl.includes('GestaoFinanceira'));
+          
+          if (!isOnValidMentoradoPage) {
+            hasRedirectedRef.current = true;
+            window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
+          }
+        }
+      }
+    }).catch(() => setUser(null));
   }, []);
 
   const isMentor = user?.role === "admin";
