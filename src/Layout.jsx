@@ -24,8 +24,19 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => setUser(null));
-  }, []);
+    base44.auth.me().then(async (userData) => {
+      setUser(userData);
+      
+      // Redirecionar mentorados direto para sua página
+      if (userData.role === 'user' && currentPageName === 'AreaMentorado') {
+        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+        
+        if (mentorados[0]?.id) {
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+        }
+      }
+    }).catch(() => setUser(null));
+  }, [currentPageName]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
