@@ -70,25 +70,32 @@ export default function Mentorados() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data) => base44.entities.Mentorado.create(data),
-    onSuccess: async (newMentorado) => {
-      queryClient.invalidateQueries({ queryKey: ["mentorados"] });
+    mutationFn: async (data) => {
+      const mentorado = await base44.entities.Mentorado.create(data);
       
       // Enviar email automaticamente ao criar
-      if (newMentorado.email) {
+      if (data.email) {
         try {
           await base44.integrations.Core.SendEmail({
-            to: newMentorado.email,
+            to: data.email,
             subject: "Convite - Plataforma Delivery Pro",
-            body: `Olá ${newMentorado.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${newMentorado.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
+            body: `Olá ${data.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${data.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
           });
-          alert("Mentorado criado e convite enviado por email!");
         } catch (error) {
-          alert("Mentorado criado, mas houve erro ao enviar o email.");
+          console.error("Erro ao enviar email:", error);
         }
       }
       
+      return mentorado;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mentorados"] });
+      alert("Mentorado criado e convite enviado!");
       handleCloseDialog();
+    },
+    onError: (error) => {
+      console.error("Erro ao criar mentorado:", error);
+      alert("Erro ao criar mentorado. Tente novamente.");
     }
   });
 
