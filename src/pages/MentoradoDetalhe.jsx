@@ -31,7 +31,8 @@ import {
   UtensilsCrossed,
   GitBranch,
   LayoutDashboard,
-  ChefHat
+  ChefHat,
+  Users
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -419,6 +420,10 @@ export default function MentoradoDetalhe() {
 
       {/* Links para páginas dedicadas */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <Link to={createPageUrl(`Fornecedores?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <Users size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Fornecedores</span>
+        </Link>
         <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
           <FileText size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Briefing</span>

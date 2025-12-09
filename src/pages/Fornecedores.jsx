@@ -58,6 +58,9 @@ const categoriaLabels = {
 
 export default function Fornecedores() {
   const queryClient = useQueryClient();
+  const urlParams = new URLSearchParams(window.location.search);
+  const mentoradoId = urlParams.get("id");
+  
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingFornecedor, setEditingFornecedor] = useState(null);
   const [search, setSearch] = useState("");
@@ -79,9 +82,17 @@ export default function Fornecedores() {
     ativo: true,
   });
 
+  const { data: mentorado } = useQuery({
+    queryKey: ["mentorado", mentoradoId],
+    queryFn: () => base44.entities.Mentorado.filter({ id: mentoradoId }),
+    select: (data) => data[0],
+    enabled: !!mentoradoId
+  });
+
   const { data: fornecedores = [], isLoading } = useQuery({
-    queryKey: ["fornecedores"],
-    queryFn: () => base44.entities.Fornecedor.list("-created_date"),
+    queryKey: ["fornecedores", mentoradoId],
+    queryFn: () => base44.entities.Fornecedor.filter({ mentorado_id: mentoradoId }),
+    enabled: !!mentoradoId
   });
 
   const createMutation = useMutation({
@@ -144,6 +155,7 @@ export default function Fornecedores() {
   const handleSubmit = () => {
     const data = {
       ...form,
+      mentorado_id: mentoradoId,
       valor_unitario: Number(form.valor_unitario),
     };
     if (editingFornecedor) {
@@ -253,18 +265,20 @@ export default function Fornecedores() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
+          <Link
+            to={createPageUrl(`MentoradoDetalhe?id=${mentoradoId}`)}
+            className="inline-flex items-center gap-2 text-[#FF4D00] hover:text-white mb-3"
+          >
+            <Home size={16} />
+            Voltar para {mentorado?.nome || "Mentorado"}
+          </Link>
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <FileSpreadsheet className="text-[#FF4D00]" />
             Lista de Fornecedores
           </h1>
-          <p className="text-white/50">Compare preços e gerencie seus fornecedores</p>
+          <p className="text-white/50">{mentorado?.nome} - {mentorado?.negocio}</p>
         </div>
         <div className="flex gap-2">
-          <Link to={createPageUrl("Mentorados")}>
-            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
-              <Home size={18} className="mr-2" /> Mentorados
-            </Button>
-          </Link>
           <Button
             onClick={exportarExcel}
             variant="outline"
