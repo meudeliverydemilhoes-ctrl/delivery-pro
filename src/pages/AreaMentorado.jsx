@@ -45,8 +45,13 @@ export default function AreaMentorado() {
           mentorados: mentorados
         });
       }
+      
+      // Auto-redirect mentorado to their detail page
+      if (userData && userData.role === "user" && mentorado) {
+        window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+      }
     }
-  }, [userData, mentorados, userLoading, mentoradosLoading]);
+  }, [userData, mentorado, mentorados, userLoading, mentoradosLoading]);
 
 
 
