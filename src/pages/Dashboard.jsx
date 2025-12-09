@@ -21,36 +21,31 @@ import { ptBR } from "date-fns/locale";
 export default function Dashboard() {
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.list(),
-    initialData: []
+    queryFn: () => base44.entities.Mentorado.list()
   });
 
   const { data: agenda = [] } = useQuery({
     queryKey: ["agenda"],
-    queryFn: () => base44.entities.Agenda.filter({ status: "pendente" }, "-data", 5),
-    initialData: []
+    queryFn: () => base44.entities.Agenda.filter({ status: "pendente" }, "-data", 5)
   });
 
   const { data: cursos = [] } = useQuery({
     queryKey: ["cursos"],
-    queryFn: () => base44.entities.Curso.list(),
-    initialData: []
+    queryFn: () => base44.entities.Curso.list()
   });
 
   const { data: biblioteca = [] } = useQuery({
     queryKey: ["biblioteca"],
-    queryFn: () => base44.entities.Biblioteca.list(),
-    initialData: []
+    queryFn: () => base44.entities.Biblioteca.list()
   });
 
   const { data: notas = [] } = useQuery({
     queryKey: ["notas"],
-    queryFn: () => base44.entities.Nota.list("-created_date", 5),
-    initialData: []
+    queryFn: () => base44.entities.Nota.list("-created_date", 5)
   });
 
-  const ativos = (mentorados || []).filter((m) => m.status === "ativo").length;
-  const concluidos = (mentorados || []).filter((m) => m.status === "concluido").length;
+  const ativos = mentorados.filter((m) => m.status === "ativo").length;
+  const concluidos = mentorados.filter((m) => m.status === "concluido").length;
 
   const stats = [
     { label: "Mentorados Ativos", value: ativos, icon: Users, color: "bg-[#FF4D00]" },
@@ -60,15 +55,11 @@ export default function Dashboard() {
   ];
 
   const getDateLabel = (dateStr) => {
-    try {
-      if (!dateStr) return "";
-      const date = parseISO(dateStr);
-      if (isToday(date)) return "Hoje";
-      if (isTomorrow(date)) return "Amanhã";
-      return format(date, "dd MMM", { locale: ptBR });
-    } catch (error) {
-      return "";
-    }
+    if (!dateStr) return "";
+    const date = parseISO(dateStr);
+    if (isToday(date)) return "Hoje";
+    if (isTomorrow(date)) return "Amanhã";
+    return format(date, "dd MMM", { locale: ptBR });
   };
 
   const tipoColors = {
@@ -121,14 +112,14 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {(agenda || []).length === 0 ? (
+          {agenda.length === 0 ? (
             <div className="text-center py-8 text-white/40">
               <Calendar size={40} className="mx-auto mb-3 opacity-50" />
               <p>Nenhum compromisso pendente</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {(agenda || []).map((item) => (
+              {agenda.map((item) => (
                 <div
                   key={item.id}
                   className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/[0.07] transition-colors"
@@ -164,14 +155,14 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {(notas || []).length === 0 ? (
+          {notas.length === 0 ? (
             <div className="text-center py-8 text-white/40">
               <Lightbulb size={40} className="mx-auto mb-3 opacity-50" />
               <p>Nenhuma nota criada</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {(notas || []).map((nota) => (
+              {notas.map((nota) => (
                 <div
                   key={nota.id}
                   className="p-3 bg-white/5 rounded-xl hover:bg-white/[0.07] transition-colors"
@@ -202,14 +193,14 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {(mentorados || []).filter((m) => m.status === "ativo").length === 0 ? (
+        {mentorados.filter((m) => m.status === "ativo").length === 0 ? (
           <div className="text-center py-8 text-white/40">
             <Users size={40} className="mx-auto mb-3 opacity-50" />
             <p>Nenhum mentorado ativo</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {(mentorados || [])
+            {mentorados
               .filter((m) => m.status === "ativo")
               .slice(0, 6)
               .map((m) => (
