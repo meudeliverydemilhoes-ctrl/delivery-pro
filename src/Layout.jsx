@@ -49,9 +49,19 @@ export default function Layout({ children, currentPageName }) {
                     .hover\\:bg-orange:hover { background-color: var(--orange); }
                     .hover\\:text-orange:hover { color: var(--orange); }
 
-                    /* All buttons white text by default */
+                    /* White buttons get black text, dark/colored buttons keep white text */
                                   button {
                                     color: white !important;
+                                  }
+
+                                  button.bg-white,
+                                  button.bg-gray-100,
+                                  button[class*="bg-white"],
+                                  .bg-white button,
+                                  .bg-gray-100 button,
+                                  button[data-variant="outline"],
+                                  button.border-white {
+                                    color: black !important;
                                   }
 
                     /* Custom scrollbar */
