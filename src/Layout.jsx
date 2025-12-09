@@ -23,24 +23,26 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
+  const hasRedirected = React.useRef(false);
+  
   React.useEffect(() => {
-    const redirectKey = 'mentorado_redirected';
-    const hasRedirected = sessionStorage.getItem(redirectKey);
-    
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Se for mentorado e ainda não redirecionou nesta sessão
-      if (userData.role === 'user' && !hasRedirected) {
+      // Apenas redirecionar se for mentorado E não está em página de mentorado
+      if (userData.role === 'user' && 
+          !hasRedirected.current && 
+          !currentPageName.includes('Mentorado')) {
+        
+        hasRedirected.current = true;
         const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         
         if (mentorados[0]?.id) {
-          sessionStorage.setItem(redirectKey, 'true');
-          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
         }
       }
     }).catch(() => setUser(null));
-  }, []);
+  }, [currentPageName]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
