@@ -28,20 +28,11 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then((userData) => {
       setUser(userData);
       setLoading(false);
-      // Redirecionar mentorados para sua área, mas preservar URL params
-      if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
-        const currentUrl = new URLSearchParams(window.location.search);
-        const mentoradoId = currentUrl.get('id');
-        const redirectUrl = mentoradoId 
-          ? createPageUrl(`AreaMentorado?id=${mentoradoId}`)
-          : createPageUrl('AreaMentorado');
-        window.location.href = redirectUrl;
-      }
     }).catch(() => {
       setUser(null);
       setLoading(false);
     });
-  }, [currentPageName]);
+  }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
@@ -53,11 +44,9 @@ export default function Layout({ children, currentPageName }) {
     </div>;
   }
 
-  // Não renderizar nada se for mentorado e não estiver na área correta
+  // Bloquear mentorados de ver outras páginas (apenas renderizar vazio)
   if (user && user.role === 'user' && currentPageName !== 'AreaMentorado') {
-    return <div className="min-h-screen bg-black flex items-center justify-center">
-      <p className="text-white">Redirecionando...</p>
-    </div>;
+    return null;
   }
 
   const navigationMentor = [
