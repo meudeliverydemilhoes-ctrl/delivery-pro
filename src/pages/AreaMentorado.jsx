@@ -12,32 +12,31 @@ import {
 export default function AreaMentorado() {
   const [user, setUser] = React.useState(null);
   const [mentorado, setMentorado] = React.useState(null);
+  const [debugInfo, setDebugInfo] = React.useState(null);
 
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
-      console.log("=== DEBUG ÁREA MENTORADO ===");
-      console.log("1. Email do usuário logado:", userData.email);
-      console.log("2. Dados completos do usuário:", userData);
       
       // Buscar TODOS os mentorados para debug
       const todosMentorados = await base44.entities.Mentorado.list();
-      console.log("3. Total de mentorados cadastrados:", todosMentorados.length);
-      console.log("4. Emails cadastrados:", todosMentorados.map(m => m.email));
-      console.log("5. Detalhes de todos mentorados:", todosMentorados);
-      
-      // Tentar encontrar por email exato
-      const mentoradosExato = todosMentorados.filter(m => m.email === userData.email);
-      console.log("6. Busca por email exato (m.email === userData.email):", mentoradosExato);
       
       // Tentar encontrar por email case-insensitive
-      const mentoradosInsensitive = todosMentorados.filter(m => 
+      const mentoradoEncontrado = todosMentorados.find(m => 
         m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
       );
-      console.log("7. Busca case-insensitive:", mentoradosInsensitive);
       
-      if (mentoradosInsensitive.length > 0) {
-        setMentorado(mentoradosInsensitive[0]);
+      // Salvar informações de debug
+      setDebugInfo({
+        emailUsuario: userData.email,
+        roleUsuario: userData.role,
+        totalMentorados: todosMentorados.length,
+        emailsCadastrados: todosMentorados.map(m => m.email || 'vazio'),
+        encontrado: !!mentoradoEncontrado
+      });
+      
+      if (mentoradoEncontrado) {
+        setMentorado(mentoradoEncontrado);
       }
     }).catch((error) => {
       console.error("Erro ao carregar usuário:", error);
