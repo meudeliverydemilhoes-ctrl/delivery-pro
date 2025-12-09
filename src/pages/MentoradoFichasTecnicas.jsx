@@ -10,12 +10,33 @@ export default function MentoradoFichasTecnicas() {
   const urlParams = new URLSearchParams(window.location.search);
   const mentoradoId = urlParams.get("id");
 
+  const [user, setUser] = React.useState(null);
+  const [hasPermission, setHasPermission] = React.useState(true);
+
+  React.useEffect(() => {
+    base44.auth.me().then(setUser).catch(() => setUser(null));
+  }, []);
+
   const { data: mentorado } = useQuery({
     queryKey: ["mentorado", mentoradoId],
     queryFn: () => base44.entities.Mentorado.filter({ id: mentoradoId }),
     select: (data) => data[0],
     enabled: !!mentoradoId
   });
+
+  React.useEffect(() => {
+    if (user && mentorado) {
+      setHasPermission(user.role === "admin" || user.email === mentorado.email);
+    }
+  }, [user, mentorado]);
+
+  if (!hasPermission) {
+    return (
+      <div className="max-w-6xl mx-auto text-center py-16">
+        <p className="text-white/50">Você não tem permissão para acessar esta página</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto">
