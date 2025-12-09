@@ -62,7 +62,9 @@ export default function Layout({ children, currentPageName }) {
                     .bg-white button,
                     .bg-gray-100 button,
                     button[data-variant="outline"],
-                    button.border-white\/10:not([class*="bg-"]) {
+                    button.border-white\/10:not([class*="bg-"]),
+                    button.border-white\/10,
+                    a button[class*="border-white"] {
                       background-color: var(--orange) !important;
                       border-color: var(--orange) !important;
                       color: white !important;
