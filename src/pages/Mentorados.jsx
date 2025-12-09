@@ -15,7 +15,9 @@ import {
   Edit2,
   Trash2,
   X,
-  Home
+  Home,
+  Mail,
+  Send
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,8 +71,23 @@ export default function Mentorados() {
 
   const createMutation = useMutation({
     mutationFn: (data) => base44.entities.Mentorado.create(data),
-    onSuccess: () => {
+    onSuccess: async (newMentorado) => {
       queryClient.invalidateQueries({ queryKey: ["mentorados"] });
+      
+      // Enviar email automaticamente ao criar
+      if (newMentorado.email) {
+        try {
+          await base44.integrations.Core.SendEmail({
+            to: newMentorado.email,
+            subject: "Convite - Plataforma Delivery Pro",
+            body: `Olá ${newMentorado.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${newMentorado.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
+          });
+          alert("Mentorado criado e convite enviado por email!");
+        } catch (error) {
+          alert("Mentorado criado, mas houve erro ao enviar o email.");
+        }
+      }
+      
       handleCloseDialog();
     }
   });
@@ -89,6 +106,29 @@ export default function Mentorados() {
       queryClient.invalidateQueries({ queryKey: ["mentorados"] });
     }
   });
+
+  const [sendingEmail, setSendingEmail] = useState(false);
+
+  const handleSendInvite = async (mentorado) => {
+    if (!mentorado.email) {
+      alert("Este mentorado não possui email cadastrado.");
+      return;
+    }
+
+    setSendingEmail(true);
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: mentorado.email,
+        subject: "Convite - Plataforma Delivery Pro",
+        body: `Olá ${mentorado.nome},\n\nVocê foi convidado(a) para acessar a plataforma Delivery Pro.\n\nAcesse: ${window.location.origin}\n\nSeu email de acesso: ${mentorado.email}\n\nQualquer dúvida, entre em contato com seu mentor.\n\nAbraço!`
+      });
+      alert("Email enviado com sucesso!");
+    } catch (error) {
+      alert("Erro ao enviar email. Tente novamente.");
+    } finally {
+      setSendingEmail(false);
+    }
+  };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
@@ -272,6 +312,11 @@ export default function Mentorados() {
                     <DropdownMenuItem onClick={() => handleEdit(m)} className="text-white hover:bg-white/10">
                       <Edit2 size={14} className="mr-2" /> Editar
                     </DropdownMenuItem>
+                    {m.email && (
+                      <DropdownMenuItem onClick={() => handleSendInvite(m)} className="text-blue-400 hover:bg-blue-500/10" disabled={sendingEmail}>
+                        <Send size={14} className="mr-2" /> {sendingEmail ? "Enviando..." : "Enviar Convite"}
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem
                       onClick={() => deleteMutation.mutate(m.id)}
                       className="text-red-400 hover:bg-red-500/10"
@@ -361,13 +406,15 @@ export default function Mentorados() {
               </div>
             </div>
             <div>
-              <Label className="text-white/70">Email</Label>
+              <Label className="text-white/70">Email *</Label>
               <Input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="bg-white/5 border-white/10 text-white mt-1"
+                placeholder="email@exemplo.com"
               />
+              <p className="text-xs text-white/40 mt-1">O convite será enviado para este email</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -434,10 +481,10 @@ export default function Mentorados() {
               </Button>
               <Button
                 onClick={handleSubmit}
-                disabled={!formData.nome || !formData.negocio}
+                disabled={!formData.nome || !formData.negocio || !formData.email}
                 className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
               >
-                {editingMentorado ? "Salvar" : "Criar"}
+                {editingMentorado ? "Salvar" : "Criar e Enviar Convite"}
               </Button>
             </div>
           </div>
