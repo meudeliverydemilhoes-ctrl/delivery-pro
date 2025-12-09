@@ -85,15 +85,15 @@ export default function AssistenteIAGlobal({ currentPage = "default", contexto =
   }, [currentPage]);
 
   const handleSend = async (textoOverride = null) => {
-    const texto = textoOverride || input.trim();
-    if (!texto || isLoading) return;
-
-    const userMessage = { role: "user", content: texto };
-    setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    setIsLoading(true);
-
     try {
+      const texto = textoOverride || input.trim();
+      if (!texto || isLoading) return;
+
+      const userMessage = { role: "user", content: texto };
+      setMessages(prev => [...prev, userMessage]);
+      setInput("");
+      setIsLoading(true);
+
       const sistemaPrompt = `Você é um assistente de IA especializado em gestão de mentorias para deliveries e restaurantes. 
 Seu papel é ajudar o mentor a:
 - Criar checklists eficientes para os mentorados
@@ -125,15 +125,15 @@ Responda sempre em português brasileiro.`;
 
       const assistantMessage = { role: "assistant", content: response };
       setMessages(prev => [...prev, assistantMessage]);
+      setIsLoading(false);
     } catch (error) {
       const errorMessage = { 
         role: "assistant", 
         content: "Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente." 
       };
       setMessages(prev => [...prev, errorMessage]);
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleSugestao = (texto) => {

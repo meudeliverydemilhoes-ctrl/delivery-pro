@@ -192,8 +192,8 @@ export default function MentoradoPilares() {
               <Input value={pilarForm.link_externo} onChange={(e) => setPilarForm({ ...pilarForm, link_externo: e.target.value })} placeholder="https://..." className="bg-white/5 border-white/10 text-white mt-1" />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setDialogOpen(false)} className="flex-1 border-white/10 text-black hover:bg-white/10">Cancelar</Button>
-              <Button disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">Adicionar</Button>
+              <Button variant="outline" onClick={() => setDialogOpen(false)} className="flex-1 border-white/10 text-white hover:bg-white/10">Cancelar</Button>
+              <Button onClick={() => { /* Criar conteúdo */ setDialogOpen(false); }} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">Adicionar</Button>
             </div>
           </div>
         </DialogContent>
