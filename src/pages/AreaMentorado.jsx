@@ -17,8 +17,18 @@ export default function AreaMentorado() {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       console.log("Email do usuário logado:", userData.email);
+      
+      // Buscar TODOS os mentorados para debug
+      const todosMentorados = await base44.entities.Mentorado.list();
+      console.log("TODOS os mentorados cadastrados:", todosMentorados.map(m => ({ 
+        nome: m.nome, 
+        email: m.email,
+        id: m.id 
+      })));
+      
       const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-      console.log("Mentorados encontrados:", mentorados);
+      console.log("Mentorados filtrados para este email:", mentorados);
+      
       if (mentorados.length > 0) {
         setMentorado(mentorados[0]);
       }
@@ -42,7 +52,10 @@ export default function AreaMentorado() {
           <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-4 text-left max-w-md mx-auto">
             <p className="text-xs text-white/40 mb-2">Informações de Debug:</p>
             <p className="text-sm text-white/70">Email cadastrado na plataforma: <span className="text-[#FF4D00] font-mono">{user.email}</span></p>
-            <p className="text-xs text-white/40 mt-3">Verifique se seu mentor cadastrou você com este email exato.</p>
+            <p className="text-xs text-white/40 mt-3">
+              <strong>Abra o console (F12)</strong> para ver a lista completa de emails cadastrados.
+              <br/>Verifique se seu email corresponde exatamente ao cadastrado.
+            </p>
           </div>
         )}
       </div>
