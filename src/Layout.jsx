@@ -27,14 +27,14 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Se for mentorado (não admin), redirecionar para página de detalhes
+      // Se for mentorado (não admin), redirecionar sempre para página de detalhes
       if (userData.role === 'user') {
         const mentorados = await base44.entities.Mentorado.list();
         const mentorado = mentorados.find(m => 
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
-        if (mentorado?.id && window.location.pathname.includes('areamentorado')) {
+        if (mentorado?.id && !window.location.pathname.includes('mentorado')) {
           window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
         }
       }
