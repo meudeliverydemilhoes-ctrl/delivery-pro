@@ -20,8 +20,16 @@ import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const navigation = [
+  React.useEffect(() => {
+    base44.auth.me().then(setUser).catch(() => setUser(null));
+  }, []);
+
+  const isMentor = user?.role === "admin";
+  const isMentorado = user?.role === "user";
+
+  const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
@@ -35,6 +43,12 @@ export default function Layout({ children, currentPageName }) {
           { name: "Automações", page: "Automacoes", icon: Zap },
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
+
+  const navigationMentorado = [
+    { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
+  ];
+
+  const navigation = isMentor ? navigationMentor : navigationMentorado;
 
   return (
     <div className="min-h-screen bg-black text-white">
