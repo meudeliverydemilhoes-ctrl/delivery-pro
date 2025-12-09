@@ -16,7 +16,9 @@ export default function AreaMentorado() {
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
+      console.log("Email do usuário logado:", userData.email);
       const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+      console.log("Mentorados encontrados:", mentorados);
       if (mentorados.length > 0) {
         setMentorado(mentorados[0]);
       }
@@ -36,6 +38,13 @@ export default function AreaMentorado() {
       <div className="max-w-4xl mx-auto text-center py-16">
         <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
         <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
+        {user && (
+          <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-4 text-left max-w-md mx-auto">
+            <p className="text-xs text-white/40 mb-2">Informações de Debug:</p>
+            <p className="text-sm text-white/70">Email cadastrado na plataforma: <span className="text-[#FF4D00] font-mono">{user.email}</span></p>
+            <p className="text-xs text-white/40 mt-3">Verifique se seu mentor cadastrou você com este email exato.</p>
+          </div>
+        )}
       </div>
     );
   }
