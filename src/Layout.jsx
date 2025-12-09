@@ -50,28 +50,33 @@ export default function Layout({ children, currentPageName }) {
                     .hover\\:text-orange:hover { color: var(--orange); }
 
                     /* All buttons - default white text on dark backgrounds */
-                                  button,
-                                  button * {
-                                    color: white !important;
-                                  }
+                    button,
+                    button * {
+                      color: white !important;
+                    }
 
-                                  /* White/light buttons - force black text for readability */
-                                  button.bg-white,
-                                  button.bg-white *,
-                                  button.bg-gray-100,
-                                  button.bg-gray-100 *,
-                                  button[class*="bg-white"],
-                                  button[class*="bg-white"] *,
-                                  .bg-white button,
-                                  .bg-white button *,
-                                  .bg-gray-100 button,
-                                  .bg-gray-100 button *,
-                                  button[data-variant="outline"],
-                                  button[data-variant="outline"] *,
-                                  button.border-white\/10:not([class*="bg-"]),
-                                  button.border-white\/10:not([class*="bg-"]) * {
-                                    color: black !important;
-                                  }
+                    /* White/outline buttons - change to orange */
+                    button.bg-white,
+                    button.bg-gray-100,
+                    button[class*="bg-white"],
+                    .bg-white button,
+                    .bg-gray-100 button,
+                    button[data-variant="outline"],
+                    button.border-white\/10:not([class*="bg-"]) {
+                      background-color: var(--orange) !important;
+                      border-color: var(--orange) !important;
+                      color: white !important;
+                    }
+
+                    button.bg-white *,
+                    button.bg-gray-100 *,
+                    button[class*="bg-white"] *,
+                    .bg-white button *,
+                    .bg-gray-100 button *,
+                    button[data-variant="outline"] *,
+                    button.border-white\/10:not([class*="bg-"]) * {
+                      color: white !important;
+                    }
 
                                   /* Ensure colored buttons keep white text */
                                                 button.bg-\\[\\#FF4D00\\],
