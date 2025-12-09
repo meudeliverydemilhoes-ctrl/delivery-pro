@@ -24,11 +24,6 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    // Limpar qualquer estado antigo de redirecionamento
-    sessionStorage.removeItem('mentorado_redirected');
-    sessionStorage.removeItem('last_page');
-    sessionStorage.removeItem('redirect_url');
-    
     base44.auth.me().then(setUser).catch(() => setUser(null));
   }, []);
 
