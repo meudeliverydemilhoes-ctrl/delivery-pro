@@ -23,26 +23,33 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
-  const hasRedirected = React.useRef(false);
-  
   React.useEffect(() => {
+    const sessionKey = `mentorado_auto_redirect_${Date.now()}`;
+    
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Apenas redirecionar se for mentorado E não está em página de mentorado
-      if (userData.role === 'user' && 
-          !hasRedirected.current && 
-          !currentPageName.includes('Mentorado')) {
+      // Se for mentorado (role user) e NÃO está em página de mentorado
+      if (userData.role === 'user' && !currentPageName.includes('Mentorado')) {
+        const alreadyRedirected = sessionStorage.getItem('mentorado_redirected');
         
-        hasRedirected.current = true;
-        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-        
-        if (mentorados[0]?.id) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+        if (!alreadyRedirected) {
+          sessionStorage.setItem('mentorado_redirected', 'true');
+          
+          const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+          
+          if (mentorados[0]?.id) {
+            window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+          }
         }
       }
+      
+      // Limpar flag ao sair da sessão
+      if (userData.role === 'admin') {
+        sessionStorage.removeItem('mentorado_redirected');
+      }
     }).catch(() => setUser(null));
-  }, [currentPageName]);
+  }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
