@@ -62,50 +62,52 @@ export default function AreaMentorado() {
     );
   }
 
-  if (!mentorado && user && debugInfo) {
+  if (!mentorado && user) {
     return (
       <div className="max-w-4xl mx-auto py-16">
         <div className="text-center mb-6">
           <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
           <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
         </div>
-        <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-6 text-left max-w-2xl mx-auto">
-          <p className="text-lg font-semibold text-white mb-4">🔍 Informações de Debug:</p>
-          
-          <div className="space-y-4">
-            <div className="bg-black/30 rounded-lg p-4">
-              <p className="text-xs text-white/40 mb-2">Seu email logado:</p>
-              <p className="text-sm text-[#FF4D00] font-mono break-all">{debugInfo.emailUsuario}</p>
-              <p className="text-xs text-white/40 mt-2">Email normalizado:</p>
-              <p className="text-sm text-blue-400 font-mono break-all">{debugInfo.emailUsuario?.toLowerCase().trim()}</p>
-            </div>
+        {debugInfo && (
+          <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-6 text-left max-w-2xl mx-auto">
+            <p className="text-lg font-semibold text-white mb-4">🔍 Informações de Debug:</p>
+            
+            <div className="space-y-4">
+              <div className="bg-black/30 rounded-lg p-4">
+                <p className="text-xs text-white/40 mb-2">Seu email logado:</p>
+                <p className="text-sm text-[#FF4D00] font-mono break-all">{debugInfo.emailUsuario}</p>
+                <p className="text-xs text-white/40 mt-2">Email normalizado:</p>
+                <p className="text-sm text-blue-400 font-mono break-all">{debugInfo.emailUsuario?.toLowerCase().trim()}</p>
+              </div>
 
-            <div className="bg-black/30 rounded-lg p-4">
-              <p className="text-xs text-white/40 mb-2">Role do usuário:</p>
-              <p className="text-sm text-white/70">{debugInfo.roleUsuario || 'não definido'}</p>
-            </div>
+              <div className="bg-black/30 rounded-lg p-4">
+                <p className="text-xs text-white/40 mb-2">Role do usuário:</p>
+                <p className="text-sm text-white/70">{debugInfo.roleUsuario || 'não definido'}</p>
+              </div>
 
-            <div className="bg-black/30 rounded-lg p-4">
-              <p className="text-xs text-white/40 mb-2">Total de mentorados cadastrados:</p>
-              <p className="text-sm text-white/70">{debugInfo.totalMentorados}</p>
-              <p className="text-xs text-white/40 mt-2">Emails cadastrados:</p>
-              <div className="text-xs text-white/60 mt-1 space-y-1">
-                {debugInfo.emailsCadastrados.map((email, idx) => (
-                  <div key={idx} className="font-mono bg-black/20 px-2 py-1 rounded">
-                    {email}
-                  </div>
-                ))}
+              <div className="bg-black/30 rounded-lg p-4">
+                <p className="text-xs text-white/40 mb-2">Total de mentorados cadastrados:</p>
+                <p className="text-sm text-white/70">{debugInfo.totalMentorados}</p>
+                <p className="text-xs text-white/40 mt-2">Emails cadastrados no sistema:</p>
+                <div className="text-xs text-white/60 mt-1 space-y-1 max-h-64 overflow-y-auto">
+                  {debugInfo.emailsCadastrados.map((email, idx) => (
+                    <div key={idx} className="font-mono bg-black/20 px-2 py-1 rounded">
+                      {idx + 1}. {email}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+                <p className="text-xs text-amber-400 mb-2">💡 Próximo passo:</p>
+                <p className="text-sm text-white/70">
+                  Entre em contato com seu mentor e informe o email: <strong className="text-[#FF4D00]">{debugInfo.emailUsuario}</strong>
+                </p>
               </div>
             </div>
-
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
-              <p className="text-xs text-amber-400 mb-2">💡 Próximo passo:</p>
-              <p className="text-sm text-white/70">
-                Entre em contato com seu mentor e informe o email: <strong className="text-[#FF4D00]">{debugInfo.emailUsuario}</strong>
-              </p>
-            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
