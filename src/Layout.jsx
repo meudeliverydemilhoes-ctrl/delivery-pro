@@ -37,16 +37,22 @@ export default function Layout({ children, currentPageName }) {
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
 
+  // Se for mentorado tentando acessar outra página que não seja AreaMentorado, mostrar mensagem
+  if (isMentorado && currentPageName !== 'AreaMentorado') {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <div className="text-center">
+          <p className="text-white/70 mb-4">Acesso restrito à sua área de mentorado</p>
+        </div>
+      </div>
+    );
+  }
+
   // Loading inicial
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
       <p className="text-white">Carregando...</p>
     </div>;
-  }
-
-  // Bloquear mentorados de ver outras páginas (apenas renderizar vazio)
-  if (user && user.role === 'user' && currentPageName !== 'AreaMentorado') {
-    return null;
   }
 
   const navigationMentor = [
