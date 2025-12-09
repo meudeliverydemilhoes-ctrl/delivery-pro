@@ -35,11 +35,23 @@ import {
 
 export default function PortalMentorados() {
   const queryClient = useQueryClient();
+  const [user, setUser] = React.useState(null);
+  const [hasAccess, setHasAccess] = React.useState(false);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("todos");
   const [filterEtapa, setFilterEtapa] = useState("todos");
   const [showDialog, setShowDialog] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
+
+  React.useEffect(() => {
+    base44.auth.me().then((userData) => {
+      setUser(userData);
+      setHasAccess(userData.role === "admin");
+    }).catch(() => {
+      setUser(null);
+      setHasAccess(false);
+    });
+  }, []);
   const [formData, setFormData] = useState({
     nome: "",
     negocio: "",

@@ -46,11 +46,23 @@ import { format } from "date-fns";
 
 export default function Mentorados() {
   const queryClient = useQueryClient();
+  const [user, setUser] = React.useState(null);
+  const [hasAccess, setHasAccess] = React.useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("todos");
   const [etapaFilter, setEtapaFilter] = useState("todos");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
+
+  React.useEffect(() => {
+    base44.auth.me().then((userData) => {
+      setUser(userData);
+      setHasAccess(userData.role === "admin");
+    }).catch(() => {
+      setUser(null);
+      setHasAccess(false);
+    });
+  }, []);
   const [formData, setFormData] = useState({
     nome: "",
     negocio: "",
