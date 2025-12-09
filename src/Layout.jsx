@@ -44,6 +44,14 @@ export default function Layout({ children, currentPageName }) {
     </div>;
   }
 
+  // Se não tem usuário e está na página AreaMentorado, não precisa de autenticação
+  const isAreaMentorado = currentPageName === "AreaMentorado";
+  if (!user && !isAreaMentorado) {
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <p className="text-white">Carregando autenticação...</p>
+    </div>;
+  }
+
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
@@ -65,8 +73,8 @@ export default function Layout({ children, currentPageName }) {
 
   const navigation = isMentor ? navigationMentor : navigationMentorado;
 
-  // Se for mentorado, não mostrar sidebar
-  if (isMentorado) {
+  // Se for mentorado ou página AreaMentorado, não mostrar sidebar
+  if (isMentorado || isAreaMentorado) {
     return (
       <div className="min-h-screen bg-black text-white">
         <div className="p-4 lg:p-8">
