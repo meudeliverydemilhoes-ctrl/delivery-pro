@@ -27,13 +27,18 @@ export default function AreaMentorado() {
   });
 
   React.useEffect(() => {
-    if (!userLoading && !mentoradosLoading && userData && mentorados.length > 0) {
-      // Redirecionar imediatamente
-      window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
-    }
-    
     if (!userLoading && !mentoradosLoading) {
       setLoading(false);
+      
+      if (userData && mentorados.length > 0) {
+        // Redirecionar mentorado para sua área
+        const hasRedirected = sessionStorage.getItem(`redirected_${userData.email}`);
+        if (!hasRedirected) {
+          sessionStorage.setItem(`redirected_${userData.email}`, 'true');
+          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
+          return;
+        }
+      }
       
       if (userData && mentorados) {
         setDebugData({
