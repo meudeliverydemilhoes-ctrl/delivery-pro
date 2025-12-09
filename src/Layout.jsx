@@ -96,6 +96,23 @@ export default function Layout({ children, currentPageName }) {
                                                   color: white !important;
                                                 }
 
+                                                /* Force white text on dark backgrounds */
+                                                .bg-black *:not(button.bg-white):not(button.bg-white *),
+                                                .bg-zinc-900 *:not(button.bg-white):not(button.bg-white *),
+                                                .bg-gray-900 *:not(button.bg-white):not(button.bg-white *),
+                                                [class*="bg-black"] *:not(button.bg-white):not(button.bg-white *),
+                                                [class*="bg-zinc-9"] *:not(button.bg-white):not(button.bg-white *) {
+                                                  color: white !important;
+                                                }
+
+                                                /* Inputs and selects on dark backgrounds */
+                                                input:not([type="checkbox"]):not([type="radio"]),
+                                                textarea,
+                                                select,
+                                                [role="combobox"] {
+                                                  color: white !important;
+                                                }
+
                     /* Custom scrollbar */
                     ::-webkit-scrollbar { width: 6px; height: 6px; }
                     ::-webkit-scrollbar-track { background: #1a1a1a; }
