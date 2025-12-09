@@ -34,8 +34,11 @@ export default function Layout({ children, currentPageName }) {
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
-        if (mentorado?.id && !window.location.pathname.includes('mentorado')) {
-          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+        const currentPath = window.location.pathname;
+        const isOnMentoradoPage = currentPath.includes('mentorado') || currentPath.includes('Mentorado');
+        
+        if (mentorado?.id && !isOnMentoradoPage) {
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
         }
       }
     }).catch(() => setUser(null));
