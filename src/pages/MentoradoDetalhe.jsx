@@ -355,7 +355,7 @@ export default function MentoradoDetalhe() {
       <div className="mb-6">
         <Link
           to={createPageUrl("Mentorados")}
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white mb-4"
+          className="inline-flex items-center gap-2 text-[#FF4D00] hover:text-white mb-4"
         >
           <ArrowLeft size={20} />
           Voltar para Mentorados
