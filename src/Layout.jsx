@@ -22,20 +22,31 @@ import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     base44.auth.me().then((userData) => {
       setUser(userData);
+      setLoading(false);
       // Redirecionar mentorados imediatamente
       if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
         window.location.href = createPageUrl('AreaMentorado');
       }
-    }).catch(() => setUser(null));
+    }).catch(() => {
+      setUser(null);
+      setLoading(false);
+    });
   }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
+
+  // Loading inicial
+  if (loading) {
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <p className="text-white">Carregando...</p>
+    </div>;
+  }
 
   // Não renderizar nada se for mentorado e não estiver na área correta
   if (user && user.role === 'user' && currentPageName !== 'AreaMentorado') {
