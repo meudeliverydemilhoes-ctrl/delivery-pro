@@ -16,22 +16,26 @@ export default function AreaMentorado() {
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
-      const mentorados = await base44.entities.Mentorado.list();
+      const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
       if (mentorados.length > 0) {
         setMentorado(mentorados[0]);
       }
-    }).catch(() => {
-      setUser({});
-      base44.entities.Mentorado.list().then(m => {
-        if (m.length > 0) setMentorado(m[0]);
-      });
-    });
+    }).catch(() => setUser(null));
   }, []);
+
+  if (!user) {
+    return (
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-white/50">Carregando...</p>
+      </div>
+    );
+  }
 
   if (!mentorado) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Carregando...</p>
+        <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
+        <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
       </div>
     );
   }

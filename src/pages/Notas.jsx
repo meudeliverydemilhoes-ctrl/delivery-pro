@@ -54,8 +54,7 @@ export default function Notas() {
 
   const { data: notas = [], isLoading } = useQuery({
     queryKey: ["notas"],
-    queryFn: () => base44.entities.Nota.list("-created_date"),
-    initialData: []
+    queryFn: () => base44.entities.Nota.list("-created_date")
   });
 
   const createMutation = useMutation({
@@ -127,7 +126,7 @@ export default function Notas() {
     setForm({ ...form, tags: form.tags.filter((t) => t !== tag) });
   };
 
-  const filtered = (notas || []).filter((nota) => {
+  const filtered = notas.filter((nota) => {
     const matchSearch =
       nota.titulo?.toLowerCase().includes(search.toLowerCase()) ||
       nota.conteudo?.toLowerCase().includes(search.toLowerCase()) ||

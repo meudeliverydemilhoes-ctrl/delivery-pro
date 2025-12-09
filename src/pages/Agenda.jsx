@@ -88,7 +88,6 @@ export default function Agenda() {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
-    setSelectedDate(null);
     setForm({
       titulo: "",
       tipo: "reuniao",
@@ -102,16 +101,7 @@ export default function Agenda() {
   };
 
   const handleAddFromDate = (date) => {
-    setForm({ 
-      titulo: "",
-      tipo: "reuniao",
-      data: format(date, "yyyy-MM-dd"),
-      horario: "",
-      duracao: "",
-      descricao: "",
-      link_reuniao: "",
-      status: "pendente"
-    });
+    setForm({ ...form, data: format(date, "yyyy-MM-dd") });
     setDialogOpen(true);
   };
 

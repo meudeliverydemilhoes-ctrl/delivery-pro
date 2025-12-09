@@ -296,7 +296,6 @@ export default function AulasMentoriaPage() {
   };
 
   const saveAulaEdit = () => {
-    if (!editingAula) return;
     const newAulas = aulasData.map(a => a.numero === editingAula.numero ? editingAula : a);
     setAulasData(newAulas);
     setHasChanges(true);
@@ -305,74 +304,65 @@ export default function AulasMentoriaPage() {
   };
 
   const addConteudo = () => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      conteudos: [...(prev.conteudos || []), { titulo: "", fala: "" }]
+      conteudos: [...prev.conteudos, { titulo: "", fala: "" }]
     }));
   };
 
   const updateConteudo = (idx, field, value) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      conteudos: (prev.conteudos || []).map((c, i) => i === idx ? { ...c, [field]: value } : c)
+      conteudos: prev.conteudos.map((c, i) => i === idx ? { ...c, [field]: value } : c)
     }));
   };
 
   const removeConteudo = (idx) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      conteudos: (prev.conteudos || []).filter((_, i) => i !== idx)
+      conteudos: prev.conteudos.filter((_, i) => i !== idx)
     }));
   };
 
   const addRoteiro = () => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      roteiro: [...(prev.roteiro || []), ""]
+      roteiro: [...prev.roteiro, ""]
     }));
   };
 
   const updateRoteiro = (idx, value) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      roteiro: (prev.roteiro || []).map((r, i) => i === idx ? value : r)
+      roteiro: prev.roteiro.map((r, i) => i === idx ? value : r)
     }));
   };
 
   const removeRoteiro = (idx) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      roteiro: (prev.roteiro || []).filter((_, i) => i !== idx)
+      roteiro: prev.roteiro.filter((_, i) => i !== idx)
     }));
   };
 
   const addTemaCasa = () => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      temaCasa: [...(prev.temaCasa || []), ""]
+      temaCasa: [...prev.temaCasa, ""]
     }));
   };
 
   const updateTemaCasa = (idx, value) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      temaCasa: (prev.temaCasa || []).map((t, i) => i === idx ? value : t)
+      temaCasa: prev.temaCasa.map((t, i) => i === idx ? value : t)
     }));
   };
 
   const removeTemaCasa = (idx) => {
-    if (!editingAula) return;
     setEditingAula(prev => ({
       ...prev,
-      temaCasa: (prev.temaCasa || []).filter((_, i) => i !== idx)
+      temaCasa: prev.temaCasa.filter((_, i) => i !== idx)
     }));
   };
 
@@ -606,7 +596,7 @@ export default function AulasMentoriaPage() {
                   </Button>
                 </div>
                 <div className="space-y-3">
-                 {(editingAula?.conteudos || []).map((c, idx) => (
+                  {editingAula.conteudos.map((c, idx) => (
                     <div key={idx} className="bg-white/5 rounded-lg p-3 space-y-2">
                       <div className="flex items-center gap-2">
                         <Input
@@ -650,7 +640,7 @@ export default function AulasMentoriaPage() {
                   </Button>
                 </div>
                 <div className="space-y-2">
-                 {(editingAula?.roteiro || []).map((r, idx) => (
+                  {editingAula.roteiro.map((r, idx) => (
                     <div key={idx} className="flex items-center gap-2">
                       <Input
                         value={r}
@@ -674,7 +664,7 @@ export default function AulasMentoriaPage() {
                   </Button>
                 </div>
                 <div className="space-y-2">
-                 {(editingAula?.temaCasa || []).map((t, idx) => (
+                  {editingAula.temaCasa.map((t, idx) => (
                     <div key={idx} className="flex items-center gap-2">
                       <Input
                         value={t}
