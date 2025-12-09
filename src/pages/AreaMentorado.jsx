@@ -44,25 +44,29 @@ export default function AreaMentorado() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Carregando...</p>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white">Carregando...</p>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Você precisa estar logado.</p>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white/50">Você precisa estar logado.</p>
+        </div>
       </div>
     );
   }
 
   if (!mentorado) {
     return (
-      <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Acesso negado ou perfil não encontrado.</p>
-        <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white/50">Perfil não encontrado.</p>
+          <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
+        </div>
       </div>
     );
   }
@@ -70,7 +74,8 @@ export default function AreaMentorado() {
   const mentoradoId = mentorado.id;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-4xl mx-auto p-4 lg:p-8">
       {/* Header */}
       <div className="mb-8">
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
@@ -146,6 +151,7 @@ export default function AreaMentorado() {
             <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Evolução</span>
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );
