@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import { base44 } from "@/api/base44Client";
 import {
@@ -22,16 +22,17 @@ import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     base44.auth.me().then((userData) => {
       setUser(userData);
       // Redirecionar mentorados para sua área
       if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
-        window.location.href = '/AreaMentorado';
+        navigate(createPageUrl('AreaMentorado'));
       }
     }).catch(() => setUser(null));
-  }, [currentPageName]);
+  }, [currentPageName, navigate]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
