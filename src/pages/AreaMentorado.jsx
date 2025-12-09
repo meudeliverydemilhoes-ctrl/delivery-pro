@@ -22,11 +22,16 @@ export default function AreaMentorado() {
 
   const { data: mentorados = [], isLoading: mentoradosLoading } = useQuery({
     queryKey: ['allMentorados'],
-    queryFn: () => base44.entities.Mentorado.list(),
+    queryFn: () => base44.entities.Mentorado.filter({ email: userData?.email }),
     enabled: !!userData
   });
 
   React.useEffect(() => {
+    if (!userLoading && !mentoradosLoading && userData && mentorados.length > 0) {
+      // Redirecionar imediatamente
+      window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+    }
+    
     if (!userLoading && !mentoradosLoading) {
       setLoading(false);
       
