@@ -34,10 +34,23 @@ export default function Layout({ children, currentPageName }) {
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
-        const currentPath = window.location.pathname;
-        const isOnMentoradoPage = currentPath.includes('mentorado') || currentPath.includes('Mentorado');
+        const currentPath = window.location.pathname.toLowerCase();
+        // Permitir apenas páginas específicas do mentorado (não a lista de mentorados)
+        const isOnValidPage = 
+          currentPath.includes('mentoradodetalhe') ||
+          currentPath.includes('mentoradobriefing') ||
+          currentPath.includes('mentoradodiagnostico') ||
+          currentPath.includes('mentoradocardapio') ||
+          currentPath.includes('mentoradofluxogramas') ||
+          currentPath.includes('mentoradopainel') ||
+          currentPath.includes('mentoradopilares') ||
+          currentPath.includes('mentoradotarefas') ||
+          currentPath.includes('mentoradonotas') ||
+          currentPath.includes('mentoradoarquivos') ||
+          currentPath.includes('mentoradofichastecnicas') ||
+          currentPath.includes('mentoradoevolucao');
         
-        if (mentorado?.id && !isOnMentoradoPage) {
+        if (mentorado?.id && !isOnValidPage) {
           window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
         }
       }
