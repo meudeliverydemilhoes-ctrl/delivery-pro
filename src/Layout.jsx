@@ -23,20 +23,22 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
-  const hasRedirectedRef = React.useRef(false);
-  
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
       // Se for mentorado (role user), redirecionar para sua página de entrada
-      if (userData.role === 'user' && !hasRedirectedRef.current) {
-        hasRedirectedRef.current = true;
+      if (userData.role === 'user') {
+        // Verificar se já redirecionou nesta sessão
+        if (sessionStorage.getItem('mentorado_redirected')) {
+          return;
+        }
         
         const currentPath = window.location.pathname;
         
         // Se já está em alguma página de mentorado, não redirecionar
-        if (currentPath.includes('Mentorado') || currentPath.includes('Fornecedores')) {
+        if (currentPath.includes('Mentorado') || currentPath.includes('Fornecedores') || currentPath.includes('GestaoFinanceira')) {
+          sessionStorage.setItem('mentorado_redirected', 'true');
           return;
         }
         
@@ -47,6 +49,7 @@ export default function Layout({ children, currentPageName }) {
         );
         
         if (mentorado?.id) {
+          sessionStorage.setItem('mentorado_redirected', 'true');
           window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
         }
       }
