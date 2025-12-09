@@ -49,14 +49,7 @@ export default function AreaMentorado() {
     );
   }, [userData, mentorados]);
 
-  // Redirecionar automaticamente para a página de detalhes (apenas uma vez)
-  const redirectedRef = React.useRef(false);
-  React.useEffect(() => {
-    if (mentorado?.id && !redirectedRef.current) {
-      redirectedRef.current = true;
-      window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
-    }
-  }, [mentorado]);
+
 
   if (loading) {
     return (
