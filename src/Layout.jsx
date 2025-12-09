@@ -24,38 +24,7 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    base44.auth.me().then(async (userData) => {
-      setUser(userData);
-      
-      // Se for mentorado (não admin), redirecionar sempre para página de detalhes
-      if (userData.role === 'user') {
-        const mentorados = await base44.entities.Mentorado.list();
-        const mentorado = mentorados.find(m => 
-          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-        );
-        
-        if (mentorado?.id) {
-          const currentUrl = window.location.href;
-          const expectedUrl = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
-          
-          // Redirecionar se não estiver na URL correta do mentorado
-          if (!currentUrl.includes(`MentoradoDetalhe?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoBriefing?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoDiagnostico?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoCardapio?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoFluxogramas?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoPainel?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoPilares?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoTarefas?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoNotas?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoArquivos?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoFichasTecnicas?id=${mentorado.id}`) &&
-              !currentUrl.includes(`MentoradoEvolucao?id=${mentorado.id}`)) {
-            window.location.replace(expectedUrl);
-          }
-        }
-      }
-    }).catch(() => setUser(null));
+    base44.auth.me().then(setUser).catch(() => setUser(null));
   }, []);
 
   const isMentor = user?.role === "admin";
