@@ -23,43 +23,40 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
-  const hasRedirectedRef = React.useRef(false);
-  
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
       // Se for mentorado (não admin), redirecionar para sua página
-      if (userData.role === 'user' && !hasRedirectedRef.current) {
+      if (userData.role === 'user') {
+        const currentPath = window.location.pathname;
+        
+        // Se já está em uma página específica de mentorado, não redirecionar
+        if (currentPath.includes('MentoradoDetalhe') ||
+            currentPath.includes('MentoradoBriefing') ||
+            currentPath.includes('MentoradoDiagnostico') ||
+            currentPath.includes('MentoradoCardapio') ||
+            currentPath.includes('MentoradoFluxogramas') ||
+            currentPath.includes('MentoradoPainel') ||
+            currentPath.includes('MentoradoPilares') ||
+            currentPath.includes('MentoradoTarefas') ||
+            currentPath.includes('MentoradoNotas') ||
+            currentPath.includes('MentoradoArquivos') ||
+            currentPath.includes('MentoradoFichasTecnicas') ||
+            currentPath.includes('MentoradoEvolucao') ||
+            currentPath.includes('Fornecedores') ||
+            currentPath.includes('GestaoFinanceira')) {
+          return;
+        }
+        
+        // Buscar o mentorado e redirecionar
         const mentorados = await base44.entities.Mentorado.list();
         const mentorado = mentorados.find(m => 
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
         if (mentorado?.id) {
-          const currentUrl = window.location.href;
-          // Verificar se já está em alguma página válida do mentorado
-          const isOnValidMentoradoPage = 
-            currentUrl.includes(`id=${mentorado.id}`) &&
-            (currentUrl.includes('MentoradoDetalhe') ||
-             currentUrl.includes('MentoradoBriefing') ||
-             currentUrl.includes('MentoradoDiagnostico') ||
-             currentUrl.includes('MentoradoCardapio') ||
-             currentUrl.includes('MentoradoFluxogramas') ||
-             currentUrl.includes('MentoradoPainel') ||
-             currentUrl.includes('MentoradoPilares') ||
-             currentUrl.includes('MentoradoTarefas') ||
-             currentUrl.includes('MentoradoNotas') ||
-             currentUrl.includes('MentoradoArquivos') ||
-             currentUrl.includes('MentoradoFichasTecnicas') ||
-             currentUrl.includes('MentoradoEvolucao') ||
-             currentUrl.includes('Fornecedores') ||
-             currentUrl.includes('GestaoFinanceira'));
-          
-          if (!isOnValidMentoradoPage) {
-            hasRedirectedRef.current = true;
-            window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
-          }
+          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
         }
       }
     }).catch(() => setUser(null));
