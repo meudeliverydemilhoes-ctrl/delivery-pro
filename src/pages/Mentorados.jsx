@@ -306,12 +306,25 @@ export default function Mentorados() {
                 </span>
               </div>
 
-              <Link
-                to={createPageUrl(`MentoradoDetalhe?id=${m.id}`)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
-              >
-                Ver Detalhes <ArrowRight size={16} />
-              </Link>
+              <div className="flex gap-2">
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}`)}
+                  className="flex items-center justify-center gap-2 flex-1 py-2.5 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
+                >
+                  Ver Detalhes <ArrowRight size={16} />
+                </Link>
+                <button
+                  onClick={() => {
+                    const link = `${window.location.origin}${createPageUrl('AreaMentorado')}`;
+                    navigator.clipboard.writeText(link);
+                    alert(`Link copiado!\n\nEnvie para ${m.nome}:\n${link}\n\nLogin: ${m.email || 'email não cadastrado'}`);
+                  }}
+                  className="px-4 py-2.5 bg-blue-500/10 text-blue-400 rounded-xl hover:bg-blue-500/20 transition-colors font-medium"
+                  title="Copiar link de acesso"
+                >
+                  📋
+                </button>
+              </div>
             </div>
           ))}
         </div>
