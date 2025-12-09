@@ -20,6 +20,7 @@ import { ptBR } from "date-fns/locale";
 
 export default function Dashboard() {
   const [user, setUser] = React.useState(null);
+  const [checkingAccess, setCheckingAccess] = React.useState(true);
 
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
@@ -27,15 +28,21 @@ export default function Dashboard() {
       if (userData.role === "user") {
         const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         if (mentorados.length > 0) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
+          return;
         }
       }
-    }).catch(() => setUser(null));
+      setCheckingAccess(false);
+    }).catch(() => {
+      setUser(null);
+      setCheckingAccess(false);
+    });
   }, []);
 
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.list()
+    queryFn: () => base44.entities.Mentorado.list(),
+    enabled: !checkingAccess && user?.role === "admin"
   });
 
   const { data: agenda = [] } = useQuery({
@@ -85,6 +92,14 @@ export default function Dashboard() {
     tarefa: "bg-pink-500/20 text-pink-400",
     lembrete: "bg-gray-500/20 text-gray-400",
   };
+
+  if (checkingAccess) {
+    return (
+      <div className="max-w-7xl mx-auto text-center py-16">
+        <p className="text-white/50">Carregando...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto">

@@ -11,7 +11,6 @@ import {
 
 export default function AreaMentorado() {
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
   const [debugData, setDebugData] = React.useState(null);
   
   const { data: userData, isLoading: userLoading } = useQuery({
@@ -26,8 +25,20 @@ export default function AreaMentorado() {
     enabled: !!userData
   });
 
+  const mentorado = React.useMemo(() => {
+    if (!userData || !mentorados) return null;
+    return mentorados.find(m => 
+      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+    );
+  }, [userData, mentorados]);
+
   React.useEffect(() => {
     if (!userLoading && !mentoradosLoading) {
+      if (userData && mentorado) {
+        window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+        return;
+      }
+      
       setLoading(false);
       
       if (userData && mentorados) {
@@ -40,14 +51,7 @@ export default function AreaMentorado() {
         });
       }
     }
-  }, [userData, mentorados, userLoading, mentoradosLoading]);
-
-  const mentorado = React.useMemo(() => {
-    if (!userData || !mentorados) return null;
-    return mentorados.find(m => 
-      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-    );
-  }, [userData, mentorados]);
+  }, [userData, mentorado, mentorados, userLoading, mentoradosLoading]);
 
 
 

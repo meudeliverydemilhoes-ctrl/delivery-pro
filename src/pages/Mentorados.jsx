@@ -59,7 +59,7 @@ export default function Mentorados() {
       if (userData.role === "user") {
         const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         if (mentorados.length > 0) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
         }
       }
     }).catch(() => setUser(null));
