@@ -49,6 +49,13 @@ export default function AreaMentorado() {
     );
   }, [userData, mentorados]);
 
+  // Redirecionar automaticamente para a página de detalhes
+  React.useEffect(() => {
+    if (mentorado?.id) {
+      window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+    }
+  }, [mentorado]);
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">

@@ -45,11 +45,7 @@ export default function Layout({ children, currentPageName }) {
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
-  const navigationMentorado = [
-    { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
-  ];
-
-  const navigation = isMentor ? navigationMentor : navigationMentorado;
+  const navigation = isMentor ? navigationMentor : [];
 
   return (
     <div className="min-h-screen bg-black text-white">
