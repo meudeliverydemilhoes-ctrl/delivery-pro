@@ -24,23 +24,7 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    const currentPath = window.location.pathname;
-    
-    base44.auth.me().then(async (userData) => {
-      setUser(userData);
-      
-      // Se for mentorado e NÃO está em página de mentorado
-      if (userData.role === 'user' && !currentPath.includes('Mentorado') && !currentPath.includes('Fornecedores') && !currentPath.includes('GestaoFinanceira')) {
-        const mentorados = await base44.entities.Mentorado.list();
-        const mentorado = mentorados.find(m => 
-          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-        );
-        
-        if (mentorado?.id) {
-          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
-        }
-      }
-    }).catch(() => setUser(null));
+    base44.auth.me().then(setUser).catch(() => setUser(null));
   }, []);
 
   const isMentor = user?.role === "admin";
