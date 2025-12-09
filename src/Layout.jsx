@@ -31,13 +31,10 @@ export default function Layout({ children, currentPageName }) {
       
       // Se for mentorado e NÃO está em página de mentorado
       if (userData.role === 'user' && !currentPath.includes('Mentorado') && !currentPath.includes('Fornecedores') && !currentPath.includes('GestaoFinanceira')) {
-        const mentorados = await base44.entities.Mentorado.list();
-        const mentorado = mentorados.find(m => 
-          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-        );
+        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         
-        if (mentorado?.id) {
-          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+        if (mentorados[0]?.id) {
+          window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
         }
       }
     }).catch(() => setUser(null));
