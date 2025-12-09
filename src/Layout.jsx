@@ -24,8 +24,14 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => setUser(null));
-  }, []);
+    base44.auth.me().then((userData) => {
+      setUser(userData);
+      // Redirecionar mentorados para sua área
+      if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
+        window.location.href = '/AreaMentorado';
+      }
+    }).catch(() => setUser(null));
+  }, [currentPageName]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";

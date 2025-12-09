@@ -6,7 +6,7 @@ import { createPageUrl } from "@/utils";
 import {
   FileText, ClipboardCheck, UtensilsCrossed, GitBranch,
   LayoutDashboard, ListTodo, StickyNote, Files, ChefHat,
-  TrendingUp, Target
+  TrendingUp, Target, Users
 } from "lucide-react";
 
 export default function AreaMentorado() {
@@ -70,6 +70,10 @@ export default function AreaMentorado() {
       <div>
         <h2 className="text-lg font-semibold text-white mb-4">Acesse suas áreas</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <Link to={createPageUrl(`Fornecedores?id=${mentoradoId}`)} className="flex flex-col items-center gap-3 px-4 py-6 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+            <Users size={28} className="text-white/50 group-hover:text-[#FF4D00]" />
+            <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Fornecedores</span>
+          </Link>
           <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex flex-col items-center gap-3 px-4 py-6 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
             <FileText size={28} className="text-white/50 group-hover:text-[#FF4D00]" />
             <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Briefing</span>
