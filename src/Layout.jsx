@@ -27,22 +27,16 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Redirecionar mentorados automaticamente para sua área (apenas uma vez)
-      if (userData.role === "user") {
-        const hasRedirected = sessionStorage.getItem('mentorado_auto_redirect');
+      // Redirecionar mentorados automaticamente para sua área ao fazer login
+      if (userData.role === "user" && currentPageName === "Dashboard") {
+        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         
-        if (!hasRedirected) {
-          sessionStorage.setItem('mentorado_auto_redirect', 'true');
-          
-          const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-          
-          if (mentorados.length > 0) {
-            window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`);
-          }
+        if (mentorados.length > 0) {
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
         }
       }
     }).catch(() => setUser(null));
-  }, []);
+  }, [currentPageName]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
