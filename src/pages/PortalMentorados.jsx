@@ -35,11 +35,24 @@ import {
 
 export default function PortalMentorados() {
   const queryClient = useQueryClient();
+  const [user, setUser] = React.useState(null);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("todos");
   const [filterEtapa, setFilterEtapa] = useState("todos");
   const [showDialog, setShowDialog] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
+
+  React.useEffect(() => {
+    base44.auth.me().then(async (userData) => {
+      setUser(userData);
+      if (userData.role === "user") {
+        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+        if (mentorados.length > 0) {
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+        }
+      }
+    }).catch(() => setUser(null));
+  }, []);
   const [formData, setFormData] = useState({
     nome: "",
     negocio: "",
