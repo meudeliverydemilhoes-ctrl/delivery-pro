@@ -10,57 +10,45 @@ import {
 } from "lucide-react";
 
 export default function AreaMentorado() {
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
-  const [debugData, setDebugData] = React.useState(null);
-  
-  const { data: userData, isLoading: userLoading } = useQuery({
-    queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
-    retry: 1
-  });
-
-  const { data: mentorados = [], isLoading: mentoradosLoading } = useQuery({
-    queryKey: ['allMentorados'],
-    queryFn: () => base44.entities.Mentorado.list(),
-    enabled: !!userData
-  });
+  const [user, setUser] = React.useState(null);
+  const [mentorado, setMentorado] = React.useState(null);
 
   React.useEffect(() => {
-    if (!userLoading && !mentoradosLoading) {
-      setLoading(false);
+    base44.auth.me().then(async (userData) => {
+      setUser(userData);
+      console.log("=== DEBUG ÁREA MENTORADO ===");
+      console.log("1. Email do usuário logado:", userData.email);
+      console.log("2. Dados completos do usuário:", userData);
       
-      if (userData && mentorados) {
-        setDebugData({
-          userEmail: userData.email,
-          userRole: userData.role,
-          totalMentorados: mentorados.length,
-          emails: mentorados.map(m => m.email || '[vazio]'),
-          mentorados: mentorados
-        });
+      // Buscar TODOS os mentorados para debug
+      const todosMentorados = await base44.entities.Mentorado.list();
+      console.log("3. Total de mentorados cadastrados:", todosMentorados.length);
+      console.log("4. Emails cadastrados:", todosMentorados.map(m => m.email));
+      console.log("5. Detalhes de todos mentorados:", todosMentorados);
+      
+      // Tentar encontrar por email exato
+      const mentoradosExato = todosMentorados.filter(m => m.email === userData.email);
+      console.log("6. Busca por email exato (m.email === userData.email):", mentoradosExato);
+      
+      // Tentar encontrar por email case-insensitive
+      const mentoradosInsensitive = todosMentorados.filter(m => 
+        m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+      );
+      console.log("7. Busca case-insensitive:", mentoradosInsensitive);
+      
+      if (mentoradosInsensitive.length > 0) {
+        setMentorado(mentoradosInsensitive[0]);
       }
-    }
-  }, [userData, mentorados, userLoading, mentoradosLoading]);
+    }).catch((error) => {
+      console.error("Erro ao carregar usuário:", error);
+      setUser(null);
+    });
+  }, []);
 
-  const mentorado = React.useMemo(() => {
-    if (!userData || !mentorados) return null;
-    return mentorados.find(m => 
-      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-    );
-  }, [userData, mentorados]);
-
-  if (loading) {
+  if (!user) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">
         <p className="text-white/50">Carregando...</p>
-      </div>
-    );
-  }
-
-  if (!userData) {
-    return (
-      <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-red-400">Erro ao carregar dados do usuário</p>
       </div>
     );
   }
@@ -72,45 +60,35 @@ export default function AreaMentorado() {
           <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
           <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
         </div>
-        
-        {debugData && (
+        {user && (
           <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-6 text-left max-w-2xl mx-auto">
             <p className="text-lg font-semibold text-white mb-4">🔍 Informações de Debug:</p>
             
             <div className="space-y-4">
               <div className="bg-black/30 rounded-lg p-4">
                 <p className="text-xs text-white/40 mb-2">Seu email logado:</p>
-                <p className="text-sm text-[#FF4D00] font-mono break-all">{debugData.userEmail}</p>
-                <p className="text-xs text-white/40 mt-2">Email normalizado:</p>
-                <p className="text-sm text-blue-400 font-mono break-all">{debugData.userEmail?.toLowerCase().trim()}</p>
+                <p className="text-sm text-[#FF4D00] font-mono break-all">{user.email}</p>
               </div>
 
               <div className="bg-black/30 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-2">Role do usuário:</p>
-                <p className="text-sm text-white/70">{debugData.userRole || 'não definido'}</p>
+                <p className="text-xs text-white/40 mb-2">Status da busca:</p>
+                <p className="text-sm text-white/70">Busca realizada - nenhum mentorado encontrado com este email</p>
               </div>
 
               <div className="bg-black/30 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-2">Total de mentorados:</p>
-                <p className="text-sm text-white/70 mb-3">{debugData.totalMentorados}</p>
-                <p className="text-xs text-white/40 mb-2">Emails cadastrados:</p>
-                <div className="text-xs space-y-1 max-h-64 overflow-y-auto">
-                  {debugData.emails.map((email, idx) => (
-                    <div key={idx} className={`font-mono px-2 py-1 rounded ${
-                      email.toLowerCase().trim() === debugData.userEmail?.toLowerCase().trim() 
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
-                        : 'bg-black/20 text-white/60'
-                    }`}>
-                      {idx + 1}. {email}
-                    </div>
-                  ))}
-                </div>
+                <p className="text-xs text-white/40 mb-4">📋 Possíveis causas:</p>
+                <ul className="text-sm text-white/70 space-y-2 list-disc list-inside">
+                  <li>Email ainda não cadastrado como mentorado</li>
+                  <li>Email cadastrado com diferença de maiúsculas/minúsculas</li>
+                  <li>Email cadastrado com espaços extras</li>
+                  <li>Mentorado ainda não foi criado pelo mentor</li>
+                </ul>
               </div>
 
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
-                <p className="text-xs text-amber-400 mb-2">💡 O que fazer:</p>
+                <p className="text-xs text-amber-400 mb-2">💡 Próximo passo:</p>
                 <p className="text-sm text-white/70">
-                  Informe seu mentor que seu email <strong className="text-[#FF4D00]">{debugData.userEmail}</strong> não está cadastrado corretamente.
+                  Entre em contato com seu mentor e informe o email: <strong className="text-[#FF4D00]">{user.email}</strong>
                 </p>
               </div>
             </div>
