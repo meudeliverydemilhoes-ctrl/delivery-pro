@@ -10,39 +10,44 @@ import {
 } from "lucide-react";
 
 export default function AreaMentorado() {
-  const [user, setUser] = React.useState(null);
-  const [mentorado, setMentorado] = React.useState(null);
-  const [debugInfo, setDebugInfo] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+  const [debugData, setDebugData] = React.useState(null);
+  
+  const { data: userData, isLoading: userLoading } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => base44.auth.me(),
+    retry: 1
+  });
+
+  const { data: mentorados = [], isLoading: mentoradosLoading } = useQuery({
+    queryKey: ['allMentorados'],
+    queryFn: () => base44.entities.Mentorado.list(),
+    enabled: !!userData
+  });
 
   React.useEffect(() => {
-    base44.auth.me().then(async (userData) => {
-      setUser(userData);
+    if (!userLoading && !mentoradosLoading) {
+      setLoading(false);
       
-      // Buscar TODOS os mentorados para debug
-      const todosMentorados = await base44.entities.Mentorado.list();
-      
-      // Tentar encontrar por email case-insensitive
-      const mentoradoEncontrado = todosMentorados.find(m => 
-        m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-      );
-      
-      // Salvar informações de debug
-      setDebugInfo({
-        emailUsuario: userData.email,
-        roleUsuario: userData.role,
-        totalMentorados: todosMentorados.length,
-        emailsCadastrados: todosMentorados.map(m => m.email || 'vazio'),
-        encontrado: !!mentoradoEncontrado
-      });
-      
-      if (mentoradoEncontrado) {
-        setMentorado(mentoradoEncontrado);
+      if (userData && mentorados) {
+        setDebugData({
+          userEmail: userData.email,
+          userRole: userData.role,
+          totalMentorados: mentorados.length,
+          emails: mentorados.map(m => m.email || '[vazio]'),
+          mentorados: mentorados
+        });
       }
-    }).catch((error) => {
-      console.error("Erro ao carregar usuário:", error);
-      setUser(null);
-    });
-  }, []);
+    }
+  }, [userData, mentorados, userLoading, mentoradosLoading]);
+
+  const mentorado = React.useMemo(() => {
+    if (!userData || !mentorados) return null;
+    return mentorados.find(m => 
+      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+    );
+  }, [userData, mentorados]);
 
   // Sempre mostrar algo na tela
   if (!user && !debugInfo) {
