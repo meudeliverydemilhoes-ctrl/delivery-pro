@@ -34,11 +34,6 @@ export default function AreaMentorado() {
 
   React.useEffect(() => {
     if (!userLoading && !mentoradosLoading) {
-      if (userData && mentorado) {
-        window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
-        return;
-      }
-      
       setLoading(false);
       
       if (userData && mentorados) {
@@ -51,7 +46,7 @@ export default function AreaMentorado() {
         });
       }
     }
-  }, [userData, mentorado, mentorados, userLoading, mentoradosLoading]);
+  }, [userData, mentorados, userLoading, mentoradosLoading]);
 
 
 
