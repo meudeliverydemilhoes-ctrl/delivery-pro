@@ -16,23 +16,33 @@ export default function AreaMentorado() {
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
-      console.log("Email do usuário logado:", userData.email);
+      console.log("=== DEBUG ÁREA MENTORADO ===");
+      console.log("1. Email do usuário logado:", userData.email);
+      console.log("2. Dados completos do usuário:", userData);
       
       // Buscar TODOS os mentorados para debug
       const todosMentorados = await base44.entities.Mentorado.list();
-      console.log("TODOS os mentorados cadastrados:", todosMentorados.map(m => ({ 
-        nome: m.nome, 
-        email: m.email,
-        id: m.id 
-      })));
+      console.log("3. Total de mentorados cadastrados:", todosMentorados.length);
+      console.log("4. Emails cadastrados:", todosMentorados.map(m => m.email));
+      console.log("5. Detalhes de todos mentorados:", todosMentorados);
       
-      const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-      console.log("Mentorados filtrados para este email:", mentorados);
+      // Tentar encontrar por email exato
+      const mentoradosExato = todosMentorados.filter(m => m.email === userData.email);
+      console.log("6. Busca por email exato (m.email === userData.email):", mentoradosExato);
       
-      if (mentorados.length > 0) {
-        setMentorado(mentorados[0]);
+      // Tentar encontrar por email case-insensitive
+      const mentoradosInsensitive = todosMentorados.filter(m => 
+        m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+      );
+      console.log("7. Busca case-insensitive:", mentoradosInsensitive);
+      
+      if (mentoradosInsensitive.length > 0) {
+        setMentorado(mentoradosInsensitive[0]);
       }
-    }).catch(() => setUser(null));
+    }).catch((error) => {
+      console.error("Erro ao carregar usuário:", error);
+      setUser(null);
+    });
   }, []);
 
   if (!user) {
