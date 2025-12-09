@@ -67,7 +67,8 @@ export default function PortalMentorados() {
 
   const { data: mentorados = [], isLoading } = useQuery({
     queryKey: ["portalMentorados"],
-    queryFn: () => base44.entities.Mentorado.list("-created_date")
+    queryFn: () => base44.entities.Mentorado.list("-created_date"),
+    enabled: hasAccess
   });
 
   const createMutation = useMutation({
@@ -188,6 +189,22 @@ export default function PortalMentorados() {
     pilar5: { label: "Pilar 5", color: "text-orange-400" },
     acompanhamento: { label: "Acompanhamento", color: "text-pink-400" }
   };
+
+  if (!user) {
+    return (
+      <div className="max-w-7xl mx-auto text-center py-16">
+        <p className="text-white/50">Carregando...</p>
+      </div>
+    );
+  }
+
+  if (!hasAccess) {
+    return (
+      <div className="max-w-7xl mx-auto text-center py-16">
+        <p className="text-red-400">Acesso negado. Esta área é restrita a administradores.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto">
