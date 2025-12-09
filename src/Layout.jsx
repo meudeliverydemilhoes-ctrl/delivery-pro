@@ -27,20 +27,22 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     base44.auth.me().then((userData) => {
       setUser(userData);
-      // Bloquear mentorados de acessar outras páginas
+      // Redirecionar mentorados imediatamente
       if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
-        navigate(createPageUrl('AreaMentorado'), { replace: true });
+        window.location.href = createPageUrl('AreaMentorado');
       }
     }).catch(() => setUser(null));
-  }, [currentPageName, navigate]);
-
-  // Bloquear renderização se for mentorado tentando acessar página restrita
-  if (user?.role === 'user' && currentPageName !== 'AreaMentorado') {
-    return null;
-  }
+  }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
+
+  // Não renderizar nada se for mentorado e não estiver na área correta
+  if (user && user.role === 'user' && currentPageName !== 'AreaMentorado') {
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <p className="text-white">Redirecionando...</p>
+    </div>;
+  }
 
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
