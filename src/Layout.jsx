@@ -24,32 +24,19 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
+    const currentPath = window.location.pathname;
+    
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Se for mentorado (role user), redirecionar para sua página de entrada
-      if (userData.role === 'user') {
-        // Verificar se já redirecionou nesta sessão
-        if (sessionStorage.getItem('mentorado_redirected')) {
-          return;
-        }
-        
-        const currentPath = window.location.pathname;
-        
-        // Se já está em alguma página de mentorado, não redirecionar
-        if (currentPath.includes('Mentorado') || currentPath.includes('Fornecedores') || currentPath.includes('GestaoFinanceira')) {
-          sessionStorage.setItem('mentorado_redirected', 'true');
-          return;
-        }
-        
-        // Buscar o mentorado pelo email
+      // Se for mentorado e NÃO está em página de mentorado
+      if (userData.role === 'user' && !currentPath.includes('Mentorado') && !currentPath.includes('Fornecedores') && !currentPath.includes('GestaoFinanceira')) {
         const mentorados = await base44.entities.Mentorado.list();
         const mentorado = mentorados.find(m => 
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
         if (mentorado?.id) {
-          sessionStorage.setItem('mentorado_redirected', 'true');
           window.location.href = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
         }
       }
