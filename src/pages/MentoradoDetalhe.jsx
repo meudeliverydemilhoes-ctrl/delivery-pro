@@ -476,11 +476,11 @@ export default function MentoradoDetalhe() {
           <TrendingUp size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Evolução</span>
         </Link>
-        <Link to={createPageUrl("GestaoFinanceira")} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+        <Link to={createPageUrl(`GestaoFinanceira?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
           <FileStack size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Processos</span>
         </Link>
-        </div>
+      </div>
 
       {/* Dialog Pilar */}
       <Dialog open={pilarDialogOpen} onOpenChange={setPilarDialogOpen}>
