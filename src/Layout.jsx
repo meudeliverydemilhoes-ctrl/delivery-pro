@@ -34,24 +34,25 @@ export default function Layout({ children, currentPageName }) {
           m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
         );
         
-        const currentPath = window.location.pathname.toLowerCase();
-        // Permitir apenas páginas específicas do mentorado (não a lista de mentorados)
-        const isOnValidPage = 
-          currentPath.includes('mentoradodetalhe') ||
-          currentPath.includes('mentoradobriefing') ||
-          currentPath.includes('mentoradodiagnostico') ||
-          currentPath.includes('mentoradocardapio') ||
-          currentPath.includes('mentoradofluxogramas') ||
-          currentPath.includes('mentoradopainel') ||
-          currentPath.includes('mentoradopilares') ||
-          currentPath.includes('mentoradotarefas') ||
-          currentPath.includes('mentoradonotas') ||
-          currentPath.includes('mentoradoarquivos') ||
-          currentPath.includes('mentoradofichastecnicas') ||
-          currentPath.includes('mentoradoevolucao');
-        
-        if (mentorado?.id && !isOnValidPage) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
+        if (mentorado?.id) {
+          const currentUrl = window.location.href;
+          const expectedUrl = createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`);
+          
+          // Redirecionar se não estiver na URL correta do mentorado
+          if (!currentUrl.includes(`MentoradoDetalhe?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoBriefing?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoDiagnostico?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoCardapio?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoFluxogramas?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoPainel?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoPilares?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoTarefas?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoNotas?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoArquivos?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoFichasTecnicas?id=${mentorado.id}`) &&
+              !currentUrl.includes(`MentoradoEvolucao?id=${mentorado.id}`)) {
+            window.location.replace(expectedUrl);
+          }
         }
       }
     }).catch(() => setUser(null));
