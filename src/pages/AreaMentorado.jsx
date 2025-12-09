@@ -13,25 +13,23 @@ export default function AreaMentorado() {
   const [user, setUser] = React.useState(null);
   const [mentorado, setMentorado] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const urlParams = new URLSearchParams(window.location.search);
-  const mentoradoIdFromUrl = urlParams.get("id");
 
   React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const mentoradoIdFromUrl = urlParams.get("id");
+
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
       if (mentoradoIdFromUrl) {
-        // Se tem ID na URL, buscar esse mentorado específico
         const mentoradoEspecifico = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
         if (mentoradoEspecifico.length > 0) {
           const m = mentoradoEspecifico[0];
-          // Verificar se o email do usuário logado corresponde ao mentorado
           if (m.email === userData.email || userData.role === 'admin') {
             setMentorado(m);
           }
         }
       } else {
-        // Buscar por email do usuário
         const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         if (mentorados.length > 0) {
           setMentorado(mentorados[0]);
@@ -42,7 +40,7 @@ export default function AreaMentorado() {
       setUser(null);
       setLoading(false);
     });
-  }, [mentoradoIdFromUrl]);
+  }, []);
 
   if (loading) {
     return (
