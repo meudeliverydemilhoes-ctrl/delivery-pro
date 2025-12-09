@@ -27,31 +27,21 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then(setUser).catch(() => setUser(null));
   }, []);
 
-  const isMentor = user?.role === "admin";
-  const isMentorado = user?.role === "user";
-
-  const navigationMentor = [
-            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-            { name: "Mentorados", page: "Mentorados", icon: Users },
-            { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
-            { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
-            { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
-            { name: "Cursos", page: "Cursos", icon: BookOpen },
-            { name: "Biblioteca", page: "Biblioteca", icon: Library },
-            { name: "Agenda", page: "Agenda", icon: Calendar },
-            { name: "Notas", page: "Notas", icon: Lightbulb },
-          { name: "Automações", page: "Automacoes", icon: Zap },
-          { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
-          ];
-
-  const navigationMentorado = [
+  const navigation = [
+    { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
     { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
     { name: "Mentorados", page: "Mentorados", icon: Users },
-    { name: "Processos", page: "GestaoFinanceira", icon: ClipboardList },
+    { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
+    { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
+    { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
+    { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
+    { name: "Cursos", page: "Cursos", icon: BookOpen },
+    { name: "Biblioteca", page: "Biblioteca", icon: Library },
+    { name: "Agenda", page: "Agenda", icon: Calendar },
+    { name: "Notas", page: "Notas", icon: Lightbulb },
+    { name: "Automações", page: "Automacoes", icon: Zap },
+    { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
   ];
-
-  const navigation = isMentor ? navigationMentor : navigationMentorado;
 
   return (
     <div className="min-h-screen bg-black text-white">
