@@ -15,31 +15,34 @@ export default function AreaMentorado() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mentoradoIdFromUrl = urlParams.get("id");
-
-    base44.auth.me().then(async (userData) => {
-      setUser(userData);
-      
-      if (mentoradoIdFromUrl) {
-        const mentoradoEspecifico = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
-        if (mentoradoEspecifico.length > 0) {
-          const m = mentoradoEspecifico[0];
-          if (m.email === userData.email || userData.role === 'admin') {
-            setMentorado(m);
+    const loadData = async () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mentoradoIdFromUrl = urlParams.get("id");
+        
+        const userData = await base44.auth.me();
+        setUser(userData);
+        
+        if (mentoradoIdFromUrl) {
+          const mentoradoEspecifico = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
+          if (mentoradoEspecifico.length > 0) {
+            setMentorado(mentoradoEspecifico[0]);
+          }
+        } else {
+          const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+          if (mentorados.length > 0) {
+            setMentorado(mentorados[0]);
           }
         }
-      } else {
-        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-        if (mentorados.length > 0) {
-          setMentorado(mentorados[0]);
-        }
+      } catch (error) {
+        console.error('Erro ao carregar:', error);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    }).catch(() => {
-      setUser(null);
-      setLoading(false);
-    });
+    };
+    
+    loadData();
   }, []);
 
   if (loading) {
