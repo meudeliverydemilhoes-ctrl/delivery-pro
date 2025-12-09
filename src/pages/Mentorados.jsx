@@ -315,7 +315,7 @@ export default function Mentorados() {
                 </Link>
                 <button
                   onClick={() => {
-                    const link = `${window.location.origin}${createPageUrl('AreaMentorado')}`;
+                    const link = `${window.location.origin}${createPageUrl(`AreaMentorado?id=${m.id}`)}`;
                     navigator.clipboard.writeText(link);
                     alert(`Link copiado!\n\nEnvie para ${m.nome}:\n${link}\n\nLogin: ${m.email || 'email não cadastrado'}`);
                   }}

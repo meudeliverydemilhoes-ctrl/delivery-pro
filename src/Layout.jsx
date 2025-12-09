@@ -28,15 +28,20 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then((userData) => {
       setUser(userData);
       setLoading(false);
-      // Redirecionar mentorados imediatamente
+      // Redirecionar mentorados para sua área, mas preservar URL params
       if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
-        window.location.href = createPageUrl('AreaMentorado');
+        const currentUrl = new URLSearchParams(window.location.search);
+        const mentoradoId = currentUrl.get('id');
+        const redirectUrl = mentoradoId 
+          ? createPageUrl(`AreaMentorado?id=${mentoradoId}`)
+          : createPageUrl('AreaMentorado');
+        window.location.href = redirectUrl;
       }
     }).catch(() => {
       setUser(null);
       setLoading(false);
     });
-  }, []);
+  }, [currentPageName]);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";

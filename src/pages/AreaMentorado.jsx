@@ -12,18 +12,39 @@ import {
 export default function AreaMentorado() {
   const [user, setUser] = React.useState(null);
   const [mentorado, setMentorado] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const urlParams = new URLSearchParams(window.location.search);
+  const mentoradoIdFromUrl = urlParams.get("id");
 
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
-      const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
-      if (mentorados.length > 0) {
-        setMentorado(mentorados[0]);
+      
+      if (mentoradoIdFromUrl) {
+        // Se tem ID na URL, buscar esse mentorado específico
+        const mentoradoEspecifico = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
+        if (mentoradoEspecifico.length > 0) {
+          const m = mentoradoEspecifico[0];
+          // Verificar se o email do usuário logado corresponde ao mentorado
+          if (m.email === userData.email || userData.role === 'admin') {
+            setMentorado(m);
+          }
+        }
+      } else {
+        // Buscar por email do usuário
+        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+        if (mentorados.length > 0) {
+          setMentorado(mentorados[0]);
+        }
       }
-    }).catch(() => setUser(null));
-  }, []);
+      setLoading(false);
+    }).catch(() => {
+      setUser(null);
+      setLoading(false);
+    });
+  }, [mentoradoIdFromUrl]);
 
-  if (!user) {
+  if (loading) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">
         <p className="text-white/50">Carregando...</p>
@@ -31,10 +52,18 @@ export default function AreaMentorado() {
     );
   }
 
+  if (!user) {
+    return (
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-white/50">Você precisa estar logado.</p>
+      </div>
+    );
+  }
+
   if (!mentorado) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
+        <p className="text-white/50">Acesso negado ou perfil não encontrado.</p>
         <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
       </div>
     );
