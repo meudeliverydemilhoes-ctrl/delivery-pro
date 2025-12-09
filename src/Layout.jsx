@@ -33,7 +33,6 @@ export default function Layout({ children, currentPageName }) {
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
-            { name: "Portal Mentorados", page: "PortalMentorados", icon: Users },
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
             { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
@@ -46,7 +45,11 @@ export default function Layout({ children, currentPageName }) {
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
-  const navigation = isMentor ? navigationMentor : [];
+  const navigationMentorado = [
+    { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
+  ];
+
+  const navigation = isMentor ? navigationMentor : navigationMentorado;
 
   return (
     <div className="min-h-screen bg-black text-white">

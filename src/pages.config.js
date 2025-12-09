@@ -25,7 +25,6 @@ import MentoradoPilares from './pages/MentoradoPilares';
 import MentoradoEvolucao from './pages/MentoradoEvolucao';
 import AreaMentorado from './pages/AreaMentorado';
 import Fornecedores from './pages/Fornecedores';
-import PortalMentorados from './pages/PortalMentorados';
 import __Layout from './Layout.jsx';
 
 
@@ -57,7 +56,6 @@ export const PAGES = {
     "MentoradoEvolucao": MentoradoEvolucao,
     "AreaMentorado": AreaMentorado,
     "Fornecedores": Fornecedores,
-    "PortalMentorados": PortalMentorados,
 }
 
 export const pagesConfig = {

@@ -11,6 +11,7 @@ import {
 
 export default function AreaMentorado() {
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
   const [debugData, setDebugData] = React.useState(null);
   
   const { data: userData, isLoading: userLoading } = useQuery({
@@ -21,16 +22,9 @@ export default function AreaMentorado() {
 
   const { data: mentorados = [], isLoading: mentoradosLoading } = useQuery({
     queryKey: ['allMentorados'],
-    queryFn: () => base44.entities.Mentorado.filter({ email: userData?.email }),
+    queryFn: () => base44.entities.Mentorado.list(),
     enabled: !!userData
   });
-
-  const mentorado = React.useMemo(() => {
-    if (!userData || !mentorados) return null;
-    return mentorados.find(m => 
-      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-    );
-  }, [userData, mentorados]);
 
   React.useEffect(() => {
     if (!userLoading && !mentoradosLoading) {
@@ -48,7 +42,12 @@ export default function AreaMentorado() {
     }
   }, [userData, mentorados, userLoading, mentoradosLoading]);
 
-
+  const mentorado = React.useMemo(() => {
+    if (!userData || !mentorados) return null;
+    return mentorados.find(m => 
+      m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+    );
+  }, [userData, mentorados]);
 
   if (loading) {
     return (

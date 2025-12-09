@@ -46,23 +46,11 @@ import { format } from "date-fns";
 
 export default function Mentorados() {
   const queryClient = useQueryClient();
-  const [user, setUser] = React.useState(null);
-  const [hasAccess, setHasAccess] = React.useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("todos");
   const [etapaFilter, setEtapaFilter] = useState("todos");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
-
-  React.useEffect(() => {
-    base44.auth.me().then((userData) => {
-      setUser(userData);
-      setHasAccess(userData.role === "admin");
-    }).catch(() => {
-      setUser(null);
-      setHasAccess(false);
-    });
-  }, []);
   const [formData, setFormData] = useState({
     nome: "",
     negocio: "",
@@ -78,8 +66,7 @@ export default function Mentorados() {
 
   const { data: mentorados = [], isLoading } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.list("-created_date"),
-    enabled: hasAccess
+    queryFn: () => base44.entities.Mentorado.list("-created_date")
   });
 
   const createMutation = useMutation({
@@ -224,22 +211,6 @@ export default function Mentorados() {
     pilar5: "Pilar 5 - Presença Magnética",
     acompanhamento: "Acompanhamento",
   };
-
-  if (!user) {
-    return (
-      <div className="max-w-7xl mx-auto text-center py-16">
-        <p className="text-white/50">Carregando...</p>
-      </div>
-    );
-  }
-
-  if (!hasAccess) {
-    return (
-      <div className="max-w-7xl mx-auto text-center py-16">
-        <p className="text-red-400">Acesso negado. Esta área é restrita a administradores.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-7xl mx-auto">

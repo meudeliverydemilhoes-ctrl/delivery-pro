@@ -19,27 +19,9 @@ import { format, isToday, isTomorrow, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function Dashboard() {
-  const [user, setUser] = React.useState(null);
-  const [hasAccess, setHasAccess] = React.useState(false);
-
-  React.useEffect(() => {
-    base44.auth.me().then((userData) => {
-      setUser(userData);
-      if (userData.role === "admin") {
-        setHasAccess(true);
-      } else {
-        setHasAccess(false);
-      }
-    }).catch(() => {
-      setUser(null);
-      setHasAccess(false);
-    });
-  }, []);
-
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.list(),
-    enabled: hasAccess
+    queryFn: () => base44.entities.Mentorado.list()
   });
 
   const { data: agenda = [] } = useQuery({
@@ -89,22 +71,6 @@ export default function Dashboard() {
     tarefa: "bg-pink-500/20 text-pink-400",
     lembrete: "bg-gray-500/20 text-gray-400",
   };
-
-  if (!user) {
-    return (
-      <div className="max-w-7xl mx-auto text-center py-16">
-        <p className="text-white/50">Carregando...</p>
-      </div>
-    );
-  }
-
-  if (!hasAccess) {
-    return (
-      <div className="max-w-7xl mx-auto text-center py-16">
-        <p className="text-red-400">Acesso negado. Esta área é restrita a administradores.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-7xl mx-auto">
