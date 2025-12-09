@@ -74,16 +74,27 @@ export default function Layout({ children, currentPageName }) {
                                   }
 
                                   /* Ensure colored buttons keep white text */
-                                  button.bg-\\[\\#FF4D00\\],
-                                  button.bg-\\[\\#FF4D00\\] *,
-                                  button.bg-emerald-500,
-                                  button.bg-emerald-500 *,
-                                  button.bg-red-500,
-                                  button.bg-red-500 *,
-                                  button.bg-blue-500,
-                                  button.bg-blue-500 * {
-                                    color: white !important;
-                                  }
+                                                button.bg-\\[\\#FF4D00\\],
+                                                button.bg-\\[\\#FF4D00\\] *,
+                                                button.bg-emerald-500,
+                                                button.bg-emerald-500 *,
+                                                button.bg-red-500,
+                                                button.bg-red-500 *,
+                                                button.bg-blue-500,
+                                                button.bg-blue-500 * {
+                                                  color: white !important;
+                                                }
+
+                                                /* Calendar numbers white on mobile and desktop */
+                                                [role="gridcell"],
+                                                [role="gridcell"] *,
+                                                .rdp-day,
+                                                .rdp-day *,
+                                                [class*="day"],
+                                                [class*="calendar"] button,
+                                                [class*="calendar"] button * {
+                                                  color: white !important;
+                                                }
 
                     /* Custom scrollbar */
                     ::-webkit-scrollbar { width: 6px; height: 6px; }
