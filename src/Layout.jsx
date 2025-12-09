@@ -27,12 +27,17 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     base44.auth.me().then((userData) => {
       setUser(userData);
-      // Redirecionar mentorados para sua área
+      // Bloquear mentorados de acessar outras páginas
       if (userData.role === 'user' && currentPageName !== 'AreaMentorado') {
-        navigate(createPageUrl('AreaMentorado'));
+        navigate(createPageUrl('AreaMentorado'), { replace: true });
       }
     }).catch(() => setUser(null));
   }, [currentPageName, navigate]);
+
+  // Bloquear renderização se for mentorado tentando acessar página restrita
+  if (user?.role === 'user' && currentPageName !== 'AreaMentorado') {
+    return null;
+  }
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
