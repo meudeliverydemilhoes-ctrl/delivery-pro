@@ -44,10 +44,20 @@ export default function AreaMentorado() {
     });
   }, []);
 
-  if (!user) {
+  // Sempre mostrar algo na tela
+  if (!user && !debugInfo) {
     return (
       <div className="max-w-4xl mx-auto text-center py-16">
-        <p className="text-white/50">Carregando...</p>
+        <p className="text-white/50">Carregando dados do usuário...</p>
+      </div>
+    );
+  }
+
+  if (!user && debugInfo) {
+    return (
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-red-400">Erro ao carregar usuário</p>
+        <p className="text-white/30 mt-2">Verifique o console para mais detalhes</p>
       </div>
     );
   }
