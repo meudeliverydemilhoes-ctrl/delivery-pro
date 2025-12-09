@@ -27,12 +27,19 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Redirecionar mentorados automaticamente para sua área ao fazer login
-      if (userData.role === "user" && currentPageName === "Dashboard") {
-        const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+      // Redirecionar mentorados automaticamente para sua área
+      if (userData.role === "user") {
+        const paginasPermitidas = ["MentoradoDetalhe", "MentoradoBriefing", "MentoradoDiagnostico", 
+                                    "MentoradoCardapio", "MentoradoFluxogramas", "MentoradoPainel",
+                                    "MentoradoPilares", "MentoradoTarefas", "MentoradoNotas", 
+                                    "MentoradoArquivos", "MentoradoFichasTecnicas", "MentoradoEvolucao"];
         
-        if (mentorados.length > 0) {
-          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+        if (!paginasPermitidas.includes(currentPageName)) {
+          const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+          
+          if (mentorados.length > 0) {
+            window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
+          }
         }
       }
     }).catch(() => setUser(null));
