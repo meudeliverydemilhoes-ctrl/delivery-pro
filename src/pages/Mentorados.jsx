@@ -64,7 +64,8 @@ export default function Mentorados() {
 
   const { data: mentorados = [], isLoading } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.list("-created_date")
+    queryFn: () => base44.entities.Mentorado.list("-created_date"),
+    initialData: []
   });
 
   const createMutation = useMutation({
@@ -132,7 +133,7 @@ export default function Mentorados() {
     }
   };
 
-  const filtered = mentorados.filter((m) => {
+  const filtered = (mentorados || []).filter((m) => {
     const matchSearch =
       m.nome?.toLowerCase().includes(search.toLowerCase()) ||
       m.negocio?.toLowerCase().includes(search.toLowerCase()) ||

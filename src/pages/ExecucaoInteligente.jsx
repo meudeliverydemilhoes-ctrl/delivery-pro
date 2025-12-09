@@ -632,37 +632,44 @@ export default function ExecucaoInteligente() {
   // Queries
   const { data: checklists = [] } = useQuery({
     queryKey: ["checklists"],
-    queryFn: () => base44.entities.ChecklistInteligente.list("-created_date")
+    queryFn: () => base44.entities.ChecklistInteligente.list("-created_date"),
+    initialData: []
   });
 
   const { data: execucoes = [] } = useQuery({
     queryKey: ["execucoes"],
-    queryFn: () => base44.entities.ExecucaoChecklist.list("-created_date")
+    queryFn: () => base44.entities.ExecucaoChecklist.list("-created_date"),
+    initialData: []
   });
 
   const { data: planosAcao = [] } = useQuery({
     queryKey: ["planosAcao"],
-    queryFn: () => base44.entities.PlanoAcaoInteligente.list("-created_date")
+    queryFn: () => base44.entities.PlanoAcaoInteligente.list("-created_date"),
+    initialData: []
   });
 
   const { data: sops = [] } = useQuery({
     queryKey: ["sops"],
-    queryFn: () => base44.entities.SOPPlaybook.filter({ ativo: true }, "-created_date")
+    queryFn: () => base44.entities.SOPPlaybook.filter({ ativo: true }, "-created_date"),
+    initialData: []
   });
 
   const { data: comunicados = [] } = useQuery({
     queryKey: ["comunicados"],
-    queryFn: () => base44.entities.ComunicadoMentoria.list("-created_date")
+    queryFn: () => base44.entities.ComunicadoMentoria.list("-created_date"),
+    initialData: []
   });
 
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
-    queryFn: () => base44.entities.Mentorado.filter({ status: "ativo" })
+    queryFn: () => base44.entities.Mentorado.filter({ status: "ativo" }),
+    initialData: []
   });
 
   const { data: scores = [] } = useQuery({
     queryKey: ["scores"],
-    queryFn: () => base44.entities.ScoreMentorado.list("-score_execucao")
+    queryFn: () => base44.entities.ScoreMentorado.list("-score_execucao"),
+    initialData: []
   });
 
   // Mutations
@@ -783,24 +790,24 @@ export default function ExecucaoInteligente() {
   };
 
   // Filtros
-  const getMentoradoNome = (id) => mentorados.find(m => m.id === id)?.nome || "Desconhecido";
+  const getMentoradoNome = (id) => (mentorados || []).find(m => m.id === id)?.nome || "Desconhecido";
 
-  const filteredExecucoes = execucoes.filter(e => {
+  const filteredExecucoes = (execucoes || []).filter(e => {
     const matchSearch = e.titulo?.toLowerCase().includes(search.toLowerCase());
     const matchPilar = pilarFilter === "todos" || e.pilar === pilarFilter;
     const matchMentorado = mentoradoFilter === "todos" || e.mentorado_id === mentoradoFilter;
     return matchSearch && matchPilar && matchMentorado;
   });
 
-  const filteredPlanos = planosAcao.filter(p => {
+  const filteredPlanos = (planosAcao || []).filter(p => {
     const matchSearch = p.problema?.toLowerCase().includes(search.toLowerCase());
     const matchPilar = pilarFilter === "todos" || p.pilar === pilarFilter;
     const matchMentorado = mentoradoFilter === "todos" || p.mentorado_id === mentoradoFilter;
     return matchSearch && matchPilar && matchMentorado;
   });
 
-  const pendentes = filteredExecucoes.filter(e => e.status !== "concluido");
-  const concluidos = filteredExecucoes.filter(e => e.status === "concluido");
+  const pendentes = (filteredExecucoes || []).filter(e => e.status !== "concluido");
+  const concluidos = (filteredExecucoes || []).filter(e => e.status === "concluido");
 
   return (
     <div className="max-w-7xl mx-auto">

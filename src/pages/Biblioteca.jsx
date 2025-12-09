@@ -67,7 +67,8 @@ export default function Biblioteca() {
 
   const { data: biblioteca = [], isLoading } = useQuery({
     queryKey: ["biblioteca"],
-    queryFn: () => base44.entities.Biblioteca.list("-created_date")
+    queryFn: () => base44.entities.Biblioteca.list("-created_date"),
+    initialData: []
   });
 
   const createMutation = useMutation({
@@ -149,7 +150,7 @@ export default function Biblioteca() {
     setForm({ ...form, tags: form.tags.filter((t) => t !== tag) });
   };
 
-  const filtered = biblioteca.filter((item) => {
+  const filtered = (biblioteca || []).filter((item) => {
     const matchSearch =
       item.titulo?.toLowerCase().includes(search.toLowerCase()) ||
       item.descricao?.toLowerCase().includes(search.toLowerCase()) ||
@@ -182,7 +183,7 @@ export default function Biblioteca() {
     outro: "bg-gray-500/20 text-gray-400",
   };
 
-  const pastas = [...new Set(biblioteca.filter((b) => b.pasta).map((b) => b.pasta))];
+  const pastas = [...new Set((biblioteca || []).filter((b) => b.pasta).map((b) => b.pasta))];
 
   return (
     <div className="max-w-6xl mx-auto">
