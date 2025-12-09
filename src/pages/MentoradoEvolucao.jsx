@@ -35,25 +35,12 @@ export default function MentoradoEvolucao() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState({ titulo: "", tipo: "feito", pilar: "geral", descricao: "", data: format(new Date(), "yyyy-MM-dd"), concluido: false });
 
-  const [user, setUser] = React.useState(null);
-  const [hasPermission, setHasPermission] = React.useState(true);
-
-  React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => setUser(null));
-  }, []);
-
   const { data: mentorado } = useQuery({
     queryKey: ["mentorado", mentoradoId],
     queryFn: () => base44.entities.Mentorado.filter({ id: mentoradoId }),
     select: (data) => data[0],
     enabled: !!mentoradoId
   });
-
-  React.useEffect(() => {
-    if (user && mentorado) {
-      setHasPermission(user.role === "admin" || user.email === mentorado.email);
-    }
-  }, [user, mentorado]);
 
   const { data: evolucoes = [] } = useQuery({
     queryKey: ["evolucoes", mentoradoId],
@@ -79,14 +66,6 @@ export default function MentoradoEvolucao() {
     mutationFn: (id) => base44.entities.Evolucao.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["evolucoes", mentoradoId] })
   });
-
-  if (!hasPermission) {
-    return (
-      <div className="max-w-6xl mx-auto text-center py-16">
-        <p className="text-white/50">Você não tem permissão para acessar esta página</p>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-4xl mx-auto">

@@ -16,33 +16,11 @@ export default function AreaMentorado() {
   React.useEffect(() => {
     base44.auth.me().then(async (userData) => {
       setUser(userData);
-      console.log("=== DEBUG ÁREA MENTORADO ===");
-      console.log("1. Email do usuário logado:", userData.email);
-      console.log("2. Dados completos do usuário:", userData);
-      
-      // Buscar TODOS os mentorados para debug
-      const todosMentorados = await base44.entities.Mentorado.list();
-      console.log("3. Total de mentorados cadastrados:", todosMentorados.length);
-      console.log("4. Emails cadastrados:", todosMentorados.map(m => m.email));
-      console.log("5. Detalhes de todos mentorados:", todosMentorados);
-      
-      // Tentar encontrar por email exato
-      const mentoradosExato = todosMentorados.filter(m => m.email === userData.email);
-      console.log("6. Busca por email exato (m.email === userData.email):", mentoradosExato);
-      
-      // Tentar encontrar por email case-insensitive
-      const mentoradosInsensitive = todosMentorados.filter(m => 
-        m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
-      );
-      console.log("7. Busca case-insensitive:", mentoradosInsensitive);
-      
-      if (mentoradosInsensitive.length > 0) {
-        setMentorado(mentoradosInsensitive[0]);
+      const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+      if (mentorados.length > 0) {
+        setMentorado(mentorados[0]);
       }
-    }).catch((error) => {
-      console.error("Erro ao carregar usuário:", error);
-      setUser(null);
-    });
+    }).catch(() => setUser(null));
   }, []);
 
   if (!user) {
@@ -55,45 +33,9 @@ export default function AreaMentorado() {
 
   if (!mentorado) {
     return (
-      <div className="max-w-4xl mx-auto py-16">
-        <div className="text-center mb-6">
-          <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
-          <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
-        </div>
-        {user && (
-          <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-6 text-left max-w-2xl mx-auto">
-            <p className="text-lg font-semibold text-white mb-4">🔍 Informações de Debug:</p>
-            
-            <div className="space-y-4">
-              <div className="bg-black/30 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-2">Seu email logado:</p>
-                <p className="text-sm text-[#FF4D00] font-mono break-all">{user.email}</p>
-              </div>
-
-              <div className="bg-black/30 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-2">Status da busca:</p>
-                <p className="text-sm text-white/70">Busca realizada - nenhum mentorado encontrado com este email</p>
-              </div>
-
-              <div className="bg-black/30 rounded-lg p-4">
-                <p className="text-xs text-white/40 mb-4">📋 Possíveis causas:</p>
-                <ul className="text-sm text-white/70 space-y-2 list-disc list-inside">
-                  <li>Email ainda não cadastrado como mentorado</li>
-                  <li>Email cadastrado com diferença de maiúsculas/minúsculas</li>
-                  <li>Email cadastrado com espaços extras</li>
-                  <li>Mentorado ainda não foi criado pelo mentor</li>
-                </ul>
-              </div>
-
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
-                <p className="text-xs text-amber-400 mb-2">💡 Próximo passo:</p>
-                <p className="text-sm text-white/70">
-                  Entre em contato com seu mentor e informe o email: <strong className="text-[#FF4D00]">{user.email}</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
+        <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
       </div>
     );
   }
