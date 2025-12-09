@@ -24,11 +24,15 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
+    const hasRedirected = sessionStorage.getItem('mentorado_redirected_once');
+    
     base44.auth.me().then(async (userData) => {
       setUser(userData);
       
-      // Redirecionar mentorados direto para sua página
-      if (userData.role === 'user' && currentPageName === 'AreaMentorado') {
+      // Redirecionar mentorados apenas uma vez por sessão
+      if (userData.role === 'user' && !hasRedirected) {
+        sessionStorage.setItem('mentorado_redirected_once', 'true');
+        
         const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
         
         if (mentorados[0]?.id) {
@@ -36,7 +40,7 @@ export default function Layout({ children, currentPageName }) {
         }
       }
     }).catch(() => setUser(null));
-  }, [currentPageName]);
+  }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
