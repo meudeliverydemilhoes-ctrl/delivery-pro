@@ -103,6 +103,15 @@ export default function Layout({ children, currentPageName }) {
                                                   color: white !important;
                                                 }
 
+                                                /* Links de voltar - laranja */
+                                                a[class*="text-white/50"]:has(svg) {
+                                                  color: var(--orange) !important;
+                                                }
+
+                                                a[class*="text-white/50"]:has(svg):hover {
+                                                  color: white !important;
+                                                }
+
                                                 /* Force white text on dark backgrounds */
                                                 .bg-black *:not(button.bg-white):not(button.bg-white *),
                                                 .bg-zinc-900 *:not(button.bg-white):not(button.bg-white *),
