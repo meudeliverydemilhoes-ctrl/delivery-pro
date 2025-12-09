@@ -38,6 +38,15 @@ export default function AreaMentorado() {
           emails: mentorados.map(m => m.email || '[vazio]'),
           mentorados: mentorados
         });
+        
+        // Redirecionar automaticamente para MentoradoDetalhe
+        const mentorado = mentorados.find(m => 
+          m.email?.toLowerCase().trim() === userData.email?.toLowerCase().trim()
+        );
+        
+        if (mentorado?.id) {
+          window.location.replace(createPageUrl(`MentoradoDetalhe?id=${mentorado.id}`));
+        }
       }
     }
   }, [userData, mentorados, userLoading, mentoradosLoading]);
