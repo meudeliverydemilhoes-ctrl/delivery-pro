@@ -47,6 +47,7 @@ export default function Layout({ children, currentPageName }) {
 
   const navigationMentorado = [
     { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
+    { name: "Mentorados", page: "Mentorados", icon: Users },
     { name: "Processos", page: "GestaoFinanceira", icon: ClipboardList },
   ];
 
