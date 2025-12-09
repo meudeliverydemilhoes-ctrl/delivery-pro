@@ -10,56 +10,20 @@ import {
 } from "lucide-react";
 
 export default function AreaMentorado() {
-  const [user, setUser] = React.useState(null);
-  const [mentorado, setMentorado] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const urlParams = new URLSearchParams(window.location.search);
+  const mentoradoIdFromUrl = urlParams.get("id");
 
-  React.useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mentoradoIdFromUrl = urlParams.get("id");
-    
-    // Timeout de segurança
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+  const { data: mentorado, isLoading } = useQuery({
+    queryKey: ["mentorado", mentoradoIdFromUrl],
+    queryFn: () => base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl }),
+    select: (data) => data[0],
+    enabled: !!mentoradoIdFromUrl
+  });
 
-    base44.auth.me()
-      .then(userData => {
-        setUser(userData);
-        if (mentoradoIdFromUrl) {
-          return base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
-        } else {
-          return base44.entities.Mentorado.filter({ email: userData.email });
-        }
-      })
-      .then(mentorados => {
-        if (mentorados && mentorados.length > 0) {
-          setMentorado(mentorados[0]);
-        }
-        clearTimeout(timeout);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-        clearTimeout(timeout);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <p className="text-white">Carregando...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-white/50">Você precisa estar logado.</p>
-        </div>
       </div>
     );
   }
@@ -69,7 +33,7 @@ export default function AreaMentorado() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <p className="text-white/50">Perfil não encontrado.</p>
-          <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
+          <p className="text-white/30 mt-2">Verifique o link de acesso.</p>
         </div>
       </div>
     );
