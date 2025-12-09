@@ -37,17 +37,6 @@ export default function Layout({ children, currentPageName }) {
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
 
-  // Se for mentorado tentando acessar outra página que não seja AreaMentorado, mostrar mensagem
-  if (isMentorado && currentPageName !== 'AreaMentorado') {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-4">
-        <div className="text-center">
-          <p className="text-white/70 mb-4">Acesso restrito à sua área de mentorado</p>
-        </div>
-      </div>
-    );
-  }
-
   // Loading inicial
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
@@ -75,6 +64,17 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   const navigation = isMentor ? navigationMentor : navigationMentorado;
+
+  // Se for mentorado, não mostrar sidebar
+  if (isMentorado) {
+    return (
+      <div className="min-h-screen bg-black text-white">
+        <div className="p-4 lg:p-8">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
