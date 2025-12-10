@@ -20,10 +20,6 @@ import {
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 
 export default function Layout({ children, currentPageName }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
   // Páginas de mentorado não precisam de autenticação
   const paginasMentorado = [
     "AreaMentorado", "MentoradoBriefing", "MentoradoDiagnostico", 
@@ -34,31 +30,41 @@ export default function Layout({ children, currentPageName }) {
   ];
   const isPaginaMentorado = paginasMentorado.includes(currentPageName);
 
+  // Se for página de mentorado, renderizar direto sem layout
+  if (isPaginaMentorado) {
+    return (
+      <div className="min-h-screen bg-black text-white">
+        <div className="p-4 lg:p-8">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (!isPaginaMentorado) {
-      base44.auth.me().then((userData) => {
-        setUser(userData);
-        setLoading(false);
-      }).catch(() => {
-        setUser(null);
-        setLoading(false);
-      });
-    } else {
+    base44.auth.me().then((userData) => {
+      setUser(userData);
       setLoading(false);
-    }
-  }, [isPaginaMentorado]);
+    }).catch(() => {
+      setUser(null);
+      setLoading(false);
+    });
+  }, []);
 
   const isMentor = user?.role === "admin";
   const isMentorado = user?.role === "user";
 
-  // Loading inicial (só para páginas que precisam de auth)
-  if (loading && !isPaginaMentorado) {
+  if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
       <p className="text-white">Carregando...</p>
     </div>;
   }
   
-  if (!user && !isPaginaMentorado) {
+  if (!user) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
       <p className="text-white">Carregando autenticação...</p>
     </div>;
@@ -85,8 +91,8 @@ export default function Layout({ children, currentPageName }) {
 
   const navigation = isMentor ? navigationMentor : navigationMentorado;
 
-  // Se for mentorado ou página de mentorado, não mostrar sidebar
-  if (isMentorado || isPaginaMentorado) {
+  // Se for mentorado, não mostrar sidebar
+  if (isMentorado) {
     return (
       <div className="min-h-screen bg-black text-white">
         <div className="p-4 lg:p-8">
