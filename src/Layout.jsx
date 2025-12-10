@@ -50,17 +50,18 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     base44.auth.me().then((userData) => {
       setUser(userData);
-      setLoading(false);
       
       // Se for user (mentorado) e não estiver em página de mentorado, redirecionar
-      if (userData.role === "user" && !isPaginaMentorado) {
+      if (userData.role === "user" && currentPageName !== "PortalMentorados" && !isPaginaMentorado) {
         navigate(createPageUrl("PortalMentorados"));
+      } else {
+        setLoading(false);
       }
     }).catch(() => {
       setUser(null);
       setLoading(false);
     });
-  }, [navigate, isPaginaMentorado]);
+  }, [navigate, currentPageName, isPaginaMentorado]);
 
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
