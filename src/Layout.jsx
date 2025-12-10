@@ -24,7 +24,7 @@ export default function Layout({ children, currentPageName }) {
   
   // Páginas de mentorado não precisam de autenticação
   const paginasMentorado = [
-    "AreaMentorado", "MentoradoBriefing", "MentoradoDiagnostico", 
+    "AreaMentorado", "MentoradoDetalhe", "MentoradoBriefing", "MentoradoDiagnostico", 
     "MentoradoCardapio", "MentoradoFluxogramas", "MentoradoPainel",
     "MentoradoPilares", "MentoradoTarefas", "MentoradoNotas", 
     "MentoradoArquivos", "MentoradoFichasTecnicas", "MentoradoEvolucao",
