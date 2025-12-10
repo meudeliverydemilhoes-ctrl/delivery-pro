@@ -1,5 +1,4 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -10,69 +9,53 @@ import {
 } from "lucide-react";
 
 export default function AreaMentorado() {
+  const [mentorado, setMentorado] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const urlParams = new URLSearchParams(window.location.search);
-  const mentoradoIdFromUrl = urlParams.get("id");
+  const mentoradoId = urlParams.get("id");
 
-  const { data: mentorado, isLoading, error } = useQuery({
-    queryKey: ["mentorado", mentoradoIdFromUrl],
-    queryFn: async () => {
-      console.log("Buscando mentorado com ID:", mentoradoIdFromUrl);
-      const result = await base44.entities.Mentorado.filter({ id: mentoradoIdFromUrl });
-      console.log("Resultado da busca:", result);
-      return result;
-    },
-    select: (data) => data?.[0],
-    enabled: !!mentoradoIdFromUrl,
-    retry: false
-  });
+  useEffect(() => {
+    if (!mentoradoId) {
+      setError("ID não fornecido");
+      setLoading(false);
+      return;
+    }
 
-  console.log("Estado atual:", { isLoading, mentorado, error, mentoradoIdFromUrl });
+    base44.entities.Mentorado.filter({ id: mentoradoId })
+      .then((result) => {
+        if (result && result.length > 0) {
+          setMentorado(result[0]);
+        } else {
+          setError("Mentorado não encontrado");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [mentoradoId]);
 
-  if (!mentoradoIdFromUrl) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-white/50">Link inválido.</p>
-          <p className="text-white/30 mt-2">ID do mentorado não encontrado na URL.</p>
-        </div>
+        <p className="text-white">Carregando...</p>
       </div>
     );
   }
 
-  if (isLoading) {
+  if (error || !mentorado) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white">Carregando perfil...</p>
-          <p className="text-white/30 text-xs mt-2">ID: {mentoradoIdFromUrl}</p>
+          <p className="text-white/50">Perfil não encontrado</p>
+          <p className="text-white/30 text-xs mt-2">{error || "Erro desconhecido"}</p>
         </div>
       </div>
     );
   }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-400">Erro ao carregar perfil</p>
-          <p className="text-white/30 text-xs mt-2">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!mentorado) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-white/50">Perfil não encontrado.</p>
-          <p className="text-white/30 mt-2">ID: {mentoradoIdFromUrl}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const mentoradoId = mentorado.id;
 
   return (
     <div className="min-h-screen bg-black text-white">

@@ -24,27 +24,7 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    base44.auth.me().then((userData) => {
-      setUser(userData);
-      setLoading(false);
-    }).catch(() => {
-      setUser(null);
-      setLoading(false);
-    });
-  }, []);
-
-  const isMentor = user?.role === "admin";
-  const isMentorado = user?.role === "user";
-
-  // Loading inicial
-  if (loading) {
-    return <div className="min-h-screen bg-black flex items-center justify-center">
-      <p className="text-white">Carregando...</p>
-    </div>;
-  }
-
-  // Páginas de mentorado não precisam de autenticação pesada
+  // Páginas de mentorado não precisam de autenticação
   const paginasMentorado = [
     "AreaMentorado", "MentoradoBriefing", "MentoradoDiagnostico", 
     "MentoradoCardapio", "MentoradoFluxogramas", "MentoradoPainel",
@@ -53,6 +33,30 @@ export default function Layout({ children, currentPageName }) {
     "Fornecedores"
   ];
   const isPaginaMentorado = paginasMentorado.includes(currentPageName);
+
+  useEffect(() => {
+    if (!isPaginaMentorado) {
+      base44.auth.me().then((userData) => {
+        setUser(userData);
+        setLoading(false);
+      }).catch(() => {
+        setUser(null);
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+  }, [isPaginaMentorado]);
+
+  const isMentor = user?.role === "admin";
+  const isMentorado = user?.role === "user";
+
+  // Loading inicial (só para páginas que precisam de auth)
+  if (loading && !isPaginaMentorado) {
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <p className="text-white">Carregando...</p>
+    </div>;
+  }
   
   if (!user && !isPaginaMentorado) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
