@@ -24,8 +24,8 @@ export default function PortalMentorados() {
         const mentorados = await base44.entities.Mentorado.filter({ email: user.email });
 
         if (mentorados && mentorados.length > 0) {
-          // Redirecionar para área do mentorado
-          navigate(createPageUrl(`AreaMentorado?id=${mentorados[0].id}`));
+          // Redirecionar para página de detalhe do mentorado
+          navigate(createPageUrl(`MentoradoDetalhe?id=${mentorados[0].id}`));
         } else {
           setError("Nenhum perfil de mentorado encontrado para seu email.");
           setLoading(false);
