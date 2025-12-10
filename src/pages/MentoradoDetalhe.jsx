@@ -77,6 +77,8 @@ export default function MentoradoDetalhe() {
   const [pilarDialogOpen, setPilarDialogOpen] = useState(false);
   const [evolucaoDialogOpen, setEvolucaoDialogOpen] = useState(false);
   const [selectedPilar, setSelectedPilar] = useState(null);
+  const [permissaoNegada, setPermissaoNegada] = useState(false);
+  const [checkingPermission, setCheckingPermission] = useState(true);
 
   const { data: mentorado, isLoading } = useQuery({
     queryKey: ["mentorado", mentoradoId],
@@ -84,6 +86,32 @@ export default function MentoradoDetalhe() {
     select: (data) => data[0],
     enabled: !!mentoradoId
   });
+
+  // Verificar permissão de acesso
+  React.useEffect(() => {
+    if (mentorado && !isLoading) {
+      base44.auth.me()
+        .then((user) => {
+          // Admin tem acesso total
+          if (user.role === "admin") {
+            setCheckingPermission(false);
+            return;
+          }
+
+          // Usuário comum só pode acessar se o email bater
+          if (user.email === mentorado.email) {
+            setCheckingPermission(false);
+          } else {
+            setPermissaoNegada(true);
+            setCheckingPermission(false);
+          }
+        })
+        .catch(() => {
+          setPermissaoNegada(true);
+          setCheckingPermission(false);
+        });
+    }
+  }, [mentorado, isLoading]);
 
   const { data: briefing } = useQuery({
     queryKey: ["briefing", mentoradoId],
@@ -329,12 +357,24 @@ export default function MentoradoDetalhe() {
     desistente: "bg-red-500/20 text-red-400 border-red-500/30",
   };
 
-  if (isLoading) {
+  if (isLoading || checkingPermission) {
     return (
       <div className="max-w-6xl mx-auto">
         <div className="animate-pulse space-y-6">
           <div className="h-8 bg-white/10 rounded w-48" />
           <div className="h-32 bg-white/5 rounded-2xl" />
+        </div>
+      </div>
+    );
+  }
+
+  if (permissaoNegada) {
+    return (
+      <div className="max-w-6xl mx-auto text-center py-16">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-8 max-w-md mx-auto">
+          <p className="text-red-400 text-lg font-semibold mb-2">Acesso Negado</p>
+          <p className="text-white/60">Você não tem permissão para acessar esta área.</p>
+          <p className="text-white/40 text-sm mt-4">Entre em contato com seu mentor.</p>
         </div>
       </div>
     );
