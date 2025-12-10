@@ -20,13 +20,15 @@ import {
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 
 export default function Layout({ children, currentPageName }) {
+  const navigate = useNavigate();
+  
   // Páginas de mentorado não precisam de autenticação
   const paginasMentorado = [
     "AreaMentorado", "MentoradoBriefing", "MentoradoDiagnostico", 
     "MentoradoCardapio", "MentoradoFluxogramas", "MentoradoPainel",
     "MentoradoPilares", "MentoradoTarefas", "MentoradoNotas", 
     "MentoradoArquivos", "MentoradoFichasTecnicas", "MentoradoEvolucao",
-    "Fornecedores"
+    "Fornecedores", "PortalMentorados"
   ];
   const isPaginaMentorado = paginasMentorado.includes(currentPageName);
 
@@ -49,14 +51,16 @@ export default function Layout({ children, currentPageName }) {
     base44.auth.me().then((userData) => {
       setUser(userData);
       setLoading(false);
+      
+      // Se for user (mentorado) e não estiver em página de mentorado, redirecionar
+      if (userData.role === "user" && !isPaginaMentorado) {
+        navigate(createPageUrl("PortalMentorados"));
+      }
     }).catch(() => {
       setUser(null);
       setLoading(false);
     });
-  }, []);
-
-  const isMentor = user?.role === "admin";
-  const isMentorado = user?.role === "user";
+  }, [navigate, isPaginaMentorado]);
 
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center">
@@ -69,6 +73,8 @@ export default function Layout({ children, currentPageName }) {
       <p className="text-white">Carregando autenticação...</p>
     </div>;
   }
+
+  const isMentor = user?.role === "admin";
 
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
@@ -85,22 +91,7 @@ export default function Layout({ children, currentPageName }) {
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
-  const navigationMentorado = [
-    { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
-  ];
-
-  const navigation = isMentor ? navigationMentor : navigationMentorado;
-
-  // Se for mentorado, não mostrar sidebar
-  if (isMentorado) {
-    return (
-      <div className="min-h-screen bg-black text-white">
-        <div className="p-4 lg:p-8">
-          {children}
-        </div>
-      </div>
-    );
-  }
+  const navigation = navigationMentor;
 
   return (
     <div className="min-h-screen bg-black text-white">
