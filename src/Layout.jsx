@@ -72,7 +72,7 @@ export default function Layout({ children, currentPageName }) {
   const isMentor = user?.role === "admin";
 
   const navigationMentor = [
-            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
+            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, adminOnly: true },
             { name: "Mentorados", page: "Mentorados", icon: Users },
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
