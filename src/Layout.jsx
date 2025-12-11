@@ -74,7 +74,6 @@ export default function Layout({ children, currentPageName }) {
   const isMentorPrincipal = emailsComAcessoDashboard.includes(user?.email);
 
   const navigationMentor = [
-            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, mentorPrincipalOnly: true },
             { name: "Mentorados", page: "Mentorados", icon: Users },
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
