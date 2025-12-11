@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
   Users,
@@ -19,6 +19,30 @@ import { format, isToday, isTomorrow, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    base44.auth.me().then((userData) => {
+      if (userData.email !== "brendaraul.br@gmail.com") {
+        navigate(createPageUrl("Mentorados"));
+      } else {
+        setUser(userData);
+        setLoading(false);
+      }
+    }).catch(() => {
+      navigate(createPageUrl("Mentorados"));
+    });
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
+        <p className="text-white/50">Carregando...</p>
+      </div>
+    );
+  }
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
     queryFn: () => base44.entities.Mentorado.list()
