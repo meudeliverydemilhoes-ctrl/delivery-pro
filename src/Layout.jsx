@@ -70,7 +70,8 @@ export default function Layout({ children, currentPageName }) {
   }
 
   const isMentor = user?.role === "admin";
-  const isMentorPrincipal = user?.email === "brendaraul.br@gmail.com";
+  const emailsComAcessoDashboard = ["brendaraul.br@gmail.com"];
+  const isMentorPrincipal = emailsComAcessoDashboard.includes(user?.email);
 
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, mentorPrincipalOnly: true },
