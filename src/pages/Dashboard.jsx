@@ -24,16 +24,16 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const emailsPermitidos = ["brendaraul.br@gmail.com"];
+    const emailPermitido = "brendaraul.br@gmail.com";
     base44.auth.me().then((userData) => {
-      if (!emailsPermitidos.includes(userData.email)) {
-        navigate(createPageUrl("Mentorados"));
-      } else {
-        setUser(userData);
-        setLoading(false);
+      if (userData.email !== emailPermitido) {
+        window.location.href = createPageUrl("Mentorados");
+        return;
       }
+      setUser(userData);
+      setLoading(false);
     }).catch(() => {
-      navigate(createPageUrl("Mentorados"));
+      window.location.href = createPageUrl("Mentorados");
     });
   }, [navigate]);
 
