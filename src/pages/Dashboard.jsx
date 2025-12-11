@@ -24,8 +24,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const emailsPermitidos = ["brendaraul.br@gmail.com"];
     base44.auth.me().then((userData) => {
-      if (userData.email !== "brendaraul.br@gmail.com") {
+      if (!emailsPermitidos.includes(userData.email)) {
         navigate(createPageUrl("Mentorados"));
       } else {
         setUser(userData);
