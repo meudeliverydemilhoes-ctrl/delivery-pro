@@ -74,7 +74,6 @@ export default function Layout({ children, currentPageName }) {
   const isMentorPrincipal = emailsComAcessoDashboard.includes(user?.email);
 
   const navigationMentor = [
-            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, mentorPrincipalOnly: true },
             { name: "Mentorados", page: "Mentorados", icon: Users },
             { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
@@ -88,8 +87,12 @@ export default function Layout({ children, currentPageName }) {
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
+  // Adicionar Dashboard apenas para você
+  if (isMentorPrincipal) {
+    navigationMentor.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
+  }
+
   const navigation = navigationMentor.filter(item => {
-    if (item.mentorPrincipalOnly) return isMentorPrincipal;
     if (item.adminOnly) return isMentor;
     return true;
   });
