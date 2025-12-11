@@ -74,7 +74,7 @@ export default function Layout({ children, currentPageName }) {
   const navigationMentor = [
             { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
             { name: "Mentorados", page: "Mentorados", icon: Users },
-            { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
+            { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
             { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
             { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
             { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
@@ -86,7 +86,7 @@ export default function Layout({ children, currentPageName }) {
           { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
-  const navigation = navigationMentor;
+  const navigation = navigationMentor.filter(item => !item.adminOnly || isMentor);
 
   return (
     <div className="min-h-screen bg-black text-white">
