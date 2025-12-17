@@ -90,11 +90,6 @@ export default function Layout({ children, currentPageName }) {
     return true;
   });
 
-  // Dashboard APENAS para email brendaraul.br@gmail.com - última posição
-  if (isPrincipal) {
-    navigation.push({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
-  }
-
   return (
     <div className="min-h-screen bg-black text-white">
       <style>{`

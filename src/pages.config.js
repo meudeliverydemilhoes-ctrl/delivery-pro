@@ -1,4 +1,3 @@
-import Dashboard from './pages/Dashboard';
 import Mentorados from './pages/Mentorados';
 import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Cursos from './pages/Cursos';
@@ -30,7 +29,6 @@ import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Dashboard": Dashboard,
     "Mentorados": Mentorados,
     "MentoradoDetalhe": MentoradoDetalhe,
     "Cursos": Cursos,
@@ -61,7 +59,7 @@ export const PAGES = {
 }
 
 export const pagesConfig = {
-    mainPage: "Dashboard",
+    mainPage: "Mentorados",
     Pages: PAGES,
     Layout: __Layout,
 };
