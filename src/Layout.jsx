@@ -71,6 +71,9 @@ export default function Layout({ children, currentPageName }) {
 
   const isMentor = user?.role === "admin";
   const isPrincipal = user?.email === "brendaraul.br@gmail.com";
+  
+  console.log("User email:", user?.email);
+  console.log("Is Principal:", isPrincipal);
 
   let navigation = [
     { name: "Mentorados", page: "Mentorados", icon: Users },
