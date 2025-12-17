@@ -119,7 +119,11 @@ export default function Layout({ children, currentPageName }) {
                     button[data-variant="outline"],
                     button.border-white\/10:not([class*="bg-"]),
                     button.border-white\/10,
-                    a button[class*="border-white"] {
+                    button[class*="border-white"],
+                    button[class*="border-gray"],
+                    a button[class*="border-white"],
+                    [class*="border-white/10"] button:not([class*="bg-emerald"]):not([class*="bg-red"]):not([class*="bg-blue"]),
+                    button[class*="outline"]:not([class*="bg-"]) {
                       background-color: var(--orange) !important;
                       border-color: var(--orange) !important;
                       color: white !important;
@@ -131,7 +135,8 @@ export default function Layout({ children, currentPageName }) {
                     .bg-white button *,
                     .bg-gray-100 button *,
                     button[data-variant="outline"] *,
-                    button.border-white\/10:not([class*="bg-"]) * {
+                    button.border-white\/10:not([class*="bg-"]) *,
+                    button[class*="outline"]:not([class*="bg-"]) * {
                       color: white !important;
                     }
 

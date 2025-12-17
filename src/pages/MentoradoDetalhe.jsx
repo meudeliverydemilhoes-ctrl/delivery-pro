@@ -544,7 +544,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setPilarDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setPilarDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
               <Button onClick={handleAddPilar} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
@@ -619,7 +619,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
               <Button onClick={handleAddEvolucao} disabled={!evolucaoForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
