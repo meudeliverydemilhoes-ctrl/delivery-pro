@@ -70,30 +70,30 @@ export default function Layout({ children, currentPageName }) {
   }
 
   const isMentor = user?.role === "admin";
-  const emailsComAcessoDashboard = ["brendaraul.br@gmail.com"];
-  const isMentorPrincipal = emailsComAcessoDashboard.includes(user?.email);
 
-  const navigationMentor = [
-            { name: "Mentorados", page: "Mentorados", icon: Users },
-            { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
-            { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
-            { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
-            { name: "Cursos", page: "Cursos", icon: BookOpen },
-            { name: "Biblioteca", page: "Biblioteca", icon: Library },
-            { name: "Agenda", page: "Agenda", icon: Calendar },
-            { name: "Notas", page: "Notas", icon: Lightbulb },
-          { name: "Automações", page: "Automacoes", icon: Zap },
-          { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
-          ];
+  let navigation = [
+    { name: "Mentorados", page: "Mentorados", icon: Users },
+    { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
+    { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
+    { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
+    { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
+    { name: "Cursos", page: "Cursos", icon: BookOpen },
+    { name: "Biblioteca", page: "Biblioteca", icon: Library },
+    { name: "Agenda", page: "Agenda", icon: Calendar },
+    { name: "Notas", page: "Notas", icon: Lightbulb },
+    { name: "Automações", page: "Automacoes", icon: Zap },
+    { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
+  ];
 
-  // Adicionar Dashboard apenas para você
-  if (isMentorPrincipal) {
-    navigationMentor.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, mentorPrincipalOnly: true });
+  // Dashboard EXCLUSIVO para brendaraul.br@gmail.com
+  if (user?.email === "brendaraul.br@gmail.com") {
+    navigation = [
+      { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
+      ...navigation
+    ];
   }
 
-  const navigation = navigationMentor.filter(item => {
-    if (item.mentorPrincipalOnly) return isMentorPrincipal;
+  navigation = navigation.filter(item => {
     if (item.adminOnly) return isMentor;
     return true;
   });
