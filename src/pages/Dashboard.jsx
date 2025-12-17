@@ -27,13 +27,13 @@ export default function Dashboard() {
     const emailPermitido = "brendaraul.br@gmail.com";
     base44.auth.me().then((userData) => {
       if (userData.email !== emailPermitido) {
-        window.location.href = createPageUrl("Mentorados");
+        navigate(createPageUrl("Mentorados"), { replace: true });
         return;
       }
       setUser(userData);
       setLoading(false);
     }).catch(() => {
-      window.location.href = createPageUrl("Mentorados");
+      navigate(createPageUrl("Mentorados"), { replace: true });
     });
   }, [navigate]);
 
