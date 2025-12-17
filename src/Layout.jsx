@@ -86,15 +86,15 @@ export default function Layout({ children, currentPageName }) {
     { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
   ];
 
-  // Dashboard APENAS para email brendaraul.br@gmail.com
-  if (isPrincipal) {
-    navigation.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
-  }
-
   navigation = navigation.filter(item => {
     if (item.adminOnly) return isMentor;
     return true;
   });
+
+  // Dashboard APENAS para email brendaraul.br@gmail.com - última posição
+  if (isPrincipal) {
+    navigation.push({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
