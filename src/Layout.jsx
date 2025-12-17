@@ -70,6 +70,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   const isMentor = user?.role === "admin";
+  const isPrincipal = user?.email === "brendaraul.br@gmail.com";
 
   let navigation = [
     { name: "Mentorados", page: "Mentorados", icon: Users },
@@ -85,12 +86,9 @@ export default function Layout({ children, currentPageName }) {
     { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
   ];
 
-  // Dashboard EXCLUSIVO para brendaraul.br@gmail.com
-  if (user?.email === "brendaraul.br@gmail.com") {
-    navigation = [
-      { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-      ...navigation
-    ];
+  // Dashboard APENAS para email brendaraul.br@gmail.com
+  if (isPrincipal) {
+    navigation.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
   }
 
   navigation = navigation.filter(item => {
