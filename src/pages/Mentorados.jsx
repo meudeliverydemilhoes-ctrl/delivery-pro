@@ -15,7 +15,10 @@ import {
   Edit2,
   Trash2,
   X,
-  Home
+  Home,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,6 +50,8 @@ export default function Mentorados() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("todos");
   const [etapaFilter, setEtapaFilter] = useState("todos");
+  const [dateFilter, setDateFilter] = useState("todos");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
   const [formData, setFormData] = useState({
@@ -132,15 +137,35 @@ export default function Mentorados() {
     }
   };
 
-  const filtered = mentorados.filter((m) => {
-    const matchSearch =
-      m.nome?.toLowerCase().includes(search.toLowerCase()) ||
-      m.negocio?.toLowerCase().includes(search.toLowerCase()) ||
-      m.cidade?.toLowerCase().includes(search.toLowerCase());
-    const matchStatus = statusFilter === "todos" || m.status === statusFilter;
-    const matchEtapa = etapaFilter === "todos" || m.etapa === etapaFilter;
-    return matchSearch && matchStatus && matchEtapa;
-  });
+  const filtered = mentorados
+    .filter((m) => {
+      const matchSearch =
+        m.nome?.toLowerCase().includes(search.toLowerCase()) ||
+        m.negocio?.toLowerCase().includes(search.toLowerCase()) ||
+        m.cidade?.toLowerCase().includes(search.toLowerCase()) ||
+        m.status?.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = statusFilter === "todos" || m.status === statusFilter;
+      const matchEtapa = etapaFilter === "todos" || m.etapa === etapaFilter;
+      
+      let matchDate = true;
+      if (dateFilter !== "todos" && m.created_date) {
+        const createdDate = new Date(m.created_date);
+        const now = new Date();
+        const diffDays = Math.floor((now - createdDate) / (1000 * 60 * 60 * 24));
+        
+        if (dateFilter === "hoje") matchDate = diffDays === 0;
+        else if (dateFilter === "semana") matchDate = diffDays <= 7;
+        else if (dateFilter === "mes") matchDate = diffDays <= 30;
+        else if (dateFilter === "trimestre") matchDate = diffDays <= 90;
+      }
+      
+      return matchSearch && matchStatus && matchEtapa && matchDate;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.created_date || 0);
+      const dateB = new Date(b.created_date || 0);
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+    });
 
   const statusColors = {
     ativo: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
@@ -177,43 +202,77 @@ export default function Mentorados() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
-          <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-          <Input
-            placeholder="Buscar por nome, negócio ou cidade..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
-          />
+      <div className="space-y-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+            <Input
+              placeholder="Buscar por nome, negócio, cidade ou status..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
+            />
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
+            className="bg-white/5 border-white/10 text-white hover:bg-white/10 min-w-[140px]"
+          >
+            {sortOrder === "desc" ? (
+              <>
+                <ArrowDown size={16} className="mr-2" />
+                Mais Recentes
+              </>
+            ) : (
+              <>
+                <ArrowUp size={16} className="mr-2" />
+                Mais Antigos
+              </>
+            )}
+          </Button>
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full sm:w-40 bg-white/5 border-white/10 text-white">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent className="bg-zinc-900 border-white/10">
-            <SelectItem value="todos">Todos Status</SelectItem>
-            <SelectItem value="ativo">Ativo</SelectItem>
-            <SelectItem value="pausado">Pausado</SelectItem>
-            <SelectItem value="concluido">Concluído</SelectItem>
-            <SelectItem value="desistente">Desistente</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={etapaFilter} onValueChange={setEtapaFilter}>
-          <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
-            <SelectValue placeholder="Etapa" />
-          </SelectTrigger>
-          <SelectContent className="bg-zinc-900 border-white/10">
-            <SelectItem value="todos">Todas Etapas</SelectItem>
-            <SelectItem value="diagnostico">Diagnóstico</SelectItem>
-            <SelectItem value="pilar1">Pilar 1</SelectItem>
-            <SelectItem value="pilar2">Pilar 2</SelectItem>
-            <SelectItem value="pilar3">Pilar 3</SelectItem>
-            <SelectItem value="pilar4">Pilar 4</SelectItem>
-            <SelectItem value="pilar5">Pilar 5</SelectItem>
-            <SelectItem value="acompanhamento">Acompanhamento</SelectItem>
-          </SelectContent>
-        </Select>
+        
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-40 bg-white/5 border-white/10 text-white">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectItem value="todos">Todos Status</SelectItem>
+              <SelectItem value="ativo">Ativo</SelectItem>
+              <SelectItem value="pausado">Pausado</SelectItem>
+              <SelectItem value="concluido">Concluído</SelectItem>
+              <SelectItem value="desistente">Desistente</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={etapaFilter} onValueChange={setEtapaFilter}>
+            <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
+              <SelectValue placeholder="Etapa" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectItem value="todos">Todas Etapas</SelectItem>
+              <SelectItem value="diagnostico">Diagnóstico</SelectItem>
+              <SelectItem value="pilar1">Pilar 1</SelectItem>
+              <SelectItem value="pilar2">Pilar 2</SelectItem>
+              <SelectItem value="pilar3">Pilar 3</SelectItem>
+              <SelectItem value="pilar4">Pilar 4</SelectItem>
+              <SelectItem value="pilar5">Pilar 5</SelectItem>
+              <SelectItem value="acompanhamento">Acompanhamento</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={dateFilter} onValueChange={setDateFilter}>
+            <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
+              <SelectValue placeholder="Data Criação" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectItem value="todos">Todas Datas</SelectItem>
+              <SelectItem value="hoje">Hoje</SelectItem>
+              <SelectItem value="semana">Última Semana</SelectItem>
+              <SelectItem value="mes">Último Mês</SelectItem>
+              <SelectItem value="trimestre">Último Trimestre</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Grid */}
