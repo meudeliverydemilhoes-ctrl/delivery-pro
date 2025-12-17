@@ -18,6 +18,7 @@ import {
   BarChart3
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
+import NotificationBell from "@/components/NotificationBell";
 
 export default function Layout({ children, currentPageName }) {
   const navigate = useNavigate();
@@ -199,12 +200,15 @@ export default function Layout({ children, currentPageName }) {
             </div>
             <span className="font-semibold text-lg tracking-tight">Delivery Pro</span>
           </div>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -217,14 +221,17 @@ export default function Layout({ children, currentPageName }) {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
-                <span className="text-white font-bold text-lg">D</span>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
+                  <span className="text-white font-bold text-lg">D</span>
+                </div>
+                <div>
+                  <h1 className="font-bold text-lg tracking-tight">Delivery Pro</h1>
+                  <p className="text-xs text-white/50">Gestão de Mentorias</p>
+                </div>
               </div>
-              <div>
-                <h1 className="font-bold text-lg tracking-tight">Delivery Pro</h1>
-                <p className="text-xs text-white/50">Gestão de Mentorias</p>
-              </div>
+              <NotificationBell />
             </div>
           </div>
 
