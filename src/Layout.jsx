@@ -89,10 +89,11 @@ export default function Layout({ children, currentPageName }) {
 
   // Adicionar Dashboard apenas para você
   if (isMentorPrincipal) {
-    navigationMentor.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
+    navigationMentor.unshift({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard, mentorPrincipalOnly: true });
   }
 
   const navigation = navigationMentor.filter(item => {
+    if (item.mentorPrincipalOnly) return isMentorPrincipal;
     if (item.adminOnly) return isMentor;
     return true;
   });
