@@ -19,31 +19,6 @@ import { format, isToday, isTomorrow, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const emailPermitido = "brendaraul.br@gmail.com";
-    base44.auth.me().then((userData) => {
-      if (userData.email !== emailPermitido) {
-        navigate(createPageUrl("Mentorados"), { replace: true });
-        return;
-      }
-      setUser(userData);
-      setLoading(false);
-    }).catch(() => {
-      navigate(createPageUrl("Mentorados"), { replace: true });
-    });
-  }, [navigate]);
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
-        <p className="text-white/50">Carregando...</p>
-      </div>
-    );
-  }
   const { data: mentorados = [] } = useQuery({
     queryKey: ["mentorados"],
     queryFn: () => base44.entities.Mentorado.list()

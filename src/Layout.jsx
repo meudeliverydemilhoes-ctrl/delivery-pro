@@ -70,12 +70,9 @@ export default function Layout({ children, currentPageName }) {
   }
 
   const isMentor = user?.role === "admin";
-  const isPrincipal = user?.email === "brendaraul.br@gmail.com";
-  
-  console.log("User email:", user?.email);
-  console.log("Is Principal:", isPrincipal);
 
   let navigation = [
+    { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
     { name: "Mentorados", page: "Mentorados", icon: Users },
     { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
     { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
@@ -92,11 +89,6 @@ export default function Layout({ children, currentPageName }) {
     if (item.adminOnly) return isMentor;
     return true;
   });
-
-  // Dashboard APENAS para email brendaraul.br@gmail.com - última posição
-  if (isPrincipal) {
-    navigation.push({ name: "Dashboard", page: "Dashboard", icon: LayoutDashboard });
-  }
 
   return (
     <div className="min-h-screen bg-black text-white">
