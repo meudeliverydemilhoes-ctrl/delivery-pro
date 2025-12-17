@@ -78,7 +78,6 @@ export default function Layout({ children, currentPageName }) {
     { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
     { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
     { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
-    { name: "Cursos", page: "Cursos", icon: BookOpen },
     { name: "Biblioteca", page: "Biblioteca", icon: Library },
     { name: "Agenda", page: "Agenda", icon: Calendar },
     { name: "Notas", page: "Notas", icon: Lightbulb },
