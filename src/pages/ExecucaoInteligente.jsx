@@ -1061,10 +1061,30 @@ export default function ExecucaoInteligente() {
                     </div>
                     <Button
                       onClick={() => {
+                        if (mentorados.length === 0) {
+                          alert("Nenhum mentorado ativo encontrado. Crie um mentorado primeiro.");
+                          return;
+                        }
+                        
+                        // Se houver apenas 1 mentorado, aplica direto. Se houver mais, pede pra escolher
+                        let mentoradoId;
+                        if (mentorados.length === 1) {
+                          mentoradoId = mentorados[0].id;
+                        } else {
+                          const mentoradoNome = prompt(`Digite o nome do mentorado:\n\n${mentorados.map(m => m.nome).join('\n')}`);
+                          const mentorado = mentorados.find(m => m.nome.toLowerCase().includes(mentoradoNome?.toLowerCase() || ''));
+                          if (!mentorado) {
+                            alert("Mentorado não encontrado");
+                            return;
+                          }
+                          mentoradoId = mentorado.id;
+                        }
+                        
                         // Criar múltiplos planos de ação
                         plano.acoes.forEach((acao, index) => {
                           setTimeout(() => {
                             createPlanoAcaoMutation.mutate({
+                              mentorado_id: mentoradoId,
                               problema: plano.problema,
                               acao_corretiva: acao.acao,
                               pilar: plano.pilar,
