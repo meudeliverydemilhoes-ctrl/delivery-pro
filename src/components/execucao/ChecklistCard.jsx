@@ -124,6 +124,7 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
       execucao_id: execucao.id,
       item_checklist: execucao.itens[reprovarDialog].texto,
       problema: motivoReprovacao || `Item "${execucao.itens[reprovarDialog].texto}" não foi executado corretamente`,
+      acao_corretiva: `Corrigir: ${execucao.itens[reprovarDialog].texto}`,
       pilar: execucao.pilar
     });
 
