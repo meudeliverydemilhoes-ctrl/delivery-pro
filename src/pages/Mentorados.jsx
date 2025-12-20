@@ -54,7 +54,8 @@ export default function Mentorados() {
   const [sortOrder, setSortOrder] = useState("desc");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
-  const [formData, setFormData] = useState({
+  
+  const getInitialFormData = () => ({
     nome: "",
     negocio: "",
     cidade: "",
@@ -66,6 +67,8 @@ export default function Mentorados() {
     observacoes: "",
     link_drive: "",
   });
+  
+  const [formData, setFormData] = useState(getInitialFormData());
 
   const { data: mentorados = [], isLoading } = useQuery({
     queryKey: ["mentorados"],
@@ -98,18 +101,7 @@ export default function Mentorados() {
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setEditingMentorado(null);
-    setFormData({
-      nome: "",
-      negocio: "",
-      cidade: "",
-      contato: "",
-      email: "",
-      status: "ativo",
-      etapa: "diagnostico",
-      data_entrada: format(new Date(), "yyyy-MM-dd"),
-      observacoes: "",
-      link_drive: "",
-    });
+    setFormData(getInitialFormData());
   };
 
   const handleEdit = (mentorado) => {
