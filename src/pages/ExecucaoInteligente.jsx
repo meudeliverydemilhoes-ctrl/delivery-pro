@@ -604,6 +604,8 @@ const sopsProntos = {
 
 export default function ExecucaoInteligente() {
   const queryClient = useQueryClient();
+  
+  // Estado
   const [activeTab, setActiveTab] = useState("execucoes");
   const [search, setSearch] = useState("");
   const [pilarFilter, setPilarFilter] = useState("todos");
@@ -617,17 +619,25 @@ export default function ExecucaoInteligente() {
   const [selectedChecklist, setSelectedChecklist] = useState(null);
   
   // Forms
-  const [checklistForm, setChecklistForm] = useState({
+  const getInitialChecklistForm = () => ({
     titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10
   });
-  const [novoItem, setNovoItem] = useState({ texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" });
-  const [sopForm, setSOPForm] = useState({
+  const getInitialNovoItem = () => ({ 
+    texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" 
+  });
+  const getInitialSOPForm = () => ({
     titulo: "", descricao: "", pilar: "processos", categoria: "operacional", conteudo: "", video_url: "", passos: []
   });
-  const [comunicadoForm, setComunicadoForm] = useState({
+  const getInitialComunicadoForm = () => ({
     titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false
   });
-  const [atribuirForm, setAtribuirForm] = useState({ mentorado_id: "", data_limite: "" });
+  const getInitialAtribuirForm = () => ({ mentorado_id: "", data_limite: "" });
+  
+  const [checklistForm, setChecklistForm] = useState(getInitialChecklistForm());
+  const [novoItem, setNovoItem] = useState(getInitialNovoItem());
+  const [sopForm, setSOPForm] = useState(getInitialSOPForm());
+  const [comunicadoForm, setComunicadoForm] = useState(getInitialComunicadoForm());
+  const [atribuirForm, setAtribuirForm] = useState(getInitialAtribuirForm());
 
   // Queries
   const { data: checklists = [] } = useQuery({
@@ -671,7 +681,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checklists"] });
       setChecklistDialogOpen(false);
-      setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
+      setChecklistForm(getInitialChecklistForm());
     }
   });
 
@@ -681,7 +691,7 @@ export default function ExecucaoInteligente() {
       queryClient.invalidateQueries({ queryKey: ["execucoes"] });
       setAtribuirDialogOpen(false);
       setSelectedChecklist(null);
-      setAtribuirForm({ mentorado_id: "", data_limite: "" });
+      setAtribuirForm(getInitialAtribuirForm());
     }
   });
 
@@ -697,7 +707,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sops"] });
       setSOPDialogOpen(false);
-      setSOPForm({ titulo: "", descricao: "", pilar: "processos", categoria: "operacional", conteudo: "", video_url: "", passos: [] });
+      setSOPForm(getInitialSOPForm());
     }
   });
 
@@ -706,7 +716,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comunicados"] });
       setComunicadoDialogOpen(false);
-      setComunicadoForm({ titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false });
+      setComunicadoForm(getInitialComunicadoForm());
     }
   });
 
@@ -717,7 +727,7 @@ export default function ExecucaoInteligente() {
         ...checklistForm,
         itens: [...checklistForm.itens, { ...novoItem }]
       });
-      setNovoItem({ texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" });
+      setNovoItem(getInitialNovoItem());
     }
   };
 
