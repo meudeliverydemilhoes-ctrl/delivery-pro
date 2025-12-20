@@ -120,16 +120,15 @@ export default function SOPCard({ sop, onAplicarChecklist }) {
               {/* Ações */}
               <div className="flex gap-2 pt-2">
                 <Button
-                  variant="outline"
                   onClick={() => setDetailsOpen(true)}
-                  className="flex-1 border-white/10 text-white"
+                  className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
                 >
                   <FileText size={16} className="mr-2" />
                   Ver Completo
                 </Button>
                 <Button
                   onClick={() => onAplicarChecklist?.(sop)}
-                  className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+                  className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
                 >
                   <Rocket size={16} className="mr-2" />
                   Aplicar Agora
