@@ -775,9 +775,14 @@ export default function ExecucaoInteligente() {
 
   const handleCreatePlanoAcao = (data) => {
     createPlanoAcaoMutation.mutate({
-      ...data,
-      prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-      prioridade: "media",
+      mentorado_id: data.mentorado_id,
+      problema: data.problema,
+      acao_corretiva: data.acao_corretiva || data.problema,
+      execucao_id: data.execucao_id,
+      item_checklist: data.item_checklist,
+      pilar: data.pilar,
+      prazo: data.prazo || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+      prioridade: data.prioridade || "media",
       status: "pendente"
     });
   };
