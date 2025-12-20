@@ -819,10 +819,10 @@ export default function ExecucaoInteligente() {
               <Home size={18} className="mr-2" /> Voltar ao Início
             </Button>
           </Link>
-          <Button variant="outline" onClick={() => setComunicadoDialogOpen(true)} className="border-white/10 text-white">
+          <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
             <Bell size={18} className="mr-2" /> Comunicado
           </Button>
-          <Button variant="outline" onClick={() => setSOPDialogOpen(true)} className="border-white/10 text-white">
+          <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
             <BookOpen size={18} className="mr-2" /> Novo SOP
           </Button>
           <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
@@ -992,8 +992,7 @@ export default function ExecucaoInteligente() {
                       </div>
                       <Button
                         onClick={() => createChecklistMutation.mutate(checklist)}
-                        variant="outline"
-                        className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                        className="w-full bg-[#FF4D00] hover:bg-[#E64500] text-white"
                         size="sm"
                       >
                         <Plus size={14} className="mr-1" /> Adicionar
@@ -1131,8 +1130,7 @@ export default function ExecucaoInteligente() {
                       <div className="flex gap-2">
                         <Button
                           onClick={() => createSOPMutation.mutate({ ...sop, ativo: true })}
-                          variant="outline"
-                          className="flex-1 border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                          className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
                           size="sm"
                         >
                           <Plus size={14} className="mr-1" /> Adicionar
@@ -1283,10 +1281,10 @@ export default function ExecucaoInteligente() {
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setChecklistDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setChecklistDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
-              <Button onClick={handleCreateChecklist} disabled={!checklistForm.titulo || checklistForm.itens.length === 0} className="flex-1 bg-[#FF4D00]">
+              <Button onClick={handleCreateChecklist} disabled={!checklistForm.titulo || checklistForm.itens.length === 0} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Criar Checklist
               </Button>
             </div>
@@ -1325,10 +1323,10 @@ export default function ExecucaoInteligente() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setAtribuirDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setAtribuirDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
-              <Button onClick={handleAtribuirChecklist} disabled={!atribuirForm.mentorado_id} className="flex-1 bg-[#FF4D00]">
+              <Button onClick={handleAtribuirChecklist} disabled={!atribuirForm.mentorado_id} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Atribuir
               </Button>
             </div>
@@ -1393,10 +1391,10 @@ export default function ExecucaoInteligente() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setSOPDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setSOPDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
-              <Button onClick={() => createSOPMutation.mutate(sopForm)} disabled={!sopForm.titulo} className="flex-1 bg-[#FF4D00]">
+              <Button onClick={() => createSOPMutation.mutate(sopForm)} disabled={!sopForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Criar SOP
               </Button>
             </div>
@@ -1465,10 +1463,10 @@ export default function ExecucaoInteligente() {
               Requer confirmação de leitura
             </label>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setComunicadoDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setComunicadoDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Cancelar
               </Button>
-              <Button onClick={() => createComunicadoMutation.mutate(comunicadoForm)} disabled={!comunicadoForm.titulo || !comunicadoForm.mensagem} className="flex-1 bg-[#FF4D00]">
+              <Button onClick={() => createComunicadoMutation.mutate(comunicadoForm)} disabled={!comunicadoForm.titulo || !comunicadoForm.mensagem} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
                 Enviar
               </Button>
             </div>
