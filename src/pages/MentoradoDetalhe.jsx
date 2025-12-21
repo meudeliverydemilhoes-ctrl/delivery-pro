@@ -410,8 +410,9 @@ export default function MentoradoDetalhe() {
                 ))}
               </div>
             )}
-            </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Dialog Evolução */}
       <Dialog open={evolucaoDialogOpen} onOpenChange={setEvolucaoDialogOpen}>
