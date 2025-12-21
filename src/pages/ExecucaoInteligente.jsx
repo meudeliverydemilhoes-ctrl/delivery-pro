@@ -1071,43 +1071,46 @@ export default function ExecucaoInteligente() {
                     </div>
                     <Button
                       onClick={async () => {
-                        if (mentorados.length === 0) {
-                          alert("Nenhum mentorado ativo encontrado. Crie um mentorado primeiro.");
-                          return;
-                        }
-                        
-                        // Se houver apenas 1 mentorado, aplica direto. Se houver mais, pede pra escolher
-                        let mentoradoId;
-                        if (mentorados.length === 1) {
-                          mentoradoId = mentorados[0].id;
-                        } else {
-                          const mentoradoNome = prompt(`Digite o nome do mentorado:\n\n${mentorados.map(m => m.nome).join('\n')}`);
-                          const mentorado = mentorados.find(m => m.nome.toLowerCase().includes(mentoradoNome?.toLowerCase() || ''));
-                          if (!mentorado) {
-                            alert("Mentorado não encontrado");
+                        try {
+                          if (mentorados.length === 0) {
+                            alert("Nenhum mentorado ativo encontrado. Crie um mentorado primeiro.");
                             return;
                           }
-                          mentoradoId = mentorado.id;
-                        }
-                        
-                        // Criar múltiplos planos de ação
-                        for (const acao of plano.acoes) {
-                          const prazoMatch = acao.prazo.match(/\d+/);
-                          const diasPrazo = prazoMatch ? parseInt(prazoMatch[0]) : 7;
                           
-                          await base44.entities.PlanoAcaoInteligente.create({
-                            mentorado_id: mentoradoId,
-                            problema: plano.problema,
-                            acao_corretiva: acao.acao,
-                            pilar: plano.pilar,
-                            prioridade: acao.prioridade,
-                            prazo: new Date(Date.now() + diasPrazo * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-                            status: "pendente"
-                          });
+                          let mentoradoId;
+                          if (mentorados.length === 1) {
+                            mentoradoId = mentorados[0].id;
+                          } else {
+                            const mentoradoNome = prompt(`Digite o nome do mentorado:\n\n${mentorados.map(m => m.nome).join('\n')}`);
+                            const mentorado = mentorados.find(m => m.nome.toLowerCase().includes(mentoradoNome?.toLowerCase() || ''));
+                            if (!mentorado) {
+                              alert("Mentorado não encontrado");
+                              return;
+                            }
+                            mentoradoId = mentorado.id;
+                          }
+                          
+                          for (const acao of plano.acoes) {
+                            const prazoMatch = acao.prazo.match(/\d+/);
+                            const diasPrazo = prazoMatch ? parseInt(prazoMatch[0]) : 7;
+                            
+                            await base44.entities.PlanoAcaoInteligente.create({
+                              mentorado_id: mentoradoId,
+                              problema: plano.problema,
+                              acao_corretiva: acao.acao,
+                              pilar: plano.pilar,
+                              prioridade: acao.prioridade || "media",
+                              prazo: new Date(Date.now() + diasPrazo * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                              status: "pendente"
+                            });
+                          }
+                          
+                          queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
+                          alert(`✅ ${plano.acoes.length} ações criadas com sucesso!`);
+                        } catch (error) {
+                          console.error("Erro ao aplicar plano:", error);
+                          alert(`❌ Erro ao criar planos de ação: ${error.message}`);
                         }
-                        
-                        queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
-                        alert(`✅ ${plano.acoes.length} ações criadas com sucesso!`);
                       }}
                       className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                       size="sm"
