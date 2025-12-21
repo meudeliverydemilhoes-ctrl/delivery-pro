@@ -677,6 +677,7 @@ export default function ExecucaoInteligente() {
     mutationFn: (data) => base44.entities.ExecucaoChecklist.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["execucoes"] });
+      setActiveTab("execucoes");
     }
   });
 
@@ -979,12 +980,27 @@ export default function ExecucaoInteligente() {
                         }`}>{checklist.categoria}</span>
                       </div>
                       <Button
-                        onClick={() => createChecklistMutation.mutate(checklist)}
-                        variant="outline"
-                        className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
+                        onClick={() => {
+                          // Criar execução diretamente
+                          createExecucaoMutation.mutate({
+                            checklist_id: checklist.id || `pronto_${idx}`,
+                            titulo: checklist.titulo,
+                            pilar: checklist.pilar,
+                            categoria: checklist.categoria,
+                            data_inicio: new Date().toISOString().split("T")[0],
+                            status: "pendente",
+                            itens: checklist.itens.map(item => ({
+                              texto: item.texto,
+                              concluido: false,
+                              requer_evidencia: item.requer_evidencia
+                            })),
+                            progresso: 0
+                          });
+                        }}
+                        className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                         size="sm"
                       >
-                        <Plus size={14} className="mr-1" /> Adicionar
+                        <Plus size={14} className="mr-1" /> Aplicar
                       </Button>
                     </div>
                   ))}
