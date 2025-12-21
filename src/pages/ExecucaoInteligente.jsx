@@ -1070,7 +1070,7 @@ export default function ExecucaoInteligente() {
                       )}
                     </div>
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
                         if (mentorados.length === 0) {
                           alert("Nenhum mentorado ativo encontrado. Crie um mentorado primeiro.");
                           return;
@@ -1091,19 +1091,23 @@ export default function ExecucaoInteligente() {
                         }
                         
                         // Criar múltiplos planos de ação
-                        plano.acoes.forEach((acao, index) => {
-                          setTimeout(() => {
-                            createPlanoAcaoMutation.mutate({
-                              mentorado_id: mentoradoId,
-                              problema: plano.problema,
-                              acao_corretiva: acao.acao,
-                              pilar: plano.pilar,
-                              prioridade: acao.prioridade,
-                              prazo: new Date(Date.now() + (parseInt(acao.prazo) || 7) * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-                              status: "pendente"
-                            });
-                          }, index * 100);
-                        });
+                        for (const acao of plano.acoes) {
+                          const prazoMatch = acao.prazo.match(/\d+/);
+                          const diasPrazo = prazoMatch ? parseInt(prazoMatch[0]) : 7;
+                          
+                          await base44.entities.PlanoAcaoInteligente.create({
+                            mentorado_id: mentoradoId,
+                            problema: plano.problema,
+                            acao_corretiva: acao.acao,
+                            pilar: plano.pilar,
+                            prioridade: acao.prioridade,
+                            prazo: new Date(Date.now() + diasPrazo * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                            status: "pendente"
+                          });
+                        }
+                        
+                        queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
+                        alert(`✅ ${plano.acoes.length} ações criadas com sucesso!`);
                       }}
                       className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                       size="sm"
