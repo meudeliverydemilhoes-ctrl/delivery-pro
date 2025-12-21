@@ -874,6 +874,9 @@ export default function ExecucaoInteligente() {
           <TabsTrigger value="planos" className="data-[state=active]:bg-[#FF4D00]">
             <AlertTriangle size={16} className="mr-2" /> Planos de Ação
           </TabsTrigger>
+          <TabsTrigger value="planos-prontos" className="data-[state=active]:bg-[#FF4D00]">
+            <Target size={16} className="mr-2" /> Planos Prontos
+          </TabsTrigger>
           <TabsTrigger value="sops" className="data-[state=active]:bg-[#FF4D00]">
             <BookOpen size={16} className="mr-2" /> SOPs
           </TabsTrigger>
@@ -1049,9 +1052,9 @@ export default function ExecucaoInteligente() {
             </div>
 
             {/* Planos Ativos */}
-            {filteredPlanos.length > 0 && (
+            {filteredPlanos.length > 0 ? (
               <div>
-                <h3 className="text-lg font-medium text-white mb-4">Planos Ativos</h3>
+                <h3 className="text-lg font-medium text-white mb-4">Seus Planos Ativos</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {filteredPlanos.map(plano => (
                     <PlanoAcaoCard 
@@ -1072,12 +1075,22 @@ export default function ExecucaoInteligente() {
                   ))}
                 </div>
               </div>
+            ) : (
+              <div className="text-center py-12 bg-white/5 rounded-xl">
+                <AlertTriangle size={40} className="mx-auto mb-3 text-white/20" />
+                <p className="text-white/50 mb-4">Nenhum plano de ação criado ainda</p>
+                <p className="text-sm text-white/40">Crie um novo plano ou aplique um dos planos prontos</p>
+              </div>
             )}
+          </div>
+        </TabsContent>
 
-            {/* Planos Prontos */}
+        {/* Planos Prontos */}
+        <TabsContent value="planos-prontos">
+          <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos para Delivery</h3>
-              <p className="text-sm text-white/50 mb-4">Selecione um plano e atribua a um mentorado para começar.</p>
+              <p className="text-sm text-white/50 mb-4">Selecione um plano completo com múltiplas ações para aplicar ao mentorado.</p>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {planosAcaoProntos.map((plano, idx) => (
                   <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
