@@ -1034,47 +1034,6 @@ export default function ExecucaoInteligente() {
         {/* Planos de Ação */}
         <TabsContent value="planos-prontos">
           <div className="space-y-6">
-            {/* Planos Ativos */}
-            {filteredPlanos.length > 0 && (
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-medium text-white">Seus Planos Ativos</h3>
-                  <Button onClick={() => {
-                    setEditingPlano(null);
-                    setPlanoForm({
-                      problema: "",
-                      acao_corretiva: "",
-                      pilar: "geral",
-                      prioridade: "media",
-                      prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
-                    });
-                    setPlanoDialogOpen(true);
-                  }} className="bg-[#FF4D00] hover:bg-[#E64500]">
-                    <Plus size={16} className="mr-2" /> Novo Plano
-                  </Button>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {filteredPlanos.map(plano => (
-                    <PlanoAcaoCard 
-                      key={plano.id} 
-                      plano={plano}
-                      onEdit={() => {
-                        setEditingPlano(plano);
-                        setPlanoForm({
-                          problema: plano.problema || "",
-                          acao_corretiva: plano.acao_corretiva || "",
-                          pilar: plano.pilar || "geral",
-                          prioridade: plano.prioridade || "media",
-                          prazo: plano.prazo || ""
-                        });
-                        setPlanoDialogOpen(true);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
             <div>
               <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos</h3>
               <p className="text-sm text-white/50 mb-6">Selecione, edite e adicione comentários antes de aplicar.</p>
