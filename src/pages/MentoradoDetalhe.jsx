@@ -46,7 +46,7 @@ import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOpe
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   Select,
   SelectContent,
@@ -70,11 +70,7 @@ export default function MentoradoDetalhe() {
   const urlParams = new URLSearchParams(window.location.search);
   const mentoradoId = urlParams.get("id");
 
-  const [activeTab, setActiveTab] = useState("briefing");
-  const [isEditingBriefing, setIsEditingBriefing] = useState(false);
-  const [pilarDialogOpen, setPilarDialogOpen] = useState(false);
   const [evolucaoDialogOpen, setEvolucaoDialogOpen] = useState(false);
-  const [selectedPilar, setSelectedPilar] = useState(null);
 
   const { data: mentorado, isLoading } = useQuery({
     queryKey: ["mentorado", mentoradoId],
@@ -87,12 +83,6 @@ export default function MentoradoDetalhe() {
     queryKey: ["briefing", mentoradoId],
     queryFn: () => base44.entities.Briefing.filter({ mentorado_id: mentoradoId }),
     select: (data) => data[0],
-    enabled: !!mentoradoId
-  });
-
-  const { data: pilares = [] } = useQuery({
-    queryKey: ["pilares", mentoradoId],
-    queryFn: () => base44.entities.PilarConteudo.filter({ mentorado_id: mentoradoId }),
     enabled: !!mentoradoId
   });
 
@@ -114,16 +104,6 @@ export default function MentoradoDetalhe() {
     enabled: !!mentoradoId
   });
 
-  const [briefingForm, setBriefingForm] = useState({});
-  const [pilarForm, setPilarForm] = useState({
-    pilar: "processos",
-    titulo: "",
-    tipo: "aula",
-    descricao: "",
-    conteudo: "",
-    link_externo: "",
-    concluido: false
-  });
   const [evolucaoForm, setEvolucaoForm] = useState({
     titulo: "",
     tipo: "feito",
@@ -260,57 +240,13 @@ export default function MentoradoDetalhe() {
     }
   });
 
-  const handleSaveBriefing = () => {
-    if (briefing?.id) {
-      updateBriefingMutation.mutate({ id: briefing.id, data: briefingForm });
-    } else {
-      createBriefingMutation.mutate({ ...briefingForm, mentorado_id: mentoradoId });
-    }
-  };
 
-  const handleAddPilar = () => {
-    createPilarMutation.mutate({ ...pilarForm, mentorado_id: mentoradoId });
-  };
 
   const handleAddEvolucao = () => {
     createEvolucaoMutation.mutate({ ...evolucaoForm, mentorado_id: mentoradoId });
   };
 
-  const pilaresConfig = [
-    { key: "processos", label: "Pilar 1 - Processos", color: "bg-blue-500", icon: "🏆" },
-    { key: "desempenho", label: "Pilar 2 - Desempenho", color: "bg-emerald-500", icon: "📈" },
-    { key: "tempo_potencia", label: "Pilar 3 - Tempo de Potência", color: "bg-violet-500", icon: "⚡" },
-    { key: "norte_estrategico", label: "Pilar 4 - Norte Estratégico", color: "bg-amber-500", icon: "🎯" },
-    { key: "presenca_magnetica", label: "Pilar 5 - Presença Magnética", color: "bg-pink-500", icon: "✨" },
-  ];
 
-  const [selectedPilarConteudo, setSelectedPilarConteudo] = useState(null);
-
-  const getProgressosForPilar = (pilarKey) => {
-    return pilarProgressos.filter((p) => p.pilar === pilarKey);
-  };
-
-  const handleToggleProgresso = (pilarKey, tipo, texto) => {
-    toggleProgressoMutation.mutate({ pilar: pilarKey, tipo, texto });
-  };
-
-  const getCustomDataForPilar = (pilarKey) => {
-    const custom = pilarCustomDataList.find((p) => p.pilar === pilarKey);
-    return custom?.data || null;
-  };
-
-  const handleUpdatePilarCustomData = (pilarKey, data) => {
-    updatePilarCustomDataMutation.mutate({ pilarKey, data });
-  };
-
-  const tipoColors = {
-    aula: "bg-blue-500/20 text-blue-400",
-    pdf: "bg-red-500/20 text-red-400",
-    checklist: "bg-emerald-500/20 text-emerald-400",
-    exercicio: "bg-violet-500/20 text-violet-400",
-    modelo: "bg-amber-500/20 text-amber-400",
-    anotacao: "bg-gray-500/20 text-gray-400",
-  };
 
   const evolucaoColors = {
     feito: "bg-emerald-500/20 text-emerald-400",
@@ -533,82 +469,8 @@ export default function MentoradoDetalhe() {
                 ))}
               </div>
             )}
-          </div>
-        </TabsContent>
-        </Tabs>
-
-      {/* Dialog Pilar */}
-      <Dialog open={pilarDialogOpen} onOpenChange={setPilarDialogOpen}>
-        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Adicionar Conteúdo ao Pilar</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 mt-4">
-            <div>
-              <Label className="text-white/70">Pilar</Label>
-              <Select value={pilarForm.pilar} onValueChange={(v) => setPilarForm({ ...pilarForm, pilar: v })}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-white/10">
-                  {pilaresConfig.map((p) => (
-                    <SelectItem key={p.key} value={p.key}>{p.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
-            <div>
-              <Label className="text-white/70">Título</Label>
-              <Input
-                value={pilarForm.titulo}
-                onChange={(e) => setPilarForm({ ...pilarForm, titulo: e.target.value })}
-                className="bg-white/5 border-white/10 text-white mt-1"
-              />
             </div>
-            <div>
-              <Label className="text-white/70">Tipo</Label>
-              <Select value={pilarForm.tipo} onValueChange={(v) => setPilarForm({ ...pilarForm, tipo: v })}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-white/10">
-                  <SelectItem value="aula">Aula</SelectItem>
-                  <SelectItem value="pdf">PDF</SelectItem>
-                  <SelectItem value="checklist">Checklist</SelectItem>
-                  <SelectItem value="exercicio">Exercício</SelectItem>
-                  <SelectItem value="modelo">Modelo</SelectItem>
-                  <SelectItem value="anotacao">Anotação</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label className="text-white/70">Descrição</Label>
-              <Textarea
-                value={pilarForm.descricao}
-                onChange={(e) => setPilarForm({ ...pilarForm, descricao: e.target.value })}
-                className="bg-white/5 border-white/10 text-white mt-1"
-              />
-            </div>
-            <div>
-              <Label className="text-white/70">Link Externo</Label>
-              <Input
-                value={pilarForm.link_externo}
-                onChange={(e) => setPilarForm({ ...pilarForm, link_externo: e.target.value })}
-                placeholder="https://..."
-                className="bg-white/5 border-white/10 text-white mt-1"
-              />
-            </div>
-            <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setPilarDialogOpen(false)} className="flex-1 border-white/10 text-white">
-                Cancelar
-              </Button>
-              <Button onClick={handleAddPilar} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
-                Adicionar
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Dialog Evolução */}
       <Dialog open={evolucaoDialogOpen} onOpenChange={setEvolucaoDialogOpen}>
