@@ -13,8 +13,7 @@ import {
   ChevronRight,
   ClipboardList,
   GitBranch,
-  Zap,
-  BarChart3
+  Zap
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 
@@ -33,7 +32,6 @@ export default function Layout({ children, currentPageName }) {
             { name: "Agenda", page: "Agenda", icon: Calendar },
             { name: "Notas", page: "Notas", icon: Lightbulb },
           { name: "Automações", page: "Automacoes", icon: Zap },
-          { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
           ];
 
   return (
