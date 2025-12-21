@@ -63,7 +63,7 @@ export default function MentoradoBriefing() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-6">
-        <Link to={createPageUrl(`MentoradoDetalhe?id=${mentoradoId}`)} className="inline-flex items-center gap-2 text-[#FF4D00] hover:text-white mb-4">
+        <Link to={createPageUrl(`MentoradoDetalhe?id=${mentoradoId}`)} className="inline-flex items-center gap-2 text-white/50 hover:text-white mb-4">
           <ArrowLeft size={20} /> Voltar para {mentorado?.nome || "Mentorado"}
         </Link>
         <div className="flex items-center justify-between">

@@ -31,8 +31,7 @@ import {
   UtensilsCrossed,
   GitBranch,
   LayoutDashboard,
-  ChefHat,
-  Users
+  ChefHat
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -356,7 +355,7 @@ export default function MentoradoDetalhe() {
       <div className="mb-6">
         <Link
           to={createPageUrl("Mentorados")}
-          className="inline-flex items-center gap-2 text-[#FF4D00] hover:text-white mb-4"
+          className="inline-flex items-center gap-2 text-white/50 hover:text-white mb-4"
         >
           <ArrowLeft size={20} />
           Voltar para Mentorados
@@ -420,10 +419,6 @@ export default function MentoradoDetalhe() {
 
       {/* Links para páginas dedicadas */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-        <Link to={createPageUrl(`Fornecedores?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-          <Users size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-          <span className="text-white group-hover:text-[#FF4D00] font-medium">Fornecedores</span>
-        </Link>
         <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
           <FileText size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Briefing</span>
@@ -456,17 +451,10 @@ export default function MentoradoDetalhe() {
           <StickyNote size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Notas</span>
         </Link>
-        {mentorado?.link_drive ? (
-          <a href={mentorado.link_drive} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <Files size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos (Drive)</span>
-          </a>
-        ) : (
-          <Link to={createPageUrl(`MentoradoArquivos?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <Files size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos</span>
-          </Link>
-        )}
+        <Link to={createPageUrl(`MentoradoArquivos?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
+          <Files size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
+          <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos</span>
+        </Link>
         <Link to={createPageUrl(`MentoradoFichasTecnicas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
           <ChefHat size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Fichas Técnicas</span>

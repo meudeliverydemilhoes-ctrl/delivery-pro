@@ -6897,7 +6897,7 @@ export default function GestaoFinanceira() {
           <p className="text-white/50">59 processos operacionais completos</p>
         </div>
         <Link to={createPageUrl("Dashboard")}>
-          <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+          <Button variant="outline" className="border-white/10 text-white">
             <Home size={18} className="mr-2" /> Início
           </Button>
         </Link>
