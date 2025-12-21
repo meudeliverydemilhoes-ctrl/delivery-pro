@@ -611,10 +611,8 @@ export default function ExecucaoInteligente() {
   
   // Dialogs
   const [checklistDialogOpen, setChecklistDialogOpen] = useState(false);
-  const [atribuirDialogOpen, setAtribuirDialogOpen] = useState(false);
   const [sopDialogOpen, setSOPDialogOpen] = useState(false);
   const [comunicadoDialogOpen, setComunicadoDialogOpen] = useState(false);
-  const [selectedChecklist, setSelectedChecklist] = useState(null);
   
   // Forms
   const [checklistForm, setChecklistForm] = useState({
@@ -627,7 +625,7 @@ export default function ExecucaoInteligente() {
   const [comunicadoForm, setComunicadoForm] = useState({
     titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false
   });
-  const [atribuirForm, setAtribuirForm] = useState({ mentorado_id: "", data_limite: "" });
+
 
   // Queries
   const { data: checklists = [] } = useQuery({
@@ -679,9 +677,6 @@ export default function ExecucaoInteligente() {
     mutationFn: (data) => base44.entities.ExecucaoChecklist.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["execucoes"] });
-      setAtribuirDialogOpen(false);
-      setSelectedChecklist(null);
-      setAtribuirForm({ mentorado_id: "", data_limite: "" });
     }
   });
 
@@ -734,26 +729,7 @@ export default function ExecucaoInteligente() {
     }
   };
 
-  const handleAtribuirChecklist = () => {
-    if (selectedChecklist && atribuirForm.mentorado_id) {
-      createExecucaoMutation.mutate({
-        mentorado_id: atribuirForm.mentorado_id,
-        checklist_id: selectedChecklist.id,
-        titulo: selectedChecklist.titulo,
-        pilar: selectedChecklist.pilar,
-        categoria: selectedChecklist.categoria,
-        data_inicio: new Date().toISOString().split("T")[0],
-        data_limite: atribuirForm.data_limite || null,
-        status: "pendente",
-        itens: selectedChecklist.itens.map(item => ({
-          texto: item.texto,
-          concluido: false,
-          requer_evidencia: item.requer_evidencia
-        })),
-        progresso: 0
-      });
-    }
-  };
+
 
   const handleAplicarSOP = (sop) => {
     // Criar checklist baseado no SOP
@@ -946,13 +922,25 @@ export default function ExecucaoInteligente() {
                       </div>
                       <Button
                         onClick={() => {
-                          setSelectedChecklist(checklist);
-                          setAtribuirDialogOpen(true);
+                          createExecucaoMutation.mutate({
+                            checklist_id: checklist.id,
+                            titulo: checklist.titulo,
+                            pilar: checklist.pilar,
+                            categoria: checklist.categoria,
+                            data_inicio: new Date().toISOString().split("T")[0],
+                            status: "pendente",
+                            itens: checklist.itens.map(item => ({
+                              texto: item.texto,
+                              concluido: false,
+                              requer_evidencia: item.requer_evidencia
+                            })),
+                            progresso: 0
+                          });
                         }}
                         className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                         size="sm"
                       >
-                        Atribuir a Mentorado
+                        Aplicar
                       </Button>
                     </div>
                   ))}
@@ -1294,47 +1282,7 @@ export default function ExecucaoInteligente() {
         </DialogContent>
       </Dialog>
 
-      {/* Dialog: Atribuir Checklist */}
-      <Dialog open={atribuirDialogOpen} onOpenChange={setAtribuirDialogOpen}>
-        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle>Atribuir Checklist</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <p className="text-sm text-white/60">Atribuindo: <span className="text-white font-medium">{selectedChecklist?.titulo}</span></p>
-            <div>
-              <Label className="text-white/70">Mentorado *</Label>
-              <Select value={atribuirForm.mentorado_id} onValueChange={(v) => setAtribuirForm({ ...atribuirForm, mentorado_id: v })}>
-                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
-                  <SelectValue placeholder="Selecione..." />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-white/10">
-                  {mentorados.map(m => (
-                    <SelectItem key={m.id} value={m.id}>{m.nome} - {m.negocio}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label className="text-white/70">Prazo (opcional)</Label>
-              <Input
-                type="date"
-                value={atribuirForm.data_limite}
-                onChange={(e) => setAtribuirForm({ ...atribuirForm, data_limite: e.target.value })}
-                className="bg-white/5 border-white/10 text-white mt-1"
-              />
-            </div>
-            <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setAtribuirDialogOpen(false)} className="flex-1 border-white/10 text-white">
-                Cancelar
-              </Button>
-              <Button onClick={handleAtribuirChecklist} disabled={!atribuirForm.mentorado_id} className="flex-1 bg-[#FF4D00]">
-                Atribuir
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+
 
       {/* Dialog: Criar SOP */}
       <Dialog open={sopDialogOpen} onOpenChange={setSOPDialogOpen}>
