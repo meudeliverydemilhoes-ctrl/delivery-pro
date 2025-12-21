@@ -615,6 +615,8 @@ export default function ExecucaoInteligente() {
   const [comunicadoDialogOpen, setComunicadoDialogOpen] = useState(false);
   const [planoDialogOpen, setPlanoDialogOpen] = useState(false);
   const [editingPlano, setEditingPlano] = useState(null);
+  const [planoExpandido, setPlanoExpandido] = useState(null);
+  const [comentariosPlano, setComentariosPlano] = useState({});
   
   // Forms
   const [checklistForm, setChecklistForm] = useState({
@@ -871,11 +873,8 @@ export default function ExecucaoInteligente() {
           <TabsTrigger value="modelos" className="data-[state=active]:bg-[#FF4D00]">
             <FileText size={16} className="mr-2" /> Modelos
           </TabsTrigger>
-          <TabsTrigger value="planos" className="data-[state=active]:bg-[#FF4D00]">
-            <AlertTriangle size={16} className="mr-2" /> Planos de Ação
-          </TabsTrigger>
           <TabsTrigger value="planos-prontos" className="data-[state=active]:bg-[#FF4D00]">
-            <Target size={16} className="mr-2" /> Planos Prontos
+            <Target size={16} className="mr-2" /> Planos de Ação
           </TabsTrigger>
           <TabsTrigger value="sops" className="data-[state=active]:bg-[#FF4D00]">
             <BookOpen size={16} className="mr-2" /> SOPs
@@ -1033,28 +1032,27 @@ export default function ExecucaoInteligente() {
         </TabsContent>
 
         {/* Planos de Ação */}
-        <TabsContent value="planos">
+        <TabsContent value="planos-prontos">
           <div className="space-y-6">
-            <div className="flex justify-end mb-4">
-              <Button onClick={() => {
-                setEditingPlano(null);
-                setPlanoForm({
-                  problema: "",
-                  acao_corretiva: "",
-                  pilar: "geral",
-                  prioridade: "media",
-                  prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
-                });
-                setPlanoDialogOpen(true);
-              }} className="bg-[#FF4D00] hover:bg-[#E64500]">
-                <Plus size={18} className="mr-2" /> Novo Plano
-              </Button>
-            </div>
-
             {/* Planos Ativos */}
-            {filteredPlanos.length > 0 ? (
-              <div>
-                <h3 className="text-lg font-medium text-white mb-4">Seus Planos Ativos</h3>
+            {filteredPlanos.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-medium text-white">Seus Planos Ativos</h3>
+                  <Button onClick={() => {
+                    setEditingPlano(null);
+                    setPlanoForm({
+                      problema: "",
+                      acao_corretiva: "",
+                      pilar: "geral",
+                      prioridade: "media",
+                      prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+                    });
+                    setPlanoDialogOpen(true);
+                  }} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                    <Plus size={16} className="mr-2" /> Novo Plano
+                  </Button>
+                </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   {filteredPlanos.map(plano => (
                     <PlanoAcaoCard 
@@ -1075,94 +1073,142 @@ export default function ExecucaoInteligente() {
                   ))}
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-12 bg-white/5 rounded-xl">
-                <AlertTriangle size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/50 mb-4">Nenhum plano de ação criado ainda</p>
-                <p className="text-sm text-white/40">Crie um novo plano ou aplique um dos planos prontos</p>
-              </div>
             )}
-          </div>
-        </TabsContent>
 
-        {/* Planos Prontos */}
-        <TabsContent value="planos-prontos">
-          <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos para Delivery</h3>
-              <p className="text-sm text-white/50 mb-6">Selecione um plano completo com múltiplas ações para aplicar ao mentorado.</p>
+              <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos</h3>
+              <p className="text-sm text-white/50 mb-6">Selecione, edite e adicione comentários antes de aplicar.</p>
               <div className="grid gap-6">
                 {planosAcaoProntos.map((plano, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-6 hover:border-[#FF4D00]/30 transition-colors">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-white mb-2">{plano.titulo}</h4>
-                        <p className="text-sm text-red-400/90 mb-2">❗ {plano.problema}</p>
-                        <p className="text-sm text-white/60 mb-3">{plano.descricao}</p>
-                        <span className={`inline-flex items-center text-xs px-3 py-1 rounded-full ${
-                          plano.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
-                          plano.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
-                          plano.pilar === "tempo_potencia" ? "bg-violet-500/20 text-violet-400" :
-                          "bg-pink-500/20 text-pink-400"
-                        }`}>{pilarOptions.find(p => p.value === plano.pilar)?.label}</span>
-                      </div>
-                      <Button
-                        onClick={async () => {
-                          for (const acao of plano.acoes) {
-                            const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
-                            let prazoData;
-                            
-                            if (prazoTexto.includes("diário") || prazoTexto.includes("diario")) {
-                              prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
-                            } else {
-                              const dias = parseInt(prazoTexto.match(/\d+/)?.[0]) || 7;
-                              prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
-                            }
-                            
-                            await createPlanoAcaoMutation.mutateAsync({
-                              problema: plano.problema || "Problema identificado",
-                              acao_corretiva: acao.acao || "Ação necessária",
-                              pilar: plano.pilar || "geral",
-                              prioridade: acao.prioridade || "media",
-                              prazo: prazoData,
-                              status: "pendente"
-                            });
-                          }
-                          setActiveTab("planos");
-                        }}
-                        className="bg-[#FF4D00] hover:bg-[#E64500] ml-4"
-                      >
-                        <Target size={16} className="mr-2" /> Aplicar Plano Completo
-                      </Button>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <h5 className="text-sm font-medium text-white/80 mb-2">Ações do Plano ({plano.acoes.length}):</h5>
-                      {plano.acoes.map((acao, aIdx) => (
-                        <div key={aIdx} className="flex items-start gap-3 p-3 bg-white/5 rounded-lg">
-                          <span className={`mt-1 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
-                            acao.prioridade === "critica" ? "bg-red-500/20 text-red-400" :
-                            acao.prioridade === "alta" ? "bg-amber-500/20 text-amber-400" :
-                            "bg-blue-500/20 text-blue-400"
-                          }`}>{aIdx + 1}</span>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-white/90 mb-1">{acao.acao}</p>
-                            <div className="flex items-center gap-3 text-xs text-white/50">
-                              <span className={`px-2 py-0.5 rounded-full ${
-                                acao.prioridade === "critica" ? "bg-red-500/20 text-red-400" :
-                                acao.prioridade === "alta" ? "bg-amber-500/20 text-amber-400" :
-                                acao.prioridade === "media" ? "bg-blue-500/20 text-blue-400" :
-                                "bg-gray-500/20 text-gray-400"
-                              }`}>
-                                {acao.prioridade === "critica" ? "🔴 Crítica" :
-                                 acao.prioridade === "alta" ? "🟡 Alta" :
-                                 acao.prioridade === "media" ? "🔵 Média" : "⚪ Baixa"}
-                              </span>
-                              <span>📅 Prazo: {acao.prazo}</span>
-                            </div>
-                          </div>
+                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl overflow-hidden">
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <h4 className="text-xl font-semibold text-white mb-2">{plano.titulo}</h4>
+                          <p className="text-sm text-red-400/90 mb-2">❗ {plano.problema}</p>
+                          <p className="text-sm text-white/60 mb-3">{plano.descricao}</p>
+                          <span className={`inline-flex items-center text-xs px-3 py-1 rounded-full ${
+                            plano.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
+                            plano.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
+                            plano.pilar === "tempo_potencia" ? "bg-violet-500/20 text-violet-400" :
+                            "bg-pink-500/20 text-pink-400"
+                          }`}>{pilarOptions.find(p => p.value === plano.pilar)?.label}</span>
                         </div>
-                      ))}
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            onClick={() => setPlanoExpandido(planoExpandido === idx ? null : idx)}
+                            className="border-white/10 text-white"
+                          >
+                            {planoExpandido === idx ? "Ocultar" : "Expandir"}
+                          </Button>
+                          <Button
+                            onClick={async () => {
+                              for (const acao of plano.acoes) {
+                                const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
+                                let prazoData;
+                                
+                                if (prazoTexto.includes("diário") || prazoTexto.includes("diario")) {
+                                  prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                                } else {
+                                  const dias = parseInt(prazoTexto.match(/\d+/)?.[0]) || 7;
+                                  prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                                }
+                                
+                                const comentario = comentariosPlano[`${idx}-${plano.acoes.indexOf(acao)}`] || "";
+                                
+                                await createPlanoAcaoMutation.mutateAsync({
+                                  problema: plano.problema || "Problema identificado",
+                                  acao_corretiva: acao.acao + (comentario ? `\n\nComentários: ${comentario}` : ""),
+                                  pilar: plano.pilar || "geral",
+                                  prioridade: acao.prioridade || "media",
+                                  prazo: prazoData,
+                                  status: "pendente"
+                                });
+                              }
+                              setComentariosPlano({});
+                              setPlanoExpandido(null);
+                            }}
+                            className="bg-[#FF4D00] hover:bg-[#E64500]"
+                          >
+                            <Target size={16} className="mr-2" /> Aplicar
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      {planoExpandido === idx && (
+                        <div className="space-y-4 mt-4 border-t border-white/10 pt-4">
+                          <h5 className="text-sm font-medium text-white/80 mb-3">Ações do Plano ({plano.acoes.length}):</h5>
+                          {plano.acoes.map((acao, aIdx) => (
+                            <div key={aIdx} className="p-4 bg-white/5 rounded-lg space-y-3">
+                              <div className="flex items-start gap-3">
+                                <span className={`mt-1 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
+                                  acao.prioridade === "critica" ? "bg-red-500/20 text-red-400" :
+                                  acao.prioridade === "alta" ? "bg-amber-500/20 text-amber-400" :
+                                  "bg-blue-500/20 text-blue-400"
+                                }`}>{aIdx + 1}</span>
+                                <div className="flex-1 min-w-0">
+                                  <Textarea
+                                    value={comentariosPlano[`${idx}-${aIdx}`] !== undefined 
+                                      ? comentariosPlano[`${idx}-${aIdx}`] 
+                                      : acao.acao}
+                                    onChange={(e) => setComentariosPlano({
+                                      ...comentariosPlano,
+                                      [`${idx}-${aIdx}`]: e.target.value
+                                    })}
+                                    className="bg-white/5 border-white/10 text-white mb-2"
+                                    rows={2}
+                                  />
+                                  <div className="flex items-center gap-3 text-xs">
+                                    <Select
+                                      defaultValue={acao.prioridade}
+                                      onValueChange={(val) => {
+                                        const newAcoes = [...plano.acoes];
+                                        newAcoes[aIdx] = { ...newAcoes[aIdx], prioridade: val };
+                                      }}
+                                    >
+                                      <SelectTrigger className="w-32 h-7 bg-white/5 border-white/10 text-white text-xs">
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent className="bg-zinc-900 border-white/10">
+                                        <SelectItem value="baixa">⚪ Baixa</SelectItem>
+                                        <SelectItem value="media">🔵 Média</SelectItem>
+                                        <SelectItem value="alta">🟡 Alta</SelectItem>
+                                        <SelectItem value="critica">🔴 Crítica</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <Input
+                                      type="text"
+                                      defaultValue={acao.prazo}
+                                      placeholder="7 dias"
+                                      className="w-28 h-7 bg-white/5 border-white/10 text-white text-xs"
+                                    />
+                                  </div>
+                                  <div className="mt-2">
+                                    <label className="text-xs text-white/50 mb-1 block">Comentários adicionais:</label>
+                                    <Textarea
+                                      placeholder="Adicione observações, ajustes ou contexto..."
+                                      value={comentariosPlano[`${idx}-${aIdx}-comment`] || ""}
+                                      onChange={(e) => setComentariosPlano({
+                                        ...comentariosPlano,
+                                        [`${idx}-${aIdx}-comment`]: e.target.value
+                                      })}
+                                      className="bg-white/5 border-white/10 text-white text-xs"
+                                      rows={2}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {!planoExpandido || planoExpandido !== idx ? (
+                        <div className="mt-3 text-xs text-white/40">
+                          {plano.acoes.length} ações • Clique em "Expandir" para editar
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ))}
