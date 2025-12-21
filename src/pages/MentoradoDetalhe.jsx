@@ -32,8 +32,7 @@ import {
   GitBranch,
   LayoutDashboard,
   ChefHat,
-  Users,
-  FileStack
+  Users
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -476,11 +475,7 @@ export default function MentoradoDetalhe() {
           <TrendingUp size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
           <span className="text-white group-hover:text-[#FF4D00] font-medium">Evolução</span>
         </Link>
-        <Link to={createPageUrl("GestaoFinanceira")} className="flex items-center gap-3 px-4 py-4 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-          <FileStack size={20} className="text-white/50 group-hover:text-[#FF4D00]" />
-          <span className="text-white group-hover:text-[#FF4D00] font-medium">Processos</span>
-        </Link>
-        </div>
+      </div>
 
       {/* Dialog Pilar */}
       <Dialog open={pilarDialogOpen} onOpenChange={setPilarDialogOpen}>
@@ -544,7 +539,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setPilarDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setPilarDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
               <Button onClick={handleAddPilar} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
@@ -619,7 +614,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
               <Button onClick={handleAddEvolucao} disabled={!evolucaoForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">

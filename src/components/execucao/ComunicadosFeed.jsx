@@ -140,7 +140,8 @@ function ComunicadoCard({ comunicado, onMarcarLido, onConfirmar, lido }) {
           ) : (
             <Button
               onClick={onMarcarLido}
-              className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
+              variant="outline"
+              className="flex-1 border-white/10 text-white"
               size="sm"
             >
               Marcar como Lido

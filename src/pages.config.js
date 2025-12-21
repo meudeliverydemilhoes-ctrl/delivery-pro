@@ -1,3 +1,4 @@
+import Dashboard from './pages/Dashboard';
 import Mentorados from './pages/Mentorados';
 import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Cursos from './pages/Cursos';
@@ -24,13 +25,11 @@ import MentoradoPilares from './pages/MentoradoPilares';
 import MentoradoEvolucao from './pages/MentoradoEvolucao';
 import AreaMentorado from './pages/AreaMentorado';
 import Fornecedores from './pages/Fornecedores';
-import PortalMentorados from './pages/PortalMentorados';
-import Dashboard from './pages/Dashboard';
-import MentoradoExecucao from './pages/MentoradoExecucao';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "Dashboard": Dashboard,
     "Mentorados": Mentorados,
     "MentoradoDetalhe": MentoradoDetalhe,
     "Cursos": Cursos,
@@ -57,13 +56,10 @@ export const PAGES = {
     "MentoradoEvolucao": MentoradoEvolucao,
     "AreaMentorado": AreaMentorado,
     "Fornecedores": Fornecedores,
-    "PortalMentorados": PortalMentorados,
-    "Dashboard": Dashboard,
-    "MentoradoExecucao": MentoradoExecucao,
 }
 
 export const pagesConfig = {
-    mainPage: "Mentorados",
+    mainPage: "Dashboard",
     Pages: PAGES,
     Layout: __Layout,
 };

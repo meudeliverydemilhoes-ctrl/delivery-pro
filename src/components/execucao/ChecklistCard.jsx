@@ -124,7 +124,6 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
       execucao_id: execucao.id,
       item_checklist: execucao.itens[reprovarDialog].texto,
       problema: motivoReprovacao || `Item "${execucao.itens[reprovarDialog].texto}" não foi executado corretamente`,
-      acao_corretiva: `Corrigir: ${execucao.itens[reprovarDialog].texto}`,
       pilar: execucao.pilar
     });
 
@@ -290,7 +289,8 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
                 <div className="flex gap-2 mt-4 pt-4 border-t border-white/10">
                   <Button
                     onClick={cancelEditing}
-                    className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
+                    variant="outline"
+                    className="flex-1 border-white/10 text-white hover:bg-white/10"
                   >
                     <X size={14} className="mr-2" />
                     Cancelar
@@ -407,10 +407,10 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
               />
             </div>
             <div className="flex gap-3">
-              <Button onClick={() => setReprovarDialog(null)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setReprovarDialog(null)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
-              <Button onClick={handleReprovarItem} className="flex-1 bg-red-500 hover:bg-red-600 text-white">
+              <Button onClick={handleReprovarItem} className="flex-1 bg-red-500 hover:bg-red-600">
                 Reprovar e Criar Plano
               </Button>
             </div>

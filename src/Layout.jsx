@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import { base44 } from "@/api/base44Client";
 import {
@@ -18,78 +18,38 @@ import {
   BarChart3
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
-import NotificationBell from "@/components/NotificationBell";
 
 export default function Layout({ children, currentPageName }) {
-  const navigate = useNavigate();
-  
-  // Páginas de mentorado não precisam de autenticação
-  const paginasMentorado = [
-    "AreaMentorado", "MentoradoDetalhe", "MentoradoBriefing", "MentoradoDiagnostico", 
-    "MentoradoCardapio", "MentoradoFluxogramas", "MentoradoPainel",
-    "MentoradoPilares", "MentoradoTarefas", "MentoradoNotas", 
-    "MentoradoArquivos", "MentoradoFichasTecnicas", "MentoradoEvolucao",
-    "Fornecedores", "PortalMentorados"
-  ];
-  const isPaginaMentorado = paginasMentorado.includes(currentPageName);
-
-  // Se for página de mentorado, renderizar direto sem layout
-  if (isPaginaMentorado) {
-    return (
-      <div className="min-h-screen bg-black text-white">
-        <div className="p-4 lg:p-8">
-          {children}
-        </div>
-      </div>
-    );
-  }
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    base44.auth.me().then((userData) => {
-      setUser(userData);
-      setLoading(false);
-    }).catch(() => {
-      setUser(null);
-      setLoading(false);
-    });
-  }, [navigate]);
-
-  if (loading) {
-    return <div className="min-h-screen bg-black flex items-center justify-center">
-      <p className="text-white">Carregando...</p>
-    </div>;
-  }
-  
-  if (!user) {
-    return <div className="min-h-screen bg-black flex items-center justify-center">
-      <p className="text-white">Carregando autenticação...</p>
-    </div>;
-  }
+  React.useEffect(() => {
+    base44.auth.me().then(setUser).catch(() => setUser(null));
+  }, []);
 
   const isMentor = user?.role === "admin";
+  const isMentorado = user?.role === "user";
 
-  let navigation = [
-    { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-    { name: "Mentorados", page: "Mentorados", icon: Users },
-    { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
-    { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-    { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
-    { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
-    { name: "Biblioteca", page: "Biblioteca", icon: Library },
-    { name: "Agenda", page: "Agenda", icon: Calendar },
-    { name: "Notas", page: "Notas", icon: Lightbulb },
-    { name: "Automações", page: "Automacoes", icon: Zap },
-    { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
+  const navigationMentor = [
+            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
+            { name: "Mentorados", page: "Mentorados", icon: Users },
+            { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
+            { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
+            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
+            { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
+            { name: "Cursos", page: "Cursos", icon: BookOpen },
+            { name: "Biblioteca", page: "Biblioteca", icon: Library },
+            { name: "Agenda", page: "Agenda", icon: Calendar },
+            { name: "Notas", page: "Notas", icon: Lightbulb },
+          { name: "Automações", page: "Automacoes", icon: Zap },
+          { name: "Relatórios", page: "Relatorios", icon: BarChart3 },
+          ];
+
+  const navigationMentorado = [
+    { name: "Minha Mentoria", page: "AreaMentorado", icon: Users },
   ];
 
-  navigation = navigation.filter(item => {
-    if (item.adminOnly) return isMentor;
-    return true;
-  });
+  const navigation = isMentor ? navigationMentor : navigationMentorado;
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -119,11 +79,7 @@ export default function Layout({ children, currentPageName }) {
                     button[data-variant="outline"],
                     button.border-white\/10:not([class*="bg-"]),
                     button.border-white\/10,
-                    button[class*="border-white"],
-                    button[class*="border-gray"],
-                    a button[class*="border-white"],
-                    [class*="border-white/10"] button:not([class*="bg-emerald"]):not([class*="bg-red"]):not([class*="bg-blue"]),
-                    button[class*="outline"]:not([class*="bg-"]) {
+                    a button[class*="border-white"] {
                       background-color: var(--orange) !important;
                       border-color: var(--orange) !important;
                       color: white !important;
@@ -135,8 +91,7 @@ export default function Layout({ children, currentPageName }) {
                     .bg-white button *,
                     .bg-gray-100 button *,
                     button[data-variant="outline"] *,
-                    button.border-white\/10:not([class*="bg-"]) *,
-                    button[class*="outline"]:not([class*="bg-"]) * {
+                    button.border-white\/10:not([class*="bg-"]) * {
                       color: white !important;
                     }
 
@@ -205,15 +160,12 @@ export default function Layout({ children, currentPageName }) {
             </div>
             <span className="font-semibold text-lg tracking-tight">Delivery Pro</span>
           </div>
-          <div className="flex items-center gap-2">
-            <NotificationBell />
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+          >
+            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
@@ -226,17 +178,14 @@ export default function Layout({ children, currentPageName }) {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-white/10">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
-                  <span className="text-white font-bold text-lg">D</span>
-                </div>
-                <div>
-                  <h1 className="font-bold text-lg tracking-tight">Delivery Pro</h1>
-                  <p className="text-xs text-white/50">Gestão de Mentorias</p>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
+                <span className="text-white font-bold text-lg">D</span>
               </div>
-              <NotificationBell />
+              <div>
+                <h1 className="font-bold text-lg tracking-tight">Delivery Pro</h1>
+                <p className="text-xs text-white/50">Gestão de Mentorias</p>
+              </div>
             </div>
           </div>
 

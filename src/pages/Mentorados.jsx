@@ -15,10 +15,7 @@ import {
   Edit2,
   Trash2,
   X,
-  Home,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown
+  Home
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,12 +47,9 @@ export default function Mentorados() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("todos");
   const [etapaFilter, setEtapaFilter] = useState("todos");
-  const [dateFilter, setDateFilter] = useState("todos");
-  const [sortOrder, setSortOrder] = useState("desc");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMentorado, setEditingMentorado] = useState(null);
-  
-  const getInitialFormData = () => ({
+  const [formData, setFormData] = useState({
     nome: "",
     negocio: "",
     cidade: "",
@@ -67,8 +61,6 @@ export default function Mentorados() {
     observacoes: "",
     link_drive: "",
   });
-  
-  const [formData, setFormData] = useState(getInitialFormData());
 
   const { data: mentorados = [], isLoading } = useQuery({
     queryKey: ["mentorados"],
@@ -101,7 +93,18 @@ export default function Mentorados() {
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setEditingMentorado(null);
-    setFormData(getInitialFormData());
+    setFormData({
+      nome: "",
+      negocio: "",
+      cidade: "",
+      contato: "",
+      email: "",
+      status: "ativo",
+      etapa: "diagnostico",
+      data_entrada: format(new Date(), "yyyy-MM-dd"),
+      observacoes: "",
+      link_drive: "",
+    });
   };
 
   const handleEdit = (mentorado) => {
@@ -129,35 +132,15 @@ export default function Mentorados() {
     }
   };
 
-  const filtered = mentorados
-    .filter((m) => {
-      const matchSearch =
-        m.nome?.toLowerCase().includes(search.toLowerCase()) ||
-        m.negocio?.toLowerCase().includes(search.toLowerCase()) ||
-        m.cidade?.toLowerCase().includes(search.toLowerCase()) ||
-        m.status?.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = statusFilter === "todos" || m.status === statusFilter;
-      const matchEtapa = etapaFilter === "todos" || m.etapa === etapaFilter;
-      
-      let matchDate = true;
-      if (dateFilter !== "todos" && m.created_date) {
-        const createdDate = new Date(m.created_date);
-        const now = new Date();
-        const diffDays = Math.floor((now - createdDate) / (1000 * 60 * 60 * 24));
-        
-        if (dateFilter === "hoje") matchDate = diffDays === 0;
-        else if (dateFilter === "semana") matchDate = diffDays <= 7;
-        else if (dateFilter === "mes") matchDate = diffDays <= 30;
-        else if (dateFilter === "trimestre") matchDate = diffDays <= 90;
-      }
-      
-      return matchSearch && matchStatus && matchEtapa && matchDate;
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.created_date || 0);
-      const dateB = new Date(b.created_date || 0);
-      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
-    });
+  const filtered = mentorados.filter((m) => {
+    const matchSearch =
+      m.nome?.toLowerCase().includes(search.toLowerCase()) ||
+      m.negocio?.toLowerCase().includes(search.toLowerCase()) ||
+      m.cidade?.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === "todos" || m.status === statusFilter;
+    const matchEtapa = etapaFilter === "todos" || m.etapa === etapaFilter;
+    return matchSearch && matchStatus && matchEtapa;
+  });
 
   const statusColors = {
     ativo: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
@@ -184,87 +167,60 @@ export default function Mentorados() {
           <h1 className="text-3xl font-bold text-white mb-2">Mentorados</h1>
           <p className="text-white/50">{mentorados.length} mentorados cadastrados</p>
         </div>
-        <Button
-          onClick={() => setIsDialogOpen(true)}
-          className="bg-[#FF4D00] hover:bg-[#E64500] text-white"
-        >
-          <Plus size={20} className="mr-2" />
-          Novo Mentorado
-        </Button>
+        <div className="flex gap-2">
+          <Link to={createPageUrl("Dashboard")}>
+            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Home size={18} className="mr-2" /> Início
+            </Button>
+          </Link>
+          <Button
+            onClick={() => setIsDialogOpen(true)}
+            className="bg-[#FF4D00] hover:bg-[#E64500] text-white"
+          >
+            <Plus size={20} className="mr-2" />
+            Novo Mentorado
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="space-y-4 mb-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-            <Input
-              placeholder="Buscar por nome, negócio, cidade ou status..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
-            />
-          </div>
-          <Button
-            variant="outline"
-            onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
-            className="bg-white/5 border-white/10 text-white hover:bg-white/10 min-w-[140px]"
-          >
-            {sortOrder === "desc" ? (
-              <>
-                <ArrowDown size={16} className="mr-2" />
-                Mais Recentes
-              </>
-            ) : (
-              <>
-                <ArrowUp size={16} className="mr-2" />
-                Mais Antigos
-              </>
-            )}
-          </Button>
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="relative flex-1">
+          <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+          <Input
+            placeholder="Buscar por nome, negócio ou cidade..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-white/40"
+          />
         </div>
-        
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-40 bg-white/5 border-white/10 text-white">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-white/10">
-              <SelectItem value="todos">Todos Status</SelectItem>
-              <SelectItem value="ativo">Ativo</SelectItem>
-              <SelectItem value="pausado">Pausado</SelectItem>
-              <SelectItem value="concluido">Concluído</SelectItem>
-              <SelectItem value="desistente">Desistente</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={etapaFilter} onValueChange={setEtapaFilter}>
-            <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
-              <SelectValue placeholder="Etapa" />
-            </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-white/10">
-              <SelectItem value="todos">Todas Etapas</SelectItem>
-              <SelectItem value="diagnostico">Diagnóstico</SelectItem>
-              <SelectItem value="pilar1">Pilar 1</SelectItem>
-              <SelectItem value="pilar2">Pilar 2</SelectItem>
-              <SelectItem value="pilar3">Pilar 3</SelectItem>
-              <SelectItem value="pilar4">Pilar 4</SelectItem>
-              <SelectItem value="pilar5">Pilar 5</SelectItem>
-              <SelectItem value="acompanhamento">Acompanhamento</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={dateFilter} onValueChange={setDateFilter}>
-            <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
-              <SelectValue placeholder="Data Criação" />
-            </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-white/10">
-              <SelectItem value="todos">Todas Datas</SelectItem>
-              <SelectItem value="hoje">Hoje</SelectItem>
-              <SelectItem value="semana">Última Semana</SelectItem>
-              <SelectItem value="mes">Último Mês</SelectItem>
-              <SelectItem value="trimestre">Último Trimestre</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-full sm:w-40 bg-white/5 border-white/10 text-white">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent className="bg-zinc-900 border-white/10">
+            <SelectItem value="todos">Todos Status</SelectItem>
+            <SelectItem value="ativo">Ativo</SelectItem>
+            <SelectItem value="pausado">Pausado</SelectItem>
+            <SelectItem value="concluido">Concluído</SelectItem>
+            <SelectItem value="desistente">Desistente</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={etapaFilter} onValueChange={setEtapaFilter}>
+          <SelectTrigger className="w-full sm:w-48 bg-white/5 border-white/10 text-white">
+            <SelectValue placeholder="Etapa" />
+          </SelectTrigger>
+          <SelectContent className="bg-zinc-900 border-white/10">
+            <SelectItem value="todos">Todas Etapas</SelectItem>
+            <SelectItem value="diagnostico">Diagnóstico</SelectItem>
+            <SelectItem value="pilar1">Pilar 1</SelectItem>
+            <SelectItem value="pilar2">Pilar 2</SelectItem>
+            <SelectItem value="pilar3">Pilar 3</SelectItem>
+            <SelectItem value="pilar4">Pilar 4</SelectItem>
+            <SelectItem value="pilar5">Pilar 5</SelectItem>
+            <SelectItem value="acompanhamento">Acompanhamento</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Grid */}
@@ -350,25 +306,12 @@ export default function Mentorados() {
                 </span>
               </div>
 
-              <div className="flex gap-2">
-                <Link
-                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}`)}
-                  className="flex items-center justify-center gap-2 flex-1 py-2.5 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
-                >
-                  Ver Detalhes <ArrowRight size={16} />
-                </Link>
-                <button
-                  onClick={() => {
-                    const link = `${window.location.origin}${createPageUrl(`AreaMentorado?id=${m.id}`)}`;
-                    navigator.clipboard.writeText(link);
-                    alert(`Link copiado!\n\nEnvie para ${m.nome}:\n${link}\n\nLogin: ${m.email || 'email não cadastrado'}`);
-                  }}
-                  className="px-4 py-2.5 bg-blue-500/10 text-blue-400 rounded-xl hover:bg-blue-500/20 transition-colors font-medium"
-                  title="Copiar link de acesso"
-                >
-                  📋
-                </button>
-              </div>
+              <Link
+                to={createPageUrl(`MentoradoDetalhe?id=${m.id}`)}
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
+              >
+                Ver Detalhes <ArrowRight size={16} />
+              </Link>
             </div>
           ))}
         </div>
@@ -486,7 +429,7 @@ export default function Mentorados() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button onClick={handleCloseDialog} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={handleCloseDialog} className="flex-1 border-white/10 text-white hover:bg-white/10">
                 Cancelar
               </Button>
               <Button

@@ -604,8 +604,6 @@ const sopsProntos = {
 
 export default function ExecucaoInteligente() {
   const queryClient = useQueryClient();
-  
-  // Estado
   const [activeTab, setActiveTab] = useState("execucoes");
   const [search, setSearch] = useState("");
   const [pilarFilter, setPilarFilter] = useState("todos");
@@ -619,25 +617,17 @@ export default function ExecucaoInteligente() {
   const [selectedChecklist, setSelectedChecklist] = useState(null);
   
   // Forms
-  const getInitialChecklistForm = () => ({
+  const [checklistForm, setChecklistForm] = useState({
     titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10
   });
-  const getInitialNovoItem = () => ({ 
-    texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" 
-  });
-  const getInitialSOPForm = () => ({
+  const [novoItem, setNovoItem] = useState({ texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" });
+  const [sopForm, setSOPForm] = useState({
     titulo: "", descricao: "", pilar: "processos", categoria: "operacional", conteudo: "", video_url: "", passos: []
   });
-  const getInitialComunicadoForm = () => ({
+  const [comunicadoForm, setComunicadoForm] = useState({
     titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false
   });
-  const getInitialAtribuirForm = () => ({ mentorado_id: "", data_limite: "" });
-  
-  const [checklistForm, setChecklistForm] = useState(getInitialChecklistForm());
-  const [novoItem, setNovoItem] = useState(getInitialNovoItem());
-  const [sopForm, setSOPForm] = useState(getInitialSOPForm());
-  const [comunicadoForm, setComunicadoForm] = useState(getInitialComunicadoForm());
-  const [atribuirForm, setAtribuirForm] = useState(getInitialAtribuirForm());
+  const [atribuirForm, setAtribuirForm] = useState({ mentorado_id: "", data_limite: "" });
 
   // Queries
   const { data: checklists = [] } = useQuery({
@@ -681,7 +671,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checklists"] });
       setChecklistDialogOpen(false);
-      setChecklistForm(getInitialChecklistForm());
+      setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
     }
   });
 
@@ -691,7 +681,7 @@ export default function ExecucaoInteligente() {
       queryClient.invalidateQueries({ queryKey: ["execucoes"] });
       setAtribuirDialogOpen(false);
       setSelectedChecklist(null);
-      setAtribuirForm(getInitialAtribuirForm());
+      setAtribuirForm({ mentorado_id: "", data_limite: "" });
     }
   });
 
@@ -707,7 +697,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sops"] });
       setSOPDialogOpen(false);
-      setSOPForm(getInitialSOPForm());
+      setSOPForm({ titulo: "", descricao: "", pilar: "processos", categoria: "operacional", conteudo: "", video_url: "", passos: [] });
     }
   });
 
@@ -716,7 +706,7 @@ export default function ExecucaoInteligente() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comunicados"] });
       setComunicadoDialogOpen(false);
-      setComunicadoForm(getInitialComunicadoForm());
+      setComunicadoForm({ titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false });
     }
   });
 
@@ -727,7 +717,7 @@ export default function ExecucaoInteligente() {
         ...checklistForm,
         itens: [...checklistForm.itens, { ...novoItem }]
       });
-      setNovoItem(getInitialNovoItem());
+      setNovoItem({ texto: "", obrigatorio: true, requer_evidencia: false, tipo_evidencia: "foto" });
     }
   };
 
@@ -785,14 +775,9 @@ export default function ExecucaoInteligente() {
 
   const handleCreatePlanoAcao = (data) => {
     createPlanoAcaoMutation.mutate({
-      mentorado_id: data.mentorado_id,
-      problema: data.problema,
-      acao_corretiva: data.acao_corretiva || data.problema,
-      execucao_id: data.execucao_id,
-      item_checklist: data.item_checklist,
-      pilar: data.pilar,
-      prazo: data.prazo || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
-      prioridade: data.prioridade || "media",
+      ...data,
+      prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+      prioridade: "media",
       status: "pendente"
     });
   };
@@ -834,10 +819,10 @@ export default function ExecucaoInteligente() {
               <Home size={18} className="mr-2" /> Voltar ao Início
             </Button>
           </Link>
-          <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+          <Button variant="outline" onClick={() => setComunicadoDialogOpen(true)} className="border-white/10 text-white">
             <Bell size={18} className="mr-2" /> Comunicado
           </Button>
-          <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+          <Button variant="outline" onClick={() => setSOPDialogOpen(true)} className="border-white/10 text-white">
             <BookOpen size={18} className="mr-2" /> Novo SOP
           </Button>
           <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
@@ -1007,7 +992,8 @@ export default function ExecucaoInteligente() {
                       </div>
                       <Button
                         onClick={() => createChecklistMutation.mutate(checklist)}
-                        className="w-full bg-[#FF4D00] hover:bg-[#E64500] text-white"
+                        variant="outline"
+                        className="w-full border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
                         size="sm"
                       >
                         <Plus size={14} className="mr-1" /> Adicionar
@@ -1070,47 +1056,20 @@ export default function ExecucaoInteligente() {
                       )}
                     </div>
                     <Button
-                      onClick={async () => {
-                        try {
-                          if (mentorados.length === 0) {
-                            alert("Nenhum mentorado ativo encontrado. Crie um mentorado primeiro.");
-                            return;
-                          }
-                          
-                          let mentoradoId;
-                          if (mentorados.length === 1) {
-                            mentoradoId = mentorados[0].id;
-                          } else {
-                            const mentoradoNome = prompt(`Digite o nome do mentorado:\n\n${mentorados.map(m => m.nome).join('\n')}`);
-                            const mentorado = mentorados.find(m => m.nome.toLowerCase().includes(mentoradoNome?.toLowerCase() || ''));
-                            if (!mentorado) {
-                              alert("Mentorado não encontrado");
-                              return;
-                            }
-                            mentoradoId = mentorado.id;
-                          }
-                          
-                          for (const acao of plano.acoes) {
-                            const prazoMatch = acao.prazo.match(/\d+/);
-                            const diasPrazo = prazoMatch ? parseInt(prazoMatch[0]) : 7;
-                            
-                            await base44.entities.PlanoAcaoInteligente.create({
-                              mentorado_id: mentoradoId,
+                      onClick={() => {
+                        // Criar múltiplos planos de ação
+                        plano.acoes.forEach((acao, index) => {
+                          setTimeout(() => {
+                            createPlanoAcaoMutation.mutate({
                               problema: plano.problema,
                               acao_corretiva: acao.acao,
                               pilar: plano.pilar,
-                              prioridade: acao.prioridade || "media",
-                              prazo: new Date(Date.now() + diasPrazo * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                              prioridade: acao.prioridade,
+                              prazo: new Date(Date.now() + (parseInt(acao.prazo) || 7) * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
                               status: "pendente"
                             });
-                          }
-                          
-                          queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
-                          alert(`✅ ${plano.acoes.length} ações criadas com sucesso!`);
-                        } catch (error) {
-                          console.error("Erro ao aplicar plano:", error);
-                          alert(`❌ Erro ao criar planos de ação: ${error.message}`);
-                        }
+                          }, index * 100);
+                        });
                       }}
                       className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                       size="sm"
@@ -1172,7 +1131,8 @@ export default function ExecucaoInteligente() {
                       <div className="flex gap-2">
                         <Button
                           onClick={() => createSOPMutation.mutate({ ...sop, ativo: true })}
-                          className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white"
+                          variant="outline"
+                          className="flex-1 border-[#FF4D00]/50 text-[#FF4D00] hover:bg-[#FF4D00]/10"
                           size="sm"
                         >
                           <Plus size={14} className="mr-1" /> Adicionar
@@ -1323,10 +1283,10 @@ export default function ExecucaoInteligente() {
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setChecklistDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setChecklistDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
-              <Button onClick={handleCreateChecklist} disabled={!checklistForm.titulo || checklistForm.itens.length === 0} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button onClick={handleCreateChecklist} disabled={!checklistForm.titulo || checklistForm.itens.length === 0} className="flex-1 bg-[#FF4D00]">
                 Criar Checklist
               </Button>
             </div>
@@ -1365,10 +1325,10 @@ export default function ExecucaoInteligente() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setAtribuirDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setAtribuirDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
-              <Button onClick={handleAtribuirChecklist} disabled={!atribuirForm.mentorado_id} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button onClick={handleAtribuirChecklist} disabled={!atribuirForm.mentorado_id} className="flex-1 bg-[#FF4D00]">
                 Atribuir
               </Button>
             </div>
@@ -1433,10 +1393,10 @@ export default function ExecucaoInteligente() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setSOPDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setSOPDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
-              <Button onClick={() => createSOPMutation.mutate(sopForm)} disabled={!sopForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button onClick={() => createSOPMutation.mutate(sopForm)} disabled={!sopForm.titulo} className="flex-1 bg-[#FF4D00]">
                 Criar SOP
               </Button>
             </div>
@@ -1505,10 +1465,10 @@ export default function ExecucaoInteligente() {
               Requer confirmação de leitura
             </label>
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setComunicadoDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button variant="outline" onClick={() => setComunicadoDialogOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
-              <Button onClick={() => createComunicadoMutation.mutate(comunicadoForm)} disabled={!comunicadoForm.titulo || !comunicadoForm.mensagem} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Button onClick={() => createComunicadoMutation.mutate(comunicadoForm)} disabled={!comunicadoForm.titulo || !comunicadoForm.mensagem} className="flex-1 bg-[#FF4D00]">
                 Enviar
               </Button>
             </div>

@@ -684,7 +684,7 @@ export default function FluxogramasOperacionais() {
                         e.stopPropagation();
                         openVisualEditor(setor.id);
                       }}
-                      className="bg-[#FF4D00] hover:bg-[#E64500] border-[#FF4D00] text-white text-xs"
+                      className="border-white/10 text-[#FF4D00] hover:bg-[#FF4D00]/10 text-xs"
                     >
                       <Pencil size={12} className="mr-1" />
                       Editor Visual
@@ -697,7 +697,7 @@ export default function FluxogramasOperacionais() {
                           e.stopPropagation();
                           handleReset(setor.id);
                         }}
-                        className="bg-[#FF4D00] hover:bg-[#E64500] border-[#FF4D00] text-white text-xs"
+                        className="border-white/10 text-white/60 hover:text-white text-xs"
                       >
                         <RotateCcw size={12} className="mr-1" />
                         Resetar

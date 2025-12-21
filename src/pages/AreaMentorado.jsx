@@ -1,65 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
   FileText, ClipboardCheck, UtensilsCrossed, GitBranch,
   LayoutDashboard, ListTodo, StickyNote, Files, ChefHat,
-  TrendingUp, Target, Users
+  TrendingUp, Target
 } from "lucide-react";
 
 export default function AreaMentorado() {
-  const [mentorado, setMentorado] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [user, setUser] = React.useState(null);
+  const [mentorado, setMentorado] = React.useState(null);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const mentoradoId = urlParams.get("id");
+  React.useEffect(() => {
+    base44.auth.me().then(async (userData) => {
+      setUser(userData);
+      const mentorados = await base44.entities.Mentorado.filter({ email: userData.email });
+      if (mentorados.length > 0) {
+        setMentorado(mentorados[0]);
+      }
+    }).catch(() => setUser(null));
+  }, []);
 
-  useEffect(() => {
-    if (!mentoradoId) {
-      setError("ID não fornecido");
-      setLoading(false);
-      return;
-    }
-
-    base44.entities.Mentorado.filter({ id: mentoradoId })
-      .then((result) => {
-        if (result && result.length > 0) {
-          setMentorado(result[0]);
-        } else {
-          setError("Mentorado não encontrado");
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [mentoradoId]);
-
-  if (loading) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <p className="text-white">Carregando...</p>
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-white/50">Carregando...</p>
       </div>
     );
   }
 
-  if (error || !mentorado) {
+  if (!mentorado) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-white/50">Perfil não encontrado</p>
-          <p className="text-white/30 text-xs mt-2">{error || "Erro desconhecido"}</p>
-        </div>
+      <div className="max-w-4xl mx-auto text-center py-16">
+        <p className="text-white/50">Nenhum perfil de mentorado encontrado para seu email.</p>
+        <p className="text-white/30 mt-2">Entre em contato com seu mentor.</p>
       </div>
     );
   }
+
+  const mentoradoId = mentorado.id;
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="max-w-4xl mx-auto p-4 lg:p-8">
+    <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
@@ -86,10 +70,6 @@ export default function AreaMentorado() {
       <div>
         <h2 className="text-lg font-semibold text-white mb-4">Acesse suas áreas</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <Link to={createPageUrl(`Fornecedores?id=${mentoradoId}`)} className="flex flex-col items-center gap-3 px-4 py-6 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-            <Users size={28} className="text-white/50 group-hover:text-[#FF4D00]" />
-            <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Fornecedores</span>
-          </Link>
           <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex flex-col items-center gap-3 px-4 py-6 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
             <FileText size={28} className="text-white/50 group-hover:text-[#FF4D00]" />
             <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Briefing</span>
@@ -135,7 +115,6 @@ export default function AreaMentorado() {
             <span className="text-white text-center text-sm group-hover:text-[#FF4D00] font-medium">Evolução</span>
           </Link>
         </div>
-      </div>
       </div>
     </div>
   );
