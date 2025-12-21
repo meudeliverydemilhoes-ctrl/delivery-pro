@@ -1063,13 +1063,23 @@ export default function ExecucaoInteligente() {
                       onClick={() => {
                         // Criar múltiplos planos de ação
                         plano.acoes.forEach((acao, index) => {
+                          const prazoTexto = acao.prazo.toLowerCase();
+                          let prazoData;
+                          
+                          if (prazoTexto.includes("diário") || prazoTexto === "diário") {
+                            prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                          } else {
+                            const dias = parseInt(prazoTexto) || 7;
+                            prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                          }
+                          
                           setTimeout(() => {
                             createPlanoAcaoMutation.mutate({
                               problema: plano.problema,
                               acao_corretiva: acao.acao,
                               pilar: plano.pilar,
                               prioridade: acao.prioridade,
-                              prazo: new Date(Date.now() + (parseInt(acao.prazo) || 7) * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+                              prazo: prazoData,
                               status: "pendente"
                             });
                           }, index * 100);
