@@ -1090,67 +1090,80 @@ export default function ExecucaoInteligente() {
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium text-white mb-2">Planos de Ação Prontos para Delivery</h3>
-              <p className="text-sm text-white/50 mb-4">Selecione um plano completo com múltiplas ações para aplicar ao mentorado.</p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <p className="text-sm text-white/50 mb-6">Selecione um plano completo com múltiplas ações para aplicar ao mentorado.</p>
+              <div className="grid gap-6">
                 {planosAcaoProntos.map((plano, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-4 hover:border-[#FF4D00]/30 transition-colors">
-                    <h4 className="font-medium text-white mb-2">{plano.titulo}</h4>
-                    <p className="text-sm text-red-400/80 mb-2">❗ {plano.problema}</p>
-                    <p className="text-xs text-white/50 mb-3">{plano.descricao}</p>
-                    <div className="flex items-center gap-2 text-xs text-white/40 mb-3">
-                      <span className={`px-2 py-0.5 rounded-full ${
-                        plano.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
-                        plano.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
-                        plano.pilar === "tempo_potencia" ? "bg-violet-500/20 text-violet-400" :
-                        "bg-pink-500/20 text-pink-400"
-                      }`}>{pilarOptions.find(p => p.value === plano.pilar)?.label}</span>
-                      <span>{plano.acoes.length} ações</span>
+                  <div key={idx} className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-xl p-6 hover:border-[#FF4D00]/30 transition-colors">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h4 className="text-xl font-semibold text-white mb-2">{plano.titulo}</h4>
+                        <p className="text-sm text-red-400/90 mb-2">❗ {plano.problema}</p>
+                        <p className="text-sm text-white/60 mb-3">{plano.descricao}</p>
+                        <span className={`inline-flex items-center text-xs px-3 py-1 rounded-full ${
+                          plano.pilar === "processos" ? "bg-blue-500/20 text-blue-400" :
+                          plano.pilar === "desempenho" ? "bg-emerald-500/20 text-emerald-400" :
+                          plano.pilar === "tempo_potencia" ? "bg-violet-500/20 text-violet-400" :
+                          "bg-pink-500/20 text-pink-400"
+                        }`}>{pilarOptions.find(p => p.value === plano.pilar)?.label}</span>
+                      </div>
+                      <Button
+                        onClick={async () => {
+                          for (const acao of plano.acoes) {
+                            const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
+                            let prazoData;
+                            
+                            if (prazoTexto.includes("diário") || prazoTexto.includes("diario")) {
+                              prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                            } else {
+                              const dias = parseInt(prazoTexto.match(/\d+/)?.[0]) || 7;
+                              prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+                            }
+                            
+                            await createPlanoAcaoMutation.mutateAsync({
+                              problema: plano.problema || "Problema identificado",
+                              acao_corretiva: acao.acao || "Ação necessária",
+                              pilar: plano.pilar || "geral",
+                              prioridade: acao.prioridade || "media",
+                              prazo: prazoData,
+                              status: "pendente"
+                            });
+                          }
+                          setActiveTab("planos");
+                        }}
+                        className="bg-[#FF4D00] hover:bg-[#E64500] ml-4"
+                      >
+                        <Target size={16} className="mr-2" /> Aplicar Plano Completo
+                      </Button>
                     </div>
-                    <div className="space-y-1 mb-3 max-h-32 overflow-y-auto">
-                      {plano.acoes.slice(0, 4).map((acao, aIdx) => (
-                        <div key={aIdx} className="flex items-start gap-2 text-xs">
-                          <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                            acao.prioridade === "critica" ? "bg-red-500" :
-                            acao.prioridade === "alta" ? "bg-amber-500" :
-                            "bg-blue-500"
-                          }`} />
-                          <span className="text-white/60 line-clamp-1">{acao.acao}</span>
+                    
+                    <div className="space-y-3">
+                      <h5 className="text-sm font-medium text-white/80 mb-2">Ações do Plano ({plano.acoes.length}):</h5>
+                      {plano.acoes.map((acao, aIdx) => (
+                        <div key={aIdx} className="flex items-start gap-3 p-3 bg-white/5 rounded-lg">
+                          <span className={`mt-1 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
+                            acao.prioridade === "critica" ? "bg-red-500/20 text-red-400" :
+                            acao.prioridade === "alta" ? "bg-amber-500/20 text-amber-400" :
+                            "bg-blue-500/20 text-blue-400"
+                          }`}>{aIdx + 1}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-white/90 mb-1">{acao.acao}</p>
+                            <div className="flex items-center gap-3 text-xs text-white/50">
+                              <span className={`px-2 py-0.5 rounded-full ${
+                                acao.prioridade === "critica" ? "bg-red-500/20 text-red-400" :
+                                acao.prioridade === "alta" ? "bg-amber-500/20 text-amber-400" :
+                                acao.prioridade === "media" ? "bg-blue-500/20 text-blue-400" :
+                                "bg-gray-500/20 text-gray-400"
+                              }`}>
+                                {acao.prioridade === "critica" ? "🔴 Crítica" :
+                                 acao.prioridade === "alta" ? "🟡 Alta" :
+                                 acao.prioridade === "media" ? "🔵 Média" : "⚪ Baixa"}
+                              </span>
+                              <span>📅 Prazo: {acao.prazo}</span>
+                            </div>
+                          </div>
                         </div>
                       ))}
-                      {plano.acoes.length > 4 && (
-                        <p className="text-xs text-white/40 pl-3">+{plano.acoes.length - 4} mais...</p>
-                      )}
                     </div>
-                    <Button
-                      onClick={async () => {
-                        // Criar múltiplos planos de ação
-                        for (const acao of plano.acoes) {
-                          const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
-                          let prazoData;
-                          
-                          if (prazoTexto.includes("diário") || prazoTexto.includes("diario")) {
-                            prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
-                          } else {
-                            const dias = parseInt(prazoTexto.match(/\d+/)?.[0]) || 7;
-                            prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
-                          }
-                          
-                          await createPlanoAcaoMutation.mutateAsync({
-                            problema: plano.problema || "Problema identificado",
-                            acao_corretiva: acao.acao || "Ação necessária",
-                            pilar: plano.pilar || "geral",
-                            prioridade: acao.prioridade || "media",
-                            prazo: prazoData,
-                            status: "pendente"
-                          });
-                        }
-                        setActiveTab("planos");
-                      }}
-                      className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
-                      size="sm"
-                    >
-                      <Target size={14} className="mr-1" /> Aplicar Plano
-                    </Button>
                   </div>
                 ))}
               </div>
