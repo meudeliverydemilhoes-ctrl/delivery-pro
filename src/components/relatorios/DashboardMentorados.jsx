@@ -105,7 +105,7 @@ export default function DashboardMentorados({ mentorados, tarefas, execucoes, da
     <div className="space-y-6">
       {/* Ações de Exportação */}
       <div className="flex justify-end gap-2">
-        <Button onClick={exportCSV} variant="outline" className="border-white/10 text-black hover:bg-white/10">
+        <Button onClick={exportCSV} variant="outline" className="border-white/10 text-white">
           <Table size={16} className="mr-2" /> Exportar CSV
         </Button>
         <Button onClick={exportPDF} className="bg-[#FF4D00] hover:bg-[#E64500]">

@@ -22,7 +22,6 @@ import MentoradoNotas from './pages/MentoradoNotas';
 import MentoradoArquivos from './pages/MentoradoArquivos';
 import MentoradoFichasTecnicas from './pages/MentoradoFichasTecnicas';
 import MentoradoPilares from './pages/MentoradoPilares';
-import MentoradoEvolucao from './pages/MentoradoEvolucao';
 import __Layout from './Layout.jsx';
 
 
@@ -51,7 +50,6 @@ export const PAGES = {
     "MentoradoArquivos": MentoradoArquivos,
     "MentoradoFichasTecnicas": MentoradoFichasTecnicas,
     "MentoradoPilares": MentoradoPilares,
-    "MentoradoEvolucao": MentoradoEvolucao,
 }
 
 export const pagesConfig = {

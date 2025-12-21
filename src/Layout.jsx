@@ -39,102 +39,22 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-black text-white">
       <style>{`
-                    :root {
-                      --orange: #FF4D00;
-                      --orange-hover: #E64500;
-                    }
-                    .text-orange { color: var(--orange); }
-                    .bg-orange { background-color: var(--orange); }
-                    .border-orange { border-color: var(--orange); }
-                    .hover\\:bg-orange:hover { background-color: var(--orange); }
-                    .hover\\:text-orange:hover { color: var(--orange); }
-
-                    /* All buttons - default white text on dark backgrounds */
-                    button,
-                    button * {
-                      color: white !important;
-                    }
-
-                    /* White/outline buttons - change to orange */
-                    button.bg-white,
-                    button.bg-gray-100,
-                    button[class*="bg-white"],
-                    .bg-white button,
-                    .bg-gray-100 button,
-                    button[data-variant="outline"],
-                    button.border-white\/10:not([class*="bg-"]),
-                    button.border-white\/10,
-                    a button[class*="border-white"] {
-                      background-color: var(--orange) !important;
-                      border-color: var(--orange) !important;
-                      color: white !important;
-                    }
-
-                    button.bg-white *,
-                    button.bg-gray-100 *,
-                    button[class*="bg-white"] *,
-                    .bg-white button *,
-                    .bg-gray-100 button *,
-                    button[data-variant="outline"] *,
-                    button.border-white\/10:not([class*="bg-"]) * {
-                      color: white !important;
-                    }
-
-                                  /* Ensure colored buttons keep white text */
-                                                button.bg-\\[\\#FF4D00\\],
-                                                button.bg-\\[\\#FF4D00\\] *,
-                                                button.bg-emerald-500,
-                                                button.bg-emerald-500 *,
-                                                button.bg-red-500,
-                                                button.bg-red-500 *,
-                                                button.bg-blue-500,
-                                                button.bg-blue-500 * {
-                                                  color: white !important;
-                                                }
-
-                                                /* Calendar numbers white on mobile and desktop */
-                                                [role="gridcell"],
-                                                [role="gridcell"] *,
-                                                .rdp-day,
-                                                .rdp-day *,
-                                                [class*="day"],
-                                                [class*="calendar"] button,
-                                                [class*="calendar"] button * {
-                                                  color: white !important;
-                                                }
-
-                                                /* Links de voltar - laranja */
-                                                a[class*="text-white/50"]:has(svg) {
-                                                  color: var(--orange) !important;
-                                                }
-
-                                                a[class*="text-white/50"]:has(svg):hover {
-                                                  color: white !important;
-                                                }
-
-                                                /* Force white text on dark backgrounds */
-                                                .bg-black *:not(button.bg-white):not(button.bg-white *),
-                                                .bg-zinc-900 *:not(button.bg-white):not(button.bg-white *),
-                                                .bg-gray-900 *:not(button.bg-white):not(button.bg-white *),
-                                                [class*="bg-black"] *:not(button.bg-white):not(button.bg-white *),
-                                                [class*="bg-zinc-9"] *:not(button.bg-white):not(button.bg-white *) {
-                                                  color: white !important;
-                                                }
-
-                                                /* Inputs and selects on dark backgrounds */
-                                                input:not([type="checkbox"]):not([type="radio"]),
-                                                textarea,
-                                                select,
-                                                [role="combobox"] {
-                                                  color: white !important;
-                                                }
-
-                    /* Custom scrollbar */
-                    ::-webkit-scrollbar { width: 6px; height: 6px; }
-                    ::-webkit-scrollbar-track { background: #1a1a1a; }
-                    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-                    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
-                  `}</style>
+        :root {
+          --orange: #FF4D00;
+          --orange-hover: #E64500;
+        }
+        .text-orange { color: var(--orange); }
+        .bg-orange { background-color: var(--orange); }
+        .border-orange { border-color: var(--orange); }
+        .hover\\:bg-orange:hover { background-color: var(--orange); }
+        .hover\\:text-orange:hover { color: var(--orange); }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+      `}</style>
 
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-white/10">

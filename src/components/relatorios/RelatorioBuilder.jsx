@@ -251,10 +251,10 @@ export default function RelatorioBuilder({ mentorados, execucoes, tarefas, autom
           />
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => setAddWidgetOpen(true)} variant="outline" className="border-white/10 text-black hover:bg-white/10">
+          <Button onClick={() => setAddWidgetOpen(true)} variant="outline" className="border-white/10 text-white">
             <Plus size={16} className="mr-2" /> Adicionar Widget
           </Button>
-          <Button onClick={() => setPreviewMode(!previewMode)} variant="outline" className="border-white/10 text-black hover:bg-white/10">
+          <Button onClick={() => setPreviewMode(!previewMode)} variant="outline" className="border-white/10 text-white">
             <Eye size={16} className="mr-2" /> {previewMode ? "Editar" : "Preview"}
           </Button>
           <Button onClick={exportPDF} className="bg-[#FF4D00] hover:bg-[#E64500]" disabled={widgets.length === 0}>
@@ -340,7 +340,7 @@ export default function RelatorioBuilder({ mentorados, execucoes, tarefas, autom
               </Select>
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setAddWidgetOpen(false)} className="flex-1 border-white/10 text-black hover:bg-white/10">
+              <Button variant="outline" onClick={() => setAddWidgetOpen(false)} className="flex-1 border-white/10 text-white">
                 Cancelar
               </Button>
               <Button onClick={addWidget} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">

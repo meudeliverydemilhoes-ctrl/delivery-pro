@@ -220,13 +220,13 @@ export default function Agenda() {
                   onClick={() => setSelectedDate(isSelected ? null : day)}
                   className={`aspect-square p-1 rounded-xl transition-colors relative ${
                     isSelected
-                      ? "bg-[#FF4D00]"
+                      ? "bg-[#FF4D00] text-white"
                       : isTodayDate
-                      ? "bg-white/10"
-                      : "hover:bg-white/5"
+                      ? "bg-white/10 text-white"
+                      : "hover:bg-white/5 text-white/70"
                   }`}
                 >
-                  <span className="text-sm text-white">{format(day, "d")}</span>
+                  <span className="text-sm">{format(day, "d")}</span>
                   {dayEvents.length > 0 && (
                     <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-0.5">
                       {dayEvents.slice(0, 3).map((event, i) => (
