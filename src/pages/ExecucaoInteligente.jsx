@@ -1062,30 +1062,29 @@ export default function ExecucaoInteligente() {
                       )}
                     </div>
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
                         // Criar múltiplos planos de ação
-                        plano.acoes.forEach((acao, index) => {
-                          const prazoTexto = acao.prazo.toLowerCase();
+                        for (const acao of plano.acoes) {
+                          const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
                           let prazoData;
                           
-                          if (prazoTexto.includes("diário") || prazoTexto === "diário") {
+                          if (prazoTexto.includes("diário") || prazoTexto.includes("diario")) {
                             prazoData = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
                           } else {
-                            const dias = parseInt(prazoTexto) || 7;
+                            const dias = parseInt(prazoTexto.match(/\d+/)?.[0]) || 7;
                             prazoData = new Date(Date.now() + dias * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
                           }
                           
-                          setTimeout(() => {
-                            createPlanoAcaoMutation.mutate({
-                              problema: plano.problema,
-                              acao_corretiva: acao.acao,
-                              pilar: plano.pilar,
-                              prioridade: acao.prioridade,
-                              prazo: prazoData,
-                              status: "pendente"
-                            });
-                          }, index * 100);
-                        });
+                          await createPlanoAcaoMutation.mutateAsync({
+                            problema: plano.problema || "Problema identificado",
+                            acao_corretiva: acao.acao || "Ação necessária",
+                            pilar: plano.pilar || "geral",
+                            prioridade: acao.prioridade || "media",
+                            prazo: prazoData,
+                            status: "pendente"
+                          });
+                        }
+                        setActiveTab("planos");
                       }}
                       className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                       size="sm"
