@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
-  AlertTriangle, Clock, CheckCircle2, Upload, MessageSquare, User, Calendar
+  AlertTriangle, Clock, CheckCircle2, Upload, MessageSquare, User, Calendar, Edit2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -102,6 +102,15 @@ export default function PlanoAcaoCard({ plano, onUpdate, onEdit }) {
           </div>
           <h4 className="font-medium text-white">{plano.problema}</h4>
         </div>
+        {onEdit && (
+          <button
+            onClick={onEdit}
+            className="p-1.5 hover:bg-white/10 rounded text-white/50 hover:text-white"
+            title="Editar plano"
+          >
+            <Edit2 size={14} />
+          </button>
+        )}
       </div>
 
       <div className="space-y-2 mb-4">
