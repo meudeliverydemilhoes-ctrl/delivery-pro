@@ -33,7 +33,7 @@ const pilarIcons = {
   geral: "📋"
 };
 
-export default function PlanoAcaoCard({ plano, onUpdate }) {
+export default function PlanoAcaoCard({ plano, onUpdate, onEdit }) {
   const queryClient = useQueryClient();
   const [uploading, setUploading] = useState(false);
   const [feedback, setFeedback] = useState("");

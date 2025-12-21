@@ -613,6 +613,8 @@ export default function ExecucaoInteligente() {
   const [checklistDialogOpen, setChecklistDialogOpen] = useState(false);
   const [sopDialogOpen, setSOPDialogOpen] = useState(false);
   const [comunicadoDialogOpen, setComunicadoDialogOpen] = useState(false);
+  const [planoDialogOpen, setPlanoDialogOpen] = useState(false);
+  const [editingPlano, setEditingPlano] = useState(null);
   
   // Forms
   const [checklistForm, setChecklistForm] = useState({
@@ -624,6 +626,9 @@ export default function ExecucaoInteligente() {
   });
   const [comunicadoForm, setComunicadoForm] = useState({
     titulo: "", mensagem: "", tipo: "aviso", pilar: "geral", mentorado_id: "", requer_confirmacao: false
+  });
+  const [planoForm, setPlanoForm] = useState({
+    problema: "", acao_corretiva: "", pilar: "geral", prioridade: "media", prazo: ""
   });
 
 
@@ -685,6 +690,18 @@ export default function ExecucaoInteligente() {
     mutationFn: (data) => base44.entities.PlanoAcaoInteligente.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
+      setPlanoDialogOpen(false);
+      setPlanoForm({ problema: "", acao_corretiva: "", pilar: "geral", prioridade: "media", prazo: "" });
+    }
+  });
+
+  const updatePlanoAcaoMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.PlanoAcaoInteligente.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["planosAcao"] });
+      setPlanoDialogOpen(false);
+      setEditingPlano(null);
+      setPlanoForm({ problema: "", acao_corretiva: "", pilar: "geral", prioridade: "media", prazo: "" });
     }
   });
 
@@ -1015,13 +1032,43 @@ export default function ExecucaoInteligente() {
         {/* Planos de Ação */}
         <TabsContent value="planos">
           <div className="space-y-6">
+            <div className="flex justify-end mb-4">
+              <Button onClick={() => {
+                setEditingPlano(null);
+                setPlanoForm({
+                  problema: "",
+                  acao_corretiva: "",
+                  pilar: "geral",
+                  prioridade: "media",
+                  prazo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+                });
+                setPlanoDialogOpen(true);
+              }} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                <Plus size={18} className="mr-2" /> Novo Plano
+              </Button>
+            </div>
+
             {/* Planos Ativos */}
             {filteredPlanos.length > 0 && (
               <div>
                 <h3 className="text-lg font-medium text-white mb-4">Planos Ativos</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {filteredPlanos.map(plano => (
-                    <PlanoAcaoCard key={plano.id} plano={plano} />
+                    <PlanoAcaoCard 
+                      key={plano.id} 
+                      plano={plano}
+                      onEdit={() => {
+                        setEditingPlano(plano);
+                        setPlanoForm({
+                          problema: plano.problema || "",
+                          acao_corretiva: plano.acao_corretiva || "",
+                          pilar: plano.pilar || "geral",
+                          prioridade: plano.prioridade || "media",
+                          prazo: plano.prazo || ""
+                        });
+                        setPlanoDialogOpen(true);
+                      }}
+                    />
                   ))}
                 </div>
               </div>
@@ -1373,6 +1420,91 @@ export default function ExecucaoInteligente() {
               </Button>
               <Button onClick={() => createSOPMutation.mutate(sopForm)} disabled={!sopForm.titulo} className="flex-1 bg-[#FF4D00]">
                 Criar SOP
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Plano de Ação */}
+      <Dialog open={planoDialogOpen} onOpenChange={setPlanoDialogOpen}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{editingPlano ? "Editar Plano de Ação" : "Novo Plano de Ação"}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label className="text-white/70">Problema Identificado *</Label>
+              <Textarea
+                value={planoForm.problema}
+                onChange={(e) => setPlanoForm({ ...planoForm, problema: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+                placeholder="Descreva o problema..."
+              />
+            </div>
+            <div>
+              <Label className="text-white/70">Ação Corretiva *</Label>
+              <Textarea
+                value={planoForm.acao_corretiva}
+                onChange={(e) => setPlanoForm({ ...planoForm, acao_corretiva: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+                placeholder="O que deve ser feito..."
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-white/70">Pilar</Label>
+                <Select value={planoForm.pilar} onValueChange={(v) => setPlanoForm({ ...planoForm, pilar: v })}>
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-white/10">
+                    {pilarOptions.map(p => (
+                      <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-white/70">Prioridade</Label>
+                <Select value={planoForm.prioridade} onValueChange={(v) => setPlanoForm({ ...planoForm, prioridade: v })}>
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-white/10">
+                    <SelectItem value="baixa">Baixa</SelectItem>
+                    <SelectItem value="media">Média</SelectItem>
+                    <SelectItem value="alta">Alta</SelectItem>
+                    <SelectItem value="critica">Crítica</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Label className="text-white/70">Prazo *</Label>
+              <Input
+                type="date"
+                value={planoForm.prazo}
+                onChange={(e) => setPlanoForm({ ...planoForm, prazo: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div className="flex gap-3 pt-4">
+              <Button variant="outline" onClick={() => setPlanoDialogOpen(false)} className="flex-1 border-white/10 text-white">
+                Cancelar
+              </Button>
+              <Button
+                onClick={() => {
+                  if (editingPlano) {
+                    updatePlanoAcaoMutation.mutate({ id: editingPlano.id, data: planoForm });
+                  } else {
+                    createPlanoAcaoMutation.mutate({ ...planoForm, status: "pendente" });
+                  }
+                }}
+                disabled={!planoForm.problema || !planoForm.acao_corretiva || !planoForm.prazo}
+                className="flex-1 bg-[#FF4D00]"
+              >
+                {editingPlano ? "Salvar" : "Criar"}
               </Button>
             </div>
           </div>
