@@ -11,17 +11,6 @@ import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import AulasMentoria from './pages/AulasMentoria';
 import GestaoFinanceira from './pages/GestaoFinanceira';
 import Automacoes from './pages/Automacoes';
-import Relatorios from './pages/Relatorios';
-import MentoradoBriefing from './pages/MentoradoBriefing';
-import MentoradoDiagnostico from './pages/MentoradoDiagnostico';
-import MentoradoCardapio from './pages/MentoradoCardapio';
-import MentoradoFluxogramas from './pages/MentoradoFluxogramas';
-import MentoradoPainel from './pages/MentoradoPainel';
-import MentoradoTarefas from './pages/MentoradoTarefas';
-import MentoradoNotas from './pages/MentoradoNotas';
-import MentoradoArquivos from './pages/MentoradoArquivos';
-import MentoradoFichasTecnicas from './pages/MentoradoFichasTecnicas';
-import MentoradoPilares from './pages/MentoradoPilares';
 import __Layout from './Layout.jsx';
 
 
@@ -39,17 +28,6 @@ export const PAGES = {
     "AulasMentoria": AulasMentoria,
     "GestaoFinanceira": GestaoFinanceira,
     "Automacoes": Automacoes,
-    "Relatorios": Relatorios,
-    "MentoradoBriefing": MentoradoBriefing,
-    "MentoradoDiagnostico": MentoradoDiagnostico,
-    "MentoradoCardapio": MentoradoCardapio,
-    "MentoradoFluxogramas": MentoradoFluxogramas,
-    "MentoradoPainel": MentoradoPainel,
-    "MentoradoTarefas": MentoradoTarefas,
-    "MentoradoNotas": MentoradoNotas,
-    "MentoradoArquivos": MentoradoArquivos,
-    "MentoradoFichasTecnicas": MentoradoFichasTecnicas,
-    "MentoradoPilares": MentoradoPilares,
 }
 
 export const pagesConfig = {

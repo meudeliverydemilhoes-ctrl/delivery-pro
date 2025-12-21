@@ -46,7 +46,7 @@ import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOpe
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -70,7 +70,11 @@ export default function MentoradoDetalhe() {
   const urlParams = new URLSearchParams(window.location.search);
   const mentoradoId = urlParams.get("id");
 
+  const [activeTab, setActiveTab] = useState("briefing");
+  const [isEditingBriefing, setIsEditingBriefing] = useState(false);
+  const [pilarDialogOpen, setPilarDialogOpen] = useState(false);
   const [evolucaoDialogOpen, setEvolucaoDialogOpen] = useState(false);
+  const [selectedPilar, setSelectedPilar] = useState(null);
 
   const { data: mentorado, isLoading } = useQuery({
     queryKey: ["mentorado", mentoradoId],
@@ -83,6 +87,12 @@ export default function MentoradoDetalhe() {
     queryKey: ["briefing", mentoradoId],
     queryFn: () => base44.entities.Briefing.filter({ mentorado_id: mentoradoId }),
     select: (data) => data[0],
+    enabled: !!mentoradoId
+  });
+
+  const { data: pilares = [] } = useQuery({
+    queryKey: ["pilares", mentoradoId],
+    queryFn: () => base44.entities.PilarConteudo.filter({ mentorado_id: mentoradoId }),
     enabled: !!mentoradoId
   });
 
@@ -104,6 +114,16 @@ export default function MentoradoDetalhe() {
     enabled: !!mentoradoId
   });
 
+  const [briefingForm, setBriefingForm] = useState({});
+  const [pilarForm, setPilarForm] = useState({
+    pilar: "processos",
+    titulo: "",
+    tipo: "aula",
+    descricao: "",
+    conteudo: "",
+    link_externo: "",
+    concluido: false
+  });
   const [evolucaoForm, setEvolucaoForm] = useState({
     titulo: "",
     tipo: "feito",
@@ -113,7 +133,58 @@ export default function MentoradoDetalhe() {
     concluido: false
   });
 
+  React.useEffect(() => {
+    if (briefing) {
+      setBriefingForm(briefing);
+    }
+  }, [briefing]);
 
+  const createBriefingMutation = useMutation({
+    mutationFn: (data) => base44.entities.Briefing.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["briefing", mentoradoId] });
+      setIsEditingBriefing(false);
+    }
+  });
+
+  const updateBriefingMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Briefing.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["briefing", mentoradoId] });
+      setIsEditingBriefing(false);
+    }
+  });
+
+  const createPilarMutation = useMutation({
+    mutationFn: (data) => base44.entities.PilarConteudo.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pilares", mentoradoId] });
+      setPilarDialogOpen(false);
+      setPilarForm({
+        pilar: "processos",
+        titulo: "",
+        tipo: "aula",
+        descricao: "",
+        conteudo: "",
+        link_externo: "",
+        concluido: false
+      });
+    }
+  });
+
+  const updatePilarMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.PilarConteudo.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pilares", mentoradoId] });
+    }
+  });
+
+  const deletePilarMutation = useMutation({
+    mutationFn: (id) => base44.entities.PilarConteudo.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pilares", mentoradoId] });
+    }
+  });
 
   const createEvolucaoMutation = useMutation({
     mutationFn: (data) => base44.entities.Evolucao.create(data),
@@ -189,13 +260,57 @@ export default function MentoradoDetalhe() {
     }
   });
 
+  const handleSaveBriefing = () => {
+    if (briefing?.id) {
+      updateBriefingMutation.mutate({ id: briefing.id, data: briefingForm });
+    } else {
+      createBriefingMutation.mutate({ ...briefingForm, mentorado_id: mentoradoId });
+    }
+  };
 
+  const handleAddPilar = () => {
+    createPilarMutation.mutate({ ...pilarForm, mentorado_id: mentoradoId });
+  };
 
   const handleAddEvolucao = () => {
     createEvolucaoMutation.mutate({ ...evolucaoForm, mentorado_id: mentoradoId });
   };
 
+  const pilaresConfig = [
+    { key: "processos", label: "Pilar 1 - Processos", color: "bg-blue-500", icon: "🏆" },
+    { key: "desempenho", label: "Pilar 2 - Desempenho", color: "bg-emerald-500", icon: "📈" },
+    { key: "tempo_potencia", label: "Pilar 3 - Tempo de Potência", color: "bg-violet-500", icon: "⚡" },
+    { key: "norte_estrategico", label: "Pilar 4 - Norte Estratégico", color: "bg-amber-500", icon: "🎯" },
+    { key: "presenca_magnetica", label: "Pilar 5 - Presença Magnética", color: "bg-pink-500", icon: "✨" },
+  ];
 
+  const [selectedPilarConteudo, setSelectedPilarConteudo] = useState(null);
+
+  const getProgressosForPilar = (pilarKey) => {
+    return pilarProgressos.filter((p) => p.pilar === pilarKey);
+  };
+
+  const handleToggleProgresso = (pilarKey, tipo, texto) => {
+    toggleProgressoMutation.mutate({ pilar: pilarKey, tipo, texto });
+  };
+
+  const getCustomDataForPilar = (pilarKey) => {
+    const custom = pilarCustomDataList.find((p) => p.pilar === pilarKey);
+    return custom?.data || null;
+  };
+
+  const handleUpdatePilarCustomData = (pilarKey, data) => {
+    updatePilarCustomDataMutation.mutate({ pilarKey, data });
+  };
+
+  const tipoColors = {
+    aula: "bg-blue-500/20 text-blue-400",
+    pdf: "bg-red-500/20 text-red-400",
+    checklist: "bg-emerald-500/20 text-emerald-400",
+    exercicio: "bg-violet-500/20 text-violet-400",
+    modelo: "bg-amber-500/20 text-amber-400",
+    anotacao: "bg-gray-500/20 text-gray-400",
+  };
 
   const evolucaoColors = {
     feito: "bg-emerald-500/20 text-emerald-400",
@@ -302,56 +417,468 @@ export default function MentoradoDetalhe() {
         </div>
       </div>
 
-      {/* Links para páginas dedicadas */}
-        <div className="bg-white/5 border border-white/10 p-4 rounded-2xl mb-6">
-          <h3 className="text-sm font-medium text-white/60 mb-3">Seções do Mentorado</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            <Link to={createPageUrl(`MentoradoBriefing?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <FileText size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Briefing</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoDiagnostico?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <ClipboardCheck size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Diagnóstico</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoCardapio?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <UtensilsCrossed size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Cardápio</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoFluxogramas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <GitBranch size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Fluxogramas</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoPainel?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <LayoutDashboard size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Painel</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoPilares?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <Target size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Pilares</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoTarefas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <ListTodo size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Tarefas</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoNotas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <StickyNote size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Notas</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoArquivos?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <Files size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Arquivos</span>
-            </Link>
-            <Link to={createPageUrl(`MentoradoFichasTecnicas?id=${mentoradoId}`)} className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-[#FF4D00]/20 border border-white/10 hover:border-[#FF4D00]/30 rounded-xl transition-all group">
-              <ChefHat size={18} className="text-white/50 group-hover:text-[#FF4D00]" />
-              <span className="text-white group-hover:text-[#FF4D00] font-medium">Fichas Técnicas</span>
-            </Link>
-          </div>
-        </div>
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="bg-white/5 border border-white/10 p-2 h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                        <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <FileText size={18} className="mr-3" /> Briefing
+                        </TabsTrigger>
+                        <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ClipboardCheck size={18} className="mr-3" /> Diagnóstico
+                        </TabsTrigger>
+                        <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <UtensilsCrossed size={18} className="mr-3" /> Análise Cardápio
+                        </TabsTrigger>
+                        <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <GitBranch size={18} className="mr-3" /> Fluxogramas
+                        </TabsTrigger>
+                        <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <LayoutDashboard size={18} className="mr-3" /> Painel Organização
+                        </TabsTrigger>
+                        <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <Target size={18} className="mr-3" /> Pilares
+                        </TabsTrigger>
+                        <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ListTodo size={18} className="mr-3" /> Tarefas
+                        </TabsTrigger>
+                        <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <StickyNote size={18} className="mr-3" /> Notas
+                        </TabsTrigger>
+                        <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <Files size={18} className="mr-3" /> Arquivos
+                        </TabsTrigger>
+                        <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <TrendingUp size={18} className="mr-3" /> Evolução
+                        </TabsTrigger>
+                        <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
+                          <ChefHat size={18} className="mr-3" /> Fichas Técnicas
+                        </TabsTrigger>
+                      </TabsList>
 
-      {/* Evolução */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-        <div className="space-y-6">
+        {/* Diagnóstico Tab */}
+        <TabsContent value="diagnostico">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <DiagnosticoNegocio 
+              diagnosticoStatus={briefing?.diagnostico_status || {}}
+              onUpdateStatus={(status) => {
+                if (briefing?.id) {
+                  updateBriefingMutation.mutate({ 
+                    id: briefing.id, 
+                    data: { ...briefing, diagnostico_status: status }
+                  });
+                } else {
+                  createBriefingMutation.mutate({ 
+                    mentorado_id: mentoradoId, 
+                    diagnostico_status: status 
+                  });
+                }
+              }}
+            />
+          </div>
+        </TabsContent>
+
+        {/* Análise de Cardápio Tab */}
+                  <TabsContent value="cardapio">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                      <AnaliseCardapio 
+                        analiseData={briefing?.analise_cardapio || {}}
+                        onUpdateAnalise={(analiseData) => {
+                          if (briefing?.id) {
+                            updateBriefingMutation.mutate({ 
+                              id: briefing.id, 
+                              data: { ...briefing, analise_cardapio: analiseData }
+                            });
+                          } else {
+                            createBriefingMutation.mutate({ 
+                              mentorado_id: mentoradoId, 
+                              analise_cardapio: analiseData 
+                            });
+                          }
+                        }}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  {/* Fluxogramas Tab */}
+        <TabsContent value="fluxogramas">
+          <FluxogramasMentorado mentoradoId={mentoradoId} />
+        </TabsContent>
+
+        {/* Painel de Organização Tab */}
+        <TabsContent value="painel">
+          <PainelOrganizacao mentoradoId={mentoradoId} />
+        </TabsContent>
+
+        {/* Briefing Tab */}
+        <TabsContent value="briefing">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-white">Briefing do Negócio</h2>
+              {isEditingBriefing ? (
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setIsEditingBriefing(false)} className="border-white/10 text-white">
+                    <X size={16} className="mr-1" /> Cancelar
+                  </Button>
+                  <Button size="sm" onClick={handleSaveBriefing} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                    <Save size={16} className="mr-1" /> Salvar
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline" size="sm" onClick={() => setIsEditingBriefing(true)} className="border-white/10 text-white hover:bg-white/10">
+                  <Edit2 size={16} className="mr-1" /> Editar
+                </Button>
+              )}
+            </div>
+
+            {isEditingBriefing ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <Label className="text-white/70">Raio de Entrega</Label>
+                    <Input
+                      value={briefingForm.raio_entrega || ""}
+                      onChange={(e) => setBriefingForm({ ...briefingForm, raio_entrega: e.target.value })}
+                      placeholder="Ex: 5km"
+                      className="bg-white/5 border-white/10 text-white mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-white/70">Média Pedidos/Dia</Label>
+                    <Input
+                      type="number"
+                      value={briefingForm.media_pedidos_dia || ""}
+                      onChange={(e) => setBriefingForm({ ...briefingForm, media_pedidos_dia: Number(e.target.value) })}
+                      className="bg-white/5 border-white/10 text-white mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-white/70">CMV (%)</Label>
+                    <Input
+                      type="number"
+                      value={briefingForm.cmv || ""}
+                      onChange={(e) => setBriefingForm({ ...briefingForm, cmv: Number(e.target.value) })}
+                      className="bg-white/5 border-white/10 text-white mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-white/70">Ticket Médio (R$)</Label>
+                    <Input
+                      type="number"
+                      value={briefingForm.ticket_medio || ""}
+                      onChange={(e) => setBriefingForm({ ...briefingForm, ticket_medio: Number(e.target.value) })}
+                      className="bg-white/5 border-white/10 text-white mt-1"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-white/70">Faturamento Mensal (R$)</Label>
+                  <Input
+                    type="number"
+                    value={briefingForm.faturamento_mensal || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, faturamento_mensal: Number(e.target.value) })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-white/70">Estrutura da Equipe</Label>
+                  <Textarea
+                    value={briefingForm.estrutura_equipe || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, estrutura_equipe: e.target.value })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <Label className="text-white/70">Problemas Identificados</Label>
+                  <Textarea
+                    value={briefingForm.problemas_identificados || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, problemas_identificados: e.target.value })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <Label className="text-white/70">Objetivos</Label>
+                  <Textarea
+                    value={briefingForm.objetivos || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, objetivos: e.target.value })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <Label className="text-white/70">Diagnóstico Inicial</Label>
+                  <Textarea
+                    value={briefingForm.diagnostico_inicial || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, diagnostico_inicial: e.target.value })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                    rows={4}
+                  />
+                </div>
+                <div>
+                  <Label className="text-white/70 mb-3 block">Checklist de Maturidade</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      { key: "cardapio_otimizado", label: "Cardápio Otimizado" },
+                      { key: "processos_definidos", label: "Processos Definidos" },
+                      { key: "financeiro_organizado", label: "Financeiro Organizado" },
+                      { key: "marketing_ativo", label: "Marketing Ativo" },
+                      { key: "equipe_treinada", label: "Equipe Treinada" },
+                      { key: "delivery_eficiente", label: "Delivery Eficiente" },
+                    ].map((item) => (
+                      <div key={item.key} className="flex items-center gap-2">
+                        <Checkbox
+                          checked={briefingForm.checklist_maturidade?.[item.key] || false}
+                          onCheckedChange={(checked) =>
+                            setBriefingForm({
+                              ...briefingForm,
+                              checklist_maturidade: {
+                                ...briefingForm.checklist_maturidade,
+                                [item.key]: checked
+                              }
+                            })
+                          }
+                        />
+                        <label className="text-sm text-white/70">{item.label}</label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-white/70">Anotações</Label>
+                  <Textarea
+                    value={briefingForm.anotacoes || ""}
+                    onChange={(e) => setBriefingForm({ ...briefingForm, anotacoes: e.target.value })}
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                    rows={4}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {!briefing ? (
+                  <p className="text-white/40 text-center py-8">Nenhum briefing cadastrado. Clique em Editar para começar.</p>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-white/5 rounded-xl p-4">
+                        <p className="text-xs text-white/40 mb-1">Raio de Entrega</p>
+                        <p className="text-lg font-semibold text-white">{briefing.raio_entrega || "-"}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-xl p-4">
+                        <p className="text-xs text-white/40 mb-1">Pedidos/Dia</p>
+                        <p className="text-lg font-semibold text-white">{briefing.media_pedidos_dia || "-"}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-xl p-4">
+                        <p className="text-xs text-white/40 mb-1">CMV</p>
+                        <p className="text-lg font-semibold text-white">{briefing.cmv ? `${briefing.cmv}%` : "-"}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-xl p-4">
+                        <p className="text-xs text-white/40 mb-1">Ticket Médio</p>
+                        <p className="text-lg font-semibold text-white">{briefing.ticket_medio ? `R$ ${briefing.ticket_medio}` : "-"}</p>
+                      </div>
+                    </div>
+                    {briefing.estrutura_equipe && (
+                      <div>
+                        <h4 className="text-sm font-medium text-white/60 mb-2">Estrutura da Equipe</h4>
+                        <p className="text-white/80 whitespace-pre-wrap">{briefing.estrutura_equipe}</p>
+                      </div>
+                    )}
+                    {briefing.problemas_identificados && (
+                      <div>
+                        <h4 className="text-sm font-medium text-white/60 mb-2">Problemas Identificados</h4>
+                        <p className="text-white/80 whitespace-pre-wrap">{briefing.problemas_identificados}</p>
+                      </div>
+                    )}
+                    {briefing.objetivos && (
+                      <div>
+                        <h4 className="text-sm font-medium text-white/60 mb-2">Objetivos</h4>
+                        <p className="text-white/80 whitespace-pre-wrap">{briefing.objetivos}</p>
+                      </div>
+                    )}
+                    {briefing.diagnostico_inicial && (
+                      <div>
+                        <h4 className="text-sm font-medium text-white/60 mb-2">Diagnóstico Inicial</h4>
+                        <p className="text-white/80 whitespace-pre-wrap">{briefing.diagnostico_inicial}</p>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        </TabsContent>
+
+        {/* Pilares Tab */}
+        <TabsContent value="pilares">
+          <div className="space-y-6">
+            {/* Se tem um pilar selecionado, mostra só ele */}
+            {selectedPilarConteudo ? (
+              <>
+                {(() => {
+                  const pilar = pilaresConfig.find(p => p.key === selectedPilarConteudo);
+                  const pilarItems = pilares.filter((p) => p.pilar === pilar.key);
+                  const pilarProgressosFiltered = getProgressosForPilar(pilar.key);
+
+                  return (
+                    <div className="space-y-6">
+                      {/* Header com botão voltar */}
+                      <div className="flex items-center gap-4">
+                        <button
+                          onClick={() => setSelectedPilarConteudo(null)}
+                          className="p-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
+                        >
+                          <ArrowLeft size={20} className="text-white" />
+                        </button>
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">{pilar.icon}</span>
+                          <div>
+                            <h2 className="text-2xl font-bold text-white">{pilar.label}</h2>
+                            <span className="text-sm text-white/50">{pilarItems.length} materiais cadastrados</span>
+                          </div>
+                        </div>
+                        <div className="ml-auto">
+                          <Button onClick={() => setPilarDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                            <Plus size={16} className="mr-2" /> Adicionar Conteúdo
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Conteúdo do Pilar */}
+                      <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                        <PilarConteudoIncluido
+                          pilarKey={pilar.key}
+                          progressoItems={pilarProgressosFiltered}
+                          onToggleItem={(tipo, texto) => handleToggleProgresso(pilar.key, tipo, texto)}
+                          customData={getCustomDataForPilar(pilar.key)}
+                          onUpdateCustomData={(data) => handleUpdatePilarCustomData(pilar.key, data)}
+                        />
+                      </div>
+
+                      {/* Materiais do mentorado */}
+                      {pilarItems.length > 0 && (
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                          <h3 className="text-lg font-semibold text-white mb-4">Materiais Específicos</h3>
+                          <div className="space-y-2">
+                            {pilarItems.map((item) => (
+                              <div
+                                key={item.id}
+                                className="flex items-center gap-3 p-3 bg-white/5 rounded-xl group"
+                              >
+                                <button
+                                  onClick={() => updatePilarMutation.mutate({ id: item.id, data: { concluido: !item.concluido } })}
+                                  className="flex-shrink-0"
+                                >
+                                  {item.concluido ? (
+                                    <CheckCircle2 size={20} className="text-emerald-400" />
+                                  ) : (
+                                    <Circle size={20} className="text-white/30" />
+                                  )}
+                                </button>
+                                <div className="flex-1 min-w-0">
+                                  <p className={`font-medium ${item.concluido ? "text-white/40 line-through" : "text-white"}`}>
+                                    {item.titulo}
+                                  </p>
+                                  {item.descricao && (
+                                    <p className="text-xs text-white/40 truncate">{item.descricao}</p>
+                                  )}
+                                </div>
+                                <span className={`text-xs px-2 py-1 rounded-full ${tipoColors[item.tipo]}`}>
+                                  {item.tipo}
+                                </span>
+                                {item.link_externo && (
+                                  <a
+                                    href={item.link_externo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#FF4D00] hover:text-[#FF4D00]/80"
+                                  >
+                                    <ExternalLink size={16} />
+                                  </a>
+                                )}
+                                <button
+                                  onClick={() => deletePilarMutation.mutate(item.id)}
+                                  className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </>
+            ) : (
+              <>
+                {/* Lista de Pilares em Grid */}
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-white">Pilares da Mentoria</h2>
+                  <Button onClick={() => setPilarDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                    <Plus size={16} className="mr-2" /> Adicionar Conteúdo
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {pilaresConfig.map((pilar) => {
+                    const pilarItems = pilares.filter((p) => p.pilar === pilar.key);
+
+                    return (
+                      <button
+                        key={pilar.key}
+                        onClick={() => setSelectedPilarConteudo(pilar.key)}
+                        className="bg-white/5 border border-white/10 rounded-2xl p-6 text-left hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all group"
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="text-3xl">{pilar.icon}</span>
+                          <div className={`w-2 h-2 rounded-full ${pilar.color}`} />
+                        </div>
+                        <h3 className="text-lg font-semibold text-white group-hover:text-[#FF4D00] transition-colors">
+                          {pilar.label}
+                        </h3>
+                        <p className="text-sm text-white/50 mt-1">{pilarItems.length} materiais</p>
+                        <div className="mt-4 flex items-center gap-2 text-[#FF4D00] text-sm font-medium">
+                          <span>Entrar</span>
+                          <ArrowLeft size={16} className="rotate-180" />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+        </TabsContent>
+
+        {/* Tarefas Tab */}
+        <TabsContent value="tarefas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Minhas Tarefas</h2>
+            <MinhasTarefas mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+
+        {/* Notas Tab */}
+        <TabsContent value="notas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
+            <MinhasNotas mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+
+        {/* Arquivos Tab */}
+        <TabsContent value="arquivos">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">Meus Arquivos</h2>
+            <MeusArquivos mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+
+        {/* Evolução Tab */}
+        <TabsContent value="evolucao">
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
               <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
@@ -411,8 +938,88 @@ export default function MentoradoDetalhe() {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </TabsContent>
+
+        {/* Fichas Técnicas Tab */}
+        <TabsContent value="fichas_tecnicas">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      {/* Dialog Pilar */}
+      <Dialog open={pilarDialogOpen} onOpenChange={setPilarDialogOpen}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Adicionar Conteúdo ao Pilar</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div>
+              <Label className="text-white/70">Pilar</Label>
+              <Select value={pilarForm.pilar} onValueChange={(v) => setPilarForm({ ...pilarForm, pilar: v })}>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-white/10">
+                  {pilaresConfig.map((p) => (
+                    <SelectItem key={p.key} value={p.key}>{p.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-white/70">Título</Label>
+              <Input
+                value={pilarForm.titulo}
+                onChange={(e) => setPilarForm({ ...pilarForm, titulo: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div>
+              <Label className="text-white/70">Tipo</Label>
+              <Select value={pilarForm.tipo} onValueChange={(v) => setPilarForm({ ...pilarForm, tipo: v })}>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-white/10">
+                  <SelectItem value="aula">Aula</SelectItem>
+                  <SelectItem value="pdf">PDF</SelectItem>
+                  <SelectItem value="checklist">Checklist</SelectItem>
+                  <SelectItem value="exercicio">Exercício</SelectItem>
+                  <SelectItem value="modelo">Modelo</SelectItem>
+                  <SelectItem value="anotacao">Anotação</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-white/70">Descrição</Label>
+              <Textarea
+                value={pilarForm.descricao}
+                onChange={(e) => setPilarForm({ ...pilarForm, descricao: e.target.value })}
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div>
+              <Label className="text-white/70">Link Externo</Label>
+              <Input
+                value={pilarForm.link_externo}
+                onChange={(e) => setPilarForm({ ...pilarForm, link_externo: e.target.value })}
+                placeholder="https://..."
+                className="bg-white/5 border-white/10 text-white mt-1"
+              />
+            </div>
+            <div className="flex gap-3 pt-4">
+              <Button variant="outline" onClick={() => setPilarDialogOpen(false)} className="flex-1 border-white/10 text-white">
+                Cancelar
+              </Button>
+              <Button onClick={handleAddPilar} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
+                Adicionar
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Dialog Evolução */}
       <Dialog open={evolucaoDialogOpen} onOpenChange={setEvolucaoDialogOpen}>
@@ -453,11 +1060,9 @@ export default function MentoradoDetalhe() {
                   </SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-white/10">
                     <SelectItem value="geral">Geral</SelectItem>
-                    <SelectItem value="processos">Processos</SelectItem>
-                    <SelectItem value="desempenho">Desempenho</SelectItem>
-                    <SelectItem value="tempo_potencia">Tempo de Potência</SelectItem>
-                    <SelectItem value="norte_estrategico">Norte Estratégico</SelectItem>
-                    <SelectItem value="presenca_magnetica">Presença Magnética</SelectItem>
+                    {pilaresConfig.map((p) => (
+                      <SelectItem key={p.key} value={p.key}>{p.label}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
