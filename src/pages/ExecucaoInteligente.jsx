@@ -1131,7 +1131,7 @@ export default function ExecucaoInteligente() {
                             status: "pendente"
                           });
                         }
-                        setActiveTab("planos");
+                        setActiveTab("execucoes");
                       }}
                       className="w-full bg-[#FF4D00] hover:bg-[#E64500]"
                       size="sm"
