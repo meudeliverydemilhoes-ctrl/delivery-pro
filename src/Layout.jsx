@@ -40,9 +40,12 @@ export default function Layout({ children, currentPageName }) {
     { name: "Automações", page: "Automacoes", icon: Zap },
   ];
 
-  const navigation = allNavigation.filter(item => 
-    !item.adminOnly || userEmail === "meudeliverydemilhoes@gmail.com"
-  );
+  const navigation = allNavigation.filter(item => {
+    if (item.adminOnly) {
+      return userEmail === "meudeliverydemilhoes@gmail.com";
+    }
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-black text-white">
