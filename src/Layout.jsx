@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import {
@@ -16,23 +16,33 @@ import {
   Zap
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
+import { base44 } from "@/api/base44Client";
 
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
 
-  const navigation = [
-            { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-            { name: "Mentorados", page: "Mentorados", icon: Users },
-            { name: "Aulas", page: "AulasMentoria", icon: BookOpen },
-            { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
-            { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
-            { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
-            { name: "Cursos", page: "Cursos", icon: BookOpen },
-            { name: "Biblioteca", page: "Biblioteca", icon: Library },
-            { name: "Agenda", page: "Agenda", icon: Calendar },
-            { name: "Notas", page: "Notas", icon: Lightbulb },
-          { name: "Automações", page: "Automacoes", icon: Zap },
-          ];
+  useEffect(() => {
+    base44.auth.me().then(user => setUserEmail(user?.email)).catch(() => {});
+  }, []);
+
+  const allNavigation = [
+    { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
+    { name: "Mentorados", page: "Mentorados", icon: Users },
+    { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
+    { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
+    { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
+    { name: "Detalhamento de Processos", page: "GestaoFinanceira", icon: ClipboardList },
+    { name: "Cursos", page: "Cursos", icon: BookOpen },
+    { name: "Biblioteca", page: "Biblioteca", icon: Library },
+    { name: "Agenda", page: "Agenda", icon: Calendar },
+    { name: "Notas", page: "Notas", icon: Lightbulb },
+    { name: "Automações", page: "Automacoes", icon: Zap },
+  ];
+
+  const navigation = allNavigation.filter(item => 
+    !item.adminOnly || userEmail === "meudeliverydemilhoes@gmail.com"
+  );
 
   return (
     <div className="min-h-screen bg-black text-white">
