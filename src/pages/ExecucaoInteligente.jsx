@@ -814,17 +814,17 @@ export default function ExecucaoInteligente() {
         <div className="grid grid-cols-2 gap-2">
           <Link to={createPageUrl("Dashboard")} className="w-full">
             <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
-              <Home size={18} className="mr-2" /> Voltar ao Início
+              <Home size={18} className="mr-2" /> <span className="hidden sm:inline">Voltar ao Início</span><span className="sm:hidden">Início</span>
             </Button>
           </Link>
           <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
-            <Bell size={18} className="mr-2" /> Comunicado
+            <Bell size={18} className="mr-2" /> <span className="hidden sm:inline">Comunicado</span><span className="sm:hidden">Aviso</span>
           </Button>
           <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
-            <BookOpen size={18} className="mr-2" /> Novo SOP
+            <BookOpen size={18} className="mr-2" /> <span className="hidden sm:inline">Novo SOP</span><span className="sm:hidden">SOP</span>
           </Button>
           <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] w-full">
-            <Plus size={18} className="mr-2" /> Novo Checklist
+            <Plus size={18} className="mr-2" /> <span className="hidden sm:inline">Novo Checklist</span><span className="sm:hidden">Checklist</span>
           </Button>
         </div>
       </div>
