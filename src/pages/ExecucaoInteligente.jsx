@@ -1043,7 +1043,7 @@ export default function ExecucaoInteligente() {
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <h4 className="text-xl font-semibold text-white mb-2">{plano.titulo}</h4>
+                          <h4 className="text-base font-semibold text-white mb-2">{plano.titulo}</h4>
                           <p className="text-sm text-red-400/90 mb-2">❗ {plano.problema}</p>
                           <p className="text-sm text-white/60 mb-3">{plano.descricao}</p>
                           <span className={`inline-flex items-center text-xs px-3 py-1 rounded-full ${
