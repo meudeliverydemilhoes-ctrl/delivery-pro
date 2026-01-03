@@ -162,7 +162,7 @@ export default function Agenda() {
         </div>
         <div className="flex gap-2">
           <Link to={createPageUrl("Dashboard")}>
-            <Button variant="outline" className="border-white/10 text-white">
+            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
               <Home size={18} className="mr-2" /> Início
             </Button>
           </Link>
@@ -250,9 +250,8 @@ export default function Agenda() {
                 </p>
                 <Button
                   size="sm"
-                  variant="outline"
                   onClick={() => handleAddFromDate(selectedDate)}
-                  className="border-white/10 text-white hover:bg-white/10"
+                  className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap"
                 >
                   <Plus size={14} className="mr-1" /> Adicionar
                 </Button>
@@ -458,7 +457,7 @@ export default function Agenda() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={handleCloseDialog} className="flex-1 border-white/10 text-white">
+              <Button onClick={handleCloseDialog} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                 Cancelar
               </Button>
               <Button
