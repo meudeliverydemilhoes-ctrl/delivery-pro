@@ -1057,10 +1057,12 @@ export default function ExecucaoInteligente() {
                           <Button
                             onClick={() => setPlanoExpandido(planoExpandido === idx ? null : idx)}
                             className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap"
+                            size="sm"
                           >
                             {planoExpandido === idx ? "Ocultar" : "Expandir"}
                           </Button>
                           <Button
+                            size="sm"
                             onClick={async () => {
                               for (const acao of plano.acoes) {
                                 const prazoTexto = String(acao.prazo || "7 dias").toLowerCase();
