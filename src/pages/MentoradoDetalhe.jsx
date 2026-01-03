@@ -612,7 +612,7 @@ export default function MentoradoDetalhe() {
               <h2 className="text-xl font-semibold text-white">Briefing do Negócio</h2>
               {isEditingBriefing ? (
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setIsEditingBriefing(false)} className="border-white/10 text-white">
+                  <Button size="sm" onClick={() => setIsEditingBriefing(false)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                     <X size={16} className="mr-1" /> Cancelar
                   </Button>
                   <Button size="sm" onClick={handleSaveBriefing} className="bg-[#FF4D00] hover:bg-[#E64500]">
@@ -620,7 +620,7 @@ export default function MentoradoDetalhe() {
                   </Button>
                 </div>
               ) : (
-                <Button variant="outline" size="sm" onClick={() => setIsEditingBriefing(true)} className="border-white/10 text-white hover:bg-white/10">
+                <Button size="sm" onClick={() => setIsEditingBriefing(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                   <Edit2 size={16} className="mr-1" /> Editar
                 </Button>
               )}
@@ -1150,7 +1150,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setPilarDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setPilarDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                 Cancelar
               </Button>
               <Button onClick={handleAddPilar} disabled={!pilarForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
@@ -1225,7 +1225,7 @@ export default function MentoradoDetalhe() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 border-white/10 text-white">
+              <Button onClick={() => setEvolucaoDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                 Cancelar
               </Button>
               <Button onClick={handleAddEvolucao} disabled={!evolucaoForm.titulo} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]">
