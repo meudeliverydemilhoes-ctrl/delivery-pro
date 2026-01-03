@@ -483,11 +483,7 @@ export default function MentoradoDetalhe() {
         </button>
         <button onClick={() => setActiveTab("evolucao")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "evolucao" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
           <TrendingUp size={24} />
-          <span className="text-xs font-medium">Evolução</span>
-        </button>
-        <button onClick={() => setActiveTab("notas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "notas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
-          <StickyNote size={24} />
-          <span className="text-xs font-medium">Notas</span>
+          <span className="text-xs font-medium">Evolução & Notas</span>
         </button>
         <button onClick={() => setActiveTab("arquivos")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "arquivos" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
           <Files size={24} />
@@ -569,15 +565,7 @@ export default function MentoradoDetalhe() {
               className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
             >
               <TrendingUp size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
-              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Evolução</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("notas")}
-              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
-            >
-              <StickyNote size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
-              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Notas</span>
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Evolução & Notas</span>
             </button>
 
             <button
@@ -1117,22 +1105,7 @@ export default function MentoradoDetalhe() {
           </>
         )}
 
-        {/* Notas Tab */}
-        {activeTab === "notas" && (
-          <>
-            <button
-              onClick={() => setActiveTab("home")}
-              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-            >
-              <ArrowLeft size={20} />
-              Voltar
-            </button>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
-            <MinhasNotas mentoradoId={mentoradoId} />
-          </div>
-          </>
-        )}
+
 
         {/* Arquivos Tab */}
         {activeTab === "arquivos" && (
@@ -1151,7 +1124,7 @@ export default function MentoradoDetalhe() {
           </>
         )}
 
-        {/* Evolução Tab */}
+        {/* Evolução & Notas Tab */}
         {activeTab === "evolucao" && (
           <>
             <button
@@ -1161,66 +1134,76 @@ export default function MentoradoDetalhe() {
               <ArrowLeft size={20} />
               Voltar
             </button>
-            <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
-              <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
-                <Plus size={16} className="mr-2" /> Adicionar Registro
-              </Button>
-            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Evolução */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
+                  <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                    <Plus size={16} className="mr-2" /> Adicionar
+                  </Button>
+                </div>
 
-            {evolucoes.length === 0 ? (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
-                <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/40">Nenhum registro de evolução</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {evolucoes.map((evo) => (
-                  <div
-                    key={evo.id}
-                    className="bg-white/5 border border-white/10 rounded-xl p-4 group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <button
-                        onClick={() => updateEvolucaoMutation.mutate({ id: evo.id, data: { concluido: !evo.concluido } })}
-                        className="flex-shrink-0 mt-1"
-                      >
-                        {evo.concluido ? (
-                          <CheckCircle2 size={20} className="text-emerald-400" />
-                        ) : (
-                          <Circle size={20} className="text-white/30" />
-                        )}
-                      </button>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className={`font-medium ${evo.concluido ? "text-white/40 line-through" : "text-white"}`}>
-                            {evo.titulo}
-                          </p>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${evolucaoColors[evo.tipo]}`}>
-                            {evo.tipo?.replace("_", " ")}
-                          </span>
-                        </div>
-                        {evo.descricao && (
-                          <p className="text-sm text-white/60">{evo.descricao}</p>
-                        )}
-                        <p className="text-xs text-white/40 mt-2">
-                          {evo.data && format(new Date(evo.data), "dd/MM/yyyy")}
-                          {evo.pilar && evo.pilar !== "geral" && ` • ${evo.pilar.replace("_", " ")}`}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => deleteEvolucaoMutation.mutate(evo.id)}
-                        className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+                {evolucoes.length === 0 ? (
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
+                    <p className="text-white/40">Nenhum registro de evolução</p>
                   </div>
-                ))}
+                ) : (
+                  <div className="space-y-3">
+                    {evolucoes.map((evo) => (
+                      <div
+                        key={evo.id}
+                        className="bg-white/5 border border-white/10 rounded-xl p-4 group"
+                      >
+                        <div className="flex items-start gap-3">
+                          <button
+                            onClick={() => updateEvolucaoMutation.mutate({ id: evo.id, data: { concluido: !evo.concluido } })}
+                            className="flex-shrink-0 mt-1"
+                          >
+                            {evo.concluido ? (
+                              <CheckCircle2 size={20} className="text-emerald-400" />
+                            ) : (
+                              <Circle size={20} className="text-white/30" />
+                            )}
+                          </button>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <p className={`font-medium ${evo.concluido ? "text-white/40 line-through" : "text-white"}`}>
+                                {evo.titulo}
+                              </p>
+                              <span className={`text-xs px-2 py-0.5 rounded-full ${evolucaoColors[evo.tipo]}`}>
+                                {evo.tipo?.replace("_", " ")}
+                              </span>
+                            </div>
+                            {evo.descricao && (
+                              <p className="text-sm text-white/60">{evo.descricao}</p>
+                            )}
+                            <p className="text-xs text-white/40 mt-2">
+                              {evo.data && format(new Date(evo.data), "dd/MM/yyyy")}
+                              {evo.pilar && evo.pilar !== "geral" && ` • ${evo.pilar.replace("_", " ")}`}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => deleteEvolucaoMutation.mutate(evo.id)}
+                            className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+
+              {/* Notas */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
+                <MinhasNotas mentoradoId={mentoradoId} />
+              </div>
+            </div>
           </>
         )}
 
