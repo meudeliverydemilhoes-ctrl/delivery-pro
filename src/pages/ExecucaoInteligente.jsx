@@ -805,26 +805,26 @@ export default function ExecucaoInteligente() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <Zap className="text-[#FF4D00]" />
             Execução Inteligente
           </h1>
-          <p className="text-white/50">Checklists, planos de ação e acompanhamento de performance</p>
+          <p className="text-sm md:text-base text-white/50">Checklists, planos de ação e acompanhamento de performance</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Link to={createPageUrl("Dashboard")}>
-            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
-              <Home size={18} className="mr-2" /> Voltar ao Início
+            <Button size="sm" className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+              <Home size={16} className="md:mr-2" /> <span className="hidden md:inline">Voltar ao Início</span>
             </Button>
           </Link>
-          <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
-            <Bell size={18} className="mr-2" /> Comunicado
+          <Button size="sm" onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+            <Bell size={16} className="md:mr-2" /> <span className="hidden md:inline">Comunicado</span>
           </Button>
-          <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
-            <BookOpen size={18} className="mr-2" /> Novo SOP
+          <Button size="sm" onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+            <BookOpen size={16} className="md:mr-2" /> <span className="hidden md:inline">Novo SOP</span>
           </Button>
-          <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
-            <Plus size={18} className="mr-2" /> Novo Checklist
+          <Button size="sm" onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+            <Plus size={16} className="md:mr-2" /> <span className="hidden md:inline">Novo Checklist</span>
           </Button>
         </div>
       </div>
@@ -866,24 +866,24 @@ export default function ExecucaoInteligente() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-white/5 border border-white/10 p-1 mb-6">
-          <TabsTrigger value="execucoes" className="data-[state=active]:bg-[#FF4D00]">
-            <ClipboardList size={16} className="mr-2" /> Execuções
+        <TabsList className="bg-white/5 border border-white/10 p-1 mb-6 overflow-x-auto flex-nowrap">
+          <TabsTrigger value="execucoes" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <ClipboardList size={16} className="md:mr-2" /> <span className="hidden md:inline">Execuções</span>
           </TabsTrigger>
-          <TabsTrigger value="modelos" className="data-[state=active]:bg-[#FF4D00]">
-            <FileText size={16} className="mr-2" /> Modelos
+          <TabsTrigger value="modelos" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <FileText size={16} className="md:mr-2" /> <span className="hidden md:inline">Modelos</span>
           </TabsTrigger>
-          <TabsTrigger value="planos-prontos" className="data-[state=active]:bg-[#FF4D00]">
-            <Target size={16} className="mr-2" /> Planos de Ação
+          <TabsTrigger value="planos-prontos" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <Target size={16} className="md:mr-2" /> <span className="hidden md:inline">Planos</span>
           </TabsTrigger>
-          <TabsTrigger value="sops" className="data-[state=active]:bg-[#FF4D00]">
-            <BookOpen size={16} className="mr-2" /> SOPs
+          <TabsTrigger value="sops" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <BookOpen size={16} className="md:mr-2" /> <span className="hidden md:inline">SOPs</span>
           </TabsTrigger>
-          <TabsTrigger value="dashboard" className="data-[state=active]:bg-[#FF4D00]">
-            <Trophy size={16} className="mr-2" /> Dashboard
+          <TabsTrigger value="dashboard" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <Trophy size={16} className="md:mr-2" /> <span className="hidden md:inline">Dashboard</span>
           </TabsTrigger>
-          <TabsTrigger value="comunicados" className="data-[state=active]:bg-[#FF4D00]">
-            <Bell size={16} className="mr-2" /> Comunicados
+          <TabsTrigger value="comunicados" className="data-[state=active]:bg-[#FF4D00] flex-shrink-0">
+            <Bell size={16} className="md:mr-2" /> <span className="hidden md:inline">Comunicados</span>
           </TabsTrigger>
         </TabsList>
 
