@@ -448,19 +448,55 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-          <button onClick={() => setActiveTab("home")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "home" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Início</button>
-          <button onClick={() => setActiveTab("briefing")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "briefing" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Briefing</button>
-          <button onClick={() => setActiveTab("diagnostico")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "diagnostico" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Diagnóstico</button>
-          <button onClick={() => setActiveTab("cardapio")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "cardapio" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Cardápio</button>
-          <button onClick={() => setActiveTab("fluxogramas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "fluxogramas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Fluxogramas</button>
-          <button onClick={() => setActiveTab("painel")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "painel" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Painel</button>
-          <button onClick={() => setActiveTab("pilares")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "pilares" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Pilares</button>
-          <button onClick={() => setActiveTab("tarefas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "tarefas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Tarefas</button>
-          <button onClick={() => setActiveTab("fichas_tecnicas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "fichas_tecnicas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Fichas</button>
-          <button onClick={() => setActiveTab("evolucao")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "evolucao" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Evolução</button>
-          <button onClick={() => setActiveTab("notas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "notas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Notas</button>
-          <button onClick={() => setActiveTab("arquivos")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "arquivos" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Arquivos</button>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <button onClick={() => setActiveTab("home")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "home" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <FileText size={24} />
+            <span className="text-xs font-medium">Início</span>
+          </button>
+          <button onClick={() => setActiveTab("briefing")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "briefing" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <FileText size={24} />
+            <span className="text-xs font-medium">Briefing</span>
+          </button>
+          <button onClick={() => setActiveTab("diagnostico")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "diagnostico" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <Stethoscope size={24} />
+            <span className="text-xs font-medium">Diagnóstico</span>
+          </button>
+          <button onClick={() => setActiveTab("cardapio")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "cardapio" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <UtensilsCrossed size={24} />
+            <span className="text-xs font-medium">Cardápio</span>
+          </button>
+          <button onClick={() => setActiveTab("fluxogramas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "fluxogramas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <GitBranch size={24} />
+            <span className="text-xs font-medium">Fluxogramas</span>
+          </button>
+          <button onClick={() => setActiveTab("painel")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "painel" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <LayoutDashboard size={24} />
+            <span className="text-xs font-medium">Painel</span>
+          </button>
+          <button onClick={() => setActiveTab("pilares")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "pilares" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <Lightbulb size={24} />
+            <span className="text-xs font-medium">Pilares</span>
+          </button>
+          <button onClick={() => setActiveTab("tarefas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "tarefas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <ListTodo size={24} />
+            <span className="text-xs font-medium">Tarefas</span>
+          </button>
+          <button onClick={() => setActiveTab("fichas_tecnicas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "fichas_tecnicas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <FileSpreadsheet size={24} />
+            <span className="text-xs font-medium">Fichas</span>
+          </button>
+          <button onClick={() => setActiveTab("evolucao")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "evolucao" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <TrendingUp size={24} />
+            <span className="text-xs font-medium">Evolução</span>
+          </button>
+          <button onClick={() => setActiveTab("notas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "notas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <StickyNote size={24} />
+            <span className="text-xs font-medium">Notas</span>
+          </button>
+          <button onClick={() => setActiveTab("arquivos")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "arquivos" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+            <Files size={24} />
+            <span className="text-xs font-medium">Arquivos</span>
+          </button>
         </div>
 
         {/* Home - Grid de Módulos */}
