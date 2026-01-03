@@ -1103,11 +1103,9 @@ export default function MentoradoDetalhe() {
             <MinhasTarefas mentoradoId={mentoradoId} />
           </div>
           </>
-        )}
+          )}
 
-
-
-        {/* Arquivos Tab */}
+          {/* Arquivos Tab */}
         {activeTab === "arquivos" && (
           <>
             <button
