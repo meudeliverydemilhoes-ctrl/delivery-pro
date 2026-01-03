@@ -142,9 +142,7 @@ export default function MentoradoDetalhe() {
     if (briefing) {
       setBriefingForm(briefing);
       // Carregar campos customizados
-      if (briefing.custom_fields) {
-        setCustomFields(briefing.custom_fields);
-      }
+      setCustomFields(briefing.custom_fields || []);
     }
   }, [briefing]);
 
