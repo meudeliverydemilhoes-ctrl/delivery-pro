@@ -323,7 +323,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <FileText size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Briefing</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Briefing</span>
                 </Link>
 
                 <Link
@@ -331,7 +331,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <Stethoscope size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Diagnóstico</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Diagnóstico</span>
                 </Link>
 
                 <Link
@@ -339,7 +339,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <UtensilsCrossed size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Cardápio</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Cardápio</span>
                 </Link>
 
                 <Link
@@ -347,7 +347,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <GitBranch size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Fluxogramas</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Fluxogramas</span>
                 </Link>
 
                 <Link
@@ -355,7 +355,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <LayoutGrid size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Painel</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Painel</span>
                 </Link>
 
                 <Link
@@ -363,7 +363,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <Lightbulb size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Pilares</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Pilares</span>
                 </Link>
 
                 <Link
@@ -379,7 +379,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <FileSpreadsheet size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Fichas</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Fichas</span>
                 </Link>
 
                 <Link
@@ -387,7 +387,7 @@ export default function Mentorados() {
                   className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
                 >
                   <TrendingUp size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
-                  <span className="text-xs text-white/60 group-hover:text-white text-center">Evolução</span>
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Evolução</span>
                 </Link>
               </div>
             </div>
