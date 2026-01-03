@@ -15,7 +15,17 @@ import {
   Edit2,
   Trash2,
   X,
-  Home
+  Home,
+  FileText,
+  Stethoscope,
+  UtensilsCrossed,
+  GitBranch,
+  LayoutGrid,
+  Lightbulb,
+  CheckSquare,
+  FileSpreadsheet,
+  TrendingUp,
+  FolderOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -306,12 +316,80 @@ export default function Mentorados() {
                 </span>
               </div>
 
-              <Link
-                to={createPageUrl(`MentoradoDetalhe?id=${m.id}`)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#FF4D00]/10 text-[#FF4D00] rounded-xl hover:bg-[#FF4D00]/20 transition-colors font-medium"
-              >
-                Ver Detalhes <ArrowRight size={16} />
-              </Link>
+              {/* Módulos Clicáveis */}
+              <div className="grid grid-cols-3 gap-2">
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=briefing`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <FileText size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Briefing</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=diagnostico`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <Stethoscope size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Diagnóstico</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=cardapio`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <UtensilsCrossed size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Cardápio</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=fluxogramas`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <GitBranch size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Fluxogramas</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=painel`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <LayoutGrid size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Painel</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=pilares`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <Lightbulb size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Pilares</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=tarefas`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <CheckSquare size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Tarefas</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=fichas_tecnicas`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <FileSpreadsheet size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Fichas</span>
+                </Link>
+
+                <Link
+                  to={createPageUrl(`MentoradoDetalhe?id=${m.id}&tab=evolucao`)}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <TrendingUp size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center">Evolução</span>
+                </Link>
+              </div>
             </div>
           ))}
         </div>

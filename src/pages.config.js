@@ -1,33 +1,35 @@
-import Dashboard from './pages/Dashboard';
-import Mentorados from './pages/Mentorados';
-import MentoradoDetalhe from './pages/MentoradoDetalhe';
-import Cursos from './pages/Cursos';
-import Biblioteca from './pages/Biblioteca';
 import Agenda from './pages/Agenda';
-import Notas from './pages/Notas';
+import AulasMentoria from './pages/AulasMentoria';
+import Automacoes from './pages/Automacoes';
+import Biblioteca from './pages/Biblioteca';
+import Cursos from './pages/Cursos';
+import Dashboard from './pages/Dashboard';
 import Execucao from './pages/Execucao';
 import ExecucaoInteligente from './pages/ExecucaoInteligente';
 import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
-import AulasMentoria from './pages/AulasMentoria';
 import GestaoFinanceira from './pages/GestaoFinanceira';
-import Automacoes from './pages/Automacoes';
+import Home from './pages/Home';
+import MentoradoDetalhe from './pages/MentoradoDetalhe';
+import Mentorados from './pages/Mentorados';
+import Notas from './pages/Notas';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Dashboard": Dashboard,
-    "Mentorados": Mentorados,
-    "MentoradoDetalhe": MentoradoDetalhe,
-    "Cursos": Cursos,
-    "Biblioteca": Biblioteca,
     "Agenda": Agenda,
-    "Notas": Notas,
+    "AulasMentoria": AulasMentoria,
+    "Automacoes": Automacoes,
+    "Biblioteca": Biblioteca,
+    "Cursos": Cursos,
+    "Dashboard": Dashboard,
     "Execucao": Execucao,
     "ExecucaoInteligente": ExecucaoInteligente,
     "FluxogramasOperacionais": FluxogramasOperacionais,
-    "AulasMentoria": AulasMentoria,
     "GestaoFinanceira": GestaoFinanceira,
-    "Automacoes": Automacoes,
+    "Home": Home,
+    "MentoradoDetalhe": MentoradoDetalhe,
+    "Mentorados": Mentorados,
+    "Notas": Notas,
 }
 
 export const pagesConfig = {
