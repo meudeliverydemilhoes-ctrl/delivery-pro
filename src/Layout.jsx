@@ -48,7 +48,7 @@ export default function Layout({ children, currentPageName }) {
   });
 
   return (
-    <div className="min-h-screen bg-[#FF4D00] text-white">
+    <div className="min-h-screen bg-black text-white">
       <style>{`
         :root {
           --orange: #FF4D00;
@@ -68,7 +68,7 @@ export default function Layout({ children, currentPageName }) {
       `}</style>
 
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#FF4D00]/95 backdrop-blur-lg border-b border-white/10">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-white/10">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#FF4D00] rounded-lg flex items-center justify-center">
@@ -87,7 +87,7 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-[#E64500] border-r border-white/10 z-40 transform transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-black border-r border-white/10 z-40 transform transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -95,8 +95,8 @@ export default function Layout({ children, currentPageName }) {
           {/* Logo */}
           <div className="p-6 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-white/20">
-                <span className="text-[#FF4D00] font-bold text-lg">D</span>
+              <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
+                <span className="text-white font-bold text-lg">D</span>
               </div>
               <div>
                 <h1 className="font-bold text-lg tracking-tight">Delivery Pro</h1>
@@ -116,11 +116,11 @@ export default function Layout({ children, currentPageName }) {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                     isActive
-                      ? "bg-white text-[#FF4D00] shadow-lg shadow-white/20"
-                      : "text-white/80 hover:bg-white/10 hover:text-white"
+                      ? "bg-[#FF4D00] text-white shadow-lg shadow-[#FF4D00]/20"
+                      : "text-white/60 hover:bg-white/5 hover:text-white"
                   }`}
                 >
-                  <item.icon size={20} className={isActive ? "text-[#FF4D00]" : "group-hover:text-white"} />
+                  <item.icon size={20} className={isActive ? "text-white" : "group-hover:text-[#FF4D00]"} />
                   <span className="font-medium">{item.name}</span>
                   {isActive && <ChevronRight size={16} className="ml-auto" />}
                 </Link>
