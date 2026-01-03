@@ -866,24 +866,24 @@ export default function ExecucaoInteligente() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-white/5 border border-white/10 p-1 mb-6">
+        <TabsList className="bg-white/5 border border-white/10 p-1 mb-6 grid grid-cols-2 sm:grid-cols-3 md:flex gap-1 h-auto">
           <TabsTrigger value="execucoes" className="data-[state=active]:bg-[#FF4D00]">
-            <ClipboardList size={16} className="mr-2" /> Execuções
+            <ClipboardList size={16} className="mr-1 sm:mr-2" /> <span className="hidden sm:inline">Execuções</span><span className="sm:hidden">Exec.</span>
           </TabsTrigger>
           <TabsTrigger value="modelos" className="data-[state=active]:bg-[#FF4D00]">
-            <FileText size={16} className="mr-2" /> Modelos
+            <FileText size={16} className="mr-1 sm:mr-2" /> Modelos
           </TabsTrigger>
           <TabsTrigger value="planos-prontos" className="data-[state=active]:bg-[#FF4D00]">
-            <Target size={16} className="mr-2" /> Planos de Ação
+            <Target size={16} className="mr-1 sm:mr-2" /> <span className="hidden sm:inline">Planos de Ação</span><span className="sm:hidden">Planos</span>
           </TabsTrigger>
           <TabsTrigger value="sops" className="data-[state=active]:bg-[#FF4D00]">
-            <BookOpen size={16} className="mr-2" /> SOPs
+            <BookOpen size={16} className="mr-1 sm:mr-2" /> SOPs
           </TabsTrigger>
           <TabsTrigger value="dashboard" className="data-[state=active]:bg-[#FF4D00]">
-            <Trophy size={16} className="mr-2" /> Dashboard
+            <Trophy size={16} className="mr-1 sm:mr-2" /> <span className="hidden sm:inline">Dashboard</span><span className="sm:hidden">Dash</span>
           </TabsTrigger>
           <TabsTrigger value="comunicados" className="data-[state=active]:bg-[#FF4D00]">
-            <Bell size={16} className="mr-2" /> Comunicados
+            <Bell size={16} className="mr-1 sm:mr-2" /> <span className="hidden sm:inline">Comunicados</span><span className="sm:hidden">Avisos</span>
           </TabsTrigger>
         </TabsList>
 
