@@ -17,24 +17,6 @@ import {
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 import { base44 } from "@/api/base44Client";
-import { toast } from "sonner";
-
-// Interceptar mensagens de erro para customizar
-if (typeof window !== 'undefined') {
-  const originalError = console.error;
-  console.error = (...args) => {
-    const message = args.join(' ');
-    if (message.includes('Não se trata de uma questão')) {
-      toast.error('Início', {
-        duration: 3000,
-        icon: '🏠'
-      });
-      return;
-    }
-    originalError.apply(console, args);
-  };
-}
-
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
