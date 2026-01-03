@@ -448,6 +448,21 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="bg-white/5 border border-white/10 p-1 flex-wrap h-auto">
+          <TabsTrigger value="home" className="data-[state=active]:bg-[#FF4D00]">Início</TabsTrigger>
+          <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00]">Briefing</TabsTrigger>
+          <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00]">Diagnóstico</TabsTrigger>
+          <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00]">Cardápio</TabsTrigger>
+          <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00]">Fluxogramas</TabsTrigger>
+          <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00]">Painel</TabsTrigger>
+          <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00]">Pilares</TabsTrigger>
+          <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00]">Tarefas</TabsTrigger>
+          <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00]">Fichas</TabsTrigger>
+          <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00]">Evolução</TabsTrigger>
+          <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00]">Notas</TabsTrigger>
+          <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00]">Arquivos</TabsTrigger>
+        </TabsList>
+
         {/* Home - Grid de Módulos */}
         <TabsContent value="home">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
