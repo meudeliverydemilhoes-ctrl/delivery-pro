@@ -952,16 +952,16 @@ export default function MentoradoDetalhe() {
 
         {/* Pilares Tab */}
         {activeTab === "pilares" && (
-          {!selectedPilarConteudo && (
-            <button
-              onClick={() => setActiveTab("home")}
-              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-            >
-              <ArrowLeft size={20} />
-              Voltar
-            </button>
-          )}
           <div className="space-y-6">
+            {!selectedPilarConteudo && (
+              <button
+                onClick={() => setActiveTab("home")}
+                className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+              >
+                <ArrowLeft size={20} />
+                Voltar
+              </button>
+            )}
             {/* Se tem um pilar selecionado, mostra só ele */}
             {selectedPilarConteudo ? (
               <>
@@ -1223,6 +1223,7 @@ export default function MentoradoDetalhe() {
               </div>
             )}
           </div>
+          </>
         )}
 
         {/* Fichas Técnicas Tab */}
