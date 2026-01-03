@@ -119,6 +119,8 @@ export default function MentoradoDetalhe() {
   });
 
   const [briefingForm, setBriefingForm] = useState({});
+  const [customFields, setCustomFields] = useState([]);
+  const [newFieldName, setNewFieldName] = useState("");
   const [pilarForm, setPilarForm] = useState({
     pilar: "processos",
     titulo: "",
@@ -140,8 +142,30 @@ export default function MentoradoDetalhe() {
   React.useEffect(() => {
     if (briefing) {
       setBriefingForm(briefing);
+      // Carregar campos customizados
+      if (briefing.custom_fields) {
+        setCustomFields(briefing.custom_fields);
+      }
     }
   }, [briefing]);
+
+  const handleAddCustomField = () => {
+    if (newFieldName.trim()) {
+      const newFields = [...customFields, { name: newFieldName, value: "" }];
+      setCustomFields(newFields);
+      setNewFieldName("");
+    }
+  };
+
+  const handleUpdateCustomField = (index, value) => {
+    const updated = [...customFields];
+    updated[index].value = value;
+    setCustomFields(updated);
+  };
+
+  const handleRemoveCustomField = (index) => {
+    setCustomFields(customFields.filter((_, i) => i !== index));
+  };
 
   const createBriefingMutation = useMutation({
     mutationFn: (data) => base44.entities.Briefing.create(data),
@@ -265,10 +289,11 @@ export default function MentoradoDetalhe() {
   });
 
   const handleSaveBriefing = () => {
+    const dataToSave = { ...briefingForm, custom_fields: customFields };
     if (briefing?.id) {
-      updateBriefingMutation.mutate({ id: briefing.id, data: briefingForm });
+      updateBriefingMutation.mutate({ id: briefing.id, data: dataToSave });
     } else {
-      createBriefingMutation.mutate({ ...briefingForm, mentorado_id: mentoradoId });
+      createBriefingMutation.mutate({ ...dataToSave, mentorado_id: mentoradoId });
     }
   };
 
@@ -749,6 +774,53 @@ export default function MentoradoDetalhe() {
                     rows={4}
                   />
                 </div>
+
+                {/* Campos Personalizados */}
+                <div className="border-t border-white/10 pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Label className="text-white/70">Perguntas Personalizadas</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        value={newFieldName}
+                        onChange={(e) => setNewFieldName(e.target.value)}
+                        placeholder="Nome da pergunta..."
+                        className="bg-white/5 border-white/10 text-white w-64"
+                        onKeyDown={(e) => e.key === "Enter" && handleAddCustomField()}
+                      />
+                      <Button
+                        onClick={handleAddCustomField}
+                        disabled={!newFieldName.trim()}
+                        size="sm"
+                        className="bg-[#FF4D00] hover:bg-[#E64500]"
+                      >
+                        <Plus size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {customFields.map((field, index) => (
+                      <div key={index} className="flex gap-2 items-start">
+                        <div className="flex-1">
+                          <Label className="text-white/70 text-xs mb-1">{field.name}</Label>
+                          <Textarea
+                            value={field.value}
+                            onChange={(e) => handleUpdateCustomField(index, e.target.value)}
+                            placeholder="Resposta..."
+                            className="bg-white/5 border-white/10 text-white"
+                            rows={2}
+                          />
+                        </div>
+                        <Button
+                          onClick={() => handleRemoveCustomField(index)}
+                          size="sm"
+                          className="bg-red-500/20 hover:bg-red-500/30 text-red-400 mt-6"
+                        >
+                          <X size={16} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="space-y-6">
@@ -796,6 +868,19 @@ export default function MentoradoDetalhe() {
                       <div>
                         <h4 className="text-sm font-medium text-white/60 mb-2">Diagnóstico Inicial</h4>
                         <p className="text-white/80 whitespace-pre-wrap">{briefing.diagnostico_inicial}</p>
+                      </div>
+                    )}
+                    {briefing.custom_fields && briefing.custom_fields.length > 0 && (
+                      <div className="border-t border-white/10 pt-6">
+                        <h4 className="text-sm font-medium text-white/60 mb-3">Perguntas Personalizadas</h4>
+                        <div className="space-y-3">
+                          {briefing.custom_fields.map((field, index) => (
+                            <div key={index} className="bg-white/5 rounded-xl p-4">
+                              <p className="text-xs text-white/40 mb-1">{field.name}</p>
+                              <p className="text-white/80 whitespace-pre-wrap">{field.value || "-"}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </>
