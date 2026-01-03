@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Mentorados from './pages/Mentorados';
 import Notas from './pages/Notas';
+import Fornecedores from './pages/Fornecedores';
 import __Layout from './Layout.jsx';
 
 
@@ -30,6 +31,7 @@ export const PAGES = {
     "MentoradoDetalhe": MentoradoDetalhe,
     "Mentorados": Mentorados,
     "Notas": Notas,
+    "Fornecedores": Fornecedores,
 }
 
 export const pagesConfig = {

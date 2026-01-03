@@ -389,6 +389,14 @@ export default function Mentorados() {
                   <TrendingUp size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
                   <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Evolução</span>
                 </Link>
+
+                <Link
+                  to={createPageUrl("Fornecedores")}
+                  className="flex flex-col items-center gap-1 p-3 bg-white/5 rounded-lg hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-colors group"
+                >
+                  <FolderOpen size={20} className="text-white/60 group-hover:text-[#FF4D00]" />
+                  <span className="text-xs text-white/60 group-hover:text-white text-center whitespace-nowrap">Fornecedores</span>
+                </Link>
               </div>
             </div>
           ))}
