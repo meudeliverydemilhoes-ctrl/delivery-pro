@@ -106,7 +106,7 @@ export default function Dashboard() {
             </h2>
             <Link
               to={createPageUrl("Agenda")}
-              className="text-sm text-[#FF4D00] hover:text-[#FF4D00]/80 flex items-center gap-1"
+              className="text-sm text-white bg-[#FF4D00] hover:bg-[#E64500] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
             >
               Ver todos <ArrowRight size={14} />
             </Link>
@@ -149,7 +149,7 @@ export default function Dashboard() {
             </h2>
             <Link
               to={createPageUrl("Notas")}
-              className="text-sm text-[#FF4D00] hover:text-[#FF4D00]/80 flex items-center gap-1"
+              className="text-sm text-white bg-[#FF4D00] hover:bg-[#E64500] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
             >
               Ver todas <ArrowRight size={14} />
             </Link>
@@ -187,7 +187,7 @@ export default function Dashboard() {
           </h2>
           <Link
             to={createPageUrl("Mentorados")}
-            className="text-sm text-[#FF4D00] hover:text-[#FF4D00]/80 flex items-center gap-1"
+            className="text-sm text-white bg-[#FF4D00] hover:bg-[#E64500] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
           >
             Ver todos <ArrowRight size={14} />
           </Link>
