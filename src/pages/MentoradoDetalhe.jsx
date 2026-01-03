@@ -31,7 +31,10 @@ import {
   UtensilsCrossed,
   GitBranch,
   LayoutDashboard,
-  ChefHat
+  ChefHat,
+  Stethoscope,
+  Lightbulb,
+  FileSpreadsheet
 } from "lucide-react";
 import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
@@ -69,8 +72,9 @@ export default function MentoradoDetalhe() {
   const queryClient = useQueryClient();
   const urlParams = new URLSearchParams(window.location.search);
   const mentoradoId = urlParams.get("id");
+  const tabParam = urlParams.get("tab");
 
-  const [activeTab, setActiveTab] = useState("briefing");
+  const [activeTab, setActiveTab] = useState(tabParam || "home");
   const [isEditingBriefing, setIsEditingBriefing] = useState(false);
   const [pilarDialogOpen, setPilarDialogOpen] = useState(false);
   const [evolucaoDialogOpen, setEvolucaoDialogOpen] = useState(false);
@@ -419,44 +423,108 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10 p-2 h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
-                        <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <FileText size={18} className="mr-3" /> Briefing
-                        </TabsTrigger>
-                        <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <ClipboardCheck size={18} className="mr-3" /> Diagnóstico
-                        </TabsTrigger>
-                        <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <UtensilsCrossed size={18} className="mr-3" /> Análise Cardápio
-                        </TabsTrigger>
-                        <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <GitBranch size={18} className="mr-3" /> Fluxogramas
-                        </TabsTrigger>
-                        <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <LayoutDashboard size={18} className="mr-3" /> Painel Organização
-                        </TabsTrigger>
-                        <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <Target size={18} className="mr-3" /> Pilares
-                        </TabsTrigger>
-                        <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <ListTodo size={18} className="mr-3" /> Tarefas
-                        </TabsTrigger>
-                        <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <StickyNote size={18} className="mr-3" /> Notas
-                        </TabsTrigger>
-                        <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <Files size={18} className="mr-3" /> Arquivos
-                        </TabsTrigger>
-                        <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <TrendingUp size={18} className="mr-3" /> Evolução
-                        </TabsTrigger>
-                        <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white justify-start px-4 py-3 rounded-xl">
-                          <ChefHat size={18} className="mr-3" /> Fichas Técnicas
-                        </TabsTrigger>
-                      </TabsList>
+        {/* Home - Grid de Módulos */}
+        <TabsContent value="home">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <button
+              onClick={() => setActiveTab("briefing")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <FileText size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Briefing</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("diagnostico")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <Stethoscope size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Diagnóstico</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("cardapio")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <UtensilsCrossed size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Cardápio</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("fluxogramas")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <GitBranch size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Fluxogramas</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("painel")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <LayoutDashboard size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Painel</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("pilares")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <Lightbulb size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Pilares</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("tarefas")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <ListTodo size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Tarefas</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("fichas_tecnicas")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <FileSpreadsheet size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Fichas</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("evolucao")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <TrendingUp size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Evolução</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("notas")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <StickyNote size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Notas</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("arquivos")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <Files size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Arquivos</span>
+            </button>
+          </div>
+        </TabsContent>
 
         {/* Diagnóstico Tab */}
         <TabsContent value="diagnostico">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <DiagnosticoNegocio 
               diagnosticoStatus={briefing?.diagnostico_status || {}}
@@ -479,6 +547,13 @@ export default function MentoradoDetalhe() {
 
         {/* Análise de Cardápio Tab */}
                   <TabsContent value="cardapio">
+                    <button
+                      onClick={() => setActiveTab("home")}
+                      className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+                    >
+                      <ArrowLeft size={20} />
+                      Voltar
+                    </button>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                       <AnaliseCardapio 
                         analiseData={briefing?.analise_cardapio || {}}
@@ -501,16 +576,37 @@ export default function MentoradoDetalhe() {
 
                   {/* Fluxogramas Tab */}
         <TabsContent value="fluxogramas">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <FluxogramasMentorado mentoradoId={mentoradoId} />
         </TabsContent>
 
         {/* Painel de Organização Tab */}
         <TabsContent value="painel">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <PainelOrganizacao mentoradoId={mentoradoId} />
         </TabsContent>
 
         {/* Briefing Tab */}
         <TabsContent value="briefing">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Briefing do Negócio</h2>
@@ -711,6 +807,15 @@ export default function MentoradoDetalhe() {
 
         {/* Pilares Tab */}
         <TabsContent value="pilares">
+          {!selectedPilarConteudo && (
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+          )}
           <div className="space-y-6">
             {/* Se tem um pilar selecionado, mostra só ele */}
             {selectedPilarConteudo ? (
@@ -854,6 +959,13 @@ export default function MentoradoDetalhe() {
 
         {/* Tarefas Tab */}
         <TabsContent value="tarefas">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Minhas Tarefas</h2>
             <MinhasTarefas mentoradoId={mentoradoId} />
@@ -862,6 +974,13 @@ export default function MentoradoDetalhe() {
 
         {/* Notas Tab */}
         <TabsContent value="notas">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
             <MinhasNotas mentoradoId={mentoradoId} />
@@ -870,6 +989,13 @@ export default function MentoradoDetalhe() {
 
         {/* Arquivos Tab */}
         <TabsContent value="arquivos">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Meus Arquivos</h2>
             <MeusArquivos mentoradoId={mentoradoId} />
@@ -878,6 +1004,13 @@ export default function MentoradoDetalhe() {
 
         {/* Evolução Tab */}
         <TabsContent value="evolucao">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
@@ -942,6 +1075,13 @@ export default function MentoradoDetalhe() {
 
         {/* Fichas Técnicas Tab */}
         <TabsContent value="fichas_tecnicas">
+          <button
+            onClick={() => setActiveTab("home")}
+            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Voltar
+          </button>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
           </div>
