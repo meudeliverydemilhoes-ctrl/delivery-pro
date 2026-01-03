@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
@@ -780,25 +780,25 @@ export default function ExecucaoInteligente() {
     });
   };
 
-  // Filtros
+  // Filtros com useMemo para otimização
   const getMentoradoNome = (id) => mentorados.find(m => m.id === id)?.nome || "Desconhecido";
 
-  const filteredExecucoes = execucoes.filter(e => {
+  const filteredExecucoes = useMemo(() => execucoes.filter(e => {
     const matchSearch = e.titulo?.toLowerCase().includes(search.toLowerCase());
     const matchPilar = pilarFilter === "todos" || e.pilar === pilarFilter;
     const matchMentorado = mentoradoFilter === "todos" || e.mentorado_id === mentoradoFilter;
     return matchSearch && matchPilar && matchMentorado;
-  });
+  }), [execucoes, search, pilarFilter, mentoradoFilter]);
 
-  const filteredPlanos = planosAcao.filter(p => {
+  const filteredPlanos = useMemo(() => planosAcao.filter(p => {
     const matchSearch = p.problema?.toLowerCase().includes(search.toLowerCase());
     const matchPilar = pilarFilter === "todos" || p.pilar === pilarFilter;
     const matchMentorado = mentoradoFilter === "todos" || p.mentorado_id === mentoradoFilter;
     return matchSearch && matchPilar && matchMentorado;
-  });
+  }), [planosAcao, search, pilarFilter, mentoradoFilter]);
 
-  const pendentes = filteredExecucoes.filter(e => e.status !== "concluido");
-  const concluidos = filteredExecucoes.filter(e => e.status === "concluido");
+  const pendentes = useMemo(() => filteredExecucoes.filter(e => e.status !== "concluido"), [filteredExecucoes]);
+  const concluidos = useMemo(() => filteredExecucoes.filter(e => e.status === "concluido"), [filteredExecucoes]);
 
   return (
     <div className="max-w-7xl mx-auto" style={{ paddingLeft: 'max(1rem, env(safe-area-inset-left))', paddingRight: 'max(1rem, env(safe-area-inset-right))' }}>
