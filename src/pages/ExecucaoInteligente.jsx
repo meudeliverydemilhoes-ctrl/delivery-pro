@@ -803,7 +803,7 @@ export default function ExecucaoInteligente() {
   return (
     <div className="max-w-7xl mx-auto" style={{ paddingLeft: 'max(1rem, env(safe-area-inset-left))', paddingRight: 'max(1rem, env(safe-area-inset-right))' }}>
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div className="flex flex-col gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <Zap className="text-[#FF4D00]" />
@@ -811,19 +811,19 @@ export default function ExecucaoInteligente() {
           </h1>
           <p className="text-white/50">Checklists, planos de ação e acompanhamento de performance</p>
         </div>
-        <div className="flex gap-2">
-          <Link to={createPageUrl("Dashboard")}>
-            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
+        <div className="grid grid-cols-2 gap-2">
+          <Link to={createPageUrl("Dashboard")} className="w-full">
+            <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
               <Home size={18} className="mr-2" /> Voltar ao Início
             </Button>
           </Link>
-          <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
+          <Button onClick={() => setComunicadoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
             <Bell size={18} className="mr-2" /> Comunicado
           </Button>
-          <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
+          <Button onClick={() => setSOPDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] text-white w-full">
             <BookOpen size={18} className="mr-2" /> Novo SOP
           </Button>
-          <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+          <Button onClick={() => setChecklistDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500] w-full">
             <Plus size={18} className="mr-2" /> Novo Checklist
           </Button>
         </div>
