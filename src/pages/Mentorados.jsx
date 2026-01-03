@@ -507,7 +507,7 @@ export default function Mentorados() {
               />
             </div>
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={handleCloseDialog} className="flex-1 border-white/10 text-white hover:bg-white/10 whitespace-nowrap">
+              <Button onClick={handleCloseDialog} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                 Cancelar
               </Button>
               <Button
