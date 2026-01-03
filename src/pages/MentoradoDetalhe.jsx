@@ -448,20 +448,20 @@ export default function MentoradoDetalhe() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/10 p-1 flex-wrap h-auto">
-          <TabsTrigger value="home" className="data-[state=active]:bg-[#FF4D00]">Início</TabsTrigger>
-          <TabsTrigger value="briefing" className="data-[state=active]:bg-[#FF4D00]">Briefing</TabsTrigger>
-          <TabsTrigger value="diagnostico" className="data-[state=active]:bg-[#FF4D00]">Diagnóstico</TabsTrigger>
-          <TabsTrigger value="cardapio" className="data-[state=active]:bg-[#FF4D00]">Cardápio</TabsTrigger>
-          <TabsTrigger value="fluxogramas" className="data-[state=active]:bg-[#FF4D00]">Fluxogramas</TabsTrigger>
-          <TabsTrigger value="painel" className="data-[state=active]:bg-[#FF4D00]">Painel</TabsTrigger>
-          <TabsTrigger value="pilares" className="data-[state=active]:bg-[#FF4D00]">Pilares</TabsTrigger>
-          <TabsTrigger value="tarefas" className="data-[state=active]:bg-[#FF4D00]">Tarefas</TabsTrigger>
-          <TabsTrigger value="fichas_tecnicas" className="data-[state=active]:bg-[#FF4D00]">Fichas</TabsTrigger>
-          <TabsTrigger value="evolucao" className="data-[state=active]:bg-[#FF4D00]">Evolução</TabsTrigger>
-          <TabsTrigger value="notas" className="data-[state=active]:bg-[#FF4D00]">Notas</TabsTrigger>
-          <TabsTrigger value="arquivos" className="data-[state=active]:bg-[#FF4D00]">Arquivos</TabsTrigger>
-        </TabsList>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+          <button onClick={() => setActiveTab("home")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "home" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Início</button>
+          <button onClick={() => setActiveTab("briefing")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "briefing" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Briefing</button>
+          <button onClick={() => setActiveTab("diagnostico")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "diagnostico" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Diagnóstico</button>
+          <button onClick={() => setActiveTab("cardapio")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "cardapio" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Cardápio</button>
+          <button onClick={() => setActiveTab("fluxogramas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "fluxogramas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Fluxogramas</button>
+          <button onClick={() => setActiveTab("painel")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "painel" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Painel</button>
+          <button onClick={() => setActiveTab("pilares")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "pilares" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Pilares</button>
+          <button onClick={() => setActiveTab("tarefas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "tarefas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Tarefas</button>
+          <button onClick={() => setActiveTab("fichas_tecnicas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "fichas_tecnicas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Fichas</button>
+          <button onClick={() => setActiveTab("evolucao")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "evolucao" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Evolução</button>
+          <button onClick={() => setActiveTab("notas")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "notas" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Notas</button>
+          <button onClick={() => setActiveTab("arquivos")} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === "arquivos" ? "bg-[#FF4D00] text-white" : "bg-white/5 text-white/60 hover:bg-white/10"}`}>Arquivos</button>
+        </div>
 
         {/* Home - Grid de Módulos */}
         <TabsContent value="home">
