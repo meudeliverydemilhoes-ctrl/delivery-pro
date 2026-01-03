@@ -1134,10 +1134,6 @@ export default function MentoradoDetalhe() {
           </>
         )}
 
-        {/* Evolução Tab */}
-        {activeTab === "evolucao" && (
-          <>
-
         {/* Arquivos Tab */}
         {activeTab === "arquivos" && (
           <>
@@ -1155,6 +1151,9 @@ export default function MentoradoDetalhe() {
           </>
         )}
 
+        {/* Evolução Tab */}
+        {activeTab === "evolucao" && (
+          <>
             <button
               onClick={() => setActiveTab("home")}
               className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
@@ -1237,10 +1236,9 @@ export default function MentoradoDetalhe() {
             </button>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
-            </div>
-            </>
-            )}
-            </div>
+          </div>
+          </>
+        )}
       </div>
 
       {/* Dialog Pilar */}
