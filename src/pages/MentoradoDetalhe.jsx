@@ -594,14 +594,15 @@ export default function MentoradoDetalhe() {
 
         {/* Diagnóstico Tab */}
         {activeTab === "diagnostico" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <DiagnosticoNegocio 
               diagnosticoStatus={briefing?.diagnostico_status || {}}
               onUpdateStatus={(status) => {
@@ -619,10 +620,12 @@ export default function MentoradoDetalhe() {
               }}
             />
           </div>
+          </>
         )}
 
         {/* Análise de Cardápio Tab */}
         {activeTab === "cardapio" && (
+          <>
                     <button
                       onClick={() => setActiveTab("home")}
                       className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
@@ -648,42 +651,48 @@ export default function MentoradoDetalhe() {
                         }}
                       />
                     </div>
+          </>
         )}
 
         {/* Fluxogramas Tab */}
         {activeTab === "fluxogramas" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <FluxogramasMentorado mentoradoId={mentoradoId} />
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <FluxogramasMentorado mentoradoId={mentoradoId} />
+          </>
         )}
 
         {/* Painel de Organização Tab */}
         {activeTab === "painel" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <PainelOrganizacao mentoradoId={mentoradoId} />
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <PainelOrganizacao mentoradoId={mentoradoId} />
+          </>
         )}
 
         {/* Briefing Tab */}
         {activeTab === "briefing" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Briefing do Negócio</h2>
               {isEditingBriefing ? (
@@ -1095,59 +1104,66 @@ export default function MentoradoDetalhe() {
 
         {/* Tarefas Tab */}
         {activeTab === "tarefas" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Minhas Tarefas</h2>
             <MinhasTarefas mentoradoId={mentoradoId} />
           </div>
+          </>
         )}
 
         {/* Notas Tab */}
         {activeTab === "notas" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
             <MinhasNotas mentoradoId={mentoradoId} />
           </div>
+          </>
         )}
 
         {/* Arquivos Tab */}
         {activeTab === "arquivos" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-6">Meus Arquivos</h2>
             <MeusArquivos mentoradoId={mentoradoId} />
           </div>
+          </>
         )}
 
         {/* Evolução Tab */}
         {activeTab === "evolucao" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="space-y-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
               <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
@@ -1211,16 +1227,18 @@ export default function MentoradoDetalhe() {
 
         {/* Fichas Técnicas Tab */}
         {activeTab === "fichas_tecnicas" && (
-          <button
-            onClick={() => setActiveTab("home")}
-            className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Voltar
-          </button>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
             <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
           </div>
+          </>
         )}
       </div>
 
