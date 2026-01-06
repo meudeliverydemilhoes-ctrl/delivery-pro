@@ -1128,9 +1128,9 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
-            <MinhasNotas mentoradoId={mentoradoId} />
-          </div>
+              <h2 className="text-xl font-semibold text-white mb-6">Minhas Notas</h2>
+              <MinhasNotas mentoradoId={mentoradoId} />
+            </div>
           </>
         )}
 
