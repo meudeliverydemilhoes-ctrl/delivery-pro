@@ -616,7 +616,7 @@ export default function MentoradoDetalhe() {
                   });
                 }
               }}
-            />
+              />
             </div>
           </>
         )}
