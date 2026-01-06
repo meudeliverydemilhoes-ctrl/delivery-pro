@@ -880,8 +880,8 @@ export default function MentoradoDetalhe() {
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="space-y-6">
+              ) : (
+                <div className="space-y-6">
                 {!briefing ? (
                   <p className="text-white/40 text-center py-8">Nenhum briefing cadastrado. Clique em Editar para começar.</p>
                 ) : (
