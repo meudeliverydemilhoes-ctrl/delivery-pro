@@ -707,9 +707,9 @@ export default function MentoradoDetalhe() {
                   <Edit2 size={16} className="mr-1" /> Editar
                 </Button>
               )}
-            </div>
+              </div>
 
-            {isEditingBriefing ? (
+              {isEditingBriefing ? (
               <div className="space-y-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
