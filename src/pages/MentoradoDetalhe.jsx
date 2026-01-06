@@ -1162,14 +1162,14 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
-              <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
-                <Plus size={16} className="mr-2" /> Adicionar Registro
-              </Button>
-            </div>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-white">Evolução do Mentorado</h2>
+                <Button onClick={() => setEvolucaoDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
+                  <Plus size={16} className="mr-2" /> Adicionar Registro
+                </Button>
+              </div>
 
-            {evolucoes.length === 0 ? (
+              {evolucoes.length === 0 ? (
               <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
                 <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
                 <p className="text-white/40">Nenhum registro de evolução</p>
