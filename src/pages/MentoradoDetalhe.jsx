@@ -618,8 +618,8 @@ export default function MentoradoDetalhe() {
               }}
             />
             </div>
-            </>
-            )}
+          </>
+        )}
 
         {/* Análise de Cardápio Tab */}
         {activeTab === "cardapio" && (
