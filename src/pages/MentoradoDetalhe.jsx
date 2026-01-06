@@ -617,7 +617,7 @@ export default function MentoradoDetalhe() {
                 }
               }}
             />
-          </div>
+            </div>
           </>
         )}
 

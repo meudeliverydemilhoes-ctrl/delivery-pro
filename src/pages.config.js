@@ -10,9 +10,9 @@ import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import Fornecedores from './pages/Fornecedores';
 import GestaoFinanceira from './pages/GestaoFinanceira';
 import Home from './pages/Home';
+import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Mentorados from './pages/Mentorados';
 import Notas from './pages/Notas';
-import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import __Layout from './Layout.jsx';
 
 
@@ -29,9 +29,9 @@ export const PAGES = {
     "Fornecedores": Fornecedores,
     "GestaoFinanceira": GestaoFinanceira,
     "Home": Home,
+    "MentoradoDetalhe": MentoradoDetalhe,
     "Mentorados": Mentorados,
     "Notas": Notas,
-    "MentoradoDetalhe": MentoradoDetalhe,
 }
 
 export const pagesConfig = {
