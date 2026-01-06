@@ -943,9 +943,10 @@ export default function MentoradoDetalhe() {
                     )}
                   </>
                 )}
-              </div>
-            )}
-          </div>
+                </div>
+              )}
+            </div>
+          </>
         )}
 
         {/* Pilares Tab */}
