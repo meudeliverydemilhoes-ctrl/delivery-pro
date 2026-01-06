@@ -691,7 +691,7 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">Briefing do Negócio</h2>
               {isEditingBriefing ? (
                 <div className="flex gap-2">
