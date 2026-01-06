@@ -601,8 +601,8 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <DiagnosticoNegocio 
-              diagnosticoStatus={briefing?.diagnostico_status || {}}
+              <DiagnosticoNegocio 
+                diagnosticoStatus={briefing?.diagnostico_status || {}}
               onUpdateStatus={(status) => {
                 if (briefing?.id) {
                   updateBriefingMutation.mutate({ 
