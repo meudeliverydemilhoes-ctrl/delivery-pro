@@ -1170,57 +1170,57 @@ export default function MentoradoDetalhe() {
               </div>
 
               {evolucoes.length === 0 ? (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
-                <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
-                <p className="text-white/40">Nenhum registro de evolução</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {evolucoes.map((evo) => (
-                  <div
-                    key={evo.id}
-                    className="bg-white/5 border border-white/10 rounded-xl p-4 group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <button
-                        onClick={() => updateEvolucaoMutation.mutate({ id: evo.id, data: { concluido: !evo.concluido } })}
-                        className="flex-shrink-0 mt-1"
-                      >
-                        {evo.concluido ? (
-                          <CheckCircle2 size={20} className="text-emerald-400" />
-                        ) : (
-                          <Circle size={20} className="text-white/30" />
-                        )}
-                      </button>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className={`font-medium ${evo.concluido ? "text-white/40 line-through" : "text-white"}`}>
-                            {evo.titulo}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                  <TrendingUp size={40} className="mx-auto mb-3 text-white/20" />
+                  <p className="text-white/40">Nenhum registro de evolução</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {evolucoes.map((evo) => (
+                    <div
+                      key={evo.id}
+                      className="bg-white/5 border border-white/10 rounded-xl p-4 group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <button
+                          onClick={() => updateEvolucaoMutation.mutate({ id: evo.id, data: { concluido: !evo.concluido } })}
+                          className="flex-shrink-0 mt-1"
+                        >
+                          {evo.concluido ? (
+                            <CheckCircle2 size={20} className="text-emerald-400" />
+                          ) : (
+                            <Circle size={20} className="text-white/30" />
+                          )}
+                        </button>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className={`font-medium ${evo.concluido ? "text-white/40 line-through" : "text-white"}`}>
+                              {evo.titulo}
+                            </p>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${evolucaoColors[evo.tipo]}`}>
+                              {evo.tipo?.replace("_", " ")}
+                            </span>
+                          </div>
+                          {evo.descricao && (
+                            <p className="text-sm text-white/60">{evo.descricao}</p>
+                          )}
+                          <p className="text-xs text-white/40 mt-2">
+                            {evo.data && format(new Date(evo.data), "dd/MM/yyyy")}
+                            {evo.pilar && evo.pilar !== "geral" && ` • ${evo.pilar.replace("_", " ")}`}
                           </p>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${evolucaoColors[evo.tipo]}`}>
-                            {evo.tipo?.replace("_", " ")}
-                          </span>
                         </div>
-                        {evo.descricao && (
-                          <p className="text-sm text-white/60">{evo.descricao}</p>
-                        )}
-                        <p className="text-xs text-white/40 mt-2">
-                          {evo.data && format(new Date(evo.data), "dd/MM/yyyy")}
-                          {evo.pilar && evo.pilar !== "geral" && ` • ${evo.pilar.replace("_", " ")}`}
-                        </p>
+                        <button
+                          onClick={() => deleteEvolucaoMutation.mutate(evo.id)}
+                          className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => deleteEvolucaoMutation.mutate(evo.id)}
-                        className="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 size={16} />
-                      </button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </>
         )}
 
