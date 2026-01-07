@@ -45,6 +45,7 @@ import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
 import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.jsx";
 import PainelOrganizacao from "@/components/mentorado/PainelOrganizacao";
 import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOperacionais";
+import RegistroAulas from "@/components/mentorado/RegistroAulas";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -676,7 +677,12 @@ export default function MentoradoDetalhe() {
               <ArrowLeft size={20} />
               Voltar
             </button>
-            <PainelOrganizacao mentoradoId={mentoradoId} />
+            <div className="space-y-6">
+              <PainelOrganizacao mentoradoId={mentoradoId} />
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                <RegistroAulas mentoradoId={mentoradoId} />
+              </div>
+            </div>
           </>
         )}
 
