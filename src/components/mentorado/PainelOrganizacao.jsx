@@ -317,16 +317,14 @@ export default function PainelOrganizacao({ mentoradoId }) {
           </h2>
           <p className="text-white/50 text-sm mt-1">Acompanhamento completo dos 5 pilares da mentoria</p>
         </div>
-        {hasChanges && (
-          <Button 
-            onClick={handleSave} 
-            disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
-            className="bg-[#FF4D00] hover:bg-[#E64500]"
-          >
-            <Save size={16} className="mr-2" />
-            Salvar
-          </Button>
-        )}
+        <Button 
+          onClick={handleSave} 
+          disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
+          className="bg-[#FF4D00] hover:bg-[#E64500]"
+        >
+          <Save size={16} className="mr-2" />
+          {updateBriefingMutation.isPending || createBriefingMutation.isPending ? "Salvando..." : "Salvar"}
+        </Button>
       </div>
 
       {/* Progresso Geral */}
