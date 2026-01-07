@@ -205,7 +205,15 @@ export default function PainelOrganizacao({ mentoradoId }) {
     setPainelData(prev => {
       const newData = { ...prev };
       if (!newData.pilares) newData.pilares = {};
-      if (!newData.pilares[pilarId]) newData.pilares[pilarId] = {};
+      if (!newData.pilares[pilarId]) {
+        newData.pilares[pilarId] = {
+          checklist: {},
+          observacoes: "",
+          status: "pendente",
+          data_inicio: "",
+          data_conclusao: ""
+        };
+      }
       newData.pilares[pilarId][field] = value;
       return newData;
     });
