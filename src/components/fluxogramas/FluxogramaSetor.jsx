@@ -96,12 +96,15 @@ export default function FluxogramaSetor({
                   {editingColuna === colunaIdx ? (
                     <div className="flex gap-1">
                       <Input
-                        value={coluna.titulo}
-                        onChange={(e) => {
-                          const newColunas = [...colunas];
-                          newColunas[colunaIdx].titulo = e.target.value;
-                          onUpdateColunas(newColunas);
-                        }}
+                       value={coluna.titulo}
+                       onChange={(e) => {
+                         const newColunas = colunas.map((col, idx) => 
+                           idx === colunaIdx 
+                             ? { ...col, titulo: e.target.value, itens: [...col.itens] }
+                             : { ...col, itens: [...col.itens] }
+                         );
+                         onUpdateColunas(newColunas);
+                       }}
                         className="h-7 text-sm bg-white/10 border-white/20 text-white"
                         autoFocus
                       />
