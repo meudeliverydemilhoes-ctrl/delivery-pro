@@ -372,9 +372,7 @@ export default function PilarConteudoIncluido({
 }) {
   const defaultPilar = pilaresDataDefault[pilarKey];
   const [tarefasData, setTarefasData] = useState(customData?.tarefas || defaultPilar?.tarefasExemplo || []);
-  const [exerciciosData, setExerciciosData] = useState(customData?.exercicios || {});
   const [anotacoes, setAnotacoes] = useState(customData?.anotacoes || {});
-  const [selectedExercicio, setSelectedExercicio] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [notaDialogOpen, setNotaDialogOpen] = useState(false);
   const [notaContext, setNotaContext] = useState({ tipo: "", id: "", titulo: "" });
@@ -403,12 +401,7 @@ export default function PilarConteudoIncluido({
     onUpdateCustomData?.({ ...customData, tarefas: newTarefas });
   };
 
-  const handleSaveExercicio = (tipo, data) => {
-    const newExercicios = { ...exerciciosData, [tipo]: data };
-    setExerciciosData(newExercicios);
-    onUpdateCustomData?.({ ...customData, exercicios: newExercicios });
-    setSelectedExercicio(null);
-  };
+
 
   const openNotaDialog = (tipo, id, titulo) => {
     setNotaContext({ tipo, id, titulo });
@@ -428,28 +421,7 @@ export default function PilarConteudoIncluido({
     return anotacoes[`${tipo}_${id}`] || "";
   };
 
-  const renderExercicioContent = () => {
-    if (!selectedExercicio) return null;
 
-    switch (selectedExercicio.tipo) {
-      case "swot":
-        return <AnaliseSwot data={exerciciosData.swot} onSave={(d) => handleSaveExercicio("swot", d)} />;
-      case "ficha_tecnica":
-        return <FichaTecnica data={exerciciosData.ficha_tecnica} onSave={(d) => handleSaveExercicio("ficha_tecnica", d)} />;
-      case "cmv":
-        return <SimuladorCMV data={exerciciosData.cmv} onSave={(d) => handleSaveExercicio("cmv", d)} />;
-      case "escala":
-        return <EscalaTrabalho data={exerciciosData.escala} onSave={(d) => handleSaveExercicio("escala", d)} />;
-      case "avaliacao":
-        return <AvaliacaoDesempenho data={exerciciosData.avaliacao} onSave={(d) => handleSaveExercicio("avaliacao", d)} />;
-      default:
-        return (
-          <div className="text-center py-8">
-            <p className="text-white/60">Exercício em desenvolvimento</p>
-          </div>
-        );
-    }
-  };
 
   const totalTopicos = pilar.modulos?.reduce((acc, m) => acc + m.topicos.length, 0) || 0;
   const completedTopicos = pilar.modulos?.reduce((acc, m) => {
@@ -480,10 +452,6 @@ export default function PilarConteudoIncluido({
           <TabsTrigger value="modulos" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <ListChecks size={16} className="mr-2" />
             Módulos
-          </TabsTrigger>
-          <TabsTrigger value="exercicios" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
-            <Target size={16} className="mr-2" />
-            Exercícios
           </TabsTrigger>
           <TabsTrigger value="materiais" className="data-[state=active]:bg-[#FF4D00] data-[state=active]:text-white text-white/70">
             <Gift size={16} className="mr-2" />
@@ -581,75 +549,7 @@ export default function PilarConteudoIncluido({
           </div>
         </TabsContent>
 
-        {/* Aba Exercícios */}
-        <TabsContent value="exercicios" className="space-y-4">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Target size={18} className="text-[#FF4D00]" />
-              <span className="font-medium text-white">🎯 Exercícios Práticos</span>
-              <span className="text-xs text-white/40 ml-auto">{pilar.exercicios.length} exercícios</span>
-            </div>
-            <div className="space-y-2">
-              {pilar.exercicios.map((ex, idx) => {
-                const hasData = exerciciosData[ex.tipo] && Object.keys(exerciciosData[ex.tipo]).length > 0;
-                const hasNota = !!getNotaForItem("exercicio", ex.tipo);
-                return (
-                  <div
-                    key={idx}
-                    className={`flex items-center gap-3 p-3 rounded-lg transition-colors border group ${
-                      hasData 
-                        ? "bg-emerald-500/10 border-emerald-500/30 hover:bg-emerald-500/20" 
-                        : "bg-white/5 border-transparent hover:bg-white/10 hover:border-[#FF4D00]/30"
-                    }`}
-                  >
-                    <div 
-                      className="flex items-center gap-3 flex-1 cursor-pointer"
-                      onClick={() => setSelectedExercicio(ex)}
-                    >
-                      {hasData ? (
-                        <CheckCircle2 size={18} className="text-emerald-400" />
-                      ) : (
-                        <Circle size={18} className="text-white/30" />
-                      )}
-                      <div className="flex-1">
-                        <p className="text-sm text-white font-medium">{ex.nome}</p>
-                        <p className="text-xs text-white/50">{ex.descricao}</p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openNotaDialog("exercicio", ex.tipo, ex.nome);
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        hasNota 
-                          ? "bg-amber-500/20 text-amber-400" 
-                          : "opacity-0 group-hover:opacity-100 hover:bg-white/10 text-white/40 hover:text-white"
-                      }`}
-                      title={hasNota ? "Ver anotação" : "Adicionar anotação"}
-                    >
-                      <StickyNote size={14} />
-                    </button>
-                    <span 
-                      className={`text-xs px-2 py-1 rounded-full cursor-pointer ${hasData ? "bg-emerald-500/20 text-emerald-400" : "bg-[#FF4D00]/20 text-[#FF4D00]"}`}
-                      onClick={() => setSelectedExercicio(ex)}
-                    >
-                      {hasData ? "✅ Preenchido" : "Abrir"}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* Checkpoint Semanal */}
-          <CheckpointSemanal
-            pilarKey={pilarKey}
-            pilarTitulo={pilar.titulo}
-            tarefasData={tarefasData}
-            exerciciosData={exerciciosData}
-          />
-        </TabsContent>
 
         {/* Aba Material Exclusivo */}
         <TabsContent value="materiais" className="space-y-4">
@@ -739,20 +639,7 @@ export default function PilarConteudoIncluido({
         </DialogContent>
       </Dialog>
 
-      {/* Modal de Exercício */}
-      <Dialog open={!!selectedExercicio} onOpenChange={() => setSelectedExercicio(null)}>
-        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-2xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Target className="text-[#FF4D00]" size={20} />
-              {selectedExercicio?.nome}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            {renderExercicioContent()}
-          </div>
-        </DialogContent>
-      </Dialog>
+
 
       {/* Modal de Anotação */}
       <Dialog open={notaDialogOpen} onOpenChange={setNotaDialogOpen}>
