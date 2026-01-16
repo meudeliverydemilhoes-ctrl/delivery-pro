@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   CheckCircle2, Circle, Clock, AlertTriangle, Camera, Video,
-  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X, Pencil
+  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X, Pencil, Trash2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ const pilarIcons = {
   geral: "📋"
 };
 
-export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao, onEdit }) {
+export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao, onEdit, onDelete }) {
   const queryClient = useQueryClient();
   const [expanded, setExpanded] = useState(false);
   const [uploading, setUploading] = useState(null);
@@ -162,6 +162,20 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao, o
                 title="Editar exercício"
               >
                 <Pencil size={16} />
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm(`Deseja realmente deletar "${execucao.titulo}"?`)) {
+                    onDelete(execucao.id);
+                  }
+                }}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-red-400 hover:text-red-300"
+                title="Deletar exercício"
+              >
+                <Trash2 size={16} />
               </button>
             )}
             <div className="w-24">

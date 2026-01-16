@@ -557,6 +557,13 @@ export default function ExecucaoInteligente() {
     }
   });
 
+  const deleteExecucaoMutation = useMutation({
+    mutationFn: (id) => base44.entities.ExecucaoChecklist.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["execucoes"] });
+    }
+  });
+
   // Handlers
   const handleAddItem = () => {
     if (novoItem.texto.trim()) {
@@ -739,6 +746,7 @@ export default function ExecucaoInteligente() {
                         setEditingExecucao(execucao);
                         setExecucaoDialogOpen(true);
                       }}
+                      onDelete={(id) => deleteExecucaoMutation.mutate(id)}
                     />
                   ))}
                 </div>
@@ -756,6 +764,7 @@ export default function ExecucaoInteligente() {
                         setEditingExecucao(execucao);
                         setExecucaoDialogOpen(true);
                       }}
+                      onDelete={(id) => deleteExecucaoMutation.mutate(id)}
                     />
                   ))}
                 </div>
