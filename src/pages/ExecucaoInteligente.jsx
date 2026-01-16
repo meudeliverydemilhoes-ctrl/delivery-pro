@@ -130,18 +130,19 @@ const checklistsProntos = {
       ]
     },
     {
-      titulo: "Checklist de Atendimento - iFood",
-      descricao: "Verificação diária da presença no iFood",
+      titulo: "Otimização do Cardápio iFood",
+      descricao: "Melhorar performance no iFood",
       pilar: "presenca_magnetica",
-      categoria: "diario",
-      pontos_conclusao: 10,
+      categoria: "mensal",
+      pontos_conclusao: 20,
       itens: [
-        { texto: "Verificar se a loja está online", obrigatorio: true, requer_evidencia: false },
-        { texto: "Conferir horário de funcionamento", obrigatorio: true, requer_evidencia: false },
-        { texto: "Verificar disponibilidade de todos os produtos", obrigatorio: true, requer_evidencia: false },
-        { texto: "Responder avaliações pendentes", obrigatorio: true, requer_evidencia: true },
-        { texto: "Verificar promoções ativas", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar tempo médio de entrega", obrigatorio: true, requer_evidencia: false }
+        { texto: "Atualizar fotos profissionais de todos os produtos", obrigatorio: true, requer_evidencia: true },
+        { texto: "Revisar descrições com textos vendedores", obrigatorio: true, requer_evidencia: false },
+        { texto: "Organizar categorias em ordem estratégica", obrigatorio: true, requer_evidencia: true },
+        { texto: "Ajustar preços após análise competitiva", obrigatorio: true, requer_evidencia: false },
+        { texto: "Criar combos atrativos", obrigatorio: true, requer_evidencia: true },
+        { texto: "Verificar se loja está online", obrigatorio: true, requer_evidencia: false },
+        { texto: "Responder avaliações pendentes", obrigatorio: true, requer_evidencia: true }
       ]
     },
     {
@@ -197,7 +198,7 @@ const checklistsProntos = {
       ]
     },
     {
-      titulo: "Projeção de Fluxo de Caixa",
+      titulo: "Controle de Fluxo de Caixa",
       descricao: "Planejamento financeiro para próximas semanas",
       pilar: "desempenho",
       categoria: "semanal",
@@ -211,22 +212,56 @@ const checklistsProntos = {
         { texto: "Revisar prazos com fornecedores se necessário", obrigatorio: true, requer_evidencia: false },
         { texto: "Atualizar planilha de fluxo de caixa", obrigatorio: true, requer_evidencia: true }
       ]
+    }
+  ],
+  financeiro: [
+    {
+      titulo: "Fechamento Financeiro Diário",
+      descricao: "Rotina diária de controle financeiro",
+      pilar: "desempenho",
+      categoria: "diario",
+      pontos_conclusao: 10,
+      itens: [
+        { texto: "Registrar faturamento do dia", obrigatorio: true, requer_evidencia: true },
+        { texto: "Conferir fechamento de caixa", obrigatorio: true, requer_evidencia: true },
+        { texto: "Registrar vendas por canal (iFood, balcão, WhatsApp)", obrigatorio: true, requer_evidencia: false },
+        { texto: "Anotar despesas do dia", obrigatorio: true, requer_evidencia: false },
+        { texto: "Verificar recebíveis pendentes", obrigatorio: true, requer_evidencia: false },
+        { texto: "Atualizar planilha de controle", obrigatorio: true, requer_evidencia: true }
+      ]
     },
     {
-      titulo: "Avaliação Mensal de Indicadores",
-      descricao: "Análise mensal de performance do negócio",
+      titulo: "DRE Simplificado Mensal",
+      descricao: "Análise de resultado mensal do negócio",
       pilar: "desempenho",
       categoria: "mensal",
       pontos_conclusao: 30,
       itens: [
-        { texto: "Calcular faturamento do mês", obrigatorio: true, requer_evidencia: true },
-        { texto: "Analisar CMV médio mensal", obrigatorio: true, requer_evidencia: true },
-        { texto: "Verificar ticket médio", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar quantidade de pedidos", obrigatorio: true, requer_evidencia: false },
+        { texto: "Calcular receita bruta total", obrigatorio: true, requer_evidencia: true },
+        { texto: "Calcular CMV total do mês", obrigatorio: true, requer_evidencia: true },
+        { texto: "Calcular lucro bruto", obrigatorio: true, requer_evidencia: false },
+        { texto: "Listar todas as despesas fixas", obrigatorio: true, requer_evidencia: true },
+        { texto: "Listar todas as despesas variáveis", obrigatorio: true, requer_evidencia: true },
+        { texto: "Calcular resultado operacional", obrigatorio: true, requer_evidencia: false },
         { texto: "Comparar com mês anterior", obrigatorio: true, requer_evidencia: true },
-        { texto: "Identificar produtos mais vendidos", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar avaliações dos clientes", obrigatorio: true, requer_evidencia: false },
-        { texto: "Definir metas para próximo mês", obrigatorio: true, requer_evidencia: true }
+        { texto: "Identificar oportunidades de redução", obrigatorio: true, requer_evidencia: false },
+        { texto: "Definir metas financeiras próximo mês", obrigatorio: true, requer_evidencia: true }
+      ]
+    },
+    {
+      titulo: "Controle de Fluxo de Caixa",
+      descricao: "Planejamento financeiro para próximas semanas",
+      pilar: "desempenho",
+      categoria: "semanal",
+      pontos_conclusao: 20,
+      itens: [
+        { texto: "Listar recebíveis previstos (próximos 30 dias)", obrigatorio: true, requer_evidencia: true },
+        { texto: "Listar contas a pagar (próximos 30 dias)", obrigatorio: true, requer_evidencia: true },
+        { texto: "Calcular saldo projetado", obrigatorio: true, requer_evidencia: false },
+        { texto: "Identificar gaps de caixa", obrigatorio: true, requer_evidencia: false },
+        { texto: "Planejar ações para cobrir gaps", obrigatorio: true, requer_evidencia: false },
+        { texto: "Revisar prazos com fornecedores", obrigatorio: true, requer_evidencia: false },
+        { texto: "Atualizar planilha de fluxo de caixa", obrigatorio: true, requer_evidencia: true }
       ]
     }
   ],
@@ -267,19 +302,19 @@ const checklistsProntos = {
     },
     {
       titulo: "Onboarding de Novo Colaborador",
-      descricao: "Integração completa de novos funcionários",
+      descricao: "Integração completa de novos funcionários em 7 dias",
       pilar: "tempo_potencia",
       categoria: "pontual",
       pontos_conclusao: 25,
       itens: [
-        { texto: "Apresentar empresa, missão e valores", obrigatorio: true, requer_evidencia: false },
-        { texto: "Tour pela operação e apresentação da equipe", obrigatorio: true, requer_evidencia: false },
-        { texto: "Entregar uniforme e EPIs", obrigatorio: true, requer_evidencia: true },
-        { texto: "Explicar regras e regulamento interno", obrigatorio: true, requer_evidencia: false },
-        { texto: "Treinar nos processos da função", obrigatorio: true, requer_evidencia: false },
-        { texto: "Acompanhar período de experiência", obrigatorio: true, requer_evidencia: false },
-        { texto: "Avaliar desempenho após 7 dias", obrigatorio: true, requer_evidencia: true },
-        { texto: "Feedback e ajustes necessários", obrigatorio: true, requer_evidencia: false }
+        { texto: "Dia 1: Apresentar empresa, missão e valores", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dia 1: Tour pela operação e apresentação da equipe", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dia 1: Entregar uniforme e EPIs", obrigatorio: true, requer_evidencia: true },
+        { texto: "Dias 2-3: Acompanhar veterano e conhecer processos", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dias 2-3: Estudar fichas técnicas", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dias 4-5: Executar tarefas com supervisão", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dias 6-7: Trabalhar com autonomia", obrigatorio: true, requer_evidencia: false },
+        { texto: "Dia 7: Avaliação inicial de desempenho", obrigatorio: true, requer_evidencia: true }
       ]
     },
     {
@@ -311,6 +346,21 @@ const checklistsProntos = {
         { texto: "Garantir cobertura em horários de pico", obrigatorio: true, requer_evidencia: false },
         { texto: "Comunicar escala com antecedência", obrigatorio: true, requer_evidencia: false },
         { texto: "Ter plano B para faltas", obrigatorio: true, requer_evidencia: false }
+      ]
+    },
+    {
+      titulo: "Gestão de Conflitos na Equipe",
+      descricao: "Como resolver problemas entre colaboradores",
+      pilar: "tempo_potencia",
+      categoria: "pontual",
+      pontos_conclusao: 15,
+      itens: [
+        { texto: "Identificar sinais de conflito (comunicação reduzida, fofocas, queda de produtividade)", obrigatorio: true, requer_evidencia: false },
+        { texto: "Ouvir as partes separadamente sem tomar partido", obrigatorio: true, requer_evidencia: false },
+        { texto: "Mediar conversa reunindo os envolvidos", obrigatorio: true, requer_evidencia: false },
+        { texto: "Cada parte expõe seu lado", obrigatorio: true, requer_evidencia: false },
+        { texto: "Buscar acordo e definir compromissos mútuos", obrigatorio: true, requer_evidencia: false },
+        { texto: "Acompanhar evolução e dar feedback", obrigatorio: true, requer_evidencia: true }
       ]
     }
   ]
@@ -438,93 +488,8 @@ const sopsProntos = {
       ]
     }
   ],
-  marketing: [
-    {
-      titulo: "Como Otimizar o Cardápio no iFood",
-      descricao: "Guia para melhorar performance no iFood",
-      pilar: "presenca_magnetica",
-      categoria: "marketing",
-      conteudo: `## Objetivo\nAumentar conversão e ticket médio.\n\n## Áreas de Otimização\n- Fotos profissionais e atrativas\n- Descrições claras e vendedoras\n- Categorias organizadas logicamente\n- Preços competitivos\n- Combos estratégicos`,
-      passos: [
-        { ordem: 1, titulo: "Atualizar fotos", descricao: "Fotos profissionais" },
-        { ordem: 2, titulo: "Revisar descrições", descricao: "Textos vendedores" },
-        { ordem: 3, titulo: "Organizar categorias", descricao: "Ordem estratégica" },
-        { ordem: 4, titulo: "Ajustar preços", descricao: "Análise competitiva" },
-        { ordem: 5, titulo: "Criar combos", descricao: "Combos atrativos" }
-      ]
-    },
-    {
-      titulo: "Estratégia de Conteúdo para Redes Sociais",
-      descricao: "Como criar conteúdo que engaja e vende",
-      pilar: "presenca_magnetica",
-      categoria: "marketing",
-      conteudo: `## Tipos de Conteúdo\n\n### 1. Bastidores (30%)\n- Preparo dos pratos\n- Equipe trabalhando\n- Recebimento de ingredientes\n\n### 2. Produto (40%)\n- Fotos dos pratos\n- Vídeos de preparo\n- Close nos detalhes\n\n### 3. Promoções (20%)\n- Ofertas especiais\n- Combos\n- Cupons\n\n### 4. Interação (10%)\n- Enquetes\n- Perguntas\n- Depoimentos`,
-      passos: [
-        { ordem: 1, titulo: "Definir calendário", descricao: "Planejar semana" },
-        { ordem: 2, titulo: "Criar conteúdo bastidores", descricao: "30% do conteúdo" },
-        { ordem: 3, titulo: "Criar conteúdo produto", descricao: "40% do conteúdo" },
-        { ordem: 4, titulo: "Criar promoções", descricao: "20% do conteúdo" },
-        { ordem: 5, titulo: "Criar interações", descricao: "10% do conteúdo" }
-      ]
-    },
-    {
-      titulo: "Como Criar Campanhas de Promoção no iFood",
-      descricao: "Guia completo para promoções efetivas",
-      pilar: "presenca_magnetica",
-      categoria: "marketing",
-      conteudo: `## Tipos de Promoção\n\n### Cupom de Desconto\n- Porcentagem ou valor fixo\n- Primeira compra ou fidelização\n\n### Frete Grátis\n- Pedido mínimo\n- Horários específicos\n\n### Combo Promocional\n- Itens complementares\n- Preço especial\n\n## Dicas\n- Calcule sempre a margem\n- Defina período limitado\n- Divulgue nas redes`,
-      passos: [
-        { ordem: 1, titulo: "Definir objetivo", descricao: "Vendas, clientes ou ticket" },
-        { ordem: 2, titulo: "Escolher tipo", descricao: "Cupom, frete ou combo" },
-        { ordem: 3, titulo: "Calcular margem", descricao: "Garantir lucro mínimo" },
-        { ordem: 4, titulo: "Configurar no iFood", descricao: "Ativar promoção" },
-        { ordem: 5, titulo: "Divulgar", descricao: "Postar nas redes" }
-      ]
-    },
-    {
-      titulo: "Ideias de Posts para Redes Sociais",
-      descricao: "Banco de ideias de conteúdo para delivery",
-      pilar: "presenca_magnetica",
-      categoria: "marketing",
-      conteudo: `## Segunda-feira\n- "Começando a semana com..." + foto prato\n- Bastidores da preparação\n\n## Terça-feira\n- Terça da promoção\n- Combo especial\n\n## Quarta-feira\n- Ingrediente em destaque\n- Como é feito o prato X\n\n## Quinta-feira\n- Throwback de pratos antigos\n- Depoimento de cliente\n\n## Sexta-feira\n- "Sexta pede..." + prato indulgente\n- Promoção de fim de semana\n\n## Sábado\n- Família reunida\n- Combo família\n\n## Domingo\n- Preguiça + delivery\n- Promoção dominical`,
-      passos: [
-        { ordem: 1, titulo: "Escolher tema do dia", descricao: "Seguir calendário" },
-        { ordem: 2, titulo: "Produzir conteúdo", descricao: "Foto ou vídeo" },
-        { ordem: 3, titulo: "Escrever legenda", descricao: "Com CTA" },
-        { ordem: 4, titulo: "Publicar", descricao: "Horário ideal" },
-        { ordem: 5, titulo: "Responder", descricao: "Engajar comentários" }
-      ]
-    }
-  ],
+  marketing: [],
   financeiro: [
-    {
-      titulo: "Como Montar um DRE Simplificado",
-      descricao: "Demonstrativo de Resultado para pequenos deliveries",
-      pilar: "desempenho",
-      categoria: "financeiro",
-      conteudo: `## Estrutura do DRE\n\n### Receita Bruta\nTotal de vendas do período\n\n### (-) CMV\nCusto de Mercadoria Vendida\n\n### = Lucro Bruto\nReceita - CMV\n\n### (-) Despesas Operacionais\n- Aluguel\n- Salários\n- Energia\n- Marketing\n- Outros\n\n### = Resultado Operacional\nLucro Bruto - Despesas\n\n## Metas Ideais\n- CMV: máximo 35%\n- Despesas: máximo 40%\n- Lucro: mínimo 15%`,
-      passos: [
-        { ordem: 1, titulo: "Calcular receita bruta", descricao: "Somar todas as vendas" },
-        { ordem: 2, titulo: "Calcular CMV", descricao: "Custo dos produtos vendidos" },
-        { ordem: 3, titulo: "Calcular lucro bruto", descricao: "Receita - CMV" },
-        { ordem: 4, titulo: "Listar despesas", descricao: "Todas as despesas fixas e variáveis" },
-        { ordem: 5, titulo: "Calcular resultado", descricao: "Lucro bruto - despesas" }
-      ]
-    },
-    {
-      titulo: "Controle de Fluxo de Caixa",
-      descricao: "Como projetar e controlar o caixa do negócio",
-      pilar: "desempenho",
-      categoria: "financeiro",
-      conteudo: `## O que é\nPrevisão de entradas e saídas de dinheiro.\n\n## Por que fazer\n- Evitar surpresas\n- Planejar investimentos\n- Negociar prazos\n\n## Como fazer\n\n### 1. Listar Recebíveis\n- Vendas à vista\n- Cartões (prazo)\n- iFood (prazo)\n\n### 2. Listar Pagamentos\n- Fornecedores\n- Aluguel\n- Salários\n- Contas fixas\n\n### 3. Projetar Saldo\n- Saldo inicial + entradas - saídas\n\n### 4. Identificar Gaps\n- Dias com saldo negativo\n- Planejar ações`,
-      passos: [
-        { ordem: 1, titulo: "Mapear recebíveis", descricao: "Previsão de entradas" },
-        { ordem: 2, titulo: "Mapear pagamentos", descricao: "Previsão de saídas" },
-        { ordem: 3, titulo: "Projetar saldo", descricao: "Calcular saldo diário" },
-        { ordem: 4, titulo: "Identificar gaps", descricao: "Encontrar problemas" },
-        { ordem: 5, titulo: "Planejar ações", descricao: "Resolver gaps" }
-      ]
-    },
     {
       titulo: "Precificação com Markup",
       descricao: "Como calcular o preço de venda correto",
@@ -540,66 +505,7 @@ const sopsProntos = {
       ]
     }
   ],
-  equipe: [
-    {
-      titulo: "Treinamento de Novos Colaboradores",
-      descricao: "Processo de integração em 7 dias",
-      pilar: "tempo_potencia",
-      categoria: "equipe",
-      conteudo: `## Cronograma\n\n### Dia 1 - Integração\n- Apresentar empresa e valores\n- Tour pela operação\n- Entregar uniforme/EPIs\n\n### Dias 2-3 - Observação\n- Acompanhar veterano\n- Conhecer processos\n- Estudar fichas técnicas\n\n### Dias 4-5 - Prática\n- Executar com supervisão\n- Tirar dúvidas\n- Receber feedback\n\n### Dias 6-7 - Autonomia\n- Executar sozinho\n- Avaliação inicial`,
-      passos: [
-        { ordem: 1, titulo: "Dia 1 - Integração", descricao: "Apresentar empresa" },
-        { ordem: 2, titulo: "Dias 2-3 - Observação", descricao: "Acompanhar veterano" },
-        { ordem: 3, titulo: "Dias 4-5 - Prática", descricao: "Executar supervisionado" },
-        { ordem: 4, titulo: "Dias 6-7 - Autonomia", descricao: "Trabalhar independente" },
-        { ordem: 5, titulo: "Avaliação", descricao: "Feedback final" }
-      ]
-    },
-    {
-      titulo: "Como Fazer Avaliação de Desempenho",
-      descricao: "Modelo de avaliação para colaboradores",
-      pilar: "tempo_potencia",
-      categoria: "equipe",
-      conteudo: `## Critérios de Avaliação (1-5)\n\n### Técnicos\n- Qualidade do trabalho\n- Conhecimento dos processos\n- Velocidade de execução\n- Uso correto de equipamentos\n\n### Comportamentais\n- Pontualidade\n- Trabalho em equipe\n- Proatividade\n- Comunicação\n\n### Resultados\n- Cumprimento de metas\n- Redução de erros\n- Satisfação do cliente\n\n## Estrutura da Conversa\n1. Pontos positivos\n2. Pontos de melhoria\n3. Metas para próximo período\n4. Perguntas do colaborador`,
-      passos: [
-        { ordem: 1, titulo: "Preparar dados", descricao: "Reunir informações do período" },
-        { ordem: 2, titulo: "Avaliar critérios", descricao: "Pontuar cada item" },
-        { ordem: 3, titulo: "Preparar feedback", descricao: "Pontos + e -" },
-        { ordem: 4, titulo: "Conduzir conversa", descricao: "Reunião 1:1" },
-        { ordem: 5, titulo: "Definir metas", descricao: "Próximos objetivos" },
-        { ordem: 6, titulo: "Documentar", descricao: "Registrar avaliação" }
-      ]
-    },
-    {
-      titulo: "Plano de Treinamento Contínuo",
-      descricao: "Como desenvolver a equipe continuamente",
-      pilar: "tempo_potencia",
-      categoria: "equipe",
-      conteudo: `## Temas Sugeridos por Mês\n\n### Mês 1 - Processos\n- Fichas técnicas\n- Uso de balança\n- Padrão de montagem\n\n### Mês 2 - Atendimento\n- Padrão de atendimento\n- Resolução de problemas\n- Comunicação com cliente\n\n### Mês 3 - Qualidade\n- Higiene e segurança\n- Controle de temperatura\n- Apresentação dos pratos\n\n### Mês 4 - Eficiência\n- Redução de desperdício\n- Organização da praça\n- Trabalho em equipe\n\n## Formato\n- Duração: 30-60 min\n- Frequência: semanal ou quinzenal\n- Prática: sempre incluir`,
-      passos: [
-        { ordem: 1, titulo: "Identificar gaps", descricao: "O que precisa melhorar" },
-        { ordem: 2, titulo: "Escolher tema", descricao: "Priorizar necessidades" },
-        { ordem: 3, titulo: "Preparar material", descricao: "Slides, vídeos, práticas" },
-        { ordem: 4, titulo: "Agendar sessão", descricao: "Horário com toda equipe" },
-        { ordem: 5, titulo: "Realizar treinamento", descricao: "Teoria + prática" },
-        { ordem: 6, titulo: "Avaliar aprendizado", descricao: "Teste ou observação" }
-      ]
-    },
-    {
-      titulo: "Gestão de Conflitos na Equipe",
-      descricao: "Como resolver problemas entre colaboradores",
-      pilar: "tempo_potencia",
-      categoria: "equipe",
-      conteudo: `## Sinais de Conflito\n- Comunicação reduzida\n- Fofocas\n- Queda de produtividade\n- Clima pesado\n\n## Passos para Resolver\n\n### 1. Identificar o problema\n- Ouvir as partes separadamente\n- Não tomar partido\n\n### 2. Mediar conversa\n- Reunir os envolvidos\n- Cada um expõe seu lado\n- Buscar acordo\n\n### 3. Definir solução\n- Compromissos mútuos\n- Prazos se necessário\n\n### 4. Acompanhar\n- Verificar evolução\n- Dar feedback\n\n## Prevenção\n- Comunicação clara\n- Regras definidas\n- Feedback constante`,
-      passos: [
-        { ordem: 1, titulo: "Identificar conflito", descricao: "Perceber os sinais" },
-        { ordem: 2, titulo: "Ouvir partes", descricao: "Conversar individualmente" },
-        { ordem: 3, titulo: "Mediar conversa", descricao: "Reunir envolvidos" },
-        { ordem: 4, titulo: "Definir solução", descricao: "Acordo entre partes" },
-        { ordem: 5, titulo: "Acompanhar", descricao: "Verificar evolução" }
-      ]
-    }
-  ]
+  equipe: []
 };
 
 export default function ExecucaoInteligente() {
