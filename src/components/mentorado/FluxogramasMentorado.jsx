@@ -152,16 +152,16 @@ export default function FluxogramasMentorado({ mentoradoId }) {
 
   const updateBriefingMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Briefing.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["briefing"] });
+    onSuccess: (updatedBriefing) => {
+      queryClient.setQueryData(["briefing", mentoradoId], (old) => [updatedBriefing]);
       setHasChanges(false);
     }
   });
 
   const createBriefingMutation = useMutation({
     mutationFn: (data) => base44.entities.Briefing.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["briefing"] });
+    onSuccess: (newBriefing) => {
+      queryClient.setQueryData(["briefing", mentoradoId], (old) => [newBriefing]);
       setHasChanges(false);
     }
   });
