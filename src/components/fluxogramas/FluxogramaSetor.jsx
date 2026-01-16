@@ -61,13 +61,18 @@ export default function FluxogramaSetor({
 
   const handleAddColuna = () => {
     if (!newColunaText.trim()) return;
-    const newColunas = [...colunas, { titulo: newColunaText.trim(), itens: [] }];
+    const newColunas = [
+      ...colunas.map(col => ({ ...col, itens: [...col.itens] })), 
+      { titulo: newColunaText.trim(), itens: [] }
+    ];
     onUpdateColunas(newColunas);
     setNewColunaText("");
   };
 
   const handleDeleteColuna = (colunaIdx) => {
-    const newColunas = colunas.filter((_, idx) => idx !== colunaIdx);
+    const newColunas = colunas
+      .filter((_, idx) => idx !== colunaIdx)
+      .map(col => ({ ...col, itens: [...col.itens] }));
     onUpdateColunas(newColunas);
   };
 
