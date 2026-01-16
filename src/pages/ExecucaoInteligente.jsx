@@ -528,6 +528,13 @@ export default function ExecucaoInteligente() {
     }
   });
 
+  const deleteChecklistMutation = useMutation({
+    mutationFn: (id) => base44.entities.ChecklistInteligente.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["checklists"] });
+    }
+  });
+
   // Handlers
   const handleAddItem = () => {
     if (novoItem.texto.trim()) {
@@ -738,7 +745,18 @@ export default function ExecucaoInteligente() {
                     <div key={checklist.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
-                        <h4 className="font-medium text-white">{checklist.titulo}</h4>
+                        <h4 className="font-medium text-white flex-1">{checklist.titulo}</h4>
+                        <button
+                          onClick={() => {
+                            if (window.confirm(`Deseja realmente deletar o modelo "${checklist.titulo}"?`)) {
+                              deleteChecklistMutation.mutate(checklist.id);
+                            }
+                          }}
+                          className="text-red-400 hover:text-red-300 p-1"
+                          title="Deletar modelo"
+                        >
+                          <X size={16} />
+                        </button>
                       </div>
                       <p className="text-sm text-white/50 mb-3">{checklist.descricao}</p>
                       <div className="flex items-center justify-between text-xs text-white/40 mb-3">
