@@ -20,29 +20,41 @@ export default function FluxogramaSetor({
 
   const handleAddItem = (colunaIdx) => {
     if (!newItemText.trim()) return;
-    const newColunas = [...colunas];
-    newColunas[colunaIdx].itens.push(newItemText.trim());
+    const newColunas = colunas.map((col, idx) => 
+      idx === colunaIdx 
+        ? { ...col, itens: [...col.itens, newItemText.trim()] }
+        : { ...col, itens: [...col.itens] }
+    );
     onUpdateColunas(newColunas);
     setNewItemText("");
     setEditingItem(null);
   };
 
   const handleUpdateItem = (colunaIdx, itemIdx, newText) => {
-    const newColunas = [...colunas];
-    newColunas[colunaIdx].itens[itemIdx] = newText;
+    const newColunas = colunas.map((col, idx) => 
+      idx === colunaIdx 
+        ? { ...col, itens: col.itens.map((item, i) => i === itemIdx ? newText : item) }
+        : { ...col, itens: [...col.itens] }
+    );
     onUpdateColunas(newColunas);
     setEditingItem(null);
   };
 
   const handleDeleteItem = (colunaIdx, itemIdx) => {
-    const newColunas = [...colunas];
-    newColunas[colunaIdx].itens.splice(itemIdx, 1);
+    const newColunas = colunas.map((col, idx) => 
+      idx === colunaIdx 
+        ? { ...col, itens: col.itens.filter((_, i) => i !== itemIdx) }
+        : { ...col, itens: [...col.itens] }
+    );
     onUpdateColunas(newColunas);
   };
 
   const handleUpdateColunaTitulo = (colunaIdx, newTitulo) => {
-    const newColunas = [...colunas];
-    newColunas[colunaIdx].titulo = newTitulo;
+    const newColunas = colunas.map((col, idx) => 
+      idx === colunaIdx 
+        ? { ...col, titulo: newTitulo, itens: [...col.itens] }
+        : { ...col, itens: [...col.itens] }
+    );
     onUpdateColunas(newColunas);
     setEditingColuna(null);
   };
