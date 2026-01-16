@@ -254,7 +254,7 @@ export default function FluxogramasMentorado({ mentoradoId }) {
                         e.stopPropagation();
                         handleReset(setor.id);
                       }}
-                      className="border-white/10 text-white/60 hover:text-white text-xs h-7"
+                      className="border-[#FF4D00] text-[#FF4D00] hover:bg-[#FF4D00] hover:text-white text-xs h-7"
                     >
                       <RotateCcw size={12} className="mr-1" />
                       Resetar
