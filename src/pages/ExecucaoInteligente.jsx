@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   ClipboardList, Target, AlertTriangle, Trophy, BookOpen, Bell,
-  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText, Home
+  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText, Home, X
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
