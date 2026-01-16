@@ -46,6 +46,7 @@ import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.js
 import PainelOrganizacao from "@/components/mentorado/PainelOrganizacao";
 import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOperacionais";
 import RegistroAulas from "@/components/mentorado/RegistroAulas";
+import PadronizacaoPizzas from "@/components/mentorado/PadronizacaoPizzas";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -432,6 +433,10 @@ export default function MentoradoDetalhe() {
           <FileSpreadsheet size={24} />
           <span className="text-xs font-medium">Fichas</span>
         </button>
+        <button onClick={() => setActiveTab("padronizacao")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "padronizacao" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+          <ChefHat size={24} />
+          <span className="text-xs font-medium">Pizzas</span>
+        </button>
         <button onClick={() => setActiveTab("notas")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "notas" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
           <StickyNote size={24} />
           <span className="text-xs font-medium">Notas</span>
@@ -509,6 +514,14 @@ export default function MentoradoDetalhe() {
             >
               <FileSpreadsheet size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
               <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Fichas</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("padronizacao")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <ChefHat size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Padronização de Pizzas</span>
             </button>
 
             <button
@@ -1109,6 +1122,20 @@ export default function MentoradoDetalhe() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
               <FichasTecnicasOperacionais mentoradoId={mentoradoId} />
             </div>
+          </>
+        )}
+
+        {/* Padronização de Pizzas Tab */}
+        {activeTab === "padronizacao" && (
+          <>
+            <button
+              onClick={() => setActiveTab("home")}
+              className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Voltar
+            </button>
+            <PadronizacaoPizzas mentoradoId={mentoradoId} />
           </>
         )}
       </div>
