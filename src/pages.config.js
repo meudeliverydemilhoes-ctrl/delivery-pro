@@ -5,7 +5,6 @@ import Biblioteca from './pages/Biblioteca';
 import Cursos from './pages/Cursos';
 import Dashboard from './pages/Dashboard';
 import Execucao from './pages/Execucao';
-import ExecucaoInteligente from './pages/ExecucaoInteligente';
 import FluxogramasOperacionais from './pages/FluxogramasOperacionais';
 import Fornecedores from './pages/Fornecedores';
 import GestaoFinanceira from './pages/GestaoFinanceira';
@@ -13,6 +12,7 @@ import Home from './pages/Home';
 import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Mentorados from './pages/Mentorados';
 import Notas from './pages/Notas';
+import ExecucaoInteligente from './pages/ExecucaoInteligente';
 import __Layout from './Layout.jsx';
 
 
@@ -24,7 +24,6 @@ export const PAGES = {
     "Cursos": Cursos,
     "Dashboard": Dashboard,
     "Execucao": Execucao,
-    "ExecucaoInteligente": ExecucaoInteligente,
     "FluxogramasOperacionais": FluxogramasOperacionais,
     "Fornecedores": Fornecedores,
     "GestaoFinanceira": GestaoFinanceira,
@@ -32,6 +31,7 @@ export const PAGES = {
     "MentoradoDetalhe": MentoradoDetalhe,
     "Mentorados": Mentorados,
     "Notas": Notas,
+    "ExecucaoInteligente": ExecucaoInteligente,
 }
 
 export const pagesConfig = {

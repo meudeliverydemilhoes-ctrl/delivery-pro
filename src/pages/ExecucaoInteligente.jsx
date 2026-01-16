@@ -62,38 +62,6 @@ const checklistsProntos = {
         { texto: "Conferir funcionamento dos equipamentos", obrigatorio: true, requer_evidencia: false },
         { texto: "Registrar temperaturas no controle", obrigatorio: true, requer_evidencia: true }
       ]
-    },
-    {
-      titulo: "Checklist de Fechamento - Cozinha",
-      descricao: "Rotina diária para fechamento da cozinha",
-      pilar: "processos",
-      categoria: "diario",
-      pontos_conclusao: 10,
-      itens: [
-        { texto: "Guardar todos os alimentos corretamente", obrigatorio: true, requer_evidencia: false },
-        { texto: "Datar e identificar produtos manipulados", obrigatorio: true, requer_evidencia: true },
-        { texto: "Limpar e higienizar fogões e chapas", obrigatorio: true, requer_evidencia: false },
-        { texto: "Descartar resíduos corretamente", obrigatorio: true, requer_evidencia: false },
-        { texto: "Verificar se equipamentos estão desligados", obrigatorio: true, requer_evidencia: false },
-        { texto: "Registrar temperatura final das geladeiras", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Auditoria Semanal de Estoque",
-      descricao: "Controle semanal de estoque e CMV",
-      pilar: "desempenho",
-      categoria: "semanal",
-      pontos_conclusao: 20,
-      itens: [
-        { texto: "Realizar contagem física do estoque", obrigatorio: true, requer_evidencia: true },
-        { texto: "Comparar estoque físico x sistema", obrigatorio: true, requer_evidencia: false },
-        { texto: "Identificar produtos com baixo giro", obrigatorio: true, requer_evidencia: false },
-        { texto: "Verificar produtos próximos do vencimento", obrigatorio: true, requer_evidencia: true },
-        { texto: "Calcular CMV da semana", obrigatorio: true, requer_evidencia: true },
-        { texto: "Analisar desperdícios e perdas", obrigatorio: true, requer_evidencia: false },
-        { texto: "Registrar divergências encontradas", obrigatorio: true, requer_evidencia: false },
-        { texto: "Planejar compras da próxima semana", obrigatorio: true, requer_evidencia: false }
-      ]
     }
   ],
   marketing: [
@@ -112,54 +80,6 @@ const checklistsProntos = {
         { texto: "Acompanhar performance da campanha", obrigatorio: true, requer_evidencia: false },
         { texto: "Documentar resultados ao final", obrigatorio: true, requer_evidencia: true }
       ]
-    },
-    {
-      titulo: "Calendário de Conteúdo Semanal",
-      descricao: "Planejamento de posts para redes sociais",
-      pilar: "presenca_magnetica",
-      categoria: "semanal",
-      pontos_conclusao: 15,
-      itens: [
-        { texto: "Definir tema da semana", obrigatorio: true, requer_evidencia: false },
-        { texto: "Criar post de bastidores/equipe", obrigatorio: true, requer_evidencia: true },
-        { texto: "Criar post de produto destaque", obrigatorio: true, requer_evidencia: true },
-        { texto: "Criar post de promoção/oferta", obrigatorio: true, requer_evidencia: true },
-        { texto: "Criar stories diários (mín. 3)", obrigatorio: true, requer_evidencia: false },
-        { texto: "Responder comentários e DMs", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar métricas da semana anterior", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Checklist de Atendimento - iFood",
-      descricao: "Verificação diária da presença no iFood",
-      pilar: "presenca_magnetica",
-      categoria: "diario",
-      pontos_conclusao: 10,
-      itens: [
-        { texto: "Verificar se a loja está online", obrigatorio: true, requer_evidencia: false },
-        { texto: "Conferir horário de funcionamento", obrigatorio: true, requer_evidencia: false },
-        { texto: "Verificar disponibilidade de todos os produtos", obrigatorio: true, requer_evidencia: false },
-        { texto: "Responder avaliações pendentes", obrigatorio: true, requer_evidencia: true },
-        { texto: "Verificar promoções ativas", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar tempo médio de entrega", obrigatorio: true, requer_evidencia: false }
-      ]
-    },
-    {
-      titulo: "Lançamento de Novo Produto",
-      descricao: "Checklist para lançar produtos no cardápio",
-      pilar: "presenca_magnetica",
-      categoria: "pontual",
-      pontos_conclusao: 25,
-      itens: [
-        { texto: "Criar ficha técnica completa", obrigatorio: true, requer_evidencia: true },
-        { texto: "Definir preço com markup adequado", obrigatorio: true, requer_evidencia: true },
-        { texto: "Produzir fotos profissionais", obrigatorio: true, requer_evidencia: true },
-        { texto: "Escrever descrição atrativa", obrigatorio: true, requer_evidencia: false },
-        { texto: "Cadastrar no iFood", obrigatorio: true, requer_evidencia: true },
-        { texto: "Treinar equipe na produção", obrigatorio: true, requer_evidencia: false },
-        { texto: "Criar campanha de lançamento", obrigatorio: true, requer_evidencia: true },
-        { texto: "Coletar feedback dos primeiros pedidos", obrigatorio: true, requer_evidencia: false }
-      ]
     }
   ],
   financeiro: [
@@ -176,57 +96,6 @@ const checklistsProntos = {
         { texto: "Anotar despesas do dia", obrigatorio: true, requer_evidencia: false },
         { texto: "Verificar recebíveis pendentes", obrigatorio: true, requer_evidencia: false },
         { texto: "Atualizar planilha de controle", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "DRE Simplificado Mensal",
-      descricao: "Análise de resultado mensal do negócio",
-      pilar: "desempenho",
-      categoria: "mensal",
-      pontos_conclusao: 30,
-      itens: [
-        { texto: "Calcular receita bruta total", obrigatorio: true, requer_evidencia: true },
-        { texto: "Calcular CMV total do mês", obrigatorio: true, requer_evidencia: true },
-        { texto: "Calcular lucro bruto", obrigatorio: true, requer_evidencia: false },
-        { texto: "Listar todas as despesas fixas", obrigatorio: true, requer_evidencia: true },
-        { texto: "Listar todas as despesas variáveis", obrigatorio: true, requer_evidencia: true },
-        { texto: "Calcular resultado operacional", obrigatorio: true, requer_evidencia: false },
-        { texto: "Comparar com mês anterior", obrigatorio: true, requer_evidencia: true },
-        { texto: "Identificar oportunidades de redução", obrigatorio: true, requer_evidencia: false },
-        { texto: "Definir metas financeiras próximo mês", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Projeção de Fluxo de Caixa",
-      descricao: "Planejamento financeiro para próximas semanas",
-      pilar: "desempenho",
-      categoria: "semanal",
-      pontos_conclusao: 20,
-      itens: [
-        { texto: "Listar recebíveis previstos (próximos 30 dias)", obrigatorio: true, requer_evidencia: true },
-        { texto: "Listar contas a pagar (próximos 30 dias)", obrigatorio: true, requer_evidencia: true },
-        { texto: "Calcular saldo projetado", obrigatorio: true, requer_evidencia: false },
-        { texto: "Identificar gaps de caixa", obrigatorio: true, requer_evidencia: false },
-        { texto: "Planejar ações para cobrir gaps", obrigatorio: true, requer_evidencia: false },
-        { texto: "Revisar prazos com fornecedores se necessário", obrigatorio: true, requer_evidencia: false },
-        { texto: "Atualizar planilha de fluxo de caixa", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Avaliação Mensal de Indicadores",
-      descricao: "Análise mensal de performance do negócio",
-      pilar: "desempenho",
-      categoria: "mensal",
-      pontos_conclusao: 30,
-      itens: [
-        { texto: "Calcular faturamento do mês", obrigatorio: true, requer_evidencia: true },
-        { texto: "Analisar CMV médio mensal", obrigatorio: true, requer_evidencia: true },
-        { texto: "Verificar ticket médio", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar quantidade de pedidos", obrigatorio: true, requer_evidencia: false },
-        { texto: "Comparar com mês anterior", obrigatorio: true, requer_evidencia: true },
-        { texto: "Identificar produtos mais vendidos", obrigatorio: true, requer_evidencia: false },
-        { texto: "Analisar avaliações dos clientes", obrigatorio: true, requer_evidencia: false },
-        { texto: "Definir metas para próximo mês", obrigatorio: true, requer_evidencia: true }
       ]
     }
   ],
@@ -245,72 +114,6 @@ const checklistsProntos = {
         { texto: "Distribuir tarefas e responsáveis", obrigatorio: true, requer_evidencia: false },
         { texto: "Reconhecer destaques da equipe", obrigatorio: true, requer_evidencia: false },
         { texto: "Agendar próxima reunião", obrigatorio: true, requer_evidencia: false }
-      ]
-    },
-    {
-      titulo: "Avaliação de Desempenho Individual",
-      descricao: "Avaliação mensal de colaboradores",
-      pilar: "tempo_potencia",
-      categoria: "mensal",
-      pontos_conclusao: 20,
-      itens: [
-        { texto: "Avaliar pontualidade e assiduidade", obrigatorio: true, requer_evidencia: false },
-        { texto: "Avaliar qualidade do trabalho", obrigatorio: true, requer_evidencia: false },
-        { texto: "Avaliar trabalho em equipe", obrigatorio: true, requer_evidencia: false },
-        { texto: "Avaliar cumprimento de metas", obrigatorio: true, requer_evidencia: true },
-        { texto: "Avaliar proatividade e iniciativa", obrigatorio: true, requer_evidencia: false },
-        { texto: "Dar feedback construtivo", obrigatorio: true, requer_evidencia: false },
-        { texto: "Definir metas para próximo período", obrigatorio: true, requer_evidencia: true },
-        { texto: "Identificar necessidades de treinamento", obrigatorio: true, requer_evidencia: false },
-        { texto: "Registrar avaliação no prontuário", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Onboarding de Novo Colaborador",
-      descricao: "Integração completa de novos funcionários",
-      pilar: "tempo_potencia",
-      categoria: "pontual",
-      pontos_conclusao: 25,
-      itens: [
-        { texto: "Apresentar empresa, missão e valores", obrigatorio: true, requer_evidencia: false },
-        { texto: "Tour pela operação e apresentação da equipe", obrigatorio: true, requer_evidencia: false },
-        { texto: "Entregar uniforme e EPIs", obrigatorio: true, requer_evidencia: true },
-        { texto: "Explicar regras e regulamento interno", obrigatorio: true, requer_evidencia: false },
-        { texto: "Treinar nos processos da função", obrigatorio: true, requer_evidencia: false },
-        { texto: "Acompanhar período de experiência", obrigatorio: true, requer_evidencia: false },
-        { texto: "Avaliar desempenho após 7 dias", obrigatorio: true, requer_evidencia: true },
-        { texto: "Feedback e ajustes necessários", obrigatorio: true, requer_evidencia: false }
-      ]
-    },
-    {
-      titulo: "Plano de Treinamento Mensal",
-      descricao: "Desenvolvimento contínuo da equipe",
-      pilar: "tempo_potencia",
-      categoria: "mensal",
-      pontos_conclusao: 20,
-      itens: [
-        { texto: "Identificar gaps de conhecimento da equipe", obrigatorio: true, requer_evidencia: false },
-        { texto: "Definir tema do treinamento do mês", obrigatorio: true, requer_evidencia: false },
-        { texto: "Preparar material de treinamento", obrigatorio: true, requer_evidencia: true },
-        { texto: "Agendar sessão de treinamento", obrigatorio: true, requer_evidencia: false },
-        { texto: "Realizar treinamento com a equipe", obrigatorio: true, requer_evidencia: true },
-        { texto: "Aplicar teste prático de aprendizado", obrigatorio: true, requer_evidencia: false },
-        { texto: "Documentar participantes e resultados", obrigatorio: true, requer_evidencia: true }
-      ]
-    },
-    {
-      titulo: "Gestão de Escala Semanal",
-      descricao: "Organização da escala de trabalho",
-      pilar: "tempo_potencia",
-      categoria: "semanal",
-      pontos_conclusao: 10,
-      itens: [
-        { texto: "Verificar demanda prevista da semana", obrigatorio: true, requer_evidencia: false },
-        { texto: "Conferir disponibilidade dos colaboradores", obrigatorio: true, requer_evidencia: false },
-        { texto: "Montar escala equilibrada", obrigatorio: true, requer_evidencia: true },
-        { texto: "Garantir cobertura em horários de pico", obrigatorio: true, requer_evidencia: false },
-        { texto: "Comunicar escala com antecedência", obrigatorio: true, requer_evidencia: false },
-        { texto: "Ter plano B para faltas", obrigatorio: true, requer_evidencia: false }
       ]
     }
   ]
