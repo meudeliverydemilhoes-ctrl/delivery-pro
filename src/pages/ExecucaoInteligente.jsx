@@ -415,6 +415,8 @@ export default function ExecucaoInteligente() {
   // Dialogs
   const [checklistDialogOpen, setChecklistDialogOpen] = useState(false);
   const [editingChecklist, setEditingChecklist] = useState(null);
+  const [execucaoDialogOpen, setExecucaoDialogOpen] = useState(false);
+  const [editingExecucao, setEditingExecucao] = useState(null);
   const [sopDialogOpen, setSOPDialogOpen] = useState(false);
   const [comunicadoDialogOpen, setComunicadoDialogOpen] = useState(false);
   const [planoDialogOpen, setPlanoDialogOpen] = useState(false);
@@ -543,6 +545,15 @@ export default function ExecucaoInteligente() {
       setChecklistDialogOpen(false);
       setEditingChecklist(null);
       setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
+    }
+  });
+
+  const updateExecucaoMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.ExecucaoChecklist.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["execucoes"] });
+      setExecucaoDialogOpen(false);
+      setEditingExecucao(null);
     }
   });
 
@@ -724,6 +735,10 @@ export default function ExecucaoInteligente() {
                       key={exec.id}
                       execucao={exec}
                       onCreatePlanoAcao={handleCreatePlanoAcao}
+                      onEdit={(execucao) => {
+                        setEditingExecucao(execucao);
+                        setExecucaoDialogOpen(true);
+                      }}
                     />
                   ))}
                 </div>
@@ -734,7 +749,14 @@ export default function ExecucaoInteligente() {
                 <h3 className="text-lg font-medium text-white/60 mb-4">Concluídos ({concluidos.length})</h3>
                 <div className="space-y-3 opacity-70">
                   {concluidos.slice(0, 5).map(exec => (
-                    <ChecklistCard key={exec.id} execucao={exec} />
+                    <ChecklistCard
+                      key={exec.id}
+                      execucao={exec}
+                      onEdit={(execucao) => {
+                        setEditingExecucao(execucao);
+                        setExecucaoDialogOpen(true);
+                      }}
+                    />
                   ))}
                 </div>
               </div>
@@ -1475,6 +1497,130 @@ export default function ExecucaoInteligente() {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Editar Execução */}
+      <Dialog open={execucaoDialogOpen} onOpenChange={(open) => {
+        setExecucaoDialogOpen(open);
+        if (!open) setEditingExecucao(null);
+      }}>
+        <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Editar Exercício</DialogTitle>
+          </DialogHeader>
+          {editingExecucao && (
+            <div className="space-y-4 py-4">
+              <div>
+                <Label className="text-white/70">Título</Label>
+                <Input
+                  value={editingExecucao.titulo}
+                  onChange={(e) => setEditingExecucao({ ...editingExecucao, titulo: e.target.value })}
+                  className="bg-white/5 border-white/10 text-white mt-1"
+                />
+              </div>
+              <div>
+                <Label className="text-white/70">Pilar</Label>
+                <Select 
+                  value={editingExecucao.pilar} 
+                  onValueChange={(v) => setEditingExecucao({ ...editingExecucao, pilar: v })}
+                >
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-white/10">
+                    {pilarOptions.map(p => (
+                      <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-white/70 mb-2 block">Itens do Exercício</Label>
+                <div className="space-y-2">
+                  {editingExecucao.itens?.map((item, idx) => (
+                    <div key={idx} className="space-y-2 p-3 bg-white/5 rounded-lg">
+                      <Textarea
+                        value={item.texto}
+                        onChange={(e) => {
+                          const newItens = [...editingExecucao.itens];
+                          newItens[idx] = { ...item, texto: e.target.value };
+                          setEditingExecucao({ ...editingExecucao, itens: newItens });
+                        }}
+                        className="bg-white/5 border-white/10 text-white"
+                        rows={2}
+                      />
+                      <div className="flex items-center gap-3">
+                        <label className="flex items-center gap-2 text-sm text-white/60">
+                          <Checkbox
+                            checked={item.requer_evidencia || false}
+                            onCheckedChange={(c) => {
+                              const newItens = [...editingExecucao.itens];
+                              newItens[idx] = { ...item, requer_evidencia: c };
+                              setEditingExecucao({ ...editingExecucao, itens: newItens });
+                            }}
+                          />
+                          Requer evidência
+                        </label>
+                        <Button
+                          onClick={() => {
+                            const newItens = editingExecucao.itens.filter((_, i) => i !== idx);
+                            setEditingExecucao({ ...editingExecucao, itens: newItens });
+                          }}
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-400 hover:text-red-300 ml-auto"
+                        >
+                          Remover
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  onClick={() => {
+                    const newItens = [...(editingExecucao.itens || []), { texto: "Novo item", concluido: false, requer_evidencia: false }];
+                    setEditingExecucao({ ...editingExecucao, itens: newItens });
+                  }}
+                  className="bg-[#FF4D00] hover:bg-[#E64500] mt-3"
+                  size="sm"
+                >
+                  <Plus size={14} className="mr-1" /> Adicionar Item
+                </Button>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  onClick={() => {
+                    setExecucaoDialogOpen(false);
+                    setEditingExecucao(null);
+                  }} 
+                  className="flex-1 bg-white/10 hover:bg-white/20 text-white"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Recalcular progresso
+                    const totalItens = editingExecucao.itens?.length || 0;
+                    const concluidos = editingExecucao.itens?.filter(i => i.concluido).length || 0;
+                    const progresso = totalItens > 0 ? Math.round((concluidos / totalItens) * 100) : 0;
+                    
+                    updateExecucaoMutation.mutate({
+                      id: editingExecucao.id,
+                      data: {
+                        ...editingExecucao,
+                        progresso,
+                        status: progresso === 100 ? "concluido" : editingExecucao.status
+                      }
+                    });
+                  }}
+                  className="flex-1 bg-[#FF4D00] hover:bg-[#E64500]"
+                >
+                  Salvar Alterações
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 
