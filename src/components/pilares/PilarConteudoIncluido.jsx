@@ -377,9 +377,17 @@ export default function PilarConteudoIncluido({
   const [notaDialogOpen, setNotaDialogOpen] = useState(false);
   const [notaContext, setNotaContext] = useState({ tipo: "", id: "", titulo: "" });
   const [notaTexto, setNotaTexto] = useState("");
+  
+  const [modulosData, setModulosData] = useState(customData?.modulos || defaultPilar?.modulos || []);
+  const [materiaisData, setMateriaisData] = useState(customData?.materiais || materiaisExclusivos[pilarKey] || []);
+  const [editingModulo, setEditingModulo] = useState(null);
+  const [editingTopico, setEditingTopico] = useState(null);
+  const [editingMaterial, setEditingMaterial] = useState(null);
+  const [newModuloNome, setNewModuloNome] = useState("");
+  const [newTopicoTexto, setNewTopicoTexto] = useState("");
 
   const pilar = defaultPilar;
-  const materiais = materiaisExclusivos[pilarKey] || [];
+  const materiais = materiaisData;
   if (!pilar) return null;
 
   const handleUpdateTarefa = (idx, data) => {
@@ -401,7 +409,72 @@ export default function PilarConteudoIncluido({
     onUpdateCustomData?.({ ...customData, tarefas: newTarefas });
   };
 
+  const handleUpdateModulo = (idx, nome) => {
+    const newModulos = [...modulosData];
+    newModulos[idx] = { ...newModulos[idx], nome };
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+    setEditingModulo(null);
+  };
 
+  const handleAddModulo = () => {
+    if (!newModuloNome.trim()) return;
+    const newModulos = [...modulosData, { nome: newModuloNome, topicos: [] }];
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+    setNewModuloNome("");
+  };
+
+  const handleDeleteModulo = (idx) => {
+    const newModulos = modulosData.filter((_, i) => i !== idx);
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+  };
+
+  const handleAddTopico = (moduloIdx) => {
+    if (!newTopicoTexto.trim()) return;
+    const newModulos = [...modulosData];
+    newModulos[moduloIdx].topicos = [...newModulos[moduloIdx].topicos, newTopicoTexto];
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+    setNewTopicoTexto("");
+    setEditingTopico(null);
+  };
+
+  const handleUpdateTopico = (moduloIdx, topicoIdx, texto) => {
+    const newModulos = [...modulosData];
+    newModulos[moduloIdx].topicos[topicoIdx] = texto;
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+    setEditingTopico(null);
+  };
+
+  const handleDeleteTopico = (moduloIdx, topicoIdx) => {
+    const newModulos = [...modulosData];
+    newModulos[moduloIdx].topicos = newModulos[moduloIdx].topicos.filter((_, i) => i !== topicoIdx);
+    setModulosData(newModulos);
+    onUpdateCustomData?.({ ...customData, modulos: newModulos });
+  };
+
+  const handleUpdateMaterial = (idx, data) => {
+    const newMateriais = [...materiaisData];
+    newMateriais[idx] = { ...newMateriais[idx], ...data };
+    setMateriaisData(newMateriais);
+    onUpdateCustomData?.({ ...customData, materiais: newMateriais });
+    setEditingMaterial(null);
+  };
+
+  const handleAddMaterial = () => {
+    const newMateriais = [...materiaisData, { nome: "Novo Material", tipo: "download", url: "", descricao: "" }];
+    setMateriaisData(newMateriais);
+    onUpdateCustomData?.({ ...customData, materiais: newMateriais });
+  };
+
+  const handleDeleteMaterial = (idx) => {
+    const newMateriais = materiaisData.filter((_, i) => i !== idx);
+    setMateriaisData(newMateriais);
+    onUpdateCustomData?.({ ...customData, materiais: newMateriais });
+  };
 
   const openNotaDialog = (tipo, id, titulo) => {
     setNotaContext({ tipo, id, titulo });
@@ -423,8 +496,8 @@ export default function PilarConteudoIncluido({
 
 
 
-  const totalTopicos = pilar.modulos?.reduce((acc, m) => acc + m.topicos.length, 0) || 0;
-  const completedTopicos = pilar.modulos?.reduce((acc, m) => {
+  const totalTopicos = modulosData?.reduce((acc, m) => acc + m.topicos.length, 0) || 0;
+  const completedTopicos = modulosData?.reduce((acc, m) => {
     return acc + m.topicos.filter(t => {
       const texto = typeof t === 'string' ? t : t.texto;
       return progressoItems.some(p => p.texto === texto && p.concluido);
@@ -470,14 +543,48 @@ export default function PilarConteudoIncluido({
               />
             </div>
           </div>
-          {pilar.modulos?.map((modulo, idx) => (
+          {modulosData?.map((modulo, idx) => (
             <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <h4 className="font-medium text-white mb-3">{modulo.nome}</h4>
+              <div className="flex items-center justify-between mb-3 group">
+                {editingModulo === idx ? (
+                  <div className="flex-1 flex items-center gap-2">
+                    <Input
+                      value={modulo.nome}
+                      onChange={(e) => {
+                        const newModulos = [...modulosData];
+                        newModulos[idx].nome = e.target.value;
+                        setModulosData(newModulos);
+                      }}
+                      className="bg-white/5 border-white/10 text-white"
+                      autoFocus
+                    />
+                    <Button size="sm" onClick={() => handleUpdateModulo(idx, modulo.nome)} className="bg-emerald-500 hover:bg-emerald-600">
+                      <Check size={14} />
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setEditingModulo(null)} className="border-white/10">
+                      <X size={14} />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <h4 className="font-medium text-white">{modulo.nome}</h4>
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button size="sm" variant="ghost" onClick={() => setEditingModulo(idx)} className="h-7 w-7 p-0">
+                        <Pencil size={14} className="text-blue-400" />
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => handleDeleteModulo(idx)} className="h-7 w-7 p-0">
+                        <Trash2 size={14} className="text-red-400" />
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
               <div className="space-y-2">
                 {modulo.topicos.map((topico, tIdx) => {
                   const topicoTexto = typeof topico === 'string' ? topico : topico.texto;
                   const isCompleted = progressoItems.some(p => p.texto === topicoTexto && p.concluido);
                   const hasNota = !!getNotaForItem("topico", `${idx}_${tIdx}`);
+                  const isEditingThis = editingTopico === `${idx}_${tIdx}`;
                   return (
                     <div
                       key={tIdx}
@@ -493,26 +600,98 @@ export default function PilarConteudoIncluido({
                           <Circle size={18} className="text-white/30 group-hover:text-white/50" />
                         )}
                       </button>
-                      <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
-                        {topicoTexto}
-                      </span>
-                      <button
-                        onClick={() => openNotaDialog("topico", `${idx}_${tIdx}`, topicoTexto)}
-                        className={`p-1.5 rounded-lg transition-all ${
-                          hasNota 
-                            ? "bg-amber-500/20 text-amber-400" 
-                            : "opacity-0 group-hover:opacity-100 hover:bg-white/10 text-white/40 hover:text-white"
-                        }`}
-                        title={hasNota ? "Ver anotação" : "Adicionar anotação"}
-                      >
-                        <StickyNote size={14} />
-                      </button>
+                      {isEditingThis ? (
+                        <div className="flex-1 flex items-center gap-2">
+                          <Input
+                            value={topicoTexto}
+                            onChange={(e) => {
+                              const newModulos = [...modulosData];
+                              newModulos[idx].topicos[tIdx] = e.target.value;
+                              setModulosData(newModulos);
+                            }}
+                            className="bg-white/5 border-white/10 text-white text-sm"
+                            autoFocus
+                          />
+                          <Button size="sm" onClick={() => handleUpdateTopico(idx, tIdx, topicoTexto)} className="bg-emerald-500 hover:bg-emerald-600 h-7 px-2">
+                            <Check size={14} />
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => setEditingTopico(null)} className="border-white/10 h-7 px-2">
+                            <X size={14} />
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          <span className={`flex-1 text-sm ${isCompleted ? "text-white/50 line-through" : "text-white/80"}`}>
+                            {topicoTexto}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => openNotaDialog("topico", `${idx}_${tIdx}`, topicoTexto)}
+                              className={`p-1.5 rounded-lg transition-all ${
+                                hasNota 
+                                  ? "bg-amber-500/20 text-amber-400" 
+                                  : "opacity-0 group-hover:opacity-100 hover:bg-white/10 text-white/40 hover:text-white"
+                              }`}
+                              title={hasNota ? "Ver anotação" : "Adicionar anotação"}
+                            >
+                              <StickyNote size={14} />
+                            </button>
+                            <button
+                              onClick={() => setEditingTopico(`${idx}_${tIdx}`)}
+                              className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-white/10 text-blue-400"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteTopico(idx, tIdx)}
+                              className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-white/10 text-red-400"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   );
                 })}
+                <div className="flex items-center gap-2 mt-2">
+                  <Input
+                    placeholder="Adicionar novo tópico..."
+                    value={editingTopico === `new_${idx}` ? newTopicoTexto : ""}
+                    onFocus={() => setEditingTopico(`new_${idx}`)}
+                    onChange={(e) => setNewTopicoTexto(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleAddTopico(idx)}
+                    className="bg-white/5 border-white/10 text-white text-sm"
+                  />
+                  <Button 
+                    size="sm" 
+                    onClick={() => handleAddTopico(idx)}
+                    disabled={!newTopicoTexto.trim()}
+                    className="bg-[#FF4D00] hover:bg-[#E64500]"
+                  >
+                    <Plus size={14} />
+                  </Button>
+                </div>
               </div>
             </div>
           ))}
+          <div className="flex items-center gap-2">
+            <Input
+              placeholder="Adicionar novo módulo..."
+              value={newModuloNome}
+              onChange={(e) => setNewModuloNome(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAddModulo()}
+              className="bg-white/5 border-white/10 text-white"
+            />
+            <Button 
+              onClick={handleAddModulo}
+              disabled={!newModuloNome.trim()}
+              className="bg-[#FF4D00] hover:bg-[#E64500]"
+            >
+              <Plus size={16} className="mr-2" />
+              Adicionar Módulo
+            </Button>
+          </div>
         </TabsContent>
 
         {/* Aba Módulos - Tarefas práticas */}
@@ -554,40 +733,108 @@ export default function PilarConteudoIncluido({
         {/* Aba Material Exclusivo */}
         <TabsContent value="materiais" className="space-y-4">
           <div className="bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 rounded-xl p-4 mb-4">
-            <div className="flex items-center gap-2 text-amber-400">
-              <Gift size={18} />
-              <span className="font-medium">Material Exclusivo da Mentoria</span>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-amber-400">
+                  <Gift size={18} />
+                  <span className="font-medium">Material Exclusivo da Mentoria</span>
+                </div>
+                <p className="text-sm text-white/60 mt-1">Acesse aulas, planilhas e modelos exclusivos para acelerar seus resultados</p>
+              </div>
+              <Button onClick={handleAddMaterial} size="sm" className="bg-[#FF4D00] hover:bg-[#E64500]">
+                <Plus size={16} className="mr-2" />
+                Adicionar
+              </Button>
             </div>
-            <p className="text-sm text-white/60 mt-1">Acesse aulas, planilhas e modelos exclusivos para acelerar seus resultados</p>
           </div>
 
           <div className="grid gap-3">
             {materiais.map((material, idx) => (
               <div
                 key={idx}
-                onClick={() => setSelectedMaterial(material)}
-                className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all group"
+                className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-[#FF4D00]/30 transition-all group"
               >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                  material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
-                }`}>
-                  {material.tipo === "video" ? (
-                    <Play size={24} className="text-blue-400" />
-                  ) : (
-                    <Download size={24} className="text-emerald-400" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-white group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
-                  <p className="text-sm text-white/50">{material.descricao}</p>
-                </div>
-                <div className={`px-3 py-1 rounded-full text-xs ${
-                  material.tipo === "video" 
-                    ? "bg-blue-500/20 text-blue-400" 
-                    : "bg-emerald-500/20 text-emerald-400"
-                }`}>
-                  {material.tipo === "video" ? "Assistir" : "Download"}
-                </div>
+                {editingMaterial === idx ? (
+                  <div className="flex-1 space-y-3">
+                    <Input
+                      value={material.nome}
+                      onChange={(e) => {
+                        const newMateriais = [...materiaisData];
+                        newMateriais[idx].nome = e.target.value;
+                        setMateriaisData(newMateriais);
+                      }}
+                      placeholder="Nome do material"
+                      className="bg-white/5 border-white/10 text-white"
+                    />
+                    <Input
+                      value={material.descricao}
+                      onChange={(e) => {
+                        const newMateriais = [...materiaisData];
+                        newMateriais[idx].descricao = e.target.value;
+                        setMateriaisData(newMateriais);
+                      }}
+                      placeholder="Descrição"
+                      className="bg-white/5 border-white/10 text-white"
+                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={material.tipo}
+                        onChange={(e) => {
+                          const newMateriais = [...materiaisData];
+                          newMateriais[idx].tipo = e.target.value;
+                          setMateriaisData(newMateriais);
+                        }}
+                        className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-2 flex-1"
+                      >
+                        <option value="video">Vídeo</option>
+                        <option value="download">Download</option>
+                      </select>
+                      <Button size="sm" onClick={() => handleUpdateMaterial(idx, material)} className="bg-emerald-500 hover:bg-emerald-600">
+                        <Check size={14} className="mr-1" />
+                        Salvar
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => setEditingMaterial(null)} className="border-white/10">
+                        <X size={14} />
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div 
+                      onClick={() => setSelectedMaterial(material)}
+                      className="flex items-center gap-4 flex-1 cursor-pointer"
+                    >
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                        material.tipo === "video" ? "bg-blue-500/20" : "bg-emerald-500/20"
+                      }`}>
+                        {material.tipo === "video" ? (
+                          <Play size={24} className="text-blue-400" />
+                        ) : (
+                          <Download size={24} className="text-emerald-400" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-white group-hover:text-[#FF4D00] transition-colors">{material.nome}</p>
+                        <p className="text-sm text-white/50">{material.descricao}</p>
+                      </div>
+                      <div className={`px-3 py-1 rounded-full text-xs ${
+                        material.tipo === "video" 
+                          ? "bg-blue-500/20 text-blue-400" 
+                          : "bg-emerald-500/20 text-emerald-400"
+                      }`}>
+                        {material.tipo === "video" ? "Assistir" : "Download"}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button size="sm" variant="ghost" onClick={() => setEditingMaterial(idx)} className="h-8 w-8 p-0">
+                        <Pencil size={14} className="text-blue-400" />
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => handleDeleteMaterial(idx)} className="h-8 w-8 p-0">
+                        <Trash2 size={14} className="text-red-400" />
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
