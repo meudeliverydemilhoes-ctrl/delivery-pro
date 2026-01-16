@@ -5,7 +5,8 @@ import {
         CheckCircle2, Circle, ChevronDown, ChevronRight, Save,
         Calendar, MessageSquare, Upload, TrendingUp, AlertTriangle,
         Target, Sparkles, Settings, Clock, Zap, Compass, Star,
-        FileText, Image, X, BookOpen, Plus, Video, FileDown, Link as LinkIcon
+        FileText, Image, X, BookOpen, Plus, Video, FileDown, Link as LinkIcon,
+        Edit2, Trash2, Check
       } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -147,6 +148,8 @@ export default function PainelOrganizacao({ mentoradoId }) {
     link: "",
     tipo: "video"
   });
+  const [editandoItem, setEditandoItem] = useState({ pilarId: null, itemId: null, texto: "" });
+  const [novoItemPilar, setNovoItemPilar] = useState("");
 
   const { data: briefing } = useQuery({
     queryKey: ["briefing", mentoradoId],
@@ -171,16 +174,17 @@ export default function PainelOrganizacao({ mentoradoId }) {
           ultima_atualizacao: null
         },
         materiais_aulas: []
-      };
-      pilaresConfig.forEach(pilar => {
+        };
+        pilaresConfig.forEach(pilar => {
         defaultData.pilares[pilar.id] = {
           checklist: {},
           observacoes: "",
           status: "pendente",
           data_inicio: "",
-          data_conclusao: ""
+          data_conclusao: "",
+          itens_custom: pilar.itens.map(texto => ({ texto, id: Date.now().toString() + Math.random() }))
         };
-      });
+        });
       setPainelData(defaultData);
     }
   }, [briefing]);
@@ -325,9 +329,56 @@ export default function PainelOrganizacao({ mentoradoId }) {
     setHasChanges(true);
   };
 
-  const calcularProgressoPilar = (pilarId, pilar) => {
+  const handleAddItemChecklist = (pilarId) => {
+    if (!novoItemPilar.trim()) return;
+    setPainelData(prev => {
+      const newData = { ...prev };
+      if (!newData.pilares[pilarId].itens_custom) {
+        newData.pilares[pilarId].itens_custom = [];
+      }
+      newData.pilares[pilarId] = {
+        ...newData.pilares[pilarId],
+        itens_custom: [
+          ...newData.pilares[pilarId].itens_custom,
+          { texto: novoItemPilar.trim(), id: Date.now().toString() + Math.random() }
+        ]
+      };
+      return newData;
+    });
+    setNovoItemPilar("");
+    setHasChanges(true);
+  };
+
+  const handleEditItemChecklist = (pilarId, itemId, novoTexto) => {
+    setPainelData(prev => {
+      const newData = { ...prev };
+      newData.pilares[pilarId] = {
+        ...newData.pilares[pilarId],
+        itens_custom: newData.pilares[pilarId].itens_custom.map(item =>
+          item.id === itemId ? { ...item, texto: novoTexto } : item
+        )
+      };
+      return newData;
+    });
+    setHasChanges(true);
+  };
+
+  const handleDeleteItemChecklist = (pilarId, itemId) => {
+    setPainelData(prev => {
+      const newData = { ...prev };
+      newData.pilares[pilarId] = {
+        ...newData.pilares[pilarId],
+        itens_custom: newData.pilares[pilarId].itens_custom.filter(item => item.id !== itemId)
+      };
+      return newData;
+    });
+    setHasChanges(true);
+  };
+
+  const calcularProgressoPilar = (pilarId) => {
     const checklist = painelData.pilares?.[pilarId]?.checklist || {};
-    const total = pilar.itens.length;
+    const itensCustom = painelData.pilares?.[pilarId]?.itens_custom || [];
+    const total = itensCustom.length;
     const concluidos = Object.values(checklist).filter(v => v === true).length;
     return { total, concluidos, percent: total > 0 ? Math.round((concluidos / total) * 100) : 0 };
   };
@@ -337,7 +388,8 @@ export default function PainelOrganizacao({ mentoradoId }) {
     let totalConcluidos = 0;
     pilaresConfig.forEach(pilar => {
       const checklist = painelData.pilares?.[pilar.id]?.checklist || {};
-      totalItens += pilar.itens.length;
+      const itensCustom = painelData.pilares?.[pilar.id]?.itens_custom || [];
+      totalItens += itensCustom.length;
       totalConcluidos += Object.values(checklist).filter(v => v === true).length;
     });
     return totalItens > 0 ? Math.round((totalConcluidos / totalItens) * 100) : 0;
@@ -393,8 +445,9 @@ export default function PainelOrganizacao({ mentoradoId }) {
           const Icon = pilar.icon;
           const isExpanded = expandedPilares[pilar.id];
           const pilarData = painelData.pilares?.[pilar.id] || {};
-          const progresso = calcularProgressoPilar(pilar.id, pilar);
+          const progresso = calcularProgressoPilar(pilar.id);
           const statusInfo = statusOptions.find(s => s.value === (pilarData.status || "pendente"));
+          const itensCustom = pilarData.itens_custom || [];
 
           return (
             <div 
@@ -450,31 +503,110 @@ export default function PainelOrganizacao({ mentoradoId }) {
                         Checklist de Entregas
                       </h4>
                       <div className="grid sm:grid-cols-2 gap-2">
-                        {pilar.itens.map((item, idx) => {
+                        {itensCustom.map((item, idx) => {
                           const isChecked = pilarData.checklist?.[idx] === true;
+                          const isEditing = editandoItem.pilarId === pilar.id && editandoItem.itemId === item.id;
                           return (
                             <div
-                              key={idx}
-                              onClick={() => toggleCheckItem(pilar.id, idx)}
-                              className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
+                              key={item.id}
+                              className={`flex items-center gap-2 p-3 rounded-xl transition-all group ${
                                 isChecked 
                                   ? "bg-emerald-500/10 border border-emerald-500/30" 
                                   : "bg-white/5 border border-transparent hover:border-white/10"
                               }`}
                             >
-                              {isChecked ? (
-                                <div className="w-5 h-5 bg-emerald-500 rounded flex items-center justify-center flex-shrink-0">
-                                  <span className="text-white text-xs">✓</span>
+                              <div
+                                onClick={() => toggleCheckItem(pilar.id, idx)}
+                                className="cursor-pointer flex-shrink-0"
+                              >
+                                {isChecked ? (
+                                  <div className="w-5 h-5 bg-emerald-500 rounded flex items-center justify-center">
+                                    <span className="text-white text-xs">✓</span>
+                                  </div>
+                                ) : (
+                                  <div className="w-5 h-5 border-2 border-white/30 rounded" />
+                                )}
+                              </div>
+                              {isEditing ? (
+                                <div className="flex-1 flex items-center gap-1">
+                                  <Input
+                                    value={editandoItem.texto}
+                                    onChange={(e) => setEditandoItem({ ...editandoItem, texto: e.target.value })}
+                                    className="bg-white/10 border-white/20 text-white text-sm h-7 px-2"
+                                    autoFocus
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter") {
+                                        handleEditItemChecklist(pilar.id, item.id, editandoItem.texto);
+                                        setEditandoItem({ pilarId: null, itemId: null, texto: "" });
+                                      } else if (e.key === "Escape") {
+                                        setEditandoItem({ pilarId: null, itemId: null, texto: "" });
+                                      }
+                                    }}
+                                  />
+                                  <button
+                                    onClick={() => {
+                                      handleEditItemChecklist(pilar.id, item.id, editandoItem.texto);
+                                      setEditandoItem({ pilarId: null, itemId: null, texto: "" });
+                                    }}
+                                    className="p-1 hover:bg-emerald-500/20 rounded"
+                                  >
+                                    <Check size={14} className="text-emerald-400" />
+                                  </button>
+                                  <button
+                                    onClick={() => setEditandoItem({ pilarId: null, itemId: null, texto: "" })}
+                                    className="p-1 hover:bg-red-500/20 rounded"
+                                  >
+                                    <X size={14} className="text-red-400" />
+                                  </button>
                                 </div>
                               ) : (
-                                <div className="w-5 h-5 border-2 border-white/30 rounded flex-shrink-0" />
+                                <>
+                                  <span className={`text-sm flex-1 ${isChecked ? "text-white/50 line-through" : "text-white/80"}`}>
+                                    {item.texto}
+                                  </span>
+                                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                      onClick={() => setEditandoItem({ pilarId: pilar.id, itemId: item.id, texto: item.texto })}
+                                      className="p-1 hover:bg-blue-500/20 rounded"
+                                    >
+                                      <Edit2 size={12} className="text-blue-400" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteItemChecklist(pilar.id, item.id)}
+                                      className="p-1 hover:bg-red-500/20 rounded"
+                                    >
+                                      <Trash2 size={12} className="text-red-400" />
+                                    </button>
+                                  </div>
+                                </>
                               )}
-                              <span className={`text-sm ${isChecked ? "text-white/50 line-through" : "text-white/80"}`}>
-                                {item}
-                              </span>
                             </div>
                           );
                         })}
+                      </div>
+
+                      {/* Adicionar novo item */}
+                      <div className="flex gap-2 mt-3">
+                        <Input
+                          value={novoItemPilar}
+                          onChange={(e) => setNovoItemPilar(e.target.value)}
+                          placeholder="Adicionar nova entrega..."
+                          className="bg-white/5 border-white/10 text-white text-sm"
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleAddItemChecklist(pilar.id);
+                            }
+                          }}
+                        />
+                        <Button
+                          onClick={() => handleAddItemChecklist(pilar.id)}
+                          disabled={!novoItemPilar.trim()}
+                          size="sm"
+                          className="bg-[#FF4D00] hover:bg-[#E64500] whitespace-nowrap"
+                        >
+                          <Plus size={14} className="mr-1" />
+                          Adicionar
+                        </Button>
                       </div>
                     </div>
 
