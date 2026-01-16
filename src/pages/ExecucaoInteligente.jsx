@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   ClipboardList, Target, AlertTriangle, Trophy, BookOpen, Bell,
-  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText, Home, X
+  Plus, Search, Filter, Download, RefreshCw, Zap, Users, FileText, Home, X, Pencil
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -414,6 +414,7 @@ export default function ExecucaoInteligente() {
   
   // Dialogs
   const [checklistDialogOpen, setChecklistDialogOpen] = useState(false);
+  const [editingChecklist, setEditingChecklist] = useState(null);
   const [sopDialogOpen, setSOPDialogOpen] = useState(false);
   const [comunicadoDialogOpen, setComunicadoDialogOpen] = useState(false);
   const [planoDialogOpen, setPlanoDialogOpen] = useState(false);
@@ -535,6 +536,16 @@ export default function ExecucaoInteligente() {
     }
   });
 
+  const updateChecklistMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.ChecklistInteligente.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["checklists"] });
+      setChecklistDialogOpen(false);
+      setEditingChecklist(null);
+      setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
+    }
+  });
+
   // Handlers
   const handleAddItem = () => {
     if (novoItem.texto.trim()) {
@@ -555,7 +566,11 @@ export default function ExecucaoInteligente() {
 
   const handleCreateChecklist = () => {
     if (checklistForm.titulo && checklistForm.itens.length > 0) {
-      createChecklistMutation.mutate(checklistForm);
+      if (editingChecklist) {
+        updateChecklistMutation.mutate({ id: editingChecklist.id, data: checklistForm });
+      } else {
+        createChecklistMutation.mutate(checklistForm);
+      }
     }
   };
 
@@ -746,6 +761,24 @@ export default function ExecucaoInteligente() {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xl">{pilarOptions.find(p => p.value === checklist.pilar)?.label?.charAt(0) || "📋"}</span>
                         <h4 className="font-medium text-white flex-1">{checklist.titulo}</h4>
+                        <button
+                          onClick={() => {
+                            setEditingChecklist(checklist);
+                            setChecklistForm({
+                              titulo: checklist.titulo,
+                              descricao: checklist.descricao || "",
+                              pilar: checklist.pilar,
+                              categoria: checklist.categoria,
+                              itens: checklist.itens || [],
+                              pontos_conclusao: checklist.pontos_conclusao || 10
+                            });
+                            setChecklistDialogOpen(true);
+                          }}
+                          className="text-blue-400 hover:text-blue-300 p-1"
+                          title="Editar modelo"
+                        >
+                          <Pencil size={16} />
+                        </button>
                         <button
                           onClick={() => {
                             if (window.confirm(`Deseja realmente deletar o modelo "${checklist.titulo}"?`)) {
@@ -1093,10 +1126,16 @@ export default function ExecucaoInteligente() {
       </Tabs>
 
       {/* Dialog: Criar Checklist */}
-      <Dialog open={checklistDialogOpen} onOpenChange={setChecklistDialogOpen}>
+      <Dialog open={checklistDialogOpen} onOpenChange={(open) => {
+        setChecklistDialogOpen(open);
+        if (!open) {
+          setEditingChecklist(null);
+          setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
+        }
+      }}>
         <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Criar Modelo de Checklist</DialogTitle>
+            <DialogTitle>{editingChecklist ? "Editar Modelo de Checklist" : "Criar Modelo de Checklist"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">
@@ -1197,11 +1236,15 @@ export default function ExecucaoInteligente() {
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button onClick={() => setChecklistDialogOpen(false)} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
+              <Button onClick={() => {
+                setChecklistDialogOpen(false);
+                setEditingChecklist(null);
+                setChecklistForm({ titulo: "", descricao: "", pilar: "processos", categoria: "diario", itens: [], pontos_conclusao: 10 });
+              }} className="flex-1 bg-[#FF4D00] hover:bg-[#E64500] text-white whitespace-nowrap">
                 Cancelar
               </Button>
               <Button onClick={handleCreateChecklist} disabled={!checklistForm.titulo || checklistForm.itens.length === 0} className="flex-1 bg-[#FF4D00]">
-                Criar Checklist
+                {editingChecklist ? "Salvar" : "Criar Checklist"}
               </Button>
             </div>
           </div>
