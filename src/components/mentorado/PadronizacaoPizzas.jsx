@@ -191,7 +191,7 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
         </div>
       </div>
 
-      {/* Seção 1: Tamanhos de Pizza */}
+      {/* Seção 1: Tamanhos de Pizza e Gramaturas */}
       <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
         <button
           onClick={() => setExpanded({ ...expanded, tamanhos: !expanded.tamanhos })}
@@ -200,7 +200,7 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
           <div className="flex items-center gap-3">
             <Pizza size={20} className="text-[#FF4D00]" />
             <div className="text-left">
-              <h3 className="font-semibold text-white">1. Tamanhos de Pizza</h3>
+              <h3 className="font-semibold text-white">1. Tamanhos de Pizza e Gramaturas</h3>
               <p className="text-xs text-white/40">{dadosLocal.tamanhos.length} tamanhos cadastrados</p>
             </div>
           </div>
@@ -208,81 +208,107 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
         </button>
 
         {expanded.tamanhos && (
-          <div className="p-4 border-t border-white/10 space-y-3">
+          <div className="p-4 border-t border-white/10 space-y-4">
             {dadosLocal.tamanhos.map((tamanho, idx) => (
-              <div key={idx} className="bg-white/5 rounded-lg p-4 group">
-                {editingTamanho === idx ? (
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-3">
-                      <div>
-                        <Label className="text-white/70 text-xs">Nome</Label>
-                        <Input
-                          value={tamanho.nome}
-                          onChange={(e) => {
-                            const novosTamanhos = [...dadosLocal.tamanhos];
-                            novosTamanhos[idx].nome = e.target.value;
-                            setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                          }}
-                          className="bg-white/5 border-white/10 text-white mt-1"
-                        />
+              <div key={idx} className="bg-white/5 rounded-lg overflow-hidden">
+                <div className="p-4 group">
+                  {editingTamanho === idx ? (
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div>
+                          <Label className="text-white/70 text-xs">Nome</Label>
+                          <Input
+                            value={tamanho.nome}
+                            onChange={(e) => {
+                              const novosTamanhos = [...dadosLocal.tamanhos];
+                              novosTamanhos[idx].nome = e.target.value;
+                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
+                            }}
+                            className="bg-white/5 border-white/10 text-white mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-white/70 text-xs">Diâmetro/Fatias</Label>
+                          <Input
+                            value={tamanho.diametro}
+                            onChange={(e) => {
+                              const novosTamanhos = [...dadosLocal.tamanhos];
+                              novosTamanhos[idx].diametro = e.target.value;
+                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
+                            }}
+                            className="bg-white/5 border-white/10 text-white mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-white/70 text-xs">Máx. Sabores</Label>
+                          <Input
+                            type="number"
+                            value={tamanho.max_sabores}
+                            onChange={(e) => {
+                              const novosTamanhos = [...dadosLocal.tamanhos];
+                              novosTamanhos[idx].max_sabores = Number(e.target.value);
+                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
+                            }}
+                            className="bg-white/5 border-white/10 text-white mt-1"
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <Label className="text-white/70 text-xs">Diâmetro/Fatias</Label>
-                        <Input
-                          value={tamanho.diametro}
-                          onChange={(e) => {
-                            const novosTamanhos = [...dadosLocal.tamanhos];
-                            novosTamanhos[idx].diametro = e.target.value;
-                            setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                          }}
-                          className="bg-white/5 border-white/10 text-white mt-1"
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-white/70 text-xs">Máx. Sabores</Label>
-                        <Input
-                          type="number"
-                          value={tamanho.max_sabores}
-                          onChange={(e) => {
-                            const novosTamanhos = [...dadosLocal.tamanhos];
-                            novosTamanhos[idx].max_sabores = Number(e.target.value);
-                            setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                          }}
-                          className="bg-white/5 border-white/10 text-white mt-1"
-                        />
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={() => handleUpdateTamanho(idx, tamanho)} className="bg-emerald-500 hover:bg-emerald-600">
+                          <Check size={14} className="mr-1" />
+                          Salvar
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => setEditingTamanho(null)} className="border-white/10">
+                          <X size={14} />
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" onClick={() => handleUpdateTamanho(idx, tamanho)} className="bg-emerald-500 hover:bg-emerald-600">
-                        <Check size={14} className="mr-1" />
-                        Salvar
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => setEditingTamanho(null)} className="border-white/10">
-                        <X size={14} />
-                      </Button>
+                  ) : (
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1">
+                          <h4 className="font-medium text-white">{tamanho.nome}</h4>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF4D00]/20 text-[#FF4D00]">
+                            Até {tamanho.max_sabores} sabor{tamanho.max_sabores > 1 ? 'es' : ''}
+                          </span>
+                        </div>
+                        <p className="text-sm text-white/50">{tamanho.diametro}</p>
+                      </div>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button size="sm" variant="ghost" onClick={() => setEditingTamanho(idx)} className="h-8 w-8 p-0">
+                          <Pencil size={14} className="text-blue-400" />
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => handleDeleteTamanho(idx)} className="h-8 w-8 p-0">
+                          <Trash2 size={14} className="text-red-400" />
+                        </Button>
+                      </div>
                     </div>
+                  )}
+                </div>
+
+                {/* Gramaturas do Tamanho */}
+                <div className="px-4 pb-4 border-t border-white/10 pt-3 bg-black/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Scale size={14} className="text-emerald-400" />
+                    <span className="text-xs font-medium text-emerald-400">Gramaturas Padrão</span>
                   </div>
-                ) : (
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-1">
-                        <h4 className="font-medium text-white">{tamanho.nome}</h4>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF4D00]/20 text-[#FF4D00]">
-                          Até {tamanho.max_sabores} sabor{tamanho.max_sabores > 1 ? 'es' : ''}
-                        </span>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {Object.entries(dadosLocal.gramaturas[tamanho.nome] || {}).map(([campo, valor]) => (
+                      <div key={campo}>
+                        <Label className="text-white/70 text-xs capitalize">{campo.replace('_', ' ')}</Label>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Input
+                            type="number"
+                            value={valor}
+                            onChange={(e) => handleUpdateGramatura(tamanho.nome, campo, e.target.value)}
+                            className="bg-white/10 border-white/10 text-white"
+                          />
+                          <span className="text-white/40 text-sm">g</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-white/50">{tamanho.diametro}</p>
-                    </div>
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" variant="ghost" onClick={() => setEditingTamanho(idx)} className="h-8 w-8 p-0">
-                        <Pencil size={14} className="text-blue-400" />
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => handleDeleteTamanho(idx)} className="h-8 w-8 p-0">
-                        <Trash2 size={14} className="text-red-400" />
-                      </Button>
-                    </div>
+                    ))}
                   </div>
-                )}
+                </div>
               </div>
             ))}
 
@@ -322,53 +348,7 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
         )}
       </div>
 
-      {/* Seção 2: Gramaturas por Tamanho */}
-      <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-        <button
-          onClick={() => setExpanded({ ...expanded, gramaturas: !expanded.gramaturas })}
-          className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <Scale size={20} className="text-emerald-400" />
-            <div className="text-left">
-              <h3 className="font-semibold text-white">2. Padronização de Gramaturas</h3>
-              <p className="text-xs text-white/40">Defina as gramaturas de cada ingrediente por tamanho</p>
-            </div>
-          </div>
-          {expanded.gramaturas ? <ChevronDown className="text-white/50" /> : <ChevronRight className="text-white/50" />}
-        </button>
-
-        {expanded.gramaturas && (
-          <div className="p-4 border-t border-white/10 space-y-4">
-            {dadosLocal.tamanhos.map((tamanho, idx) => (
-              <div key={idx} className="bg-white/5 rounded-lg p-4">
-                <h4 className="font-medium text-white mb-3 flex items-center gap-2">
-                  <Pizza size={16} className="text-[#FF4D00]" />
-                  {tamanho.nome}
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {Object.entries(dadosLocal.gramaturas[tamanho.nome] || {}).map(([campo, valor]) => (
-                    <div key={campo}>
-                      <Label className="text-white/70 text-xs capitalize">{campo.replace('_', ' ')}</Label>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Input
-                          type="number"
-                          value={valor}
-                          onChange={(e) => handleUpdateGramatura(tamanho.nome, campo, e.target.value)}
-                          className="bg-white/10 border-white/10 text-white"
-                        />
-                        <span className="text-white/40 text-sm">g</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Seção 3: Sabores Específicos */}
+      {/* Seção 2: Sabores Específicos */}
       <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
         <button
           onClick={() => setExpanded({ ...expanded, sabores: !expanded.sabores })}
@@ -377,7 +357,7 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
           <div className="flex items-center gap-3">
             <FileText size={20} className="text-violet-400" />
             <div className="text-left">
-              <h3 className="font-semibold text-white">3. Sabores Específicos (Opcional)</h3>
+              <h3 className="font-semibold text-white">2. Sabores Específicos (Opcional)</h3>
               <p className="text-xs text-white/40">{dadosLocal.sabores.length} sabores cadastrados</p>
             </div>
           </div>
@@ -468,11 +448,11 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
         )}
       </div>
 
-      {/* Seção 4: Observações Operacionais */}
+      {/* Seção 3: Observações Operacionais */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <FileText size={18} className="text-amber-400" />
-          <h3 className="font-semibold text-white">4. Observações Operacionais</h3>
+          <h3 className="font-semibold text-white">3. Observações Operacionais</h3>
         </div>
         <Textarea
           value={dadosLocal.observacoes}
