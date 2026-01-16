@@ -12,31 +12,47 @@ import { Label } from "@/components/ui/label";
 
 const dadosDefault = {
   tamanhos: [
-    { nome: "Pequena", diametro: "25cm / 4 fatias", max_sabores: 1 },
-    { nome: "Média", diametro: "30cm / 6 fatias", max_sabores: 2 },
-    { nome: "Grande", diametro: "35cm / 8 fatias", max_sabores: 3 },
-    { nome: "Família", diametro: "40cm / 12 fatias", max_sabores: 4 }
+    { 
+      nome: "Pequena", 
+      diametro: "25cm / 4 fatias", 
+      max_sabores: 1,
+      gramaturas_padrao: { molho: 80, mussarela: 100, proteina: 80, complementares: 30, borda: 50, finalizacao: 10 },
+      sabores: []
+    },
+    { 
+      nome: "Média", 
+      diametro: "30cm / 6 fatias", 
+      max_sabores: 2,
+      gramaturas_padrao: { molho: 100, mussarela: 150, proteina: 100, complementares: 40, borda: 70, finalizacao: 15 },
+      sabores: []
+    },
+    { 
+      nome: "Grande", 
+      diametro: "35cm / 8 fatias", 
+      max_sabores: 3,
+      gramaturas_padrao: { molho: 120, mussarela: 200, proteina: 120, complementares: 50, borda: 90, finalizacao: 20 },
+      sabores: []
+    },
+    { 
+      nome: "Família", 
+      diametro: "40cm / 12 fatias", 
+      max_sabores: 4,
+      gramaturas_padrao: { molho: 150, mussarela: 250, proteina: 150, complementares: 60, borda: 110, finalizacao: 25 },
+      sabores: []
+    }
   ],
-  gramaturas: {
-    "Pequena": { molho: 80, mussarela: 100, proteina: 80, complementares: 30, borda: 50, finalizacao: 10 },
-    "Média": { molho: 100, mussarela: 150, proteina: 100, complementares: 40, borda: 70, finalizacao: 15 },
-    "Grande": { molho: 120, mussarela: 200, proteina: 120, complementares: 50, borda: 90, finalizacao: 20 },
-    "Família": { molho: 150, mussarela: 250, proteina: 150, complementares: 60, borda: 110, finalizacao: 25 }
-  },
-  sabores: [],
   observacoes: ""
 };
 
 export default function PadronizacaoPizzas({ mentoradoId }) {
   const queryClient = useQueryClient();
-  const [expanded, setExpanded] = useState({ tamanhos: true, gramaturas: false, sabores: false });
+  const [expandedTamanhos, setExpandedTamanhos] = useState({});
   const [dadosLocal, setDadosLocal] = useState(dadosDefault);
   const [hasChanges, setHasChanges] = useState(false);
   const [editingTamanho, setEditingTamanho] = useState(null);
-  const [editingGramatura, setEditingGramatura] = useState(null);
-  const [editingSabor, setEditingSabor] = useState(null);
-  const [newTamanho, setNewTamanho] = useState({ nome: "", diametro: "", max_sabores: 1 });
-  const [newSabor, setNewSabor] = useState({ nome: "", ingredientes: "" });
+  const [editingSabor, setEditingSabor] = useState({ tamanhoIdx: null, saborIdx: null });
+  const [newTamanho, setNewTamanho] = useState({ nome: "", diametro: "", max_sabores: 1, gramaturas_padrao: {}, sabores: [] });
+  const [newSabores, setNewSabores] = useState({});
 
   const { data: briefing } = useQuery({
     queryKey: ["briefing", mentoradoId],
@@ -85,64 +101,66 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
 
   const handleAddTamanho = () => {
     if (!newTamanho.nome.trim()) return;
-    const novosTamanhos = [...dadosLocal.tamanhos, newTamanho];
-    const novasGramaturas = { ...dadosLocal.gramaturas, [newTamanho.nome]: { molho: 0, mussarela: 0, proteina: 0, complementares: 0, borda: 0, finalizacao: 0 } };
-    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos, gramaturas: novasGramaturas });
-    setNewTamanho({ nome: "", diametro: "", max_sabores: 1 });
+    const tamanhoCompleto = {
+      ...newTamanho,
+      gramaturas_padrao: { molho: 0, mussarela: 0, proteina: 0, complementares: 0, borda: 0, finalizacao: 0 },
+      sabores: []
+    };
+    setDadosLocal({ ...dadosLocal, tamanhos: [...dadosLocal.tamanhos, tamanhoCompleto] });
+    setNewTamanho({ nome: "", diametro: "", max_sabores: 1, gramaturas_padrao: {}, sabores: [] });
     setHasChanges(true);
   };
 
   const handleUpdateTamanho = (idx, data) => {
     const novosTamanhos = [...dadosLocal.tamanhos];
-    const nomeAntigo = novosTamanhos[idx].nome;
     novosTamanhos[idx] = data;
-    
-    const novasGramaturas = { ...dadosLocal.gramaturas };
-    if (nomeAntigo !== data.nome) {
-      novasGramaturas[data.nome] = novasGramaturas[nomeAntigo];
-      delete novasGramaturas[nomeAntigo];
-    }
-    
-    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos, gramaturas: novasGramaturas });
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
     setEditingTamanho(null);
     setHasChanges(true);
   };
 
   const handleDeleteTamanho = (idx) => {
-    const tamanho = dadosLocal.tamanhos[idx];
     const novosTamanhos = dadosLocal.tamanhos.filter((_, i) => i !== idx);
-    const novasGramaturas = { ...dadosLocal.gramaturas };
-    delete novasGramaturas[tamanho.nome];
-    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos, gramaturas: novasGramaturas });
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
     setHasChanges(true);
   };
 
-  const handleUpdateGramatura = (tamanho, campo, valor) => {
-    const novasGramaturas = {
-      ...dadosLocal.gramaturas,
-      [tamanho]: { ...dadosLocal.gramaturas[tamanho], [campo]: Number(valor) || 0 }
-    };
-    setDadosLocal({ ...dadosLocal, gramaturas: novasGramaturas });
+  const handleUpdateGramaturaPadrao = (tamanhoIdx, campo, valor) => {
+    const novosTamanhos = [...dadosLocal.tamanhos];
+    novosTamanhos[tamanhoIdx].gramaturas_padrao[campo] = Number(valor) || 0;
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
     setHasChanges(true);
   };
 
-  const handleAddSabor = () => {
-    if (!newSabor.nome.trim()) return;
-    setDadosLocal({ ...dadosLocal, sabores: [...dadosLocal.sabores, newSabor] });
-    setNewSabor({ nome: "", ingredientes: "" });
+  const handleAddSaborToTamanho = (tamanhoIdx) => {
+    const saborData = newSabores[tamanhoIdx];
+    if (!saborData?.nome.trim()) return;
+    
+    const novosTamanhos = [...dadosLocal.tamanhos];
+    novosTamanhos[tamanhoIdx].sabores.push({
+      nome: saborData.nome,
+      gramaturas: saborData.gramaturas || {}
+    });
+    
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
+    setNewSabores({ ...newSabores, [tamanhoIdx]: { nome: "", gramaturas: {} } });
     setHasChanges(true);
   };
 
-  const handleUpdateSabor = (idx, data) => {
-    const novosSabores = [...dadosLocal.sabores];
-    novosSabores[idx] = data;
-    setDadosLocal({ ...dadosLocal, sabores: novosSabores });
-    setEditingSabor(null);
+  const handleUpdateSaborGramatura = (tamanhoIdx, saborIdx, campo, valor) => {
+    const novosTamanhos = [...dadosLocal.tamanhos];
+    if (!novosTamanhos[tamanhoIdx].sabores[saborIdx].gramaturas) {
+      novosTamanhos[tamanhoIdx].sabores[saborIdx].gramaturas = {};
+    }
+    novosTamanhos[tamanhoIdx].sabores[saborIdx].gramaturas[campo] = Number(valor) || 0;
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
     setHasChanges(true);
   };
 
-  const handleDeleteSabor = (idx) => {
-    setDadosLocal({ ...dadosLocal, sabores: dadosLocal.sabores.filter((_, i) => i !== idx) });
+  const handleDeleteSaborFromTamanho = (tamanhoIdx, saborIdx) => {
+    const novosTamanhos = [...dadosLocal.tamanhos];
+    novosTamanhos[tamanhoIdx].sabores = novosTamanhos[tamanhoIdx].sabores.filter((_, i) => i !== saborIdx);
+    setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
     setHasChanges(true);
   };
 
@@ -192,127 +210,152 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
       </div>
 
       {/* Seção 1: Tamanhos de Pizza e Gramaturas */}
-      <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-        <button
-          onClick={() => setExpanded({ ...expanded, tamanhos: !expanded.tamanhos })}
-          className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <Pizza size={20} className="text-[#FF4D00]" />
-            <div className="text-left">
-              <h3 className="font-semibold text-white">1. Tamanhos de Pizza e Gramaturas</h3>
-              <p className="text-xs text-white/40">{dadosLocal.tamanhos.length} tamanhos cadastrados</p>
-            </div>
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Pizza size={20} className="text-[#FF4D00]" />
+          <div>
+            <h3 className="font-semibold text-white">Tamanhos de Pizza</h3>
+            <p className="text-xs text-white/40">{dadosLocal.tamanhos.length} tamanhos cadastrados</p>
           </div>
-          {expanded.tamanhos ? <ChevronDown className="text-white/50" /> : <ChevronRight className="text-white/50" />}
-        </button>
+        </div>
 
-        {expanded.tamanhos && (
-          <div className="p-4 border-t border-white/10 space-y-4">
-            {dadosLocal.tamanhos.map((tamanho, idx) => (
-              <div key={idx} className="bg-white/5 rounded-lg overflow-hidden">
-                <div className="p-4 group">
-                  {editingTamanho === idx ? (
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-3 gap-3">
-                        <div>
-                          <Label className="text-white/70 text-xs">Nome</Label>
-                          <Input
-                            value={tamanho.nome}
-                            onChange={(e) => {
-                              const novosTamanhos = [...dadosLocal.tamanhos];
-                              novosTamanhos[idx].nome = e.target.value;
-                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                            }}
-                            className="bg-white/5 border-white/10 text-white mt-1"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-white/70 text-xs">Diâmetro/Fatias</Label>
-                          <Input
-                            value={tamanho.diametro}
-                            onChange={(e) => {
-                              const novosTamanhos = [...dadosLocal.tamanhos];
-                              novosTamanhos[idx].diametro = e.target.value;
-                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                            }}
-                            className="bg-white/5 border-white/10 text-white mt-1"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-white/70 text-xs">Máx. Sabores</Label>
-                          <Input
-                            type="number"
-                            value={tamanho.max_sabores}
-                            onChange={(e) => {
-                              const novosTamanhos = [...dadosLocal.tamanhos];
-                              novosTamanhos[idx].max_sabores = Number(e.target.value);
-                              setDadosLocal({ ...dadosLocal, tamanhos: novosTamanhos });
-                            }}
-                            className="bg-white/5 border-white/10 text-white mt-1"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={() => handleUpdateTamanho(idx, tamanho)} className="bg-emerald-500 hover:bg-emerald-600">
-                          <Check size={14} className="mr-1" />
-                          Salvar
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => setEditingTamanho(null)} className="border-white/10">
-                          <X size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
+        {(
+          <div className="space-y-4">
+            {dadosLocal.tamanhos.map((tamanho, tamanhoIdx) => {
+              const isExpanded = expandedTamanhos[tamanhoIdx];
+              
+              return (
+                <div key={tamanhoIdx} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+                  {/* Header do Tamanho */}
+                  <div className="p-4 group">
                     <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
-                          <h4 className="font-medium text-white">{tamanho.nome}</h4>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF4D00]/20 text-[#FF4D00]">
-                            Até {tamanho.max_sabores} sabor{tamanho.max_sabores > 1 ? 'es' : ''}
-                          </span>
+                      <button
+                        onClick={() => setExpandedTamanhos({ ...expandedTamanhos, [tamanhoIdx]: !isExpanded })}
+                        className="flex items-center gap-3 flex-1"
+                      >
+                        {isExpanded ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
+                        <div className="flex-1 text-left">
+                          <div className="flex items-center gap-3 mb-1">
+                            <h4 className="font-medium text-white">{tamanho.nome}</h4>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF4D00]/20 text-[#FF4D00]">
+                              Até {tamanho.max_sabores} sabor{tamanho.max_sabores > 1 ? 'es' : ''}
+                            </span>
+                            <span className="text-xs text-white/40">{tamanho.sabores?.length || 0} sabores</span>
+                          </div>
+                          <p className="text-sm text-white/50">{tamanho.diametro}</p>
                         </div>
-                        <p className="text-sm text-white/50">{tamanho.diametro}</p>
-                      </div>
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button size="sm" variant="ghost" onClick={() => setEditingTamanho(idx)} className="h-8 w-8 p-0">
+                      </button>
+                      <div className="flex items-center gap-1">
+                        <Button size="sm" variant="ghost" onClick={() => setEditingTamanho(tamanhoIdx)} className="h-8 w-8 p-0">
                           <Pencil size={14} className="text-blue-400" />
                         </Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleDeleteTamanho(idx)} className="h-8 w-8 p-0">
+                        <Button size="sm" variant="ghost" onClick={() => handleDeleteTamanho(tamanhoIdx)} className="h-8 w-8 p-0">
                           <Trash2 size={14} className="text-red-400" />
                         </Button>
                       </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Gramaturas do Tamanho */}
-                <div className="px-4 pb-4 border-t border-white/10 pt-3 bg-black/20">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Scale size={14} className="text-emerald-400" />
-                    <span className="text-xs font-medium text-emerald-400">Gramaturas Padrão</span>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {Object.entries(dadosLocal.gramaturas[tamanho.nome] || {}).map(([campo, valor]) => (
-                      <div key={campo}>
-                        <Label className="text-white/70 text-xs capitalize">{campo.replace('_', ' ')}</Label>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Input
-                            type="number"
-                            value={valor}
-                            onChange={(e) => handleUpdateGramatura(tamanho.nome, campo, e.target.value)}
-                            className="bg-white/10 border-white/10 text-white"
-                          />
-                          <span className="text-white/40 text-sm">g</span>
+
+                  {/* Conteúdo Expandido */}
+                  {isExpanded && (
+                    <div className="border-t border-white/10">
+                      {/* Gramaturas Padrão */}
+                      <div className="p-4 bg-black/20">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Scale size={14} className="text-emerald-400" />
+                          <span className="text-xs font-medium text-emerald-400">Gramaturas Padrão</span>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {Object.entries(tamanho.gramaturas_padrao || {}).map(([campo, valor]) => (
+                            <div key={campo}>
+                              <Label className="text-white/70 text-xs capitalize">{campo.replace('_', ' ')}</Label>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Input
+                                  type="number"
+                                  value={valor}
+                                  onChange={(e) => handleUpdateGramaturaPadrao(tamanhoIdx, campo, e.target.value)}
+                                  className="bg-white/10 border-white/10 text-white"
+                                />
+                                <span className="text-white/40 text-sm">g</span>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
 
-            <div className="bg-white/5 rounded-lg p-4 border-2 border-dashed border-white/10">
+                      {/* Sabores do Tamanho */}
+                      <div className="p-4 border-t border-white/10 bg-black/10">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Pizza size={14} className="text-violet-400" />
+                          <span className="text-xs font-medium text-violet-400">Sabores Específicos</span>
+                        </div>
+
+                        {/* Lista de Sabores */}
+                        <div className="space-y-2 mb-3">
+                          {(tamanho.sabores || []).map((sabor, saborIdx) => (
+                            <div key={saborIdx} className="bg-white/5 rounded-lg p-3">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="font-medium text-white text-sm">{sabor.nome}</span>
+                                <Button 
+                                  size="sm" 
+                                  variant="ghost" 
+                                  onClick={() => handleDeleteSaborFromTamanho(tamanhoIdx, saborIdx)} 
+                                  className="h-6 w-6 p-0"
+                                >
+                                  <Trash2 size={12} className="text-red-400" />
+                                </Button>
+                              </div>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                {['molho', 'mussarela', 'proteina', 'complementares', 'borda', 'finalizacao'].map(campo => (
+                                  <div key={campo}>
+                                    <Label className="text-white/60 text-xs capitalize">{campo}</Label>
+                                    <div className="flex items-center gap-1 mt-1">
+                                      <Input
+                                        type="number"
+                                        placeholder="0"
+                                        value={sabor.gramaturas?.[campo] || ''}
+                                        onChange={(e) => handleUpdateSaborGramatura(tamanhoIdx, saborIdx, campo, e.target.value)}
+                                        className="bg-white/10 border-white/10 text-white h-7 text-xs"
+                                      />
+                                      <span className="text-white/30 text-xs">g</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Adicionar Sabor */}
+                        <div className="bg-white/5 rounded-lg p-3 border-2 border-dashed border-white/10">
+                          <Input
+                            placeholder="Nome do sabor (ex: Calabresa, Frango c/ Catupiry)"
+                            value={newSabores[tamanhoIdx]?.nome || ''}
+                            onChange={(e) => setNewSabores({ 
+                              ...newSabores, 
+                              [tamanhoIdx]: { ...newSabores[tamanhoIdx], nome: e.target.value, gramaturas: {} } 
+                            })}
+                            className="bg-white/5 border-white/10 text-white mb-2"
+                          />
+                          <Button 
+                            size="sm" 
+                            onClick={() => handleAddSaborToTamanho(tamanhoIdx)}
+                            disabled={!newSabores[tamanhoIdx]?.nome?.trim()}
+                            className="bg-violet-500 hover:bg-violet-600 w-full"
+                          >
+                            <Plus size={14} className="mr-2" />
+                            Adicionar Sabor
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Adicionar novo tamanho */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 border-2 border-dashed">
               <div className="grid grid-cols-3 gap-3 mb-3">
                 <Input
                   placeholder="Nome (ex: Gigante)"
@@ -348,111 +391,11 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
         )}
       </div>
 
-      {/* Seção 2: Sabores Específicos */}
-      <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-        <button
-          onClick={() => setExpanded({ ...expanded, sabores: !expanded.sabores })}
-          className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <FileText size={20} className="text-violet-400" />
-            <div className="text-left">
-              <h3 className="font-semibold text-white">2. Sabores Específicos (Opcional)</h3>
-              <p className="text-xs text-white/40">{dadosLocal.sabores.length} sabores cadastrados</p>
-            </div>
-          </div>
-          {expanded.sabores ? <ChevronDown className="text-white/50" /> : <ChevronRight className="text-white/50" />}
-        </button>
-
-        {expanded.sabores && (
-          <div className="p-4 border-t border-white/10 space-y-3">
-            {dadosLocal.sabores.map((sabor, idx) => (
-              <div key={idx} className="bg-white/5 rounded-lg p-4 group">
-                {editingSabor === idx ? (
-                  <div className="space-y-3">
-                    <Input
-                      value={sabor.nome}
-                      onChange={(e) => {
-                        const novosSabores = [...dadosLocal.sabores];
-                        novosSabores[idx].nome = e.target.value;
-                        setDadosLocal({ ...dadosLocal, sabores: novosSabores });
-                      }}
-                      placeholder="Nome do sabor"
-                      className="bg-white/5 border-white/10 text-white"
-                    />
-                    <Textarea
-                      value={sabor.ingredientes}
-                      onChange={(e) => {
-                        const novosSabores = [...dadosLocal.sabores];
-                        novosSabores[idx].ingredientes = e.target.value;
-                        setDadosLocal({ ...dadosLocal, sabores: novosSabores });
-                      }}
-                      placeholder="Ingredientes e gramaturas específicas"
-                      className="bg-white/5 border-white/10 text-white"
-                      rows={3}
-                    />
-                    <div className="flex gap-2">
-                      <Button size="sm" onClick={() => handleUpdateSabor(idx, sabor)} className="bg-emerald-500 hover:bg-emerald-600">
-                        <Check size={14} className="mr-1" />
-                        Salvar
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => setEditingSabor(null)} className="border-white/10">
-                        <X size={14} />
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white mb-1">{sabor.nome}</h4>
-                      <p className="text-sm text-white/50 whitespace-pre-wrap">{sabor.ingredientes}</p>
-                    </div>
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" variant="ghost" onClick={() => setEditingSabor(idx)} className="h-8 w-8 p-0">
-                        <Pencil size={14} className="text-blue-400" />
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => handleDeleteSabor(idx)} className="h-8 w-8 p-0">
-                        <Trash2 size={14} className="text-red-400" />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-
-            <div className="bg-white/5 rounded-lg p-4 border-2 border-dashed border-white/10 space-y-3">
-              <Input
-                placeholder="Nome do sabor (ex: Calabresa Especial)"
-                value={newSabor.nome}
-                onChange={(e) => setNewSabor({ ...newSabor, nome: e.target.value })}
-                className="bg-white/5 border-white/10 text-white"
-              />
-              <Textarea
-                placeholder="Ingredientes e gramaturas específicas..."
-                value={newSabor.ingredientes}
-                onChange={(e) => setNewSabor({ ...newSabor, ingredientes: e.target.value })}
-                className="bg-white/5 border-white/10 text-white"
-                rows={2}
-              />
-              <Button 
-                size="sm" 
-                onClick={handleAddSabor}
-                disabled={!newSabor.nome.trim()}
-                className="bg-[#FF4D00] hover:bg-[#E64500] w-full"
-              >
-                <Plus size={14} className="mr-2" />
-                Adicionar Sabor
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Seção 3: Observações Operacionais */}
+      {/* Seção 2: Observações Operacionais */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <FileText size={18} className="text-amber-400" />
-          <h3 className="font-semibold text-white">3. Observações Operacionais</h3>
+          <h3 className="font-semibold text-white">Observações Operacionais</h3>
         </div>
         <Textarea
           value={dadosLocal.observacoes}
