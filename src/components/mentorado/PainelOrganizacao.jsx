@@ -495,9 +495,9 @@ export default function PainelOrganizacao({ mentoradoId }) {
               {/* Conteúdo do Pilar */}
               {isExpanded && (
                 <div className="p-4 pt-0 border-t border-white/10">
-                  <div className="grid lg:grid-cols-3 gap-4 mt-4">
+                  <div className="mt-4">
                     {/* Checklist */}
-                    <div className="lg:col-span-2 space-y-2">
+                    <div className="space-y-2">
                       <h4 className="text-sm font-medium text-white/70 mb-3 flex items-center gap-2">
                         <CheckCircle2 size={14} style={{ color: pilar.cor }} />
                         Checklist de Entregas
@@ -610,62 +610,7 @@ export default function PainelOrganizacao({ mentoradoId }) {
                       </div>
                     </div>
 
-                    {/* Sidebar */}
-                    <div className="space-y-4">
-                      {/* Status */}
-                      <div>
-                        <label className="text-xs text-white/50 mb-2 block">Status do Pilar</label>
-                        <Select 
-                          value={pilarData.status || "pendente"}
-                          onValueChange={(v) => updatePilarField(pilar.id, "status", v)}
-                        >
-                          <SelectTrigger className="bg-white/5 border-white/10 text-white">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-zinc-900 border-white/10">
-                            {statusOptions.map(opt => (
-                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
 
-                      {/* Datas */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="text-xs text-white/50 mb-2 block">Data Início</label>
-                          <Input
-                            type="date"
-                            value={pilarData.data_inicio || ""}
-                            onChange={(e) => updatePilarField(pilar.id, "data_inicio", e.target.value)}
-                            className="bg-white/5 border-white/10 text-white text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-xs text-white/50 mb-2 block">Data Conclusão</label>
-                          <Input
-                            type="date"
-                            value={pilarData.data_conclusao || ""}
-                            onChange={(e) => updatePilarField(pilar.id, "data_conclusao", e.target.value)}
-                            className="bg-white/5 border-white/10 text-white text-sm"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Observações */}
-                      <div>
-                        <label className="text-xs text-white/50 mb-2 block flex items-center gap-1">
-                          <MessageSquare size={12} />
-                          Observações do Pilar
-                        </label>
-                        <Textarea
-                          value={pilarData.observacoes || ""}
-                          onChange={(e) => updatePilarField(pilar.id, "observacoes", e.target.value)}
-                          placeholder="Adicione observações importantes..."
-                          className="bg-white/5 border-white/10 text-white min-h-[100px] text-sm resize-none"
-                        />
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
