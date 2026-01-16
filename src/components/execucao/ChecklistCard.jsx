@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   CheckCircle2, Circle, Clock, AlertTriangle, Camera, Video,
-  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X
+  MessageSquare, Upload, ChevronDown, ChevronRight, Flag, X, Pencil
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ const pilarIcons = {
   geral: "📋"
 };
 
-export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao }) {
+export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao, onEdit }) {
   const queryClient = useQueryClient();
   const [expanded, setExpanded] = useState(false);
   const [uploading, setUploading] = useState(null);
@@ -152,6 +152,18 @@ export default function ChecklistCard({ execucao, onUpdate, onCreatePlanoAcao })
             </div>
           </div>
           <div className="flex items-center gap-3">
+            {onEdit && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(execucao);
+                }}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-blue-400 hover:text-blue-300"
+                title="Editar exercício"
+              >
+                <Pencil size={16} />
+              </button>
+            )}
             <div className="w-24">
               <Progress value={progresso} className="h-2" />
             </div>
