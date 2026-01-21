@@ -40,6 +40,7 @@ import PilarConteudoIncluido from "@/components/pilares/PilarConteudoIncluido";
 import MinhasTarefas from "@/components/mentorado/MinhasTarefas";
 import MinhasNotas from "@/components/mentorado/MinhasNotas";
 import MeusArquivos from "@/components/mentorado/MeusArquivos";
+import ArquivosMentorado from "@/components/mentorado/ArquivosMentorado";
 import DiagnosticoNegocio from "@/components/mentorado/DiagnosticoNegocio";
 import AnaliseCardapio from "@/components/mentorado/AnaliseCardapio";
 import FluxogramasMentorado from "@/components/mentorado/FluxogramasMentorado.jsx";
@@ -1103,8 +1104,7 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h2 className="text-xl font-semibold text-white mb-6">Meus Arquivos</h2>
-              <MeusArquivos mentoradoId={mentoradoId} />
+              <ArquivosMentorado mentoradoId={mentoradoId} />
             </div>
           </>
         )}
