@@ -16,28 +16,28 @@ const dadosDefault = {
       nome: "Pequena", 
       diametro: "25cm / 4 fatias", 
       max_sabores: 1,
-      gramaturas_padrao: { molho: 80, mussarela: 100, proteina: 80, complementares: 30, borda: 50, finalizacao: 10 },
+      gramaturas_padrao: { molho: 80, mussarela: 100 },
       sabores: []
     },
     { 
       nome: "Média", 
       diametro: "30cm / 6 fatias", 
       max_sabores: 2,
-      gramaturas_padrao: { molho: 100, mussarela: 150, proteina: 100, complementares: 40, borda: 70, finalizacao: 15 },
+      gramaturas_padrao: { molho: 100, mussarela: 150 },
       sabores: []
     },
     { 
       nome: "Grande", 
       diametro: "35cm / 8 fatias", 
       max_sabores: 3,
-      gramaturas_padrao: { molho: 120, mussarela: 200, proteina: 120, complementares: 50, borda: 90, finalizacao: 20 },
+      gramaturas_padrao: { molho: 120, mussarela: 200 },
       sabores: []
     },
     { 
       nome: "Família", 
       diametro: "40cm / 12 fatias", 
       max_sabores: 4,
-      gramaturas_padrao: { molho: 150, mussarela: 250, proteina: 150, complementares: 60, borda: 110, finalizacao: 25 },
+      gramaturas_padrao: { molho: 150, mussarela: 250 },
       sabores: []
     }
   ],
@@ -103,7 +103,7 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
     if (!newTamanho.nome.trim()) return;
     const tamanhoCompleto = {
       ...newTamanho,
-      gramaturas_padrao: { molho: 0, mussarela: 0, proteina: 0, complementares: 0, borda: 0, finalizacao: 0 },
+      gramaturas_padrao: { molho: 0, mussarela: 0 },
       sabores: []
     };
     setDadosLocal({ ...dadosLocal, tamanhos: [...dadosLocal.tamanhos, tamanhoCompleto] });
@@ -305,8 +305,8 @@ export default function PadronizacaoPizzas({ mentoradoId }) {
                                   <Trash2 size={12} className="text-red-400" />
                                 </Button>
                               </div>
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                {['molho', 'mussarela', 'proteina', 'complementares', 'borda', 'finalizacao'].map(campo => (
+                              <div className="grid grid-cols-2 gap-2">
+                                {['molho', 'mussarela'].map(campo => (
                                   <div key={campo}>
                                     <Label className="text-white/60 text-xs capitalize">{campo}</Label>
                                     <div className="flex items-center gap-1 mt-1">
