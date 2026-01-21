@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import {
   Plus, Search, Upload, Trash2, Download, FileText, FileSpreadsheet,
-  Image, File, Video, ExternalLink, Loader2
+  Image, File, Video, ExternalLink, Loader2, Link as LinkIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import {
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle
 } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 
 const pilarLabels = {
@@ -51,6 +52,7 @@ export default function MeusArquivos({ mentoradoId }) {
   const [tipoFilter, setTipoFilter] = useState("todos");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [sourceTab, setSourceTab] = useState("upload");
 
   const [form, setForm] = useState({
     titulo: "",
@@ -81,6 +83,7 @@ export default function MeusArquivos({ mentoradoId }) {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+    setSourceTab("upload");
     setForm({ titulo: "", descricao: "", pilar: "geral", tipo: "documento", arquivo_url: "" });
   };
 
@@ -223,28 +226,54 @@ export default function MeusArquivos({ mentoradoId }) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="bg-zinc-900 border-white/10 text-white max-w-lg">
           <DialogHeader>
-            <DialogTitle>Enviar Arquivo</DialogTitle>
+            <DialogTitle>Adicionar Material</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 mt-4">
-            <div>
-              <Label className="text-white/70">Arquivo *</Label>
-              <div className="mt-1">
-                <label className="flex items-center justify-center gap-2 p-6 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#FF4D00]/50 transition-colors">
-                  {uploading ? (
-                    <Loader2 size={24} className="animate-spin text-[#FF4D00]" />
-                  ) : form.arquivo_url ? (
-                    <span className="text-emerald-400 flex items-center gap-2">
-                      <FileText size={20} /> Arquivo enviado
-                    </span>
-                  ) : (
-                    <span className="text-white/50 flex items-center gap-2">
-                      <Upload size={20} /> Clique para selecionar
-                    </span>
-                  )}
-                  <input type="file" className="hidden" onChange={handleFileUpload} />
-                </label>
-              </div>
-            </div>
+            <Tabs value={sourceTab} onValueChange={setSourceTab}>
+              <TabsList className="bg-white/5 border border-white/10 w-full grid grid-cols-2">
+                <TabsTrigger value="upload" className="data-[state=active]:bg-[#FF4D00]">
+                  <Upload size={16} className="mr-2" /> Upload
+                </TabsTrigger>
+                <TabsTrigger value="link" className="data-[state=active]:bg-[#FF4D00]">
+                  <LinkIcon size={16} className="mr-2" /> Link
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="upload" className="mt-4">
+                <div>
+                  <Label className="text-white/70">Arquivo *</Label>
+                  <div className="mt-1">
+                    <label className="flex items-center justify-center gap-2 p-6 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#FF4D00]/50 transition-colors">
+                      {uploading ? (
+                        <Loader2 size={24} className="animate-spin text-[#FF4D00]" />
+                      ) : form.arquivo_url && sourceTab === "upload" ? (
+                        <span className="text-emerald-400 flex items-center gap-2">
+                          <FileText size={20} /> Arquivo enviado
+                        </span>
+                      ) : (
+                        <span className="text-white/50 flex items-center gap-2">
+                          <Upload size={20} /> Clique para selecionar
+                        </span>
+                      )}
+                      <input type="file" className="hidden" onChange={handleFileUpload} />
+                    </label>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="link" className="mt-4">
+                <div>
+                  <Label className="text-white/70">URL do Link *</Label>
+                  <Input
+                    value={form.arquivo_url}
+                    onChange={(e) => setForm({ ...form, arquivo_url: e.target.value })}
+                    placeholder="https://exemplo.com/arquivo"
+                    className="bg-white/5 border-white/10 text-white mt-1"
+                  />
+                  <p className="text-xs text-white/40 mt-1">Cole o link de qualquer arquivo ou recurso online</p>
+                </div>
+              </TabsContent>
+            </Tabs>
             <div>
               <Label className="text-white/70">Título *</Label>
               <Input
