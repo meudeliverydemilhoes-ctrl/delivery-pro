@@ -164,44 +164,55 @@ export default function MeusArquivos({ mentoradoId }) {
           <p className="text-white/50">Nenhum arquivo encontrado</p>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-3">
           {filtered.map((arquivo) => {
             const Icon = tipoIcons[arquivo.tipo] || File;
             return (
-              <div key={arquivo.id} className="p-4 bg-white/5 border border-white/10 rounded-xl group">
-                <div className="flex items-start gap-3">
-                  <div className={`p-3 rounded-xl ${tipoColors[arquivo.tipo]}`}>
-                    <Icon size={24} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-white truncate">{arquivo.titulo}</h4>
-                    <p className="text-xs text-white/40 mt-1">{pilarLabels[arquivo.pilar]}</p>
-                    {arquivo.tamanho && <p className="text-xs text-white/30">{arquivo.tamanho}</p>}
-                  </div>
+              <div 
+                key={arquivo.id} 
+                className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/[0.07] transition-colors group"
+              >
+                <div className={`p-2.5 rounded-lg ${tipoColors[arquivo.tipo]} flex-shrink-0`}>
+                  <Icon size={20} />
                 </div>
-                {arquivo.descricao && (
-                  <p className="text-sm text-white/50 mt-3 line-clamp-2">{arquivo.descricao}</p>
-                )}
-                <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
-                  <span className="text-xs text-white/30">
-                    {arquivo.created_date && format(new Date(arquivo.created_date), "dd/MM/yyyy")}
-                  </span>
-                  <div className="flex gap-2">
-                    <a
-                      href={arquivo.arquivo_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-1.5 hover:bg-white/10 rounded-lg text-[#FF4D00]"
-                    >
-                      <ExternalLink size={16} />
-                    </a>
-                    <button
-                      onClick={() => deleteMutation.mutate(arquivo.id)}
-                      className="p-1.5 hover:bg-white/10 rounded-lg text-red-400/60 hover:text-red-400 opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-white truncate">{arquivo.titulo}</h4>
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="text-xs text-white/40">{pilarLabels[arquivo.pilar]}</span>
+                    {arquivo.tamanho && (
+                      <>
+                        <span className="text-white/20">•</span>
+                        <span className="text-xs text-white/40">{arquivo.tamanho}</span>
+                      </>
+                    )}
+                    {arquivo.created_date && (
+                      <>
+                        <span className="text-white/20">•</span>
+                        <span className="text-xs text-white/30">{format(new Date(arquivo.created_date), "dd/MM/yyyy")}</span>
+                      </>
+                    )}
                   </div>
+                  {arquivo.descricao && (
+                    <p className="text-sm text-white/50 mt-2 line-clamp-1">{arquivo.descricao}</p>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <a
+                    href={arquivo.arquivo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#FF4D00] hover:bg-[#E64500] text-white rounded-lg transition-colors font-medium"
+                  >
+                    <ExternalLink size={16} />
+                    Abrir
+                  </a>
+                  <button
+                    onClick={() => deleteMutation.mutate(arquivo.id)}
+                    className="p-2 hover:bg-red-500/10 rounded-lg text-red-400/60 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Excluir arquivo"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
               </div>
             );
