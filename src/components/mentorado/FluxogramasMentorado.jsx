@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   Headphones, ChefHat, Pizza, Package, Truck, Warehouse,
   ShoppingCart, DollarSign, Settings, Save, RotateCcw, 
-  ChevronDown, ChevronRight
+  ChevronDown, ChevronRight, Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FluxogramaSetor from "@/components/fluxogramas/FluxogramaSetor";
@@ -130,6 +130,8 @@ export default function FluxogramasMentorado({ mentoradoId }) {
   const [expandedSetores, setExpandedSetores] = useState({ atendimento: true });
   const [fluxogramasData, setFluxogramasData] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [setoresCustomizados, setSetoresCustomizados] = useState([]);
+  const [novoSetor, setNovoSetor] = useState({ titulo: "", cor: "#FF4D00" });
 
   const { data: briefing } = useQuery({
     queryKey: ["briefing", mentoradoId],
@@ -147,6 +149,9 @@ export default function FluxogramasMentorado({ mentoradoId }) {
         defaultData[setor.id] = setor.colunasDefault;
       });
       setFluxogramasData(defaultData);
+    }
+    if (briefing?.setores_customizados) {
+      setSetoresCustomizados(briefing.setores_customizados);
     }
   }, [briefing]);
 
@@ -179,14 +184,43 @@ export default function FluxogramasMentorado({ mentoradoId }) {
     if (briefing?.id) {
       updateBriefingMutation.mutate({ 
         id: briefing.id, 
-        data: { ...briefing, fluxogramas_data: fluxogramasData }
+        data: { ...briefing, fluxogramas_data: fluxogramasData, setores_customizados: setoresCustomizados }
       });
     } else {
       createBriefingMutation.mutate({ 
         mentorado_id: mentoradoId, 
-        fluxogramas_data: fluxogramasData 
+        fluxogramas_data: fluxogramasData,
+        setores_customizados: setoresCustomizados
       });
     }
+  };
+
+  const handleAddNovoSetor = () => {
+    if (!novoSetor.titulo.trim()) return;
+    
+    const novoSetorCompleto = {
+      id: `custom_${Date.now()}`,
+      titulo: novoSetor.titulo,
+      icon: Settings,
+      cor: novoSetor.cor,
+      colunasDefault: [
+        { titulo: "ETAPA 1", itens: ["Adicione atividades aqui"] }
+      ]
+    };
+    
+    setSetoresCustomizados([...setoresCustomizados, novoSetorCompleto]);
+    setFluxogramasData(prev => ({ ...prev, [novoSetorCompleto.id]: novoSetorCompleto.colunasDefault }));
+    setExpandedSetores(prev => ({ ...prev, [novoSetorCompleto.id]: true }));
+    setNovoSetor({ titulo: "", cor: "#FF4D00" });
+    setHasChanges(true);
+  };
+
+  const handleDeleteSetor = (setorId) => {
+    setSetoresCustomizados(setoresCustomizados.filter(s => s.id !== setorId));
+    const newFluxogramas = { ...fluxogramasData };
+    delete newFluxogramas[setorId];
+    setFluxogramasData(newFluxogramas);
+    setHasChanges(true);
   };
 
   const handleReset = (setorId) => {
@@ -219,7 +253,8 @@ export default function FluxogramasMentorado({ mentoradoId }) {
 
       {/* Setores */}
       <div className="space-y-3">
-        {setoresConfig.map((setor) => {
+        {[...setoresConfig, ...setoresCustomizados].map((setor) => {
+          const isCustom = setor.id.startsWith('custom_');
           const Icon = setor.icon;
           const isExpanded = expandedSetores[setor.id];
           const colunas = fluxogramasData[setor.id] || setor.colunasDefault;
@@ -246,7 +281,7 @@ export default function FluxogramasMentorado({ mentoradoId }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {isExpanded && (
+                  {isExpanded && !isCustom && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -258,6 +293,19 @@ export default function FluxogramasMentorado({ mentoradoId }) {
                     >
                       <RotateCcw size={12} className="mr-1" />
                       Resetar
+                    </Button>
+                  )}
+                  {isExpanded && isCustom && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteSetor(setor.id);
+                      }}
+                      className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white text-xs h-7"
+                    >
+                      Excluir
                     </Button>
                   )}
                   {isExpanded ? <ChevronDown size={18} className="text-white/50" /> : <ChevronRight size={18} className="text-white/50" />}
@@ -279,6 +327,37 @@ export default function FluxogramasMentorado({ mentoradoId }) {
             </div>
           );
         })}
+
+        {/* Adicionar Novo Fluxograma */}
+        <div className="bg-white/5 border-2 border-dashed border-white/20 rounded-xl p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <Plus size={20} className="text-[#FF4D00]" />
+            <h3 className="font-medium text-white">Adicionar Novo Fluxograma</h3>
+          </div>
+          <div className="flex gap-3">
+            <input
+              type="text"
+              placeholder="Nome do setor (ex: Marketing, RH)"
+              value={novoSetor.titulo}
+              onChange={(e) => setNovoSetor({ ...novoSetor, titulo: e.target.value })}
+              className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder:text-white/40"
+            />
+            <input
+              type="color"
+              value={novoSetor.cor}
+              onChange={(e) => setNovoSetor({ ...novoSetor, cor: e.target.value })}
+              className="w-12 h-10 rounded-lg cursor-pointer bg-white/10 border border-white/20"
+            />
+            <Button
+              onClick={handleAddNovoSetor}
+              disabled={!novoSetor.titulo.trim()}
+              className="bg-[#FF4D00] hover:bg-[#E64500]"
+            >
+              <Plus size={16} className="mr-2" />
+              Adicionar
+            </Button>
+          </div>
+        </div>
       </div>
 
       {hasChanges && (
