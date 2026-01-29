@@ -13,7 +13,8 @@ import {
   Filter,
   ChevronLeft,
   ChevronRight,
-  Home
+  Home,
+  User
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -164,6 +165,11 @@ export default function Agenda() {
           <Link to={createPageUrl("Dashboard")}>
             <Button className="bg-[#FF4D00] hover:bg-[#E64500] text-white">
               <Home size={18} className="mr-2" /> Início
+            </Button>
+          </Link>
+          <Link to={createPageUrl("PerfilMentorado")}>
+            <Button variant="outline" className="border-white/20 hover:bg-white/10 text-white">
+              <User size={18} className="mr-2" /> Perfil
             </Button>
           </Link>
           <Button onClick={() => setDialogOpen(true)} className="bg-[#FF4D00] hover:bg-[#E64500]">
