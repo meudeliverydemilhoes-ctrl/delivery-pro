@@ -47,7 +47,6 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Agenda from './pages/Agenda';
 import AulasMentoria from './pages/AulasMentoria';
 import Automacoes from './pages/Automacoes';
 import Biblioteca from './pages/Biblioteca';
@@ -63,11 +62,11 @@ import MentoradoDetalhe from './pages/MentoradoDetalhe';
 import Mentorados from './pages/Mentorados';
 import Notas from './pages/Notas';
 import PerfilMentorado from './pages/PerfilMentorado';
+import Agenda from './pages/Agenda';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Agenda": Agenda,
     "AulasMentoria": AulasMentoria,
     "Automacoes": Automacoes,
     "Biblioteca": Biblioteca,
@@ -83,6 +82,7 @@ export const PAGES = {
     "Mentorados": Mentorados,
     "Notas": Notas,
     "PerfilMentorado": PerfilMentorado,
+    "Agenda": Agenda,
 }
 
 export const pagesConfig = {

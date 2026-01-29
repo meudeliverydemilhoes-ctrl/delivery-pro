@@ -117,6 +117,8 @@ export default function MentoradoDetalhe() {
   const [briefingForm, setBriefingForm] = useState({});
   const [customFields, setCustomFields] = useState([]);
   const [newFieldName, setNewFieldName] = useState("");
+  const [emailsAdicionais, setEmailsAdicionais] = useState([]);
+  const [novoEmail, setNovoEmail] = useState("");
   const [pilarForm, setPilarForm] = useState({
     pilar: "processos",
     titulo: "",
@@ -134,7 +136,10 @@ export default function MentoradoDetalhe() {
       // Carregar campos customizados
       setCustomFields(briefing.custom_fields || []);
     }
-  }, [briefing]);
+    if (mentorado) {
+      setEmailsAdicionais(mentorado.emails_adicionais || []);
+    }
+  }, [briefing, mentorado]);
 
   const handleAddCustomField = () => {
     if (newFieldName.trim()) {
@@ -153,6 +158,36 @@ export default function MentoradoDetalhe() {
   const handleRemoveCustomField = (index) => {
     setCustomFields(customFields.filter((_, i) => i !== index));
   };
+
+  const handleAddEmail = () => {
+    if (novoEmail.trim() && !emailsAdicionais.includes(novoEmail.trim())) {
+      const updated = [...emailsAdicionais, novoEmail.trim()];
+      setEmailsAdicionais(updated);
+      setNovoEmail("");
+      // Salvar automaticamente
+      updateMentoradoMutation.mutate({
+        id: mentoradoId,
+        data: { ...mentorado, emails_adicionais: updated }
+      });
+    }
+  };
+
+  const handleRemoveEmail = (email) => {
+    const updated = emailsAdicionais.filter((e) => e !== email);
+    setEmailsAdicionais(updated);
+    // Salvar automaticamente
+    updateMentoradoMutation.mutate({
+      id: mentoradoId,
+      data: { ...mentorado, emails_adicionais: updated }
+    });
+  };
+
+  const updateMentoradoMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Mentorado.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mentorado", mentoradoId] });
+    }
+  });
 
   const createBriefingMutation = useMutation({
     mutationFn: (data) => base44.entities.Briefing.create(data),
@@ -370,6 +405,11 @@ export default function MentoradoDetalhe() {
                 {mentorado.email && (
                   <span className="flex items-center gap-1">
                     <Mail size={14} /> {mentorado.email}
+                    {mentorado.emails_adicionais?.length > 0 && (
+                      <span className="text-xs text-white/40 ml-1">
+                        (+{mentorado.emails_adicionais.length})
+                      </span>
+                    )}
                   </span>
                 )}
                 {mentorado.data_entrada && (
@@ -788,6 +828,63 @@ export default function MentoradoDetalhe() {
                     className="bg-white/5 border-white/10 text-white mt-1"
                     rows={4}
                   />
+                </div>
+
+                {/* E-mails Adicionais */}
+                <div className="border-t border-white/10 pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <Label className="text-white/70">E-mails Adicionais</Label>
+                      <p className="text-xs text-white/40 mt-1">Pessoas que podem acessar esta conta</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        value={novoEmail}
+                        onChange={(e) => setNovoEmail(e.target.value)}
+                        placeholder="email@exemplo.com"
+                        type="email"
+                        className="bg-white/5 border-white/10 text-white w-64"
+                        onKeyDown={(e) => e.key === "Enter" && handleAddEmail()}
+                      />
+                      <Button
+                        onClick={handleAddEmail}
+                        disabled={!novoEmail.trim()}
+                        size="sm"
+                        className="bg-[#FF4D00] hover:bg-[#E64500]"
+                      >
+                        <Plus size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {/* E-mail principal */}
+                    <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <Mail size={16} className="text-[#FF4D00]" />
+                        <div>
+                          <p className="text-white font-medium">{mentorado?.email}</p>
+                          <p className="text-xs text-white/40">E-mail principal</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* E-mails adicionais */}
+                    {emailsAdicionais.map((email, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-xl group">
+                        <div className="flex items-center gap-3">
+                          <Mail size={16} className="text-white/60" />
+                          <p className="text-white">{email}</p>
+                        </div>
+                        <Button
+                          onClick={() => handleRemoveEmail(email)}
+                          size="sm"
+                          className="bg-red-500/20 hover:bg-red-500/30 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X size={16} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Campos Personalizados */}
