@@ -27,7 +27,7 @@ export default function Layout({ children, currentPageName }) {
 
   const allNavigation = [
     { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
-    { name: "Mentorados", page: "Mentorados", icon: Users },
+    { name: "Mentorados", page: "Mentorados", icon: Users, adminOnly: true },
     { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
     { name: "Execução Inteligente", page: "ExecucaoInteligente", icon: ClipboardList },
     { name: "Fluxogramas", page: "FluxogramasOperacionais", icon: GitBranch },
@@ -36,12 +36,17 @@ export default function Layout({ children, currentPageName }) {
     { name: "Biblioteca", page: "Biblioteca", icon: Library },
     { name: "Agenda", page: "Agenda", icon: Calendar },
     { name: "Notas", page: "Notas", icon: Lightbulb },
-    { name: "Automações", page: "Automacoes", icon: Zap },
+    { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
+    { name: "Meu Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
 
   const navigation = allNavigation.filter(item => {
+    const isAdmin = userEmail === "meudeliverydemilhoes@gmail.com";
     if (item.adminOnly) {
-      return userEmail === "meudeliverydemilhoes@gmail.com";
+      return isAdmin;
+    }
+    if (item.mentoradoOnly) {
+      return !isAdmin;
     }
     return true;
   });
