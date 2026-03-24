@@ -296,16 +296,31 @@ export default function FluxogramaSetor({
                           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => setEditingItem({ coluna: colunaIdx, item: itemIdx })}
-                      {itemIdx < coluna.itens.length - 1 && (
-                        <div 
+                              className="p-1 hover:bg-white/10 rounded"
+                            >
+                              <Edit2 size={10} className="text-white/50" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteItem(colunaIdx, itemIdx)}
+                              className="p-1 hover:bg-red-500/20 rounded"
+                            >
+                              <Trash2 size={10} className="text-red-400" />
+                            </button>
+                          </div>
+                          </div>
+                          )}
+
+                          {/* Linha conectora vertical */}
+                          {itemIdx < coluna.itens.length - 1 && (
+                          <div 
                           className="absolute left-[18px] top-full w-0.5 h-2"
                           style={{ backgroundColor: `${corPrimaria}40` }}
-                        />
-                      )}
-                    </div>
-                  ))}
+                          />
+                          )}
+                          </div>
+                          ))}
 
-                  {/* Adicionar Item */}
+                          {/* Adicionar Item */}
                   {editingItem?.coluna === colunaIdx && editingItem?.item === 'new' ? (
                     <div className="flex gap-1">
                       <Input
