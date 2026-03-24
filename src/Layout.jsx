@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PullToRefresh from "@/components/PullToRefresh";
 import { createPageUrl } from "./utils";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   Users, BookOpen, Library, Calendar, Lightbulb,
   LayoutDashboard, Menu, X, ChevronRight, ClipboardList,
