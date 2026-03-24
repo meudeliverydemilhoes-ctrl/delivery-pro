@@ -24,8 +24,9 @@ export default function Layout({ children, currentPageName }) {
     "Automacoes", "PerfilMentorado", "GeradorKits"];
   const isRootPage = rootPages.includes(currentPageName) || location.pathname === "/";
 
+  const [userRole, setUserRole] = useState(null);
   useEffect(() => {
-    base44.auth.me().then(user => setUserEmail(user?.email)).catch(() => {});
+    base44.auth.me().then(user => { setUserEmail(user?.email); setUserRole(user?.role); }).catch(() => {});
   }, []);
 
   const allNavigation = [
@@ -49,7 +50,7 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   const navigation = allNavigation.filter(item => {
-    const isAdmin = userEmail === "meudeliverydemilhoes@gmail.com";
+    const isAdmin = userRole === 'admin';
     if (item.adminOnly) return isAdmin;
     if (item.mentoradoOnly) return !isAdmin;
     return true;
