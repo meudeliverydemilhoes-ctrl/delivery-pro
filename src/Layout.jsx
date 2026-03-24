@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -13,7 +13,6 @@ import { base44 } from "@/api/base44Client";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
-  const location = useLocation();
 
   useEffect(() => {
     base44.auth.me().then(user => setUserEmail(user?.email)).catch(() => {});
