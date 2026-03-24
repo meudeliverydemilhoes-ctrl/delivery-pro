@@ -5,7 +5,14 @@ import { Upload, Printer, Save, Loader2, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import * as XLSX from "xlsx";
+
+let XLSXLib = null;
+const loadXLSX = async () => {
+  if (XLSXLib) return XLSXLib;
+  const mod = await import('https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs');
+  XLSXLib = mod;
+  return XLSXLib;
+};
 
 function parseIngredientes(cellValue) {
   if (!cellValue) return [];
@@ -26,7 +33,8 @@ export default function ModuloFichaExcel() {
   const { data: mentorados = [] } = useQuery({ queryKey: ["mentorados"], queryFn: () => base44.entities.Mentorado.list() });
   const { data: briefings = [] } = useQuery({ queryKey: ["briefings-all"], queryFn: () => base44.entities.Briefing.list() });
 
-  const handleFile = (file) => {
+  const handleFile = async (file) => {
+    const XLSX = await loadXLSX();
     const reader = new FileReader();
     reader.onload = (e) => {
       const wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
