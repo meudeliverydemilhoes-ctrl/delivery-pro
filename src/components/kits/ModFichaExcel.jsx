@@ -15,22 +15,15 @@ async function getXLSX() {
 
 const parsear = (cell) => {
   if (!cell || cell.toString().trim() === '') return [];
-  const texto = cell.toString();
-  const partes = texto.split(';').map(p => p.trim()).filter(p => p !== '');
+  const partes = cell.toString().split(';').map(p => p.trim()).filter(p => p !== '');
   return partes
     .filter(p => !['PEQUENA','GRANDE','FAMÍLIA','FAMILIA','MÉDIO','MEDIO','PEQUENO','FAMILY'].includes(p.toUpperCase().trim()))
     .map(p => {
-      const match = p.match(/^(\d[\d,\.]*?)\s*(?:[Gg][Rr]?\.?|[Mm][Ll]\.?|[Kk][Gg]\.?|[Uu][Nn]\.)\s+(.+)$/i);
-      if (match) {
-        const qtd = match[1].replace(',', '.');
-        const nome = match[2].trim().toUpperCase();
-        return { qtd, nome };
-      }
+      const match = p.match(/^(\d[\d,\.]*?)\s*(?:[Gg][Rr]?\.?|[Mm][Ll]\.?|[Kk][Gg]\.?|[Uu][Nn]\.?)\s+(.+)$/i);
+      if (match) return { qtd: match[1].replace(',', '.'), nome: match[2].trim().toUpperCase() };
       return { qtd: '', nome: p.trim().toUpperCase() };
     })
     .filter(ing => ing.nome !== '');
-};
-    });
 };
 
 const imprimir = (titulo) => {
@@ -147,13 +140,14 @@ export default function ModFichaExcel() {
                     {headers.slice(1).map((_, ci) => {
                       const ings = parsear(row[ci + 1]);
                       return (
-                        <td key={ci} style={{ padding: '4px 6px', border: '1px solid #2A2A2A', verticalAlign: 'top', lineHeight: '1.7' }}>
-                          {ings.length === 0 ? <span style={{ color: '#333' }}>—</span> :
-                            ings.map((ing, ii) => (
+                        <td key={ci} style={{ padding: '4px 6px', border: '1px solid #2A2A2A', verticalAlign: 'top' }}>
+                          {ings.length === 0
+                            ? <span style={{ color: '#333' }}>—</span>
+                            : ings.map((ing, ii) => (
                               <div key={ii} style={{ lineHeight: '1.8', whiteSpace: 'nowrap' }}>
                                 {ing.qtd ? (
                                   <>
-                                    <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '10px', letterSpacing: '0.3px' }}>+{ing.qtd}g{' '}</span>
+                                    <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '10px', letterSpacing: '0.3px' }}>+{ing.qtd}g </span>
                                     <span style={{ color: '#FFFFFF', fontWeight: 'normal', fontSize: '9.5px' }}>{ing.nome}</span>
                                   </>
                                 ) : (
@@ -161,7 +155,10 @@ export default function ModFichaExcel() {
                                 )}
                               </div>
                             ))
-                          }}
+                          }
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>
