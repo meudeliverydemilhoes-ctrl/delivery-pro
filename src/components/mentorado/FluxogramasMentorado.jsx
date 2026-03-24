@@ -130,6 +130,7 @@ export default function FluxogramasMentorado({ mentoradoId }) {
   const [expandedSetores, setExpandedSetores] = useState({ atendimento: true });
   const [fluxogramasData, setFluxogramasData] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [savedFeedback, setSavedFeedback] = useState(false);
   const [setoresCustomizados, setSetoresCustomizados] = useState([]);
   const [novoSetor, setNovoSetor] = useState({ titulo: "", cor: "#FF4D00" });
 
@@ -160,6 +161,8 @@ export default function FluxogramasMentorado({ mentoradoId }) {
     onSuccess: (updatedBriefing) => {
       queryClient.setQueryData(["briefing", mentoradoId], (old) => [updatedBriefing]);
       setHasChanges(false);
+      setSavedFeedback(true);
+      setTimeout(() => setSavedFeedback(false), 2000);
     }
   });
 
@@ -168,6 +171,8 @@ export default function FluxogramasMentorado({ mentoradoId }) {
     onSuccess: (newBriefing) => {
       queryClient.setQueryData(["briefing", mentoradoId], (old) => [newBriefing]);
       setHasChanges(false);
+      setSavedFeedback(true);
+      setTimeout(() => setSavedFeedback(false), 2000);
     }
   });
 
@@ -239,16 +244,14 @@ export default function FluxogramasMentorado({ mentoradoId }) {
           <h2 className="text-xl font-bold text-white">📊 Fluxogramas Operacionais</h2>
           <p className="text-sm text-white/50">Processos padronizados personalizados para este mentorado</p>
         </div>
-        {hasChanges && (
-          <Button 
-            onClick={handleSave} 
-            disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
-            className="bg-[#FF4D00] hover:bg-[#E64500]"
-          >
-            <Save size={16} className="mr-2" />
-            Salvar
-          </Button>
-        )}
+        <Button 
+          onClick={handleSave} 
+          disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
+          className={savedFeedback ? "bg-[#10B981] hover:bg-[#059669]" : "bg-[#FF4D00] hover:bg-[#E64500]"}
+        >
+          <Save size={16} className="mr-2" />
+          {savedFeedback ? "✅ Salvo!" : "💾 Salvar"}
+        </Button>
       </div>
 
       {/* Setores */}
@@ -360,19 +363,17 @@ export default function FluxogramasMentorado({ mentoradoId }) {
         </div>
       </div>
 
-      {hasChanges && (
-        <div className="fixed bottom-6 right-6 z-50">
-          <Button 
-            onClick={handleSave} 
-            disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
-            size="lg" 
-            className="bg-[#FF4D00] hover:bg-[#E64500] shadow-lg shadow-[#FF4D00]/30"
-          >
-            <Save size={18} className="mr-2" />
-            Salvar
-          </Button>
-        </div>
-      )}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button 
+          onClick={handleSave} 
+          disabled={updateBriefingMutation.isPending || createBriefingMutation.isPending}
+          size="lg" 
+          className={savedFeedback ? "bg-[#10B981] hover:bg-[#059669] shadow-lg" : "bg-[#FF4D00] hover:bg-[#E64500] shadow-lg shadow-[#FF4D00]/30"}
+        >
+          <Save size={18} className="mr-2" />
+          {savedFeedback ? "✅ Salvo!" : "💾 Salvar"}
+        </Button>
+      </div>
     </div>
   );
 }

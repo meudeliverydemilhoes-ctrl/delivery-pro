@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { 
-  ChevronRight, Plus, Trash2, Edit2, Check, X, GripVertical,
-  ArrowRight, Circle
+  ChevronRight, ChevronLeft, Plus, Trash2, Edit2, Check, X, GripVertical,
+  ArrowRight, Circle, Printer
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -76,10 +76,43 @@ export default function FluxogramaSetor({
     onUpdateColunas(newColunas);
   };
 
+  const handleMoveColuna = (colunaIdx, direction) => {
+    const newColunas = [...colunas];
+    const targetIdx = direction === 'left' ? colunaIdx - 1 : colunaIdx + 1;
+    if (targetIdx < 0 || targetIdx >= newColunas.length) return;
+    [newColunas[colunaIdx], newColunas[targetIdx]] = [newColunas[targetIdx], newColunas[colunaIdx]];
+    onUpdateColunas(newColunas);
+  };
+
+  const imprimir = () => {
+    const el = document.getElementById(`fluxograma-print-${setor.id}`);
+    if (!el) return;
+    const conteudo = el.innerHTML;
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head>
+    <style>
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: Arial, sans-serif; background: #000; color: #fff; }
+      @page { size: landscape; margin: 8mm; }
+      @media print { body { background: #000 !important; } }
+    </style>
+    </head><body>${conteudo}<script>setTimeout(()=>{ window.print(); },400);<\/script></body></html>`);
+    w.document.close();
+  };
+
   return (
     <div className="relative">
+      {/* Print button */}
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={imprimir}
+          className="flex items-center gap-1.5 text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/30 transition-all"
+        >
+          <Printer size={13} /> Imprimir
+        </button>
+      </div>
       {/* Fluxograma Container */}
-      <div className="overflow-x-auto pb-4">
+      <div id={`fluxograma-print-${setor.id}`} className="overflow-x-auto pb-4">
         <div className="flex gap-0 min-w-max">
           {colunas.map((coluna, colunaIdx) => (
             <div key={colunaIdx} className="flex items-stretch">
@@ -124,8 +157,22 @@ export default function FluxogramaSetor({
                         {coluna.titulo}
                       </h4>
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => setEditingColuna(colunaIdx)}
+                         <button
+                           onClick={(e) => { e.stopPropagation(); handleMoveColuna(colunaIdx, 'left'); }}
+                           className="p-1 hover:bg-white/10 rounded"
+                           disabled={colunaIdx === 0}
+                         >
+                           <ChevronLeft size={12} className={colunaIdx === 0 ? 'text-white/20' : 'text-white/50'} />
+                         </button>
+                         <button
+                           onClick={(e) => { e.stopPropagation(); handleMoveColuna(colunaIdx, 'right'); }}
+                           className="p-1 hover:bg-white/10 rounded"
+                           disabled={colunaIdx === colunas.length - 1}
+                         >
+                           <ChevronRight size={12} className={colunaIdx === colunas.length - 1 ? 'text-white/20' : 'text-white/50'} />
+                         </button>
+                         <button
+                           onClick={() => setEditingColuna(colunaIdx)}
                           className="p-1 hover:bg-white/10 rounded"
                         >
                           <Edit2 size={12} className="text-white/50" />
