@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import PullToRefresh from "@/components/PullToRefresh";
 import { createPageUrl } from "./utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -13,6 +15,7 @@ import { base44 } from "@/api/base44Client";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     base44.auth.me().then(user => setUserEmail(user?.email)).catch(() => {});
@@ -63,6 +66,16 @@ export default function Layout({ children, currentPageName }) {
         @supports (padding: env(safe-area-inset-top)) {
           .safe-top { padding-top: env(safe-area-inset-top); }
           .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        }
+
+        /* System dark mode */
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --background: 0 0% 3.9%;
+            --foreground: 0 0% 98%;
+            --card: 0 0% 5%;
+            --border: 0 0% 14.9%;
+          }
         }
 
         /* No select on interactive elements */
@@ -223,11 +236,23 @@ export default function Layout({ children, currentPageName }) {
       {/* ── Main Content ─────────────────────────────── */}
       <main
         className="lg:ml-64 min-h-screen pt-14 pb-20 lg:pt-0 lg:pb-0"
-        style={{ overscrollBehaviorY: 'none' }}
+        style={{ overscrollBehaviorY: 'none', height: '100dvh' }}
       >
-        <div className="p-4 lg:p-8">
-          {children}
-        </div>
+        <PullToRefresh>
+          <div className="p-4 lg:p-8">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </PullToRefresh>
       </main>
 
       <AssistenteIAGlobal currentPage={currentPageName} />
