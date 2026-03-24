@@ -229,11 +229,63 @@ export default function FluxogramaSetor({
                       onDrop={() => handleDrop(colunaIdx, itemIdx)}
                       onDragEnd={() => { setDragIndex(null); setDragEtapa(null); }}
                       className="relative group"
-                      style={{
-                        opacity: dragIndex === itemIdx && dragEtapa === colunaIdx ? 0.5 : 1,
-                        cursor: 'grab'
-                      }}
+                      style={{ opacity: dragIndex === itemIdx && dragEtapa === colunaIdx ? 0.4 : 1 }}
                     >
+                      {editingItem?.coluna === colunaIdx && editingItem?.item === itemIdx ? (
+                        <div className="flex gap-1">
+                          <Input
+                           value={item}
+                           onChange={(e) => {
+                             const newColunas = colunas.map((col, idx) => 
+                               idx === colunaIdx 
+                                 ? { ...col, itens: col.itens.map((it, i) => i === itemIdx ? e.target.value : it) }
+                                 : { ...col, itens: [...col.itens] }
+                             );
+                             onUpdateColunas(newColunas);
+                           }}
+                            className="h-8 text-xs bg-white/10 border-white/20 text-white"
+                            autoFocus
+                          />
+                          <button
+                            onClick={() => setEditingItem(null)}
+                            className="p-1 hover:bg-white/10 rounded"
+                          >
+                            <Check size={12} className="text-emerald-400" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="flex items-start gap-2 p-2 rounded-lg border transition-all group"
+                          style={{ 
+                            backgroundColor: dragIndex === itemIdx && dragEtapa === colunaIdx ? 'rgba(124,107,255,0.15)' : 'rgba(255,255,255,0.05)',
+                            borderColor: dragIndex === itemIdx && dragEtapa === colunaIdx ? '#7c6bff' : `${corPrimaria}30`,
+                            borderStyle: dragIndex === itemIdx && dragEtapa === colunaIdx ? 'dashed' : 'solid',
+                            cursor: 'grab'
+                          }}
+                        >
+                          <span style={{ color: '#666', fontSize: '13px', flexShrink: 0, marginTop: '1px', lineHeight: 1 }}>⠿</span>
+                          <div 
+                            className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                            style={{ backgroundColor: corPrimaria }}
+                          />
+                          <span className="text-xs text-white/80 flex-1 leading-relaxed">{item}</span>
+                          <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => setEditingItem({ coluna: colunaIdx, item: itemIdx })}
+                              className="p-1 hover:bg-white/10 rounded"
+                            >
+                              <Edit2 size={10} className="text-white/50" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteItem(colunaIdx, itemIdx)}
+                              className="p-1 hover:bg-red-500/20 rounded"
+                            >
+                              <Trash2 size={10} className="text-red-400" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Linha conectora vertical */}
                       {itemIdx < coluna.itens.length - 1 && (
                         <div 
