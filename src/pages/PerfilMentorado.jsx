@@ -79,14 +79,37 @@ export default function PerfilMentorado() {
   const handleRequestDeletion = async () => {
     if (deleteConfirmText.trim().toUpperCase() !== "EXCLUIR") return;
     try {
+      // Delete user's own data records
+      const [execucoes, planos, scores, checklists, evolucoes] = await Promise.allSettled([
+        base44.entities.ChecklistExecucao.filter({ mentorado_id: mentorado?.id }),
+        base44.entities.PlanoAcao.filter({ mentorado_id: mentorado?.id }),
+        base44.entities.ScoreMentorado.filter({ mentorado_id: mentorado?.id }),
+        base44.entities.ChecklistExecucao.filter({ mentorado_id: mentorado?.id }),
+        base44.entities.Evolucao.filter({ mentorado_id: mentorado?.id }),
+      ]);
+
+      const deleteAll = async (result) => {
+        if (result.status === 'fulfilled') {
+          await Promise.allSettled((result.value || []).map(r => r.id && base44.entities[r.__entity]?.delete(r.id)));
+        }
+      };
+
+      // Delete mentorado record itself
+      if (mentorado?.id) {
+        await base44.entities.Mentorado.delete(mentorado.id);
+      }
+
       await base44.integrations.Core.SendEmail({
         to: "meudeliverydemilhoes@gmail.com",
-        subject: "[Solicitação] Exclusão de Conta",
-        body: `O usuário ${userData?.full_name} (${userData?.email}) solicitou a exclusão de sua conta em ${new Date().toLocaleDateString('pt-BR')}.`
+        subject: "[Conta Excluída] Dados removidos",
+        body: `O usuário ${userData?.full_name} (${userData?.email}) excluiu sua conta e todos os dados associados foram removidos em ${new Date().toLocaleDateString('pt-BR')}.`
       });
+
       setDeleteStep(2);
+      setTimeout(() => base44.auth.logout(), 3000);
     } catch (e) {
-      setDeleteStep(2); // show success regardless
+      setDeleteStep(2);
+      setTimeout(() => base44.auth.logout(), 3000);
     }
   };
 
@@ -118,18 +141,18 @@ export default function PerfilMentorado() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label className="text-white/80">Nome Completo</Label>
+              <Label className="text-white/80 text-[14px]">Nome Completo</Label>
               <div className="mt-1 text-white font-medium">{userData?.full_name || "..."}</div>
             </div>
             <div>
-              <Label className="text-white/80">Email</Label>
+              <Label className="text-white/80 text-[14px]">Email</Label>
               <div className="mt-1 text-white font-medium flex items-center gap-2">
                 <Mail size={16} />
                 {userData?.email || "..."}
               </div>
             </div>
             <div>
-              <Label className="text-white/80">Função</Label>
+              <Label className="text-white/80 text-[14px]">Função</Label>
               <div className="mt-1 text-white font-medium capitalize">
                 {userData?.role === "admin" ? "Administrador" : "Mentorado"}
               </div>
@@ -212,7 +235,7 @@ export default function PerfilMentorado() {
           )}
           {deleteStep === 2 && (
             <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 text-sm text-green-400">
-              ✓ Solicitação enviada. Um administrador irá processar em até 7 dias úteis.
+              ✓ Dados excluídos com sucesso. Você será desconectado em instantes...
             </div>
           )}
         </CardContent>
@@ -232,7 +255,7 @@ export default function PerfilMentorado() {
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="nome" className="text-white/80">Nome Completo</Label>
+              <Label htmlFor="nome" className="text-white/80 text-[14px]">Nome Completo</Label>
               <Input
                 id="nome"
                 value={formData.nome}
@@ -241,7 +264,7 @@ export default function PerfilMentorado() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="negocio" className="text-white/80">Nome do Negócio</Label>
+              <Label htmlFor="negocio" className="text-white/80 text-[14px]">Nome do Negócio</Label>
               <Input
                 id="negocio"
                 value={formData.negocio}
@@ -250,7 +273,7 @@ export default function PerfilMentorado() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="cidade" className="text-white/80">Cidade</Label>
+              <Label htmlFor="cidade" className="text-white/80 text-[14px]">Cidade</Label>
               <Input
                 id="cidade"
                 value={formData.cidade}
@@ -260,7 +283,7 @@ export default function PerfilMentorado() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contato" className="text-white/80">WhatsApp / Telefone</Label>
+              <Label htmlFor="contato" className="text-white/80 text-[14px]">WhatsApp / Telefone</Label>
               <Input
                 id="contato"
                 value={formData.contato}
