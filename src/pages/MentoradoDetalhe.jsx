@@ -47,6 +47,7 @@ import PainelOrganizacao from "@/components/mentorado/PainelOrganizacao";
 import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOperacionais";
 import RegistroAulas from "@/components/mentorado/RegistroAulas";
 import PadronizacaoPizzas from "@/components/mentorado/PadronizacaoPizzas";
+import KitEntregaveis from "@/components/mentorado/KitEntregaveis";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1152,6 +1153,13 @@ export default function MentoradoDetalhe() {
                 </div>
               </>
             )}
+          </div>
+        )}
+
+        {/* Home: adiciona kit de entregáveis */}
+        {activeTab === "home" && briefing && (
+          <div className="mt-6">
+            <KitEntregaveis briefing={briefing} mentoradoId={mentoradoId} />
           </div>
         )}
 

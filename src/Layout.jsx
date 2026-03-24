@@ -43,6 +43,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Kit Docs", page: "KitDocumentos", icon: FileText, adminOnly: true },
     { name: "Fichas", page: "FichasTecnicas", icon: ChefHat, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
+    { name: "Encontros", page: "Encontros", icon: Calendar, adminOnly: true },
     { name: "Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
 
