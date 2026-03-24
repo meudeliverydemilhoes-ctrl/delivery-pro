@@ -6,7 +6,7 @@ import { createPageUrl } from "./utils";
 import {
   Users, BookOpen, Library, Calendar, Lightbulb,
   LayoutDashboard, X, ChevronRight, ChevronLeft, ClipboardList,
-  GitBranch, Zap, Brain, FileText, ChefHat, MoreHorizontal
+  GitBranch, Zap, Brain, FileText, ChefHat, MoreHorizontal, Wand2
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 import { base44 } from "@/api/base44Client";
@@ -44,6 +44,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Fichas", page: "FichasTecnicas", icon: ChefHat, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Encontros", page: "Encontros", icon: Calendar, adminOnly: true },
+    { name: "Gerador Kits", page: "GeradorKits", icon: Wand2, adminOnly: true },
     { name: "Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
 
