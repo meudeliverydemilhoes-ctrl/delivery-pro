@@ -234,18 +234,19 @@ export default function Layout({ children, currentPageName }) {
 
       {/* ── Main Content ─────────────────────────────── */}
       <main
-        className="lg:ml-64 min-h-screen pt-14 pb-20 lg:pt-0 lg:pb-0"
-        style={{ overscrollBehaviorY: 'none', height: '100dvh' }}
+        className="lg:ml-64 min-h-screen pt-14 pb-20 lg:pt-0 lg:pb-0 overflow-hidden"
+        style={{ overscrollBehaviorY: 'none' }}
       >
         <PullToRefresh>
           <div className="p-4 lg:p-8">
-            <AnimatePresence mode="popLayout" initial={false}>
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={location.pathname}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
+                initial={{ x: '100%', opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: '-30%', opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.32, 0, 0.67, 0] }}
+                style={{ willChange: 'transform' }}
               >
                 {children}
               </motion.div>
