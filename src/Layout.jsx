@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PullToRefresh from "@/components/PullToRefresh";
 import { createPageUrl } from "./utils";
 import {
   Users, BookOpen, Library, Calendar, Lightbulb,
-  LayoutDashboard, Menu, X, ChevronRight, ClipboardList,
+  LayoutDashboard, X, ChevronRight, ChevronLeft, ClipboardList,
   GitBranch, Zap, Brain, FileText, ChefHat, MoreHorizontal
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
@@ -15,6 +15,14 @@ export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Root-level pages that appear in nav — no back button
+  const rootPages = ["Dashboard", "Mentorados", "AulasMentoria", "ExecucaoInteligente",
+    "FluxogramasOperacionais", "GestaoFinanceira", "Cursos", "Biblioteca",
+    "Agenda", "Notas", "AnaliseGargalos", "KitDocumentos", "FichasTecnicas",
+    "Automacoes", "PerfilMentorado"];
+  const isRootPage = rootPages.includes(currentPageName) || location.pathname === "/";
 
   useEffect(() => {
     base44.auth.me().then(user => setUserEmail(user?.email)).catch(() => {});
@@ -139,17 +147,29 @@ export default function Layout({ children, currentPageName }) {
 
       {/* ── MOBILE: Top Header ───────────────────────── */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-white/10 safe-top">
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ background: '#7c6bff' }}>
-              <span className="text-white font-bold text-sm">D</span>
+        <div className="flex items-center justify-between px-2" style={{ minHeight: 52 }}>
+          {!isRootPage ? (
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-0.5 text-[#7c6bff] active:opacity-50"
+              style={{ minHeight: 44, minWidth: 44 }}
+              aria-label="Voltar"
+            >
+              <ChevronLeft size={28} strokeWidth={2} />
+              <span className="text-[17px] font-normal">Voltar</span>
+            </button>
+          ) : (
+            <div className="flex items-center gap-3 pl-2">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#7c6bff' }}>
+                <span className="text-white font-bold text-sm">D</span>
+              </div>
+              <span className="font-semibold text-base tracking-tight">Delivery Pro</span>
             </div>
-            <span className="font-semibold text-base tracking-tight">Delivery Pro</span>
-          </div>
+          )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            style={{ minHeight: 44, minWidth: 44 }}
           >
             {sidebarOpen ? <X size={22} /> : <MoreHorizontal size={22} />}
           </button>
