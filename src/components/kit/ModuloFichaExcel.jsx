@@ -15,13 +15,18 @@ async function getXLSX() {
 }
 
 function parsear(celula) {
-  if (!celula) return [];
-  return celula.toString().split(";")
-    .map(p => p.trim())
-    .filter(p => p && !["PEQUENA","GRANDE","FAMÍLIA","FAMILIA","MEDIO","MÉDIO","PEQUENO"].includes(p.toUpperCase()))
+  if (!celula || celula.toString().trim() === '') return [];
+  const texto = celula.toString();
+  const partes = texto.split(';').map(p => p.trim()).filter(p => p !== '');
+  return partes
+    .filter(p => !['PEQUENA','GRANDE','FAMÍLIA','FAMILIA','MÉDIO','MEDIO','PEQUENO','FAMILY'].includes(p.toUpperCase().trim()))
     .map(p => {
-      const m = p.match(/^(\d[\d,\.]*)\s*(?:Gr|gr|g|G|ml|ML|kg|KG|un|UN)\.?\s+(.+)$/i);
-      return m ? { qtd: m[1], nome: m[2].trim() } : { qtd: "", nome: p };
+      const match = p.match(/^(\d[\d,\.]*?)\s*(?:[Gg][Rr]?\.?|[Mm][Ll]\.?|[Kk][Gg]\.?|[Uu][Nn]\.)\s+(.+)$/i);
+      if (match) return { qtd: match[1].replace(',', '.'), nome: match[2].trim().toUpperCase() };
+      return { qtd: '', nome: p.trim().toUpperCase() };
+    })
+    .filter(ing => ing.nome !== '');
+} : { qtd: "", nome: p };
     });
 }
 
@@ -210,9 +215,15 @@ ${html}
                             {ings.length === 0
                               ? <span style={{color:"#444"}}>—</span>
                               : ings.map((ing, ii) => (
-                                <div key={ii}>
-                                  {ing.qtd && <span style={{color:"#FFD700", fontWeight:"bold"}}>+{ing.qtd}g </span>}
-                                  <span style={{color:"#fff"}}>{ing.nome.toUpperCase()}</span>
+                                <div key={ii} style={{ lineHeight: '1.8', whiteSpace: 'nowrap' }}>
+                                  {ing.qtd ? (
+                                    <>
+                                      <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '10px', letterSpacing: '0.3px' }}>+{ing.qtd}g{' '}</span>
+                                      <span style={{ color: '#FFFFFF', fontWeight: 'normal', fontSize: '9.5px' }}>{ing.nome}</span>
+                                    </>
+                                  ) : (
+                                    <span style={{ color: '#AAAAAA', fontSize: '9px' }}>{ing.nome}</span>
+                                  )}
                                 </div>
                               ))
                             }
