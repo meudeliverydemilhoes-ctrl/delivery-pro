@@ -77,6 +77,11 @@ export default function Layout({ children, currentPageName }) {
           }
         }
 
+        /* Touch targets >= 44px for table interactive elements */
+        table button, table a, table [role="checkbox"],
+        [role="row"] button, [role="row"] a,
+        .touch-target { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
         /* No select on interactive elements */
         button, a, nav, [role="tab"] {
           -webkit-user-select: none;
