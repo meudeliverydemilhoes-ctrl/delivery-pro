@@ -127,13 +127,26 @@ export default function FluxogramaSetor({
     const conteudo = el.innerHTML;
     const w = window.open('', '_blank');
     w.document.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8">
     <style>
-      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: Arial, sans-serif; background: #000; color: #fff; }
-      @page { size: landscape; margin: 8mm; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; margin: 0; padding: 0; box-sizing: border-box; }
+      @page { size: A6 landscape; margin: 4mm; }
+      body { font-family: Arial, sans-serif; background: #000; color: #fff; font-size: 7px; }
+      table { font-size: 7px !important; }
+      th, td { font-size: 7px !important; padding: 2px 3px !important; }
+      h1, h2, h3 { font-size: 9px !important; margin-bottom: 2px !important; }
+      p, span, div { font-size: 7px !important; line-height: 1.3 !important; }
+      .fluxograma-container { display: flex !important; flex-direction: row !important; gap: 3px !important; width: 100% !important; }
+      .fluxograma-coluna { flex: 1 !important; min-width: 0 !important; }
+      .coluna-header { font-size: 8px !important; font-weight: bold !important; padding: 2px !important; text-align: center !important; }
+      .etapa-card { margin-bottom: 2px !important; padding: 2px !important; }
+      .etapa-titulo { font-size: 7px !important; font-weight: bold !important; padding: 1px 3px !important; }
+      .etapa-item { font-size: 6.5px !important; padding: 1px 2px !important; line-height: 1.2 !important; }
       @media print { body { background: #000 !important; } }
     </style>
-    </head><body>${conteudo}<script>setTimeout(()=>{ window.print(); },400);<\/script></body></html>`);
+    </head><body>${conteudo}
+    <script>setTimeout(() => { window.print(); }, 400);<\/script>
+    </body></html>`);
     w.document.close();
   };
 
