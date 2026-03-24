@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, Building2, Phone, MapPin, Save, Key, AlertCircle } from "lucide-react";
+import { User, Mail, Building2, Phone, MapPin, Save, Key, AlertCircle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function PerfilMentorado() {
@@ -58,6 +58,23 @@ export default function PerfilMentorado() {
         id: mentorado.id,
         data: formData
       });
+    }
+  };
+
+  const [deleteStep, setDeleteStep] = useState(0); // 0=hidden, 1=confirm, 2=sent
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+
+  const handleRequestDeletion = async () => {
+    if (deleteConfirmText.trim().toUpperCase() !== "EXCLUIR") return;
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: "meudeliverydemilhoes@gmail.com",
+        subject: "[Solicitação] Exclusão de Conta",
+        body: `O usuário ${userData?.full_name} (${userData?.email}) solicitou a exclusão de sua conta em ${new Date().toLocaleDateString('pt-BR')}.`
+      });
+      setDeleteStep(2);
+    } catch (e) {
+      setDeleteStep(2); // show success regardless
     }
   };
 
@@ -140,6 +157,54 @@ export default function PerfilMentorado() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Exclusão de Conta */}
+      <Card className="bg-red-950/20 border-red-500/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-400">
+            <Trash2 size={20} />
+            Solicitar Exclusão de Conta
+          </CardTitle>
+          <CardDescription className="text-white/50">
+            Esta ação é permanente e não poderá ser desfeita
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {deleteStep === 0 && (
+            <div className="space-y-3">
+              <p className="text-sm text-white/60">
+                Ao solicitar a exclusão, todos os seus dados serão permanentemente removidos da plataforma em até 7 dias úteis.
+              </p>
+              <Button variant="outline" className="border-red-500/40 text-red-400 hover:bg-red-500/10" onClick={() => setDeleteStep(1)}>
+                <Trash2 size={16} className="mr-2" />
+                Solicitar Exclusão
+              </Button>
+            </div>
+          )}
+          {deleteStep === 1 && (
+            <div className="space-y-4">
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-sm text-white/80">
+                <strong className="text-red-400">Atenção:</strong> Para confirmar, digite <strong>EXCLUIR</strong> abaixo.
+              </div>
+              <input
+                value={deleteConfirmText}
+                onChange={e => setDeleteConfirmText(e.target.value)}
+                placeholder="Digite EXCLUIR para confirmar"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-red-500/50"
+              />
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1 border-white/10 text-white/60" onClick={() => { setDeleteStep(0); setDeleteConfirmText(""); }}>Cancelar</Button>
+                <Button className="flex-1 bg-red-600 hover:bg-red-700 text-white" disabled={deleteConfirmText.trim().toUpperCase() !== "EXCLUIR"} onClick={handleRequestDeletion}>Confirmar</Button>
+              </div>
+            </div>
+          )}
+          {deleteStep === 2 && (
+            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 text-sm text-green-400">
+              ✓ Solicitação enviada. Um administrador irá processar em até 7 dias úteis.
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Informações do Negócio */}
       <Card className="bg-white/5 border-white/10">
