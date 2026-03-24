@@ -26,9 +26,7 @@ function parsear(celula) {
       return { qtd: '', nome: p.trim().toUpperCase() };
     })
     .filter(ing => ing.nome !== '');
-} : { qtd: "", nome: p };
-    });
-}
+    }
 
 export default function ModuloFichaExcel() {
   const [mentoradoId, setMentoradoId] = useState("");
