@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
@@ -54,6 +54,9 @@ const ATALHOS = [
 ];
 
 export default function Dashboard() {
+  const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => { base44.auth.me().then(setCurrentUser).catch(() => {}); }, []);
+
   const { data: mentorados = [] } = useQuery({ queryKey: ["mentorados"], queryFn: () => base44.entities.Mentorado.list() });
   const { data: briefings = [] } = useQuery({ queryKey: ["briefings-all"], queryFn: () => base44.entities.Briefing.list() });
   const { data: agenda = [] } = useQuery({ queryKey: ["agenda-pendente"], queryFn: () => base44.entities.Agenda.filter({ status: "pendente" }, "-data", 3) });
@@ -90,7 +93,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Olá, Brenda 👋
+            Olá, {currentUser?.full_name?.split(' ')[0] || currentUser?.email?.split('@')[0] || 'Mentor'} 👋
           </h1>
           <p className="text-white/40 text-sm mt-1">Central de gestão da Mentoria Delivery Pro</p>
         </div>
