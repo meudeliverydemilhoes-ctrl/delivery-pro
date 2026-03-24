@@ -206,11 +206,7 @@ export default function Layout({ children, currentPageName }) {
                   {item.name}
                 </span>
                 {isActive && (
-                  <motion.div
-                    layoutId="tab-indicator"
-                    className="absolute top-0 h-0.5 w-8 rounded-full"
-                    style={{ background: '#7c6bff' }}
-                  />
+                  <div className="absolute top-0 h-0.5 w-8 rounded-full" style={{ background: '#7c6bff' }} />
                 )}
               </Link>
             );
@@ -231,17 +227,7 @@ export default function Layout({ children, currentPageName }) {
         style={{ overscrollBehaviorY: 'none' }}
       >
         <div className="p-4 lg:p-8">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -12 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          {children}
         </div>
       </main>
 
