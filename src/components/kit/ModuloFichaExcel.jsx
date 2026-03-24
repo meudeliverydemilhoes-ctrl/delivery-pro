@@ -388,8 +388,17 @@ ${mentoradoSelecionado ? `<div style="background:#111;color:#888;text-align:cent
                   <tr>
                     <th style={{background:"#1A1A1A", color:"#fff", padding:"6px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", width:"110px", verticalAlign:"middle"}}>SABOR</th>
                     {tamHeaders.map((h, i) => (
-                      <th key={i} style={{background:"#E8601C", color:"#000", padding:"6px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", verticalAlign:"middle"}}>
+                      <th key={i} style={{background:"#E8601C", color:"#000", padding:"7px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", verticalAlign:"middle", position:"relative"}}>
                         {h}
+                        <button
+                          onClick={() => {
+                            if (window.confirm(`Apagar a coluna "${h}" de todos os sabores?`)) {
+                              setTamHeaders(prev => prev.filter((_, idx) => idx !== i));
+                              setFichas(prev => prev.map(f => ({ ...f, tamanhos: f.tamanhos.filter(t => t.nome !== h) })));
+                            }
+                          }}
+                          style={{position:'absolute', top:2, right:2, background:'#cc0000', color:'#fff', border:'none', borderRadius:'50%', width:14, height:14, fontSize:9, cursor:'pointer', lineHeight:'14px', textAlign:'center', padding:0, fontWeight:'bold'}}
+                        >×</button>
                       </th>
                     ))}
                   </tr>
