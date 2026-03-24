@@ -263,7 +263,17 @@ export default function TabelaFichas() {
                   <tr>
                     <th style={{ background: '#1a1a1a', color: '#E8601C', padding: '10px 14px', textAlign: 'left', fontWeight: 900, fontSize: 12, border: '1px solid rgba(232,96,28,0.2)', minWidth: 120 }}>SABOR</th>
                     {tamCat.map(tam => (
-                      <th key={tam} style={{ background: '#E8601C', color: '#fff', padding: '10px', textAlign: 'center', fontWeight: 900, fontSize: 11, border: '1px solid rgba(255,255,255,0.1)', minWidth: 150, textTransform: 'uppercase' }}>{tam}</th>
+                      <th key={tam} style={{ background: '#E8601C', color: '#fff', padding: '7px 8px', textAlign: 'center', fontWeight: 900, fontSize: 11, border: '1px solid rgba(255,255,255,0.1)', minWidth: 150, textTransform: 'uppercase', position: 'relative' }}>
+                        {tam}
+                        <button
+                          onClick={() => {
+                            if (window.confirm(`Apagar a coluna "${tam}" de todos os sabores?`)) {
+                              setFichas(prev => prev.map(f => ({ ...f, tamanhos: (f.tamanhos || []).filter(t => t.nome !== tam) })));
+                            }
+                          }}
+                          style={{ position: 'absolute', top: 2, right: 2, background: '#cc0000', color: '#fff', border: 'none', borderRadius: '50%', width: 14, height: 14, fontSize: 9, cursor: 'pointer', lineHeight: '14px', textAlign: 'center', padding: 0, fontWeight: 'bold' }}
+                        >×</button>
+                      </th>
                     ))}
                   </tr>
                 </thead>
