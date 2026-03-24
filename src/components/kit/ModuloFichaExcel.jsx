@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Printer, Save, Loader2, FileSpreadsheet, RefreshCw, History } from "lucide-react";
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// SheetJS via CDN dinâmico (evita erro de build)
 let _XLSX = null;
 async function getXLSX() {
   if (_XLSX) return _XLSX;
@@ -26,15 +25,174 @@ function parsear(celula) {
       return { qtd: '', nome: p.trim().toUpperCase() };
     })
     .filter(ing => ing.nome !== '');
-    }
+}
+
+// Input inline
+function InlineInput({ value, onChange, style = {}, type = "text", autoFocus = false }) {
+  const [draft, setDraft] = useState(value);
+  const ref = useRef();
+  useEffect(() => { if (autoFocus) ref.current?.focus(); }, [autoFocus]);
+  const commit = () => onChange(draft);
+  return (
+    <input
+      ref={ref}
+      type={type}
+      value={draft}
+      onChange={e => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={e => { if (e.key === 'Enter') { commit(); ref.current?.blur(); } if (e.key === 'Escape') { setDraft(value); ref.current?.blur(); } }}
+      style={{
+        background: 'transparent', border: 'none', outline: 'none',
+        padding: '0 2px', fontFamily: 'inherit', fontSize: 'inherit',
+        fontWeight: 'inherit', color: 'inherit',
+        borderBottom: '1px solid rgba(255,200,0,0.4)',
+        width: type === 'number' ? 50 : '100%',
+        ...style
+      }}
+    />
+  );
+}
+
+// Linha de ingrediente
+function IngRow({ ing, fichaIdx, tamIdx, ingIdx, setFichas }) {
+  const [hover, setHover] = useState(false);
+  const [editQtd, setEditQtd] = useState(false);
+  const [editNome, setEditNome] = useState(false);
+
+  const update = (field, val) => {
+    setFichas(prev => {
+      const next = structuredClone(prev);
+      next[fichaIdx].tamanhos[tamIdx].ingredientes[ingIdx][field] = val;
+      return next;
+    });
+  };
+
+  const del = () => {
+    setFichas(prev => {
+      const next = structuredClone(prev);
+      next[fichaIdx].tamanhos[tamIdx].ingredientes.splice(ingIdx, 1);
+      return next;
+    });
+  };
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ display: 'flex', alignItems: 'center', gap: 2, lineHeight: 1.8, whiteSpace: 'nowrap' }}
+    >
+      {ing.qtd !== '' && <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: 10 }}>+</span>}
+      {ing.qtd !== '' ? (
+        editQtd ? (
+          <InlineInput
+            value={ing.qtd}
+            autoFocus
+            style={{ color: '#FFD700', fontWeight: 'bold', fontSize: 10, width: 50 }}
+            onChange={v => { update('qtd', v); setEditQtd(false); }}
+          />
+        ) : (
+          <span
+            onClick={() => setEditQtd(true)}
+            style={{ color: '#FFD700', fontWeight: 'bold', fontSize: 10, cursor: 'text', minWidth: 30 }}
+            title="Clique para editar quantidade"
+          >{ing.qtd}g </span>
+        )
+      ) : null}
+      {editNome ? (
+        <InlineInput
+          value={ing.nome}
+          autoFocus
+          style={{ color: '#FFFFFF', fontSize: 9.5, borderBottom: '1px solid rgba(255,255,255,0.3)', flex: 1 }}
+          onChange={v => { update('nome', v); setEditNome(false); }}
+        />
+      ) : (
+        <span
+          onClick={() => setEditNome(true)}
+          style={{ color: ing.qtd ? '#FFFFFF' : '#AAAAAA', fontSize: ing.qtd ? 9.5 : 9, cursor: 'text', flex: 1 }}
+          title="Clique para editar nome"
+        >{ing.nome}</span>
+      )}
+      {hover && (
+        <button
+          onClick={del}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ff4444', fontSize: 12, lineHeight: 1, padding: '0 2px', flexShrink: 0, marginLeft: 2 }}
+          title="Remover"
+        >×</button>
+      )}
+    </div>
+  );
+}
+
+// Linha de sabor
+function SaborRow({ ficha, fichaIdx, tamHeaders, rowBg, setFichas }) {
+  const [hover, setHover] = useState(false);
+  const [editNome, setEditNome] = useState(false);
+
+  const updateSabor = (val) => {
+    setFichas(prev => { const next = structuredClone(prev); next[fichaIdx].sabor = val; return next; });
+    setEditNome(false);
+  };
+  const deleteSabor = () => setFichas(prev => prev.filter((_, i) => i !== fichaIdx));
+  const addIng = (tamIdx) => setFichas(prev => {
+    const next = structuredClone(prev);
+    next[fichaIdx].tamanhos[tamIdx].ingredientes.push({ qtd: '', nome: '' });
+    return next;
+  });
+
+  return (
+    <tr
+      style={{ background: rowBg }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <td style={{ color: '#fff', fontWeight: 'bold', padding: '5px 8px', border: '1px solid #2A2A2A', textAlign: 'center', verticalAlign: 'middle', fontSize: 9 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          {editNome ? (
+            <InlineInput
+              value={ficha.sabor}
+              autoFocus
+              style={{ color: '#fff', fontWeight: 'bold', fontSize: 9, textAlign: 'center' }}
+              onChange={updateSabor}
+            />
+          ) : (
+            <span onClick={() => setEditNome(true)} style={{ cursor: 'text', flex: 1 }} title="Clique para editar">{ficha.sabor}</span>
+          )}
+          {hover && (
+            <button onClick={deleteSabor} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ff4444', fontSize: 12, flexShrink: 0 }} title="Remover sabor">×</button>
+          )}
+        </div>
+      </td>
+      {tamHeaders.map((tam, tamIdx) => {
+        const tamanho = ficha.tamanhos.find(t => t.nome === tam);
+        const realTamIdx = ficha.tamanhos.findIndex(t => t.nome === tam);
+        return (
+          <td key={tam} style={{ padding: '4px 6px', border: '1px solid #2A2A2A', verticalAlign: 'top' }}>
+            {tamanho && realTamIdx !== -1 ? (
+              <div>
+                {(tamanho.ingredientes || []).map((ing, ingIdx) => (
+                  <IngRow key={ingIdx} ing={ing} fichaIdx={fichaIdx} tamIdx={realTamIdx} ingIdx={ingIdx} setFichas={setFichas} />
+                ))}
+                <button
+                  onClick={() => addIng(realTamIdx)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#555', fontSize: 9, padding: '1px 0', marginTop: 2 }}
+                >+ add</button>
+              </div>
+            ) : <span style={{ color: '#444' }}>—</span>}
+          </td>
+        );
+      })}
+    </tr>
+  );
+}
 
 export default function ModuloFichaExcel() {
   const [mentoradoId, setMentoradoId] = useState("");
   const [titulo, setTitulo] = useState("PIZZAS SALGADAS");
-  const [headers, setHeaders] = useState([]);
-  const [sabores, setSabores] = useState([]);
+  const [tamHeaders, setTamHeaders] = useState([]);
+  const [fichas, setFichas] = useState([]); // [{sabor, tamanhos:[{nome, ingredientes:[{qtd,nome}]}]}]
   const [carregado, setCarregado] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const [savedOk, setSavedOk] = useState(false);
   const inputRef = useRef();
 
   const { data: mentorados = [] } = useQuery({ queryKey: ["mentorados"], queryFn: () => base44.entities.Mentorado.list() });
@@ -53,8 +211,17 @@ export default function ModuloFichaExcel() {
       const wb = XLSX.read(data, { type: "array" });
       const ws = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
-      setHeaders(rows[0].filter(h => h !== ""));
-      setSabores(rows.slice(1).filter(r => r[0] !== ""));
+      const headers = rows[0].filter(h => h !== "");
+      const tamNomes = headers.slice(1).map(h => h.toString().toUpperCase());
+      setTamHeaders(tamNomes);
+      const structured = rows.slice(1).filter(r => r[0] !== "").map(row => ({
+        sabor: row[0]?.toString().toUpperCase(),
+        tamanhos: tamNomes.map((nom, i) => ({
+          nome: nom,
+          ingredientes: parsear(row[i + 1])
+        }))
+      }));
+      setFichas(structured);
       setCarregado(true);
     };
     reader.readAsArrayBuffer(file);
@@ -62,7 +229,14 @@ export default function ModuloFichaExcel() {
 
   const onInputChange = (e) => { const f = e.target.files[0]; if (f) handleFile(f); };
   const onDrop = (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); };
-  const resetar = () => { setHeaders([]); setSabores([]); setCarregado(false); if (inputRef.current) inputRef.current.value = ""; };
+  const resetar = () => { setTamHeaders([]); setFichas([]); setCarregado(false); if (inputRef.current) inputRef.current.value = ""; };
+
+  const addSabor = () => {
+    setFichas(prev => [...prev, {
+      sabor: 'NOVO SABOR',
+      tamanhos: tamHeaders.map(n => ({ nome: n, ingredientes: [] }))
+    }]);
+  };
 
   const salvar = async () => {
     if (!mentoradoId || !carregado) return;
@@ -71,11 +245,11 @@ export default function ModuloFichaExcel() {
       id: Date.now().toString(),
       titulo: `FICHA TÉCNICA — ${titulo.toUpperCase()}`,
       data_geracao: new Date().toISOString(),
-      total_sabores: sabores.length,
-      tamanhos: headers.slice(1),
-      dados: sabores.map(r => ({
-        sabor: r[0]?.toString().toUpperCase(),
-        colunas: headers.slice(1).map((_, i) => parsear(r[i + 1]))
+      total_sabores: fichas.length,
+      tamanhos: tamHeaders,
+      dados: fichas.map(f => ({
+        sabor: f.sabor,
+        colunas: f.tamanhos.map(t => t.ingredientes)
       }))
     };
     const fichasAtuais = briefingMentorado?.fichas_tecnicas || [];
@@ -86,25 +260,50 @@ export default function ModuloFichaExcel() {
     }
     await queryClient.invalidateQueries({ queryKey: ["briefings-all"] });
     setSalvando(false);
-    alert("Ficha salva com sucesso!");
+    setSavedOk(true);
+    setTimeout(() => setSavedOk(false), 2000);
   };
 
   const imprimir = () => {
-    const html = document.getElementById("ficha-para-imprimir").innerHTML;
+    const rows = fichas.map((ficha, ri) => `
+      <tr style="background:${ri % 2 === 0 ? '#111111' : '#1C1C1C'}">
+        <td style="color:#fff;font-weight:bold;padding:5px 8px;border:1px solid #2A2A2A;text-align:center;font-size:9px">${ficha.sabor}</td>
+        ${tamHeaders.map(tam => {
+          const t = ficha.tamanhos.find(x => x.nome === tam);
+          return `<td style="padding:4px 6px;border:1px solid #2A2A2A;vertical-align:top;line-height:1.7">
+            ${(t?.ingredientes || []).length === 0
+              ? '<span style="color:#444">—</span>'
+              : (t.ingredientes).map(ing => ing.qtd
+                ? `<div><span style="color:#FFD700;font-weight:bold;font-size:10px">+${ing.qtd}g </span><span style="color:#FFFFFF;font-size:9.5px">${ing.nome}</span></div>`
+                : `<div><span style="color:#AAAAAA;font-size:9px">${ing.nome}</span></div>`
+              ).join('')
+            }
+          </td>`;
+        }).join('')}
+      </tr>`).join('');
+
     const win = window.open("", "_blank", "width=1200,height=800");
-    win.document.write(`<!DOCTYPE html>
-<html><head>
+    win.document.write(`<!DOCTYPE html><html><head>
 <meta charset="UTF-8">
 <title>Ficha Técnica - ${titulo}</title>
 <style>
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; margin:0; padding:0; box-sizing:border-box; }
   body { background:#000 !important; font-family: Arial, sans-serif; }
   @page { size: landscape; margin: 6mm; }
-  @media print { body { background:#000 !important; } .no-print { display:none; } }
+  @media print { body { background:#000 !important; } }
+  table { width:100%; border-collapse:collapse; font-size:9.5px; }
 </style>
-</head>
-<body>
-${html}
+</head><body>
+<div style="background:#000;color:#FFD700;text-align:center;font-weight:bold;font-size:15px;padding:8px 4px;border:1px solid #333;letter-spacing:1px">FICHA TÉCNICA — ${titulo.toUpperCase()}</div>
+${mentoradoSelecionado ? `<div style="background:#111;color:#888;text-align:center;font-size:9px;padding:3px;border:1px solid #222;margin-bottom:2px">${mentoradoSelecionado.nome?.toUpperCase()} · ${mentoradoSelecionado.negocio?.toUpperCase()}</div>` : ''}
+<table>
+  <thead><tr>
+    <th style="background:#1A1A1A;color:#fff;padding:6px 8px;border:1px solid #2A2A2A;font-weight:bold;text-align:center;width:110px">SABOR</th>
+    ${tamHeaders.map(h => `<th style="background:#E8601C;color:#000;padding:6px 8px;border:1px solid #2A2A2A;font-weight:bold;text-align:center">${h}</th>`).join('')}
+  </tr></thead>
+  <tbody>${rows}</tbody>
+</table>
+<div style="background:#111;color:#555;text-align:center;font-size:8px;padding:4px;border-top:1px solid #333;margin-top:2px">MATERIAL EXCLUSIVO DE MENTORIA PREMIUM · DELIVERY PRO</div>
 <script>setTimeout(function(){ window.print(); }, 500);<\/script>
 </body></html>`);
     win.document.close();
@@ -130,7 +329,6 @@ ${html}
           </div>
         </div>
 
-        {/* Upload */}
         {!carregado ? (
           <div
             onDrop={onDrop} onDragOver={e => e.preventDefault()}
@@ -149,7 +347,7 @@ ${html}
         ) : (
           <div className="flex items-center justify-between bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl px-4 py-3">
             <span className="text-[#10B981] text-sm font-semibold">
-              ✅ {sabores.length} sabores · {headers.slice(1).length} tamanhos carregados
+              ✅ {fichas.length} sabores · {tamHeaders.length} tamanhos carregados
             </span>
             <Button onClick={resetar} variant="ghost" className="text-white/50 hover:text-white text-xs gap-1">
               <RefreshCw size={13} /> Carregar novo arquivo
@@ -163,11 +361,11 @@ ${html}
       {carregado && (
         <div className="space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <h3 className="text-white font-bold">Preview da Ficha</h3>
+            <h3 className="text-white font-bold">Preview da Ficha <span className="text-white/40 text-xs font-normal">(clique nas células para editar)</span></h3>
             <div className="flex gap-2 flex-wrap">
               <Button onClick={salvar} disabled={salvando || !mentoradoId} className="bg-[#10B981] hover:bg-[#059669] text-white">
                 {salvando ? <Loader2 size={16} className="animate-spin mr-2" /> : <Save size={16} className="mr-2" />}
-                Salvar no Perfil
+                {savedOk ? '✅ Salvo!' : 'Salvar no Perfil'}
               </Button>
               <Button onClick={imprimir} className="bg-[#E8601C] hover:bg-[#d45218] text-white font-bold">
                 <Printer size={16} className="mr-2" />🖨️ Imprimir Ficha Técnica
@@ -176,12 +374,10 @@ ${html}
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-white/10">
-            <div id="ficha-para-imprimir" style={{background:"#000", padding:"4px"}}>
-              {/* Título */}
+            <div style={{background:"#000", padding:"4px"}}>
               <div style={{background:"#000", color:"#FFD700", textAlign:"center", fontWeight:"bold", fontSize:"15px", padding:"8px 4px", border:"1px solid #333", letterSpacing:"1px"}}>
                 FICHA TÉCNICA — {titulo.toUpperCase()}
               </div>
-              {/* Subtítulo */}
               {mentoradoSelecionado && (
                 <div style={{background:"#111", color:"#888", textAlign:"center", fontSize:"9px", padding:"3px", border:"1px solid #222", marginBottom:"2px"}}>
                   {mentoradoSelecionado.nome?.toUpperCase()} · {mentoradoSelecionado.negocio?.toUpperCase()}
@@ -190,48 +386,31 @@ ${html}
               <table style={{width:"100%", borderCollapse:"collapse", fontSize:"9.5px", fontFamily:"Arial, sans-serif"}}>
                 <thead>
                   <tr>
-                    <th style={{background:"#1A1A1A", color:"#fff", padding:"6px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", width:"110px", verticalAlign:"middle"}}>
-                      SABOR
-                    </th>
-                    {headers.slice(1).map((h, i) => (
+                    <th style={{background:"#1A1A1A", color:"#fff", padding:"6px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", width:"110px", verticalAlign:"middle"}}>SABOR</th>
+                    {tamHeaders.map((h, i) => (
                       <th key={i} style={{background:"#E8601C", color:"#000", padding:"6px 8px", border:"1px solid #2A2A2A", fontWeight:"bold", textAlign:"center", verticalAlign:"middle"}}>
-                        {h.toString().toUpperCase()}
+                        {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {sabores.map((row, ri) => (
-                    <tr key={ri} style={{background: ri % 2 === 0 ? "#111111" : "#1C1C1C"}}>
-                      <td style={{color:"#fff", fontWeight:"bold", padding:"5px 8px", border:"1px solid #2A2A2A", textAlign:"center", verticalAlign:"middle", fontSize:"9px"}}>
-                        {row[0]?.toString().toUpperCase()}
-                      </td>
-                      {headers.slice(1).map((_, ci) => {
-                        const ings = parsear(row[ci + 1]);
-                        return (
-                          <td key={ci} style={{padding:"4px 6px", border:"1px solid #2A2A2A", verticalAlign:"top", lineHeight:"1.7"}}>
-                            {ings.length === 0
-                              ? <span style={{color:"#444"}}>—</span>
-                              : ings.map((ing, ii) => (
-                                <div key={ii} style={{ lineHeight: '1.8', whiteSpace: 'nowrap' }}>
-                                  {ing.qtd ? (
-                                    <>
-                                      <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '10px', letterSpacing: '0.3px' }}>+{ing.qtd}g{' '}</span>
-                                      <span style={{ color: '#FFFFFF', fontWeight: 'normal', fontSize: '9.5px' }}>{ing.nome}</span>
-                                    </>
-                                  ) : (
-                                    <span style={{ color: '#AAAAAA', fontSize: '9px' }}>{ing.nome}</span>
-                                  )}
-                                </div>
-                              ))
-                            }
-                          </td>
-                        );
-                      })}
-                    </tr>
+                  {fichas.map((ficha, ri) => (
+                    <SaborRow
+                      key={ri}
+                      ficha={ficha}
+                      fichaIdx={ri}
+                      tamHeaders={tamHeaders}
+                      rowBg={ri % 2 === 0 ? "#111111" : "#1C1C1C"}
+                      setFichas={setFichas}
+                    />
                   ))}
                 </tbody>
               </table>
+              <button
+                onClick={addSabor}
+                style={{width:"100%", background:"rgba(232,96,28,0.07)", border:"1px dashed rgba(232,96,28,0.3)", color:"#E8601C", cursor:"pointer", fontSize:11, padding:"5px", marginTop:2}}
+              >＋ Novo sabor</button>
               <div style={{background:"#111", color:"#555", textAlign:"center", fontSize:"8px", padding:"4px", borderTop:"1px solid #333", marginTop:"2px"}}>
                 MATERIAL EXCLUSIVO DE MENTORIA PREMIUM · DELIVERY PRO
               </div>
