@@ -17,7 +17,7 @@ import {
   Brain
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
-import { FileText } from "lucide-react";
+import { FileText, BarChart3, Target } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -40,6 +40,8 @@ export default function Layout({ children, currentPageName }) {
     { name: "Notas", page: "Notas", icon: Lightbulb },
     { name: "Análise de Gargalos IA", page: "AnaliseGargalos", icon: Brain, adminOnly: true },
     { name: "🎨 Kit de Documentos", page: "KitDocumentos", icon: FileText, adminOnly: true },
+    { name: "📊 Relatório", page: "RelatorioProgresso", icon: BarChart3, adminOnly: true },
+    { name: "🎯 Central de Leads", page: "CentralLeads", icon: Target, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Meu Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
