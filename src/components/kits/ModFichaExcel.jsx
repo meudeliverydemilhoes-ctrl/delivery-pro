@@ -14,13 +14,22 @@ async function getXLSX() {
 }
 
 const parsear = (cell) => {
-  if (!cell) return [];
-  return cell.toString().split(';')
-    .map(p => p.trim())
-    .filter(p => p && !['PEQUENA','GRANDE','FAMÍLIA','FAMILIA','MÉDIO','MEDIO'].includes(p.toUpperCase()))
+  if (!cell || cell.toString().trim() === '') return [];
+  const texto = cell.toString();
+  const partes = texto.split(';').map(p => p.trim()).filter(p => p !== '');
+  return partes
+    .filter(p => !['PEQUENA','GRANDE','FAMÍLIA','FAMILIA','MÉDIO','MEDIO','PEQUENO','FAMILY'].includes(p.toUpperCase().trim()))
     .map(p => {
-      const m = p.match(/^(\d[\d,\.]*)\s*(?:Gr|gr|g|G|ml|ML|kg|KG|un|UN)\.?\s+(.+)$/i);
-      return m ? { qtd: m[1].replace(',', '.'), nome: m[2].trim() } : { qtd: '', nome: p };
+      const match = p.match(/^(\d[\d,\.]*?)\s*(?:[Gg][Rr]?\.?|[Mm][Ll]\.?|[Kk][Gg]\.?|[Uu][Nn]\.)\s+(.+)$/i);
+      if (match) {
+        const qtd = match[1].replace(',', '.');
+        const nome = match[2].trim().toUpperCase();
+        return { qtd, nome };
+      }
+      return { qtd: '', nome: p.trim().toUpperCase() };
+    })
+    .filter(ing => ing.nome !== '');
+};
     });
 };
 
@@ -141,15 +150,18 @@ export default function ModFichaExcel() {
                         <td key={ci} style={{ padding: '4px 6px', border: '1px solid #2A2A2A', verticalAlign: 'top', lineHeight: '1.7' }}>
                           {ings.length === 0 ? <span style={{ color: '#333' }}>—</span> :
                             ings.map((ing, ii) => (
-                              <div key={ii}>
-                                {ing.qtd && <span style={{ color: '#FFD700', fontWeight: 'bold' }}>+{ing.qtd}g </span>}
-                                <span style={{ color: '#fff' }}>{ing.nome.toUpperCase()}</span>
+                              <div key={ii} style={{ lineHeight: '1.8', whiteSpace: 'nowrap' }}>
+                                {ing.qtd ? (
+                                  <>
+                                    <span style={{ color: '#FFD700', fontWeight: 'bold', fontSize: '10px', letterSpacing: '0.3px' }}>+{ing.qtd}g{' '}</span>
+                                    <span style={{ color: '#FFFFFF', fontWeight: 'normal', fontSize: '9.5px' }}>{ing.nome}</span>
+                                  </>
+                                ) : (
+                                  <span style={{ color: '#AAAAAA', fontSize: '9px' }}>{ing.nome}</span>
+                                )}
                               </div>
                             ))
-                          }
-                        </td>
-                      );
-                    })}
+                          }}
                   </tr>
                 ))}
               </tbody>
