@@ -46,6 +46,18 @@ export default function PerfilMentorado() {
 
   const updateMentoradoMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Mentorado.update(id, data),
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries({ queryKey: ["mentorado", user?.email] });
+      const previous = queryClient.getQueryData(["mentorado", user?.email]);
+      queryClient.setQueryData(["mentorado", user?.email], (old) =>
+        old ? [{ ...old[0], ...data }] : old
+      );
+      return { previous };
+    },
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.previous) queryClient.setQueryData(["mentorado", user?.email], ctx.previous);
+      toast.error("Erro ao salvar. Tente novamente.");
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mentorado"] });
       toast.success("Perfil atualizado com sucesso!");
