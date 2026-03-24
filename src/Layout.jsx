@@ -38,6 +38,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Agenda", page: "Agenda", icon: Calendar },
     { name: "Notas", page: "Notas", icon: Lightbulb },
     { name: "Análise de Gargalos IA", page: "AnaliseGargalos", icon: Brain, adminOnly: true },
+    { name: "Gerador de Documentos", page: "GeradorDocumentos", icon: FileText, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Meu Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
