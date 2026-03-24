@@ -2,8 +2,7 @@ import './App.css'
 import { Toaster } from "@/components/ui/toaster"
 import AnaliseGargalos from './pages/AnaliseGargalos';
 import KitDocumentos from './pages/KitDocumentos';
-import RelatorioProgresso from './pages/RelatorioProgresso';
-import CentralLeads from './pages/CentralLeads';
+import FichasTecnicas from './pages/FichasTecnicas';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
@@ -66,8 +65,7 @@ const AuthenticatedApp = () => {
       ))}
       <Route path="/AnaliseGargalos" element={<LayoutWrapper currentPageName="AnaliseGargalos"><AnaliseGargalos /></LayoutWrapper>} />
       <Route path="/KitDocumentos" element={<LayoutWrapper currentPageName="KitDocumentos"><KitDocumentos /></LayoutWrapper>} />
-      <Route path="/RelatorioProgresso" element={<LayoutWrapper currentPageName="RelatorioProgresso"><RelatorioProgresso /></LayoutWrapper>} />
-      <Route path="/CentralLeads" element={<LayoutWrapper currentPageName="CentralLeads"><CentralLeads /></LayoutWrapper>} />
+      <Route path="/FichasTecnicas" element={<LayoutWrapper currentPageName="FichasTecnicas"><FichasTecnicas /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

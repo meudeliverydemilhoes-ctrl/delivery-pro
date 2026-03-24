@@ -17,7 +17,8 @@ import {
   Brain
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
-import { FileText, BarChart3, Target } from "lucide-react";
+import { ChefHat } from "lucide-react";
+import { FileText } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -40,8 +41,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Notas", page: "Notas", icon: Lightbulb },
     { name: "Análise de Gargalos IA", page: "AnaliseGargalos", icon: Brain, adminOnly: true },
     { name: "🎨 Kit de Documentos", page: "KitDocumentos", icon: FileText, adminOnly: true },
-    { name: "📊 Relatório", page: "RelatorioProgresso", icon: BarChart3, adminOnly: true },
-    { name: "🎯 Central de Leads", page: "CentralLeads", icon: Target, adminOnly: true },
+    { name: "🍕 Fichas Técnicas", page: "FichasTecnicas", icon: ChefHat, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Meu Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
@@ -60,11 +60,21 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-black text-white">
       <style>{`
-        :root { --accent: #7c6bff; }
+        :root {
+          --orange: #FF4D00;
+          --orange-hover: #E64500;
+        }
+        .text-orange { color: var(--orange); }
+        .bg-orange { background-color: var(--orange); }
+        .border-orange { border-color: var(--orange); }
+        .hover\\:bg-orange:hover { background-color: var(--orange); }
+        .hover\\:text-orange:hover { color: var(--orange); }
+
+        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0f; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #7c6bff; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
 
         /* Safe area para mobile */
         @supports (padding: env(safe-area-inset-top)) {
@@ -113,7 +123,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Logo */}
           <div className="p-6 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg" style={{background:'#7c6bff', boxShadow:'0 0 20px rgba(124,107,255,0.3)'}}>
+              <div className="w-10 h-10 bg-[#FF4D00] rounded-xl flex items-center justify-center shadow-lg shadow-[#FF4D00]/20">
                 <span className="text-white font-bold text-lg">D</span>
               </div>
               <div>
@@ -132,8 +142,11 @@ export default function Layout({ children, currentPageName }) {
                   key={item.page}
                   to={createPageUrl(item.page)}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive ? "text-white shadow-lg" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
-                style={isActive ? { background: "rgba(124,107,255,0.25)", boxShadow: "0 0 20px rgba(124,107,255,0.2)", border: "1px solid rgba(124,107,255,0.4)" } : {}}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+                    isActive
+                      ? "bg-[#FF4D00] text-white shadow-lg shadow-[#FF4D00]/20"
+                      : "text-white/60 hover:bg-white/5 hover:text-white"
+                  }`}
                 >
                   <item.icon size={20} className={isActive ? "text-white" : "group-hover:text-[#FF4D00]"} />
                   <span className="font-medium">{item.name}</span>
