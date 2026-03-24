@@ -17,6 +17,31 @@ export default function FluxogramaSetor({
   const [editingColuna, setEditingColuna] = useState(null);
   const [newItemText, setNewItemText] = useState("");
   const [newColunaText, setNewColunaText] = useState("");
+  const [dragIndex, setDragIndex] = useState(null);
+  const [dragEtapa, setDragEtapa] = useState(null);
+
+  const handleDragStart = (etapaIdx, itemIdx) => {
+    setDragIndex(itemIdx);
+    setDragEtapa(etapaIdx);
+  };
+
+  const handleDragOver = (e, etapaIdx) => {
+    e.preventDefault();
+    if (dragEtapa !== etapaIdx) return;
+  };
+
+  const handleDrop = (etapaIdx, itemIdx) => {
+    if (dragEtapa !== etapaIdx || dragIndex === itemIdx) return;
+    const novosItens = [...colunas[etapaIdx].itens];
+    const [removido] = novosItens.splice(dragIndex, 1);
+    novosItens.splice(itemIdx, 0, removido);
+    const novasColunas = colunas.map((col, idx) =>
+      idx === etapaIdx ? { ...col, itens: novosItens } : { ...col, itens: [...col.itens] }
+    );
+    onUpdateColunas(novasColunas);
+    setDragIndex(null);
+    setDragEtapa(null);
+  };
 
   const handleAddItem = (colunaIdx) => {
     if (!newItemText.trim()) return;
@@ -196,61 +221,19 @@ export default function FluxogramaSetor({
                   style={{ backgroundColor: `${corPrimaria}08` }}
                 >
                   {coluna.itens.map((item, itemIdx) => (
-                    <div key={itemIdx} className="relative group">
-                      {editingItem?.coluna === colunaIdx && editingItem?.item === itemIdx ? (
-                        <div className="flex gap-1">
-                          <Input
-                           value={item}
-                           onChange={(e) => {
-                             const newColunas = colunas.map((col, idx) => 
-                               idx === colunaIdx 
-                                 ? { ...col, itens: col.itens.map((it, i) => i === itemIdx ? e.target.value : it) }
-                                 : { ...col, itens: [...col.itens] }
-                             );
-                             onUpdateColunas(newColunas);
-                           }}
-                            className="h-8 text-xs bg-white/10 border-white/20 text-white"
-                            autoFocus
-                          />
-                          <button
-                            onClick={() => setEditingItem(null)}
-                            className="p-1 hover:bg-white/10 rounded"
-                          >
-                            <Check size={12} className="text-emerald-400" />
-                          </button>
-                        </div>
-                      ) : (
-                        <div 
-                          className="flex items-start gap-2 p-2 rounded-lg border transition-all hover:border-opacity-50 group"
-                          style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.05)',
-                            borderColor: `${corPrimaria}30`
-                          }}
-                        >
-                          <div 
-                            className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
-                            style={{ backgroundColor: corPrimaria }}
-                          />
-                          <span className="text-xs text-white/80 flex-1 leading-relaxed">
-                            {item}
-                          </span>
-                          <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
-                              onClick={() => setEditingItem({ coluna: colunaIdx, item: itemIdx })}
-                              className="p-1 hover:bg-white/10 rounded"
-                            >
-                              <Edit2 size={10} className="text-white/50" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteItem(colunaIdx, itemIdx)}
-                              className="p-1 hover:bg-red-500/20 rounded"
-                            >
-                              <Trash2 size={10} className="text-red-400" />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
+                    <div
+                      key={itemIdx}
+                      draggable
+                      onDragStart={() => handleDragStart(colunaIdx, itemIdx)}
+                      onDragOver={(e) => handleDragOver(e, colunaIdx)}
+                      onDrop={() => handleDrop(colunaIdx, itemIdx)}
+                      onDragEnd={() => { setDragIndex(null); setDragEtapa(null); }}
+                      className="relative group"
+                      style={{
+                        opacity: dragIndex === itemIdx && dragEtapa === colunaIdx ? 0.5 : 1,
+                        cursor: 'grab'
+                      }}
+                    >
                       {/* Linha conectora vertical */}
                       {itemIdx < coluna.itens.length - 1 && (
                         <div 
