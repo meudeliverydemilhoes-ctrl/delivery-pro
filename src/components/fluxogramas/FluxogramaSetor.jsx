@@ -109,6 +109,18 @@ export default function FluxogramaSetor({
     onUpdateColunas(newColunas);
   };
 
+  const handleMoveItem = (colunaIdx, itemIdx, direction) => {
+    const targetIdx = direction === 'up' ? itemIdx - 1 : itemIdx + 1;
+    if (targetIdx < 0 || targetIdx >= colunas[colunaIdx].itens.length) return;
+    const newColunas = colunas.map((col, idx) => {
+      if (idx !== colunaIdx) return { ...col, itens: [...col.itens] };
+      const novosItens = [...col.itens];
+      [novosItens[itemIdx], novosItens[targetIdx]] = [novosItens[targetIdx], novosItens[itemIdx]];
+      return { ...col, itens: novosItens };
+    });
+    onUpdateColunas(newColunas);
+  };
+
   const imprimir = () => {
     const el = document.getElementById(`fluxograma-print-${setor.id}`);
     if (!el) return;
@@ -269,24 +281,21 @@ export default function FluxogramaSetor({
                             style={{ backgroundColor: corPrimaria }}
                           />
                           <span className="text-xs text-white/80 flex-1 leading-relaxed">{item}</span>
+                          <div className="flex flex-col gap-0" style={{marginRight: '2px'}}>
+                            <button
+                              onClick={() => handleMoveItem(colunaIdx, itemIdx, 'up')}
+                              disabled={itemIdx === 0}
+                              style={{ background: 'none', border: 'none', cursor: itemIdx === 0 ? 'default' : 'pointer', color: itemIdx === 0 ? '#333' : '#666', fontSize: '10px', padding: '0 2px', lineHeight: 1 }}
+                            >▲</button>
+                            <button
+                              onClick={() => handleMoveItem(colunaIdx, itemIdx, 'down')}
+                              disabled={itemIdx === colunas[colunaIdx].itens.length - 1}
+                              style={{ background: 'none', border: 'none', cursor: itemIdx === colunas[colunaIdx].itens.length - 1 ? 'default' : 'pointer', color: itemIdx === colunas[colunaIdx].itens.length - 1 ? '#333' : '#666', fontSize: '10px', padding: '0 2px', lineHeight: 1 }}
+                            >▼</button>
+                          </div>
                           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => setEditingItem({ coluna: colunaIdx, item: itemIdx })}
-                              className="p-1 hover:bg-white/10 rounded"
-                            >
-                              <Edit2 size={10} className="text-white/50" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteItem(colunaIdx, itemIdx)}
-                              className="p-1 hover:bg-red-500/20 rounded"
-                            >
-                              <Trash2 size={10} className="text-red-400" />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Linha conectora vertical */}
                       {itemIdx < coluna.itens.length - 1 && (
                         <div 
                           className="absolute left-[18px] top-full w-0.5 h-2"
