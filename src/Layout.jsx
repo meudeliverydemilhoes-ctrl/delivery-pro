@@ -21,7 +21,7 @@ export default function Layout({ children, currentPageName }) {
   const rootPages = ["Dashboard", "Mentorados", "AulasMentoria", "ExecucaoInteligente",
     "FluxogramasOperacionais", "GestaoFinanceira", "Cursos", "Biblioteca",
     "Agenda", "Notas", "AnaliseGargalos", "KitDocumentos", "FichasTecnicas",
-    "Automacoes", "PerfilMentorado"];
+    "Automacoes", "PerfilMentorado", "GeradorKits"];
   const isRootPage = rootPages.includes(currentPageName) || location.pathname === "/";
 
   useEffect(() => {
