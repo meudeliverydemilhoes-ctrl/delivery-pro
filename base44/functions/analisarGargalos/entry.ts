@@ -11,71 +11,55 @@ Deno.serve(async (req) => {
     const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
     if (!ANTHROPIC_API_KEY) return Response.json({ error: 'ANTHROPIC_API_KEY não configurada' }, { status: 500 });
 
-    const prompt = `Você é um especialista em mentoria de delivery e restaurantes da Mentoria Delivery Pro (programa de 12 semanas, R$3.600). Analise o briefing deste mentorado e gere um diagnóstico completo e personalizado. Use linguagem direta, prática e motivadora.
+    const prompt = `Analise o briefing deste mentorado de delivery/restaurante e gere um diagnóstico completo:
 
-DADOS DO MENTORADO:
-Nome: ${mentorado?.nome || 'Não informado'}
-Negócio: ${mentorado?.negocio || 'Não informado'}
-Cidade: ${mentorado?.cidade || 'Não informado'}
+MENTORADO: ${mentorado?.nome || 'N/A'} — ${mentorado?.negocio || 'N/A'} (${mentorado?.cidade || 'N/A'})
 
-DADOS DO BRIEFING:
+DADOS FINANCEIROS:
 - Faturamento Mensal: R$ ${briefing?.faturamento_mensal || 'Não informado'}
-- Média de Pedidos/Dia: ${briefing?.media_pedidos_dia || 'Não informado'}
 - Ticket Médio: R$ ${briefing?.ticket_medio || 'Não informado'}
-- CMV (%): ${briefing?.cmv || 'Não informado'}
-- Raio de Entrega: ${briefing?.raio_entrega || 'Não informado'}
-- Estrutura da Equipe: ${briefing?.estrutura_equipe || 'Não informado'}
-- Problemas Identificados: ${briefing?.problemas_identificados || 'Não informado'}
-- Objetivos do Mentorado: ${briefing?.objetivos || 'Não informado'}
-- Diagnóstico Inicial do Mentor: ${briefing?.diagnostico_inicial || 'Não informado'}
-- Anotações: ${briefing?.anotacoes || 'Nenhuma'}
+- CMV: ${briefing?.cmv ? briefing.cmv + '%' : 'NÃO DEFINIDO'}
+- Pedidos/dia: ${briefing?.media_pedidos_dia || 'Não informado'}
+- Raio de entrega: ${briefing?.raio_entrega || 'Não informado'}
 
-CHECKLIST DE MATURIDADE:
-${briefing?.checklist_maturidade ? Object.entries(briefing.checklist_maturidade).map(([k, v]) => `- ${k}: ${v ? 'SIM' : 'NÃO'}`).join('\n') : 'Não preenchido'}
+ESTRUTURA:
+- Equipe: ${briefing?.estrutura_equipe || 'Não informado'}
+- Tem fichas técnicas: ${briefing?.fichas_tecnicas?.length > 0 ? 'SIM (' + briefing.fichas_tecnicas.length + ' fichas)' : 'NÃO'}
+- Tem fluxogramas: ${briefing?.fluxogramas_data && Object.keys(briefing.fluxogramas_data).length > 0 ? 'SIM' : 'NÃO'}
 
-PADRÕES COMUNS em mentorados de delivery:
-- 100% não tem CMV definido
-- 100% não tem fichas técnicas padronizadas
-- 100% não tem controle financeiro estruturado
-- 90% o dono está preso na operação
-- 90% não tem processos documentados
-- Faturamentos variam de R$40k a R$120k/mês
+CHECKLIST MATURIDADE:
+${briefing?.checklist_maturidade ? Object.entries(briefing.checklist_maturidade).map(([k,v]) => `- ${k.replace(/_/g,' ')}: ${v ? 'SIM' : 'NÃO'}`).join('\n') : 'Não preenchido'}
 
-Responda APENAS com JSON válido, sem markdown, sem texto extra. Estrutura:
+PROBLEMAS E OBJETIVOS:
+- Problemas: ${briefing?.problemas_identificados || 'Não informado'}
+- Objetivos: ${briefing?.objetivos || 'Não informado'}
+- Diagnóstico inicial: ${briefing?.diagnostico_inicial || 'Não informado'}
+
+Retorne APENAS JSON válido (sem markdown):
 {
-  "score_saude": (número 0-100 baseado nos dados),
-  "resumo_executivo": "2-3 frases diretas sobre a situação do negócio",
-  "gargalos": [
+  "panorama_executivo": "3-4 parágrafos de análise profissional separados por \\n\\n",
+  "faturamento_potencial": número estimado em reais após 12 semanas,
+  "percentual_crescimento": número percentual estimado,
+  "gargalos_ia": [
     {
-      "titulo": "Nome do gargalo",
+      "titulo": "título do gargalo",
       "criticidade": "critico" | "alto" | "medio",
-      "impacto": "Descrição do impacto no negócio",
-      "acao_recomendada": "O que fazer",
-      "pilar": "processos" | "desempenho" | "tempo_potencia" | "norte_estrategico" | "presenca_magnetica"
+      "descricao": "descrição detalhada do problema",
+      "impacto": "impacto financeiro/operacional",
+      "acao": "ação recomendada específica",
+      "semana_foco": "ex: Semana 1-2"
     }
   ],
-  "plano_12_semanas": [
+  "plano_semanas": [
     {
-      "pilar": "processos",
-      "semanas": "1-3",
-      "foco": "Título do foco",
-      "gargalos_trabalhados": ["gargalo1", "gargalo2"],
-      "entregas": ["entrega1", "entrega2", "entrega3"]
+      "semanas": "1-2",
+      "tema": "título do tema",
+      "objetivo": "objetivo principal",
+      "acoes": ["ação 1", "ação 2", "ação 3"],
+      "gargalo_foco": "qual gargalo principal trabalhar"
     }
   ],
-  "potencial_resultado": {
-    "faturamento_atual": (número),
-    "faturamento_projetado": (número),
-    "percentual_crescimento": (número),
-    "principais_ganhos": ["ganho1", "ganho2", "ganho3"]
-  },
-  "kit_entregas_sugerido": [
-    {
-      "documento": "Nome do documento/material",
-      "descricao": "Para que serve",
-      "pilar": "processos"
-    }
-  ]
+  "insights_finais": ["insight 1", "insight 2", "insight 3"]
 }`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -87,30 +71,27 @@ Responda APENAS com JSON válido, sem markdown, sem texto extra. Estrutura:
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
+        max_tokens: 3000,
+        system: 'Você é um analista especialista em delivery e restaurantes. Analise os dados do briefing e gere um diagnóstico completo e profissional em português. Responda sempre com JSON válido, sem markdown.',
         messages: [{ role: 'user', content: prompt }]
       })
     });
 
     if (!response.ok) {
       const err = await response.text();
-      return Response.json({ error: `Anthropic API error: ${err}` }, { status: 500 });
+      return Response.json({ error: `Erro na API: ${err}` }, { status: 500 });
     }
 
     const data = await response.json();
-    const content = data.content[0].text;
+    const text = data.content[0].text;
 
     let analysis;
     try {
-      analysis = JSON.parse(content);
+      analysis = JSON.parse(text);
     } catch {
-      // try to extract JSON from response
-      const match = content.match(/\{[\s\S]*\}/);
-      if (match) {
-        analysis = JSON.parse(match[0]);
-      } else {
-        return Response.json({ error: 'Resposta inválida da IA' }, { status: 500 });
-      }
+      const match = text.match(/\{[\s\S]*\}/);
+      if (match) analysis = JSON.parse(match[0]);
+      else return Response.json({ error: 'Resposta inválida da IA' }, { status: 500 });
     }
 
     return Response.json({ analysis });
