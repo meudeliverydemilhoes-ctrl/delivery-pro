@@ -13,7 +13,8 @@ import {
   ChevronRight,
   ClipboardList,
   GitBranch,
-  Zap
+  Zap,
+  Brain
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 import { base44 } from "@/api/base44Client";
@@ -36,6 +37,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Biblioteca", page: "Biblioteca", icon: Library },
     { name: "Agenda", page: "Agenda", icon: Calendar },
     { name: "Notas", page: "Notas", icon: Lightbulb },
+    { name: "Análise de Gargalos IA", page: "AnaliseGargalos", icon: Brain, adminOnly: true },
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Meu Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
