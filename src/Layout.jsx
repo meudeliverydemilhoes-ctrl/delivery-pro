@@ -45,6 +45,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Automações", page: "Automacoes", icon: Zap, adminOnly: true },
     { name: "Encontros", page: "Encontros", icon: Calendar, adminOnly: true },
     { name: "Gerador Kits", page: "GeradorKits", icon: Wand2, adminOnly: true },
+    { name: "Integrações", page: "Integracoes", icon: Zap, adminOnly: true },
     { name: "Perfil", page: "PerfilMentorado", icon: Users, mentoradoOnly: true },
   ];
 

@@ -1,6 +1,7 @@
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
 import AnaliseGargalos from './pages/AnaliseGargalos';
+import Integracoes from './pages/Integracoes';
 import KitDocumentos from './pages/KitDocumentos';
 import FichasTecnicas from './pages/FichasTecnicas';
 import Encontros from './pages/Encontros';
@@ -70,6 +71,7 @@ const AuthenticatedApp = () => {
       <Route path="/FichasTecnicas" element={<LayoutWrapper currentPageName="FichasTecnicas"><FichasTecnicas /></LayoutWrapper>} />
       <Route path="/Encontros" element={<LayoutWrapper currentPageName="Encontros"><Encontros /></LayoutWrapper>} />
       <Route path="/GeradorKits" element={<LayoutWrapper currentPageName="GeradorKits"><GeradorKits /></LayoutWrapper>} />
+      <Route path="/Integracoes" element={<LayoutWrapper currentPageName="Integracoes"><Integracoes /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
