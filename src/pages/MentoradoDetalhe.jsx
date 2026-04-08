@@ -48,6 +48,8 @@ import FichasTecnicasOperacionais from "@/components/mentorado/FichasTecnicasOpe
 import RegistroAulas from "@/components/mentorado/RegistroAulas";
 import PadronizacaoPizzas from "@/components/mentorado/PadronizacaoPizzas";
 import KitEntregaveis from "@/components/mentorado/KitEntregaveis";
+import MarketingIA from "@/components/mentorado/MarketingIA";
+import TrafegoPago from "@/components/mentorado/TrafegoPago";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -486,6 +488,14 @@ export default function MentoradoDetalhe() {
           <Files size={24} />
           <span className="text-xs font-medium">Arquivos</span>
         </button>
+        <button onClick={() => setActiveTab("marketing")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "marketing" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+          <span className="text-2xl">📲</span>
+          <span className="text-xs font-medium">Marketing IA</span>
+        </button>
+        <button onClick={() => setActiveTab("trafego")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "trafego" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+          <span className="text-2xl">📊</span>
+          <span className="text-xs font-medium">Tráfego IA</span>
+        </button>
       </div>
 
       {/* Content */}
@@ -579,6 +589,20 @@ export default function MentoradoDetalhe() {
             >
               <Files size={32} className="text-white/60 group-hover:text-[#FF4D00]" />
               <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Arquivos</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("marketing")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <span className="text-4xl">📲</span>
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Marketing IA</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("trafego")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <span className="text-4xl">📊</span>
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Tráfego Pago IA</span>
             </button>
           </div>
         )}
@@ -1241,6 +1265,26 @@ export default function MentoradoDetalhe() {
               Voltar
             </button>
             <PadronizacaoPizzas mentoradoId={mentoradoId} />
+          </>
+        )}
+
+        {/* Marketing IA Tab */}
+        {activeTab === "marketing" && (
+          <>
+            <button onClick={() => setActiveTab("home")} className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors">
+              <ArrowLeft size={20} /> Voltar
+            </button>
+            <MarketingIA mentorado={mentorado} briefing={briefing} />
+          </>
+        )}
+
+        {/* Tráfego Pago IA Tab */}
+        {activeTab === "trafego" && (
+          <>
+            <button onClick={() => setActiveTab("home")} className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors">
+              <ArrowLeft size={20} /> Voltar
+            </button>
+            <TrafegoPago mentorado={mentorado} briefing={briefing} />
           </>
         )}
       </div>
