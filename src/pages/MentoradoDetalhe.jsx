@@ -50,6 +50,7 @@ import PadronizacaoPizzas from "@/components/mentorado/PadronizacaoPizzas";
 import KitEntregaveis from "@/components/mentorado/KitEntregaveis";
 import MarketingIA from "@/components/mentorado/MarketingIA";
 import TrafegoPago from "@/components/mentorado/TrafegoPago";
+import IFoodIA from "@/components/mentorado/IFoodIA";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -496,6 +497,10 @@ export default function MentoradoDetalhe() {
           <span className="text-2xl">📊</span>
           <span className="text-xs font-medium">Tráfego IA</span>
         </button>
+        <button onClick={() => setActiveTab("ifood")} className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${activeTab === "ifood" ? "bg-[#FF4D00] border-[#FF4D00] text-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"}`}>
+          <span className="text-2xl">🍕</span>
+          <span className="text-xs font-medium">iFood IA</span>
+        </button>
       </div>
 
       {/* Content */}
@@ -603,6 +608,13 @@ export default function MentoradoDetalhe() {
             >
               <span className="text-4xl">📊</span>
               <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">Tráfego Pago IA</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("ifood")}
+              className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-[#FF4D00]/10 hover:border-[#FF4D00]/30 border border-white/10 transition-all group"
+            >
+              <span className="text-4xl">🍕</span>
+              <span className="text-sm text-white/80 group-hover:text-white font-medium text-center">iFood IA</span>
             </button>
           </div>
         )}
@@ -1285,6 +1297,16 @@ export default function MentoradoDetalhe() {
               <ArrowLeft size={20} /> Voltar
             </button>
             <TrafegoPago mentorado={mentorado} briefing={briefing} />
+          </>
+        )}
+
+        {/* iFood IA Tab */}
+        {activeTab === "ifood" && (
+          <>
+            <button onClick={() => setActiveTab("home")} className="mb-6 inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors">
+              <ArrowLeft size={20} /> Voltar
+            </button>
+            <IFoodIA mentorado={mentorado} briefing={briefing} />
           </>
         )}
       </div>
