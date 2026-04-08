@@ -1,5 +1,6 @@
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
+import CentralMonitoramento from './pages/CentralMonitoramento';
 import AnaliseGargalos from './pages/AnaliseGargalos';
 import Integracoes from './pages/Integracoes';
 import KitDocumentos from './pages/KitDocumentos';
@@ -70,6 +71,7 @@ const AuthenticatedApp = () => {
       <Route path="/KitDocumentos" element={<LayoutWrapper currentPageName="KitDocumentos"><KitDocumentos /></LayoutWrapper>} />
       <Route path="/FichasTecnicas" element={<LayoutWrapper currentPageName="FichasTecnicas"><FichasTecnicas /></LayoutWrapper>} />
       <Route path="/Encontros" element={<LayoutWrapper currentPageName="Encontros"><Encontros /></LayoutWrapper>} />
+      <Route path="/CentralMonitoramento" element={<LayoutWrapper currentPageName="CentralMonitoramento"><CentralMonitoramento /></LayoutWrapper>} />
       <Route path="/GeradorKits" element={<LayoutWrapper currentPageName="GeradorKits"><GeradorKits /></LayoutWrapper>} />
       <Route path="/Integracoes" element={<LayoutWrapper currentPageName="Integracoes"><Integracoes /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />

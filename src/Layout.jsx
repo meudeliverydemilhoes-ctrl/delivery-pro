@@ -6,7 +6,7 @@ import { createPageUrl } from "./utils";
 import {
   Users, BookOpen, Library, Calendar, Lightbulb,
   LayoutDashboard, X, ChevronRight, ChevronLeft, ClipboardList,
-  GitBranch, Zap, Brain, FileText, ChefHat, MoreHorizontal, Wand2
+  GitBranch, Zap, Brain, FileText, ChefHat, MoreHorizontal, Wand2, Activity
 } from "lucide-react";
 import AssistenteIAGlobal from "@/components/AssistenteIAGlobal";
 import { base44 } from "@/api/base44Client";
@@ -29,6 +29,7 @@ export default function Layout({ children, currentPageName }) {
   }, []);
 
   const allNavigation = [
+    { name: "Monitoramento", page: "CentralMonitoramento", icon: Activity, adminOnly: true },
     { name: "Dashboard", page: "Dashboard", icon: LayoutDashboard },
     { name: "Mentorados", page: "Mentorados", icon: Users, adminOnly: true },
     { name: "Aulas", page: "AulasMentoria", icon: BookOpen, adminOnly: true },
