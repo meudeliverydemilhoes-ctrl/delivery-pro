@@ -49,6 +49,7 @@ export default function MarketingIA({ mentorado, briefing }) {
   const [instagramUrl, setInstagramUrl] = useState(mentorado?.instagram_url || "");
   const [loadingInsta, setLoadingInsta] = useState(false);
   const [resultInsta, setResultInsta] = useState("");
+  const [savedInsta, setSavedInsta] = useState(false);
 
   const [cardapioUrl, setCardapioUrl] = useState("");
   const [loadingCardapio, setLoadingCardapio] = useState(false);
@@ -67,6 +68,17 @@ Faturamento mensal: R$ ${briefing?.faturamento_mensal || "?"}
 Problemas: ${briefing?.problemas_identificados || "não informados"}
 Objetivos: ${briefing?.objetivos || "não informados"}
   `.trim();
+
+  const salvarAnaliseInstagram = async () => {
+    if (!resultInsta || !briefing?.id) return;
+    await base44.entities.Briefing.update(briefing.id, {
+      anotacoes: briefing?.anotacoes
+        ? `${briefing.anotacoes}\n\n---\n**Análise Instagram (${instagramUrl}):**\n${resultInsta}`
+        : `**Análise Instagram (${instagramUrl}):**\n${resultInsta}`
+    });
+    setSavedInsta(true);
+    setTimeout(() => setSavedInsta(false), 2000);
+  };
 
   const analisarInstagram = async () => {
     if (!instagramUrl) return;
@@ -193,6 +205,16 @@ Seja ultra específico, com nomes de ferramentas, textos de posts, e valores qua
         </div>
         <p className="text-xs text-white/25 mt-2">Cole o link ou @ do perfil. A IA vai analisar o perfil e dar ações concretas para aumentar vendas.</p>
         <AIResult content={resultInsta} loading={loadingInsta} />
+        {resultInsta && !loadingInsta && (
+          <button
+            onClick={salvarAnaliseInstagram}
+            className="mt-3 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all"
+            style={{ background: savedInsta ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)', border: `1px solid ${savedInsta ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.1)'}`, color: savedInsta ? '#10b981' : 'rgba(255,255,255,0.5)' }}
+          >
+            {savedInsta ? <Check size={13} /> : <Save size={13} />}
+            {savedInsta ? "Salvo!" : "Salvar análise"}
+          </button>
+        )}
       </Section>
 
       {/* Cardápio */}
