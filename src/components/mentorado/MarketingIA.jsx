@@ -72,18 +72,23 @@ Objetivos: ${briefing?.objetivos || "não informados"}
     setResultInsta("");
     const res = await base44.integrations.Core.InvokeLLM({
       prompt: `Você é um especialista em marketing digital para delivery food.
-Analise o perfil do Instagram: ${instagramUrl}
+
+ACESSE E ANALISE AGORA o perfil real do Instagram: ${instagramUrl}
+
+Busque e leia as informações diretamente do perfil (bio, posts recentes, seguidores, frequência de publicações, estilo visual, engajamento).
+
 Contexto do negócio: ${contexto}
 
-Busque informações reais do perfil e forneça:
-1. **Análise do Perfil** — bio, frequência de posts, estilo visual, engajamento estimado
-2. **Pontos Fortes** — o que está funcionando bem
-3. **Problemas Identificados** — o que está prejudicando as vendas
-4. **Ações Imediatas** (top 5) — melhorias concretas para aumentar pedidos
-5. **Conteúdo Recomendado** — tipos de posts, horários, hashtags para delivery
+Com base no que você encontrou no perfil, forneça:
+1. **Análise do Perfil** — bio atual, número de seguidores, frequência de posts, estilo visual, engajamento estimado
+2. **Pontos Fortes** — o que está funcionando bem no perfil
+3. **Problemas Identificados** — o que está prejudicando as vendas e o alcance
+4. **Ações Imediatas** (top 5) — melhorias concretas e específicas para aumentar pedidos
+5. **Conteúdo Recomendado** — tipos de posts, horários ideais, hashtags para delivery food
 
-Seja específico, prático e direto ao ponto. Use bullets e emojis para facilitar leitura.`,
+Seja específico sobre o que você encontrou no perfil. Use bullets e emojis.`,
       add_context_from_internet: true,
+      model: "gemini_3_flash",
     });
     setResultInsta(typeof res === "string" ? res : res?.result || res?.response || JSON.stringify(res));
     setLoadingInsta(false);
