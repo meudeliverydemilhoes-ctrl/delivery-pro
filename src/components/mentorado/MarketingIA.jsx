@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { Instagram, Sparkles, RefreshCw, ChefHat, Target, TrendingUp, Copy, Check } from "lucide-react";
+import { Instagram, Sparkles, RefreshCw, ChefHat, Target, TrendingUp, Copy, Check, Save, Link } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 function Section({ icon: Icon, title, color, children }) {
@@ -50,8 +50,10 @@ export default function MarketingIA({ mentorado, briefing }) {
   const [loadingInsta, setLoadingInsta] = useState(false);
   const [resultInsta, setResultInsta] = useState("");
 
+  const [cardapioUrl, setCardapioUrl] = useState("");
   const [loadingCardapio, setLoadingCardapio] = useState(false);
   const [resultCardapio, setResultCardapio] = useState("");
+  const [savedCardapio, setSavedCardapio] = useState(false);
 
   const [loadingPlano, setLoadingPlano] = useState(false);
   const [resultPlano, setResultPlano] = useState("");
@@ -94,6 +96,15 @@ Seja específico sobre o que você encontrou no perfil. Use bullets e emojis.`,
     setLoadingInsta(false);
   };
 
+  const salvarAnaliseCardapio = async () => {
+    if (!resultCardapio || !briefing?.id) return;
+    await base44.entities.Briefing.update(briefing.id, {
+      analise_cardapio: { ...briefing.analise_cardapio, analise_ia: resultCardapio, link_cardapio: cardapioUrl }
+    });
+    setSavedCardapio(true);
+    setTimeout(() => setSavedCardapio(false), 2000);
+  };
+
   const analisarCardapio = async () => {
     setLoadingCardapio(true);
     setResultCardapio("");
@@ -101,7 +112,8 @@ Seja específico sobre o que você encontrou no perfil. Use bullets e emojis.`,
     const res = await base44.integrations.Core.InvokeLLM({
       prompt: `Você é um especialista em engenharia de cardápio para delivery.
 Contexto do negócio: ${contexto}
-${itens.length > 0 ? `Itens do cardápio: ${JSON.stringify(itens.slice(0, 20))}` : "Cardápio não mapeado ainda."}
+${cardapioUrl ? `Link do cardápio (iFood, site ou foto): ${cardapioUrl} — acesse e analise o cardápio real.` : ""}
+${itens.length > 0 ? `Itens mapeados: ${JSON.stringify(itens.slice(0, 20))}` : "Cardápio não mapeado ainda."}
 
 Crie uma análise completa com:
 1. **Análise Estratégica** — o que o cardápio deve ter para maximizar vendas no delivery
@@ -111,6 +123,8 @@ Crie uma análise completa com:
 5. **Plano de Ação do Cardápio** — 5 mudanças prioritárias para fazer essa semana
 
 Use dados reais de mercado de delivery para dar contexto. Seja específico.`,
+      add_context_from_internet: !!cardapioUrl,
+      model: cardapioUrl ? "gemini_3_flash" : undefined,
     });
     setResultCardapio(typeof res === "string" ? res : res?.result || res?.response || JSON.stringify(res));
     setLoadingCardapio(false);
@@ -183,17 +197,38 @@ Seja ultra específico, com nomes de ferramentas, textos de posts, e valores qua
 
       {/* Cardápio */}
       <Section icon={ChefHat} title="Otimização do Cardápio" color="#f97316">
-        <p className="text-xs text-white/45 mb-3">A IA analisa o cardápio com base no briefing do negócio e sugere melhorias para aumentar o ticket médio e as vendas.</p>
-        <button
-          onClick={analisarCardapio}
-          disabled={loadingCardapio}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
-          style={{ background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c' }}
-        >
-          {loadingCardapio ? <RefreshCw size={14} className="animate-spin" /> : <Sparkles size={14} />}
-          Gerar análise do cardápio
-        </button>
+        <p className="text-xs text-white/45 mb-3">Cole o link do cardápio (iFood, site ou foto) para a IA analisar diretamente, ou deixe em branco para análise baseada no briefing.</p>
+        <div className="flex gap-2 mb-3">
+          <div className="flex-1 flex items-center gap-2 px-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Link size={13} className="text-white/30 flex-shrink-0" />
+            <input
+              value={cardapioUrl}
+              onChange={e => setCardapioUrl(e.target.value)}
+              placeholder="Link do cardápio (iFood, site, foto...)"
+              className="flex-1 py-2.5 bg-transparent text-sm text-white outline-none"
+            />
+          </div>
+          <button
+            onClick={analisarCardapio}
+            disabled={loadingCardapio}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-40"
+            style={{ background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c' }}
+          >
+            {loadingCardapio ? <RefreshCw size={14} className="animate-spin" /> : <Sparkles size={14} />}
+            Analisar
+          </button>
+        </div>
         <AIResult content={resultCardapio} loading={loadingCardapio} />
+        {resultCardapio && !loadingCardapio && (
+          <button
+            onClick={salvarAnaliseCardapio}
+            className="mt-3 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all"
+            style={{ background: savedCardapio ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.06)', border: `1px solid ${savedCardapio ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.1)'}`, color: savedCardapio ? '#10b981' : 'rgba(255,255,255,0.5)' }}
+          >
+            {savedCardapio ? <Check size={13} /> : <Save size={13} />}
+            {savedCardapio ? "Salvo!" : "Salvar análise"}
+          </button>
+        )}
       </Section>
 
       {/* Plano de Ação */}
