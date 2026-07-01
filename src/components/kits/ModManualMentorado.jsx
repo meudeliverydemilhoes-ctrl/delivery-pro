@@ -49,7 +49,7 @@ Retorne SOMENTE JSON:
       });
       setManual(res.data.resultado);
     } catch (err) {
-      alert('Erro ao gerar. Verifique se a ANTHROPIC_API_KEY está configurada.');
+      alert(err?.response?.data?.error || 'Erro ao gerar. Tente novamente.');
     } finally {
       setLoading(false);
     }
