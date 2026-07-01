@@ -1,0 +1,86 @@
+{
+  "name": "LogAutomacao",
+  "type": "object",
+  "properties": {
+    "automacao_id": {
+      "type": "string",
+      "description": "ID da automa\u00e7\u00e3o executada"
+    },
+    "automacao_nome": {
+      "type": "string",
+      "description": "Nome da automa\u00e7\u00e3o"
+    },
+    "gatilho_tipo": {
+      "type": "string",
+      "description": "Tipo de gatilho que disparou"
+    },
+    "acao_tipo": {
+      "type": "string",
+      "description": "Tipo de a\u00e7\u00e3o executada"
+    },
+    "entidade_id": {
+      "type": "string",
+      "description": "ID da entidade que disparou"
+    },
+    "entidade_tipo": {
+      "type": "string",
+      "description": "Tipo da entidade"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "sucesso",
+        "erro",
+        "pendente"
+      ],
+      "default": "pendente"
+    },
+    "detalhes": {
+      "type": "string",
+      "description": "Detalhes da execu\u00e7\u00e3o ou erro"
+    },
+    "data_execucao": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "automacao_id",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "update": {
+      "data.email": "{{user.email}}"
+    },
+    "delete": {
+      "data.email": "{{user.email}}"
+    },
+    "write": {
+      "data.email": "{{user.email}}"
+    }
+  }
+}

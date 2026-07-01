@@ -1,0 +1,102 @@
+{
+  "name": "Automacao",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string",
+      "description": "Nome da automa\u00e7\u00e3o"
+    },
+    "descricao": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o do que a automa\u00e7\u00e3o faz"
+    },
+    "ativa": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se a automa\u00e7\u00e3o est\u00e1 ativa"
+    },
+    "gatilho_tipo": {
+      "type": "string",
+      "enum": [
+        "novo_registro",
+        "atualizacao_status",
+        "data_limite",
+        "progresso_pilar",
+        "checklist_concluido",
+        "tarefa_atrasada"
+      ],
+      "description": "Tipo de gatilho que dispara a automa\u00e7\u00e3o"
+    },
+    "gatilho_entidade": {
+      "type": "string",
+      "enum": [
+        "mentorado",
+        "tarefa",
+        "briefing",
+        "evolucao",
+        "checklist"
+      ],
+      "description": "Entidade que dispara o gatilho"
+    },
+    "gatilho_condicao": {
+      "type": "object",
+      "description": "Condi\u00e7\u00f5es espec\u00edficas do gatilho (ex: status = 'concluido')"
+    },
+    "acao_tipo": {
+      "type": "string",
+      "enum": [
+        "enviar_email",
+        "atualizar_status",
+        "criar_tarefa",
+        "enviar_notificacao",
+        "atualizar_etapa"
+      ],
+      "description": "Tipo de a\u00e7\u00e3o a ser executada"
+    },
+    "acao_config": {
+      "type": "object",
+      "description": "Configura\u00e7\u00f5es da a\u00e7\u00e3o (destinat\u00e1rio, template, etc)"
+    },
+    "ultima_execucao": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data da \u00faltima execu\u00e7\u00e3o"
+    },
+    "total_execucoes": {
+      "type": "number",
+      "default": 0,
+      "description": "Total de vezes que a automa\u00e7\u00e3o foi executada"
+    }
+  },
+  "required": [
+    "nome",
+    "gatilho_tipo",
+    "acao_tipo"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    }
+  }
+}

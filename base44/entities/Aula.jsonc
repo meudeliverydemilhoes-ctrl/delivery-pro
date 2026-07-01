@@ -1,0 +1,66 @@
+{
+  "name": "Aula",
+  "type": "object",
+  "properties": {
+    "modulo_id": {
+      "type": "string"
+    },
+    "titulo": {
+      "type": "string"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string"
+    },
+    "duracao": {
+      "type": "string"
+    },
+    "materiais": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ordem": {
+      "type": "number",
+      "default": 0
+    },
+    "anotacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "modulo_id",
+    "titulo"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "email": "meudeliverydemilhoes@gmail.com"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "email": "meudeliverydemilhoes@gmail.com"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "email": "meudeliverydemilhoes@gmail.com"
+      }
+    }
+  }
+}

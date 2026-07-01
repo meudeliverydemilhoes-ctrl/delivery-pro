@@ -1,0 +1,133 @@
+{
+  "name": "Mentorado",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string",
+      "description": "Nome completo do mentorado"
+    },
+    "negocio": {
+      "type": "string",
+      "description": "Nome do neg\u00f3cio/delivery"
+    },
+    "cidade": {
+      "type": "string"
+    },
+    "contato": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "emails_adicionais": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ativo",
+        "pausado",
+        "concluido",
+        "desistente"
+      ],
+      "default": "ativo"
+    },
+    "etapa": {
+      "type": "string",
+      "enum": [
+        "diagnostico",
+        "pilar1",
+        "pilar2",
+        "pilar3",
+        "pilar4",
+        "pilar5",
+        "acompanhamento"
+      ],
+      "default": "diagnostico"
+    },
+    "data_entrada": {
+      "type": "string",
+      "format": "date"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "link_drive": {
+      "type": "string"
+    },
+    "links_externos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "foto_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nome",
+    "negocio"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "data.emails_adicionais": {
+            "$in": [
+              "{{user.email}}"
+            ]
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "data.emails_adicionais": {
+            "$in": [
+              "{{user.email}}"
+            ]
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

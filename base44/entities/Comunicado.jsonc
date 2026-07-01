@@ -1,0 +1,82 @@
+{
+  "name": "Comunicado",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "mensagem": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "aviso",
+        "tarefa",
+        "feedback",
+        "novidade",
+        "urgente"
+      ],
+      "default": "aviso"
+    },
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado (null para todos)"
+    },
+    "lido": {
+      "type": "boolean",
+      "default": false
+    },
+    "data_leitura": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "titulo",
+    "mensagem"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

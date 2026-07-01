@@ -1,0 +1,134 @@
+{
+  "name": "SOPPlaybook",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ]
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "atendimento",
+        "producao",
+        "gestao",
+        "financeiro",
+        "marketing",
+        "equipe",
+        "operacional",
+        "outro"
+      ],
+      "default": "outro"
+    },
+    "conteudo": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string"
+    },
+    "imagens": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "checklist_gerado_id": {
+      "type": "string"
+    },
+    "passos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ordem": {
+            "type": "number"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "imagem_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "versao": {
+      "type": "string",
+      "default": "1.0"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "titulo",
+    "pilar"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

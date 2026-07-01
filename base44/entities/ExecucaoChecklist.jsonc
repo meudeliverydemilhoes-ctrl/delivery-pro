@@ -1,0 +1,166 @@
+{
+  "name": "ExecucaoChecklist",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string"
+    },
+    "checklist_id": {
+      "type": "string"
+    },
+    "titulo": {
+      "type": "string"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ]
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "diario",
+        "semanal",
+        "mensal",
+        "pontual"
+      ]
+    },
+    "data_inicio": {
+      "type": "string",
+      "format": "date"
+    },
+    "data_limite": {
+      "type": "string",
+      "format": "date"
+    },
+    "data_conclusao": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente",
+        "em_andamento",
+        "concluido",
+        "atrasado"
+      ],
+      "default": "pendente"
+    },
+    "itens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string"
+          },
+          "concluido": {
+            "type": "boolean",
+            "default": false
+          },
+          "evidencia_url": {
+            "type": "string"
+          },
+          "evidencia_tipo": {
+            "type": "string"
+          },
+          "comentario": {
+            "type": "string"
+          },
+          "data_conclusao": {
+            "type": "string"
+          },
+          "reprovado": {
+            "type": "boolean",
+            "default": false
+          },
+          "motivo_reprovacao": {
+            "type": "string"
+          },
+          "requer_evidencia": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "progresso": {
+      "type": "number",
+      "default": 0
+    },
+    "pontuacao": {
+      "type": "number",
+      "default": 0
+    },
+    "tempo_execucao_minutos": {
+      "type": "number"
+    },
+    "feedback_mentor": {
+      "type": "string"
+    },
+    "nota_mentor": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "checklist_id",
+    "titulo"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "RegistroAula",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado"
+    },
+    "data": {
+      "type": "string",
+      "format": "date",
+      "description": "Data da aula"
+    },
+    "anotacoes": {
+      "type": "string",
+      "description": "Anota\u00e7\u00f5es da aula"
+    },
+    "tarefas_proximos_passos": {
+      "type": "string",
+      "description": "Tarefas ou pr\u00f3ximos passos"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "data"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

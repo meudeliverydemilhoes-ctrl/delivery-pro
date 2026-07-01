@@ -1,0 +1,100 @@
+{
+  "name": "Agenda",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "reuniao",
+        "acompanhamento",
+        "auditoria",
+        "entrega",
+        "aula_vivo",
+        "tarefa",
+        "lembrete"
+      ]
+    },
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado relacionado (opcional)"
+    },
+    "data": {
+      "type": "string",
+      "format": "date"
+    },
+    "horario": {
+      "type": "string"
+    },
+    "duracao": {
+      "type": "string"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "link_reuniao": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente",
+        "concluido",
+        "cancelado"
+      ],
+      "default": "pendente"
+    },
+    "anotacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "titulo",
+    "tipo",
+    "data"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {}
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.email": "{{user.email}}"
+        }
+      ]
+    },
+    "delete": {
+      "data.email": "{{user.email}}"
+    }
+  }
+}

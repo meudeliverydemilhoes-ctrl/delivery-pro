@@ -1,0 +1,60 @@
+{
+  "name": "PilarCustomData",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "description": "Dados customizados do pilar (modulos, tarefas, resultados)"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "pilar",
+    "data"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

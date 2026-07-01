@@ -1,0 +1,131 @@
+{
+  "name": "PlanoAcaoInteligente",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string"
+    },
+    "execucao_id": {
+      "type": "string"
+    },
+    "item_checklist": {
+      "type": "string"
+    },
+    "problema": {
+      "type": "string"
+    },
+    "causa_raiz": {
+      "type": "string"
+    },
+    "acao_corretiva": {
+      "type": "string"
+    },
+    "responsavel": {
+      "type": "string"
+    },
+    "prazo": {
+      "type": "string",
+      "format": "date"
+    },
+    "prioridade": {
+      "type": "string",
+      "enum": [
+        "baixa",
+        "media",
+        "alta",
+        "critica"
+      ],
+      "default": "media"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente",
+        "em_andamento",
+        "aguardando_validacao",
+        "concluido",
+        "atrasado"
+      ],
+      "default": "pendente"
+    },
+    "evidencia_correcao_url": {
+      "type": "string"
+    },
+    "feedback_mentor": {
+      "type": "string"
+    },
+    "data_conclusao": {
+      "type": "string",
+      "format": "date"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ]
+    },
+    "pontos_ganhos": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "problema",
+    "acao_corretiva"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

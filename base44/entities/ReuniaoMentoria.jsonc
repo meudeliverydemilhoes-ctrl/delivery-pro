@@ -1,0 +1,228 @@
+{
+  "name": "ReuniaoMentoria",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado"
+    },
+    "mentorado_nome": {
+      "type": "string",
+      "description": "Nome do mentorado (para facilitar visualiza\u00e7\u00e3o)"
+    },
+    "negocio_nome": {
+      "type": "string",
+      "description": "Nome do neg\u00f3cio"
+    },
+    "data_reuniao": {
+      "type": "string",
+      "format": "date",
+      "description": "Data da reuni\u00e3o"
+    },
+    "horario": {
+      "type": "string",
+      "description": "Hor\u00e1rio da reuni\u00e3o"
+    },
+    "duracao_minutos": {
+      "type": "number",
+      "description": "Dura\u00e7\u00e3o em minutos"
+    },
+    "semana_mentoria": {
+      "type": "number",
+      "description": "Semana da mentoria (1-12)"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "diagnostico",
+        "financeiro",
+        "encerramento"
+      ],
+      "description": "Pilar/tema principal da reuni\u00e3o"
+    },
+    "mentor_responsavel": {
+      "type": "string",
+      "enum": [
+        "Talison",
+        "Marcel",
+        "Brenda",
+        "Everton"
+      ],
+      "description": "Mentor que conduziu"
+    },
+    "link_meet": {
+      "type": "string",
+      "description": "Link do Google Meet"
+    },
+    "link_gravacao": {
+      "type": "string",
+      "description": "Link da grava\u00e7\u00e3o"
+    },
+    "transcricao": {
+      "type": "string",
+      "description": "Transcri\u00e7\u00e3o completa da reuni\u00e3o"
+    },
+    "resumo": {
+      "type": "string",
+      "description": "Resumo executivo da reuni\u00e3o (gerado por IA)"
+    },
+    "pontos_criticos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ponto": {
+            "type": "string"
+          },
+          "urgencia": {
+            "type": "string",
+            "enum": [
+              "baixa",
+              "media",
+              "alta",
+              "critica"
+            ]
+          },
+          "area": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Pontos cr\u00edticos identificados"
+    },
+    "promessas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string"
+          },
+          "responsavel": {
+            "type": "string",
+            "enum": [
+              "mentorado",
+              "mentor",
+              "equipe"
+            ]
+          },
+          "prazo": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pendente",
+              "em_andamento",
+              "concluido",
+              "atrasado"
+            ]
+          }
+        }
+      },
+      "description": "O que foi prometido/combinado fazer"
+    },
+    "acoes_necessarias": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "acao": {
+            "type": "string"
+          },
+          "responsavel": {
+            "type": "string"
+          },
+          "prazo": {
+            "type": "string"
+          },
+          "prioridade": {
+            "type": "string",
+            "enum": [
+              "baixa",
+              "media",
+              "alta",
+              "urgente"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pendente",
+              "em_andamento",
+              "concluido",
+              "atrasado"
+            ]
+          }
+        }
+      },
+      "description": "A\u00e7\u00f5es que precisam ser feitas"
+    },
+    "entregas_verificadas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entrega": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "entregue",
+              "parcial",
+              "nao_entregue"
+            ]
+          },
+          "observacao": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Entregas da semana que foram verificadas"
+    },
+    "humor_mentorado": {
+      "type": "string",
+      "enum": [
+        "muito_engajado",
+        "engajado",
+        "neutro",
+        "desanimado",
+        "risco_desistencia"
+      ],
+      "description": "N\u00edvel de engajamento percebido"
+    },
+    "nota_progresso": {
+      "type": "number",
+      "description": "Nota de 1-10 para o progresso do mentorado"
+    },
+    "proximos_passos": {
+      "type": "string",
+      "description": "Pr\u00f3ximos passos definidos"
+    },
+    "observacoes_internas": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es internas da equipe (n\u00e3o vis\u00edvel ao mentorado)"
+    },
+    "status_analise": {
+      "type": "string",
+      "enum": [
+        "aguardando_transcricao",
+        "transcrito",
+        "analisado",
+        "revisado"
+      ],
+      "default": "aguardando_transcricao"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "data_reuniao",
+    "mentor_responsavel"
+  ]
+}

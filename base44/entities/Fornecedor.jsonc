@@ -1,0 +1,113 @@
+{
+  "name": "Fornecedor",
+  "type": "object",
+  "properties": {
+    "produto": {
+      "type": "string",
+      "description": "Nome do produto fornecido"
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "carnes",
+        "hortifruti",
+        "graos_cereais",
+        "laticinios",
+        "bebidas",
+        "embalagens",
+        "limpeza",
+        "descartaveis",
+        "temperos",
+        "congelados",
+        "massas",
+        "oleos",
+        "outros"
+      ],
+      "description": "Categoria do produto"
+    },
+    "fornecedor_nome": {
+      "type": "string",
+      "description": "Nome da empresa fornecedora"
+    },
+    "contato_nome": {
+      "type": "string",
+      "description": "Nome do contato"
+    },
+    "telefone": {
+      "type": "string",
+      "description": "Telefone/WhatsApp"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email do fornecedor"
+    },
+    "valor_unitario": {
+      "type": "number",
+      "description": "Valor unit\u00e1rio do produto"
+    },
+    "unidade_medida": {
+      "type": "string",
+      "enum": [
+        "kg",
+        "g",
+        "l",
+        "ml",
+        "un",
+        "cx",
+        "fardo",
+        "pacote"
+      ],
+      "default": "un",
+      "description": "Unidade de medida"
+    },
+    "condicao_pagamento": {
+      "type": "string",
+      "description": "Condi\u00e7\u00f5es de pagamento"
+    },
+    "cidade": {
+      "type": "string",
+      "description": "Cidade/Regi\u00e3o do fornecedor"
+    },
+    "observacoes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es adicionais"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se o fornecedor est\u00e1 ativo"
+    }
+  },
+  "required": [
+    "produto",
+    "categoria",
+    "fornecedor_nome",
+    "valor_unitario"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.EMAIL": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

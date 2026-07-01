@@ -1,0 +1,115 @@
+{
+  "name": "ComunicadoMentoria",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "mensagem": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "aviso",
+        "tarefa",
+        "feedback",
+        "novidade",
+        "urgente",
+        "parabens"
+      ],
+      "default": "aviso"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ],
+      "default": "geral"
+    },
+    "mentorado_id": {
+      "type": "string"
+    },
+    "execucao_id": {
+      "type": "string"
+    },
+    "plano_acao_id": {
+      "type": "string"
+    },
+    "lido": {
+      "type": "boolean",
+      "default": false
+    },
+    "data_leitura": {
+      "type": "string",
+      "format": "date"
+    },
+    "requer_confirmacao": {
+      "type": "boolean",
+      "default": false
+    },
+    "confirmado": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "titulo",
+    "mensagem"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

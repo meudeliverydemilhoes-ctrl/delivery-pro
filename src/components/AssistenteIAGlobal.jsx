@@ -120,7 +120,8 @@ Responda sempre em português brasileiro.`;
 
       const response = await base44.integrations.Core.InvokeLLM({
         prompt: `${sistemaPrompt}\n\nUsuário: ${texto}`,
-        response_json_schema: null
+        response_json_schema: null,
+        model: "claude_sonnet_4_6"
       });
 
       const assistantMessage = { role: "assistant", content: response };

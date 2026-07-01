@@ -1,0 +1,134 @@
+{
+  "name": "AnaliseCall",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado no Base44"
+    },
+    "mentorado_nome": {
+      "type": "string",
+      "description": "Nome do mentorado para facilitar busca"
+    },
+    "data_call": {
+      "type": "string",
+      "format": "date",
+      "description": "Data da call (YYYY-MM-DD)"
+    },
+    "titulo": {
+      "type": "string",
+      "description": "Titulo/assunto principal da call"
+    },
+    "duracao_min": {
+      "type": "number",
+      "description": "Duracao em minutos"
+    },
+    "link_gravacao": {
+      "type": "string",
+      "description": "URL da gravacao (Fireflies, Meet, etc)"
+    },
+    "link_drive": {
+      "type": "string",
+      "description": "URL do documento de analise no Drive"
+    },
+    "link_audio": {
+      "type": "string",
+      "description": "URL do arquivo de audio (opcional)"
+    },
+    "resumo": {
+      "type": "string",
+      "description": "Resumo do que foi falado, tom da call, temperatura do mentorado"
+    },
+    "pontos_analisar": {
+      "type": "string",
+      "description": "Gargalos, numeros citados, riscos, oportunidades identificadas"
+    },
+    "material_enviar": {
+      "type": "string",
+      "description": "Lista de materiais/docs/videos que precisam ser enviados ao mentorado"
+    },
+    "material_cobrar": {
+      "type": "string",
+      "description": "Promessas do mentorado e prazos - o que cobrar na proxima call"
+    },
+    "proxima_acao": {
+      "type": "string",
+      "description": "Proxima acao imediata (data e responsavel)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags: financeiro, marketing, rh, operacao, expansao, urgente, etc"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendente_envio",
+        "enviada",
+        "em_execucao",
+        "concluida",
+        "arquivada"
+      ],
+      "default": "pendente_envio",
+      "description": "Status do follow-up da call"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "desempenho",
+        "processos",
+        "tempo_potencia",
+        "presenca_magnetica",
+        "legado"
+      ],
+      "description": "Pilar da mentoria relacionado"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "data_call",
+    "titulo",
+    "resumo"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "record_condition": {
+            "created_by": {
+              "$eq": "{{user.id}}"
+            }
+          }
+        }
+      ]
+    },
+    "write": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "record_condition": {
+            "created_by": {
+              "$eq": "{{user.id}}"
+            }
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

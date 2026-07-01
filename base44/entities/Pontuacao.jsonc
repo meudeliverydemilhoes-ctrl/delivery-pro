@@ -1,0 +1,74 @@
+{
+  "name": "Pontuacao",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "checklist_completo",
+        "prazo_cumprido",
+        "plano_acao_resolvido",
+        "evidencia_enviada",
+        "melhoria_aplicada"
+      ],
+      "description": "Tipo de a\u00e7\u00e3o que gerou pontos"
+    },
+    "pontos": {
+      "type": "number"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "referencia_id": {
+      "type": "string",
+      "description": "ID do checklist ou plano relacionado"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "tipo",
+    "pontos"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {}
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

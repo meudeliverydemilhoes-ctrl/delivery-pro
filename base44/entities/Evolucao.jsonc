@@ -1,0 +1,92 @@
+{
+  "name": "Evolucao",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string",
+      "format": "date"
+    },
+    "titulo": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "feito",
+        "pendencia",
+        "resultado",
+        "proximo_passo",
+        "observacao"
+      ]
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ]
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "concluido": {
+      "type": "boolean",
+      "default": false
+    },
+    "metricas": {
+      "type": "object",
+      "properties": {
+        "faturamento": {
+          "type": "number"
+        },
+        "pedidos_dia": {
+          "type": "number"
+        },
+        "ticket_medio": {
+          "type": "number"
+        },
+        "avaliacao": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "titulo",
+    "tipo"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

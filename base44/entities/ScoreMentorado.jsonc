@@ -1,0 +1,108 @@
+{
+  "name": "ScoreMentorado",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string"
+    },
+    "periodo": {
+      "type": "string"
+    },
+    "score_execucao": {
+      "type": "number",
+      "default": 0
+    },
+    "checklists_concluidos": {
+      "type": "number",
+      "default": 0
+    },
+    "checklists_atrasados": {
+      "type": "number",
+      "default": 0
+    },
+    "planos_acao_resolvidos": {
+      "type": "number",
+      "default": 0
+    },
+    "planos_acao_pendentes": {
+      "type": "number",
+      "default": 0
+    },
+    "tempo_medio_execucao": {
+      "type": "number"
+    },
+    "pontos_totais": {
+      "type": "number",
+      "default": 0
+    },
+    "selos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ranking_posicao": {
+      "type": "number"
+    },
+    "taxa_conformidade": {
+      "type": "number"
+    },
+    "insights_ia": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "periodo"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "name": "Biblioteca",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string"
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "pdf",
+        "ebook",
+        "planilha",
+        "ficha_tecnica",
+        "template",
+        "roteiro",
+        "imagem",
+        "documento",
+        "outro"
+      ]
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "arquivo_url": {
+      "type": "string"
+    },
+    "link_externo": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pasta": {
+      "type": "string",
+      "description": "Pasta/categoria de organiza\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "titulo",
+    "categoria"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "data.email": "{{user.email}}"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "name": "ChecklistModelo",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "description": "Nome do modelo de checklist"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica",
+        "geral"
+      ]
+    },
+    "categoria": {
+      "type": "string",
+      "enum": [
+        "diario",
+        "semanal",
+        "mensal",
+        "pontual"
+      ],
+      "default": "diario"
+    },
+    "itens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string"
+          },
+          "obrigatorio": {
+            "type": "boolean",
+            "default": true
+          },
+          "requer_evidencia": {
+            "type": "boolean",
+            "default": false
+          },
+          "tipo_evidencia": {
+            "type": "string",
+            "enum": [
+              "foto",
+              "video",
+              "comentario",
+              "qualquer"
+            ]
+          }
+        }
+      }
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "titulo",
+    "pilar"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "data.email": "{{user.email}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "name": "PilarConteudo",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado (null se for template geral)"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica"
+      ]
+    },
+    "titulo": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "aula",
+        "pdf",
+        "checklist",
+        "exercicio",
+        "modelo",
+        "anotacao"
+      ]
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "conteudo": {
+      "type": "string",
+      "description": "Conte\u00fado em texto ou notas"
+    },
+    "arquivo_url": {
+      "type": "string"
+    },
+    "link_externo": {
+      "type": "string"
+    },
+    "ordem": {
+      "type": "number",
+      "default": 0
+    },
+    "concluido": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "pilar",
+    "titulo",
+    "tipo"
+  ],
+  "rls": {
+    "create": {
+      "data.email": "{{user.email}}"
+    },
+    "read": {
+      "data.email": "{{user.email}}"
+    },
+    "update": {
+      "data.email": "{{user.email}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

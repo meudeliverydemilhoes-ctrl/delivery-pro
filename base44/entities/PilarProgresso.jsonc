@@ -1,0 +1,78 @@
+{
+  "name": "PilarProgresso",
+  "type": "object",
+  "properties": {
+    "mentorado_id": {
+      "type": "string",
+      "description": "ID do mentorado"
+    },
+    "pilar": {
+      "type": "string",
+      "enum": [
+        "processos",
+        "desempenho",
+        "tempo_potencia",
+        "norte_estrategico",
+        "presenca_magnetica"
+      ]
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "topico",
+        "tarefa"
+      ],
+      "description": "Tipo do item (t\u00f3pico de m\u00f3dulo ou tarefa)"
+    },
+    "texto": {
+      "type": "string",
+      "description": "Texto do item"
+    },
+    "concluido": {
+      "type": "boolean",
+      "default": false
+    },
+    "data_conclusao": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "mentorado_id",
+    "pilar",
+    "tipo",
+    "texto"
+  ],
+  "rls": {
+    "create": {
+      "data.email": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
